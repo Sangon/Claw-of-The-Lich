@@ -3,13 +3,22 @@ using System.Collections;
 
 public class UnitMovement : MonoBehaviour
 {
+    private AstarAI astar = null;
+
+    public void Start()
+    {
+        astar = GetComponent<AstarAI>();
+    }
+
     public void moveTo(Vector2 point)
     {
-        GetComponent<AstarAI>().move(point);
+        if (astar != null)
+            astar.move(point);
     }
 
     public void stop()
     {
-        GetComponent<AstarAI>().path.Reset();
+        if (astar != null && astar.path != null)
+            astar.path.Reset();
     }
 }
