@@ -10,10 +10,10 @@ public class UnitMovement : MonoBehaviour
         astar = GetComponent<AstarAI>();
     }
 
-    public void moveTo(Vector2 point)
+    public void moveTo(Vector2 point, uint groupID = 0)
     {
         if (astar != null)
-            astar.move(point);
+            astar.move(point, groupID);
     }
 
     public void stop()

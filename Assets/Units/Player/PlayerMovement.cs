@@ -3,7 +3,8 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
-    float pathfindingTimer = 0;
+    public uint groupID = 0;
+    private float pathfindingTimer = 0;
     private UnitMovement unitMovement = null;
     private UnitCombat unitCombat = null;
 
@@ -33,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
                 //Liikkuu hiiren kohtaan.
                 if (hit.collider != null)
                 {
-                    unitMovement.moveTo(hit.point);
+                    unitMovement.moveTo(hit.point, groupID);
                     pathfindingTimer = 0.05f;
                 }
             }
