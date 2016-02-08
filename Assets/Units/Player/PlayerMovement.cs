@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour {
 
 			//Pysäyttää hahmon ja lyö ilmaa jos vasen shift on pohjassa, muuten liikkuu kohteeseen.
 			if(Input.GetKey(KeyCode.LeftShift)){
-				unitCombat.startAttack(hit.point);
+				unitCombat.startAttack();
 			}else{
 				//Liikkuu hiiren kohtaan.
 	            if (hit.collider != null){
@@ -64,7 +64,9 @@ public class PlayerMovement : MonoBehaviour {
 		/// SPELLIT
 		/////////////////////////////////////
 
-		if(Input.GetKeyDown(KeyCode.Q)){}
+		if(Input.GetKeyDown(KeyCode.Q)){
+			GetComponent<UnitCombat> ().castSpellInSlot(0,hit.point,gameObject);
+		}
 
 		if(Input.GetKeyDown(KeyCode.W)){}
 
@@ -77,5 +79,6 @@ public class PlayerMovement : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.D)){}
 
     }
+
 
 }
