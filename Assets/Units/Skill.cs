@@ -6,12 +6,13 @@ public abstract class Skill : MonoBehaviour, ISkill{
 
 	protected int maxCooldown = Tuner.DEFAULT_SKILL_COOLDOWN;
 	protected float maxRange = Tuner.DEFAULT_SPELL_RANGE;
-	protected float currentCooldown;
+	protected float currentCooldown = Tuner.DEFAULT_SKILL_COOLDOWN;
 	protected string spellName = "";
 	protected Texture2D skillIcon = null;
 
-	//Jokanen spelli toteuttaa oman casti metodinsa.
-	public abstract void cast(Vector2 point,GameObject unit);
+	//Jokanen spelli toteuttaa oman casti ja metodinsa.
+	public abstract void cast(GameObject unit);
+	public abstract void FixedUpdate();
 
 	//Ei ollu mitään hajua millä iconit toimii ni laitoin Texture2D :D.
 	public Texture2D getSkillIcon (){

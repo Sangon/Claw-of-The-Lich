@@ -16,6 +16,7 @@ public class projectile_spell_script : Spell {
 		damage = Tuner.DEFAULT_PROJECTILE_DAMAGE;
 		castLocation = getCurrentMousePos();
 		dir = new Vector2 (castLocation.x - transform.position.x, castLocation.y - transform.position.y);
+		Destroy (gameObject,2f);
 	}
 	
 
@@ -36,11 +37,13 @@ public class projectile_spell_script : Spell {
 
 		//Tee damagea ympärille
 		GameObject[] hostileList = GameObject.FindGameObjectsWithTag("Hostile");
-		GameObject[] neutralList = GameObject.FindGameObjectsWithTag("Neutral");
 		List<GameObject> targetList = new List<GameObject>();
 
+		//GameObject[] neutralList = GameObject.FindGameObjectsWithTag("Neutral");
+		//targetList.AddRange (neutralList);
+
 		targetList.AddRange (hostileList);
-		targetList.AddRange (neutralList);
+
 
 		foreach(GameObject g in targetList){
 			if(Vector2.Distance(g.transform.position , gameObject.transform.position) < blastRadius){

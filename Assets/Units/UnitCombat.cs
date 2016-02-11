@@ -11,39 +11,43 @@ public class UnitCombat : MonoBehaviour {
 	//Targetin seurausta varten.
 	public GameObject lockedTarget = null;
 
+	//NYI: Cleavea varten tarvittava kulma.
 	private float attackAngle = 0;
-
 	private float meleeRange;
-
 	private bool attacking = false;
-	private Skill[] spellList = new Skill[2];
 
 	//TODO: Parempi spellilista
-
+	private Skill[] spellList = new Skill[2];
 
 	void Start () {
 		health = Tuner.UNIT_BASE_HEALTH;
 		meleeRange = Tuner.UNIT_BASE_MELEE_RANGE;
-		spellList [0] = new projectile_skill ();
+
+		//TODO: Parempi spellien initialisointi.
+		spellList [0] = new projectile_skill();
+		spellList [1] = new projectile_skill();
+
 	}
 
-	int attackTimer = 60;
+	private int attackTimer = 60;
 	void FixedUpdate () {
-		
-		if(lockedTarget != null && !inRange()){
-			GetComponent<UnitMovement> ().moveTo (lockedTarget.transform.position);
+
+		if(health <= 0){
+			Destroy(gameObject);
 		}
 
-		if (attacking)
-			attackTimer--;
+		if(lockedTarget != null){
+			
+			if (!inRange()) {
+				GetComponent<UnitMovement> ().moveTo (lockedTarget.transform.position);
+			}else{
+				startAttack();
+			}
 
-		if(attackTimer >= 30 && attackTimer <= 40){
-			attack();
-		}else{
 		}
 
-		if (attackTimer <= 0) {
-			stopAttack ();
+		foreach(Skill s in spellList){
+			s.FixedUpdate();
 
 		}
 	}
@@ -52,15 +56,16 @@ public class UnitCombat : MonoBehaviour {
 		
 		List<GameObject> targetList = new List<GameObject>();
 
+		//Hakee kaikki mobit Hostile tagillä ja lisää ne potentiaalisten vihollisten listaan.
 		GameObject[] hostileList = GameObject.FindGameObjectsWithTag("Hostile");
-		//GameObject[] neutralList = GameObject.FindGameObjectsWithTag("Neutral");
-
-
 		targetList.AddRange (hostileList);
-	//	targetList.AddRange (neutralList);
 
+		//NYI: bugaa ihan huolella jostaki syystä
+		//GameObject[] neutralList = GameObject.FindGameObjectsWithTag("Neutral");
+		//targetList.AddRange (neutralList);
+
+		//Laskee kuka potentiaalisten vihollisten listasta on lähimpänä ja lockinnaa siihen.
 		float distance = Mathf.Infinity;
-
 		foreach(GameObject g in targetList){
 			float currentDistance = Vector3.Distance(g.transform.position,hit);
 
@@ -68,18 +73,11 @@ public class UnitCombat : MonoBehaviour {
 				lockedTarget = g;
 				distance = currentDistance;
 			}
+
 		}
 			
 	}
-
-
-	public void attack(){
-		//GetComponent<SpriteRenderer> ().color = new Color (0,0,0);
-		//TODO: lyömisanimaatio
-		//TODO: Etsi viholliset (Eri factionissa olevat) hyökätyssä suunnassa ja tee niihin damagea
-	}
-
-
+		
 	public void startAttack(){
 		//attackAngle = ((Mathf.Atan2(hit.y - gameObject.transform.position.y, hit.x - gameObject.transform.position.x) + Mathf.PI));
 		//Debug.Log ("attackAngle: " + attackAngle);
@@ -94,9 +92,10 @@ public class UnitCombat : MonoBehaviour {
 	public bool inRange(){
 		
 		if (lockedTarget != null) {
+			
 			if (Vector2.Distance (transform.position, lockedTarget.transform.position) < meleeRange) {
 				//GetComponent<UnitMovement>().stop ();
-				startAttack();
+				//TODO: Korjaa pysähtyminen kun ollaan rangessa.
 				return true;
 			} else {
 				return false;
@@ -111,8 +110,13 @@ public class UnitCombat : MonoBehaviour {
 		health -= damage;
 	}
 
-	public void castSpellInSlot(int slot, Vector2 point, GameObject unit){
-		spellList[slot].cast(point,unit);
+	public void dealDamage(GameObject enemy, int amount){
+		enemy.GetComponent<UnitCombat>().takeDamage(amount);
+		
+	}
+
+	public void castSpellInSlot(int slot, GameObject unit){
+		spellList[slot].cast(unit);
 	}
 
 }

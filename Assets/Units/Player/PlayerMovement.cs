@@ -6,6 +6,9 @@ public class PlayerMovement : MonoBehaviour {
     private UnitMovement unitMovement = null;
 	private UnitCombat unitCombat = null;
 
+	private int selectedSpellSlot = 0;
+	private bool targeting = false;
+
     void Start()
     {
         unitMovement = GetComponent<UnitMovement>();
@@ -20,18 +23,19 @@ public class PlayerMovement : MonoBehaviour {
 		RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
 
 		//Hiiren vasen nappi.
-        if (pathfindingTimer <= 0 && Input.GetMouseButton(0)){
-
-
-
+        if (Input.GetMouseButtonDown(0)){
 			//Pysäyttää hahmon ja lyö ilmaa jos vasen shift on pohjassa, muuten liikkuu kohteeseen.
-			if(Input.GetKey(KeyCode.LeftShift)){
-				unitCombat.startAttack();
-			}else{
+			if (Input.GetKey (KeyCode.LeftShift)) {
+				unitCombat.startAttack ();
+			} else if(targeting){
+				GetComponent<UnitCombat> ().castSpellInSlot(selectedSpellSlot,gameObject);
+				toggleTargeting ();
+			}else if(pathfindingTimer <= 0){
 				//Liikkuu hiiren kohtaan.
 	            if (hit.collider != null){
 	                unitMovement.moveTo(hit.point);
 	                pathfindingTimer = 0.1f;
+
 	            }
 			}
         }
@@ -65,7 +69,8 @@ public class PlayerMovement : MonoBehaviour {
 		/////////////////////////////////////
 
 		if(Input.GetKeyDown(KeyCode.Q)){
-			GetComponent<UnitCombat> ().castSpellInSlot(0,hit.point,gameObject);
+			selectedSpellSlot = 0;
+			toggleTargeting();
 		}
 
 		if(Input.GetKeyDown(KeyCode.W)){}
@@ -79,6 +84,21 @@ public class PlayerMovement : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.D)){}
 
     }
+
+	void toggleTargeting(){
+		
+		if (!targeting) {
+			targeting = true;
+		} else {
+			targeting = false;
+		}
+
+		//TODO: vaihda kursori 
+	}
+
+	void OnGUI() {
+		GUI.Label(new Rect(10, 10, 100, 20), "Targeting: " + targeting);
+	}
 
 
 }
