@@ -41,6 +41,7 @@ public class EnemyMovement : MonoBehaviour {
             enemy.transform.position = enemyPosOld;
 
         }
+
         if(timeStamp < Time.time)
         {
             timeStamp = Time.time + 0.016f;
