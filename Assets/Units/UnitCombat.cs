@@ -41,11 +41,13 @@ public class UnitCombat : MonoBehaviour {
 			if (!inRange(lockedTarget)) {
 				GetComponent<UnitMovement>().moveTo(lockedTarget.transform.position);
 			}else{
+				GetComponent<UnitMovement>().stop();
 				startAttack();
 			}
 
 		}
 
+		//Melee attackin hahmottelua
 		Debug.DrawLine(new Vector3(transform.position.x - 30,transform.position.y - 5,transform.position.z),new Vector3(transform.position.x - 5,transform.position.y - 30,transform.position.z));
 
 		foreach(Skill s in spellList){
@@ -116,6 +118,7 @@ public class UnitCombat : MonoBehaviour {
 		return Vector2.Distance(transform.position, lockedTarget.transform.position);
 	}
 
+	//Tarkastaa nyt vain jos kyseinen kohde on attack rangen sisällä. Tarkistukset siitä jos vihollinen on liian kaukana enään seuraamiseen pitää tehdä itse.
 	public bool inRange(GameObject target){
 		//Asettaa vaan ranged unitille pidemmän rangen, LOS tarkistukset voi tehdä vaikka jokasen mobin omassa scriptissä, tai luoda uuden function tänne tarkistusta varten.
 		if (target != null) {
@@ -127,7 +130,6 @@ public class UnitCombat : MonoBehaviour {
 		} else {
 			return false;
 		}
-
 	}
 
 	public void takeDamage(int damage){
