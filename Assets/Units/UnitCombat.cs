@@ -13,7 +13,7 @@ public class UnitCombat : MonoBehaviour {
 
 	//NYI: Cleavea varten tarvittava kulma.
 	private float attackAngle = 0;
-	private float meleeRange;
+	private float attackRange;
 	private bool attacking = false;
 
 	//TODO: Parempi spellilista
@@ -21,7 +21,7 @@ public class UnitCombat : MonoBehaviour {
 
 	void Start () {
 		health = Tuner.UNIT_BASE_HEALTH;
-		meleeRange = Tuner.UNIT_BASE_MELEE_RANGE;
+		attackRange = Tuner.UNIT_BASE_MELEE_RANGE;
 
 		//TODO: Parempi spellien initialisointi.
 		spellList [0] = new projectile_skill();
@@ -38,18 +38,21 @@ public class UnitCombat : MonoBehaviour {
 
 		if(lockedTarget != null){
 			
-			if (!inRange()) {
-				GetComponent<UnitMovement> ().moveTo (lockedTarget.transform.position);
+			if (!inRange(lockedTarget)) {
+				GetComponent<UnitMovement>().moveTo(lockedTarget.transform.position);
 			}else{
 				startAttack();
 			}
 
 		}
 
+		Debug.DrawLine(new Vector3(transform.position.x - 30,transform.position.y - 5,transform.position.z),new Vector3(transform.position.x - 5,transform.position.y - 30,transform.position.z));
+
 		foreach(Skill s in spellList){
 			s.FixedUpdate();
-
 		}
+
+
 	}
 
 	public void attackClosestTargetToPoint(Vector2 hit){
@@ -73,9 +76,28 @@ public class UnitCombat : MonoBehaviour {
 				lockedTarget = g;
 				distance = currentDistance;
 			}
-
 		}
-			
+	}
+
+	public GameObject getClosestTargetToPoint(Vector2 hit){
+
+		List<GameObject> targetList = new List<GameObject>();
+		GameObject[] hostileList = GameObject.FindGameObjectsWithTag("Hostile");
+		targetList.AddRange (hostileList);
+
+		GameObject target = null;
+
+		float distance = Mathf.Infinity;
+		foreach(GameObject g in targetList){
+			float currentDistance = Vector3.Distance(g.transform.position,hit);
+
+			if(currentDistance < distance){
+				target = g;
+				distance = currentDistance;
+			}
+		}
+
+		return target;
 	}
 		
 	public void startAttack(){
@@ -89,13 +111,15 @@ public class UnitCombat : MonoBehaviour {
 		attackTimer = 60;
 	}
 
-	public bool inRange(){
-		
-		if (lockedTarget != null) {
-			
-			if (Vector2.Distance (transform.position, lockedTarget.transform.position) < meleeRange) {
-				//GetComponent<UnitMovement>().stop ();
-				//TODO: Korjaa pysähtyminen kun ollaan rangessa.
+	//Hakee etäisyyden tämän ja parametrinä annetun unitin välillä.
+	public float getRange(GameObject target){
+		return Vector2.Distance(transform.position, lockedTarget.transform.position);
+	}
+
+	public bool inRange(GameObject target){
+		//Asettaa vaan ranged unitille pidemmän rangen, LOS tarkistukset voi tehdä vaikka jokasen mobin omassa scriptissä, tai luoda uuden function tänne tarkistusta varten.
+		if (target != null) {
+			if (Vector2.Distance (transform.position, lockedTarget.transform.position) < attackRange) {
 				return true;
 			} else {
 				return false;

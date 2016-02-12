@@ -9,10 +9,12 @@ public class Tuner : MonoBehaviour
 
 	//UNIT DEFAULT VALUES
 	public static readonly int UNIT_BASE_HEALTH = 10;
+	public static readonly float UNIT_BASE_RANGED_RANGE = 200f;
 	public static readonly float UNIT_BASE_MELEE_RANGE = 20f;
 
 	//SPELL DEFAULT VALUES
 	public static readonly float DEFAULT_SPELL_RANGE = 150f;
+	public static readonly float DEFAULT_SKILL_CAST_TIME = 1f;
 	public static readonly int DEFAULT_SKILL_COOLDOWN = 2 * 50;
 
 	public static readonly float DEFAULT_PROJECTILE_BLAST_RADIUS = 10f;
