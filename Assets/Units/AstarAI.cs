@@ -6,9 +6,6 @@ using Pathfinding;
 
 public class AstarAI : MonoBehaviour
 {
-    //The point to move to
-    public Transform target;
-
     private Seeker seeker;
 
     //The calculated path

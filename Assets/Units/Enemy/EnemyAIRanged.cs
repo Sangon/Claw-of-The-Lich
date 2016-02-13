@@ -49,18 +49,9 @@ public class EnemyAIRanged : MonoBehaviour
         {
             unitMovement.moveTo(playerPos);
             timeStamp = Time.time + 0.3f;
-            print("Lololool");
         }
 
-
-
-
         enemyPosOld = enemy.transform.position;
-
-
-
-
-
     }
 }
 

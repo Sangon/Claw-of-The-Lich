@@ -14,8 +14,6 @@ public class AIStates : MonoBehaviour
     private UnitMovement unitMovement = null;
     private UnitCombat unitCombat = null;
 
-
-
     void Start()
     {
         unitMovement = GetComponent<UnitMovement>();

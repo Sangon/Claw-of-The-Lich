@@ -20,13 +20,9 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         //Hakee hiiren kohdan world spacessa.
         Vector2 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
-
-
-
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -59,18 +55,15 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-
         //Hiiren oikea nappi.
         if (pathfindingTimer <= 0 && Input.GetMouseButton(1))
         {
             //unitMovement.stop();
 
             //TODO: Etsii lähimmän kohteen ja lockkaa siihen.
-
             unitCombat.attackClosestTargetToPoint(hit.point);
         }
         pathfindingTimer -= Time.fixedDeltaTime;
-
 
         //Rullaa kameraa kauemmas.
         if (Input.GetAxis("Mouse ScrollWheel") < 0)
@@ -85,12 +78,9 @@ public class PlayerMovement : MonoBehaviour
         //Rajoittaa kameran max- ja minimietäisyydet.
         Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, Tuner.CAMERA_MIN_DISTANCE, Tuner.CAMERA_MAX_DISTANCE);
 
-
         //////////////////////////////////////
         /// SPELLIT
         /////////////////////////////////////
-
-
         if (Input.GetKeyDown(KeyCode.W)) { }
 
         if (Input.GetKeyDown(KeyCode.E)) { }
@@ -121,6 +111,4 @@ public class PlayerMovement : MonoBehaviour
     {
         GUI.Label(new Rect(10, 10, 100, 20), "Targeting: " + targeting);
     }
-
-
 }
