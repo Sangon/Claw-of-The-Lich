@@ -5,7 +5,7 @@ using System.Collections;
 public class Tuner : MonoBehaviour
 {
 	//PLAYER DEFAULT VALUES
-    public static readonly float playerSpeed = 100.0f;
+    public static readonly float UNIT_BASE_SPEED = 100.0f;
 
 	//UNIT DEFAULT VALUES
 	public static readonly int UNIT_BASE_HEALTH = 10;
@@ -25,5 +25,9 @@ public class Tuner : MonoBehaviour
 	public static readonly float CAMERA_MIN_DISTANCE = 75;
 	public static readonly float CAMERA_MAX_DISTANCE = 175;
 
+	public static readonly float CAMERA_MAX_DISTANCE = 225;
 
+    public static readonly float rangedEnemyAttackRange = 150.0f;
+    public static readonly float meleeEnemyAttackRange = 20.0f;
+    public static readonly float enemyAgroRange = 300.0f;
 }

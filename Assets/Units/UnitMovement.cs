@@ -4,18 +4,25 @@ using System.Collections;
 public class UnitMovement : MonoBehaviour
 {
 	private Vector2 direction;
+    private AstarAI astar = null;
 
 	private Vector2 movementDelta;
 	private	Vector2 lastPosition;
-
-    public void moveTo(Vector2 point)
+    public void Start()
     {
-        GetComponent<AstarAI>().move(point);
+        astar = GetComponent<AstarAI>();
+    }
+
+    public void moveTo(Vector2 point, uint groupID = 0)
+    {
+        if (astar != null)
+            astar.move(point, groupID);
     }
 
     public void stop()
     {
-        GetComponent<AstarAI>().path.Reset();
+        if (astar != null)
+            astar.stop();
     }
 
 	void FixedUpdate(){

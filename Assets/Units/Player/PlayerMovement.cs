@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerMovement : MonoBehaviour {
-    float pathfindingTimer = 0;
+public class PlayerMovement : MonoBehaviour
+{
+    public uint groupID = 0;
+    private float pathfindingTimer = 0;
     private UnitMovement unitMovement = null;
 	private UnitCombat unitCombat = null;
 
@@ -16,15 +18,6 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void FixedUpdate () {
-
-		//Hakee hiiren kohdan world spacessa.
-		Vector2 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
-
-		//Hiiren vasen nappi.
-        if (Input.GetMouseButtonDown(0)){
-			//Pysäyttää hahmon ja lyö ilmaa jos vasen shift on pohjassa, muuten liikkuu kohteeseen.
 			if (Input.GetKey (KeyCode.LeftShift)) {
 				unitCombat.startAttack ();
 			} else if(targeting){
@@ -37,7 +30,35 @@ public class PlayerMovement : MonoBehaviour {
 	                pathfindingTimer = 0.1f;
 
 	            }
-			}
+    void Update()
+    {
+
+        //Hakee hiiren kohdan world spacessa.
+        Vector2 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            unitMovement.stop();
+        }
+
+            //Hiiren vasen nappi.
+        if (pathfindingTimer <= 0 && Input.GetMouseButton(0))
+        {
+            //Pysäyttää hahmon ja lyö ilmaa jos vasen shift on pohjassa, muuten liikkuu kohteeseen.
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                unitCombat.startAttack(hit.point);
+            }
+            else {
+                //Liikkuu hiiren kohtaan.
+                if (hit.collider != null)
+                {
+                    //FMODUnity.RuntimeManager.PlayOneShot("event:/walk", transform.position);
+                    unitMovement.moveTo(hit.point, groupID);
+                    pathfindingTimer = 0.05f;
+                }
+            }
         }
 
 
@@ -64,14 +85,10 @@ public class PlayerMovement : MonoBehaviour {
 		Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize,Tuner.CAMERA_MIN_DISTANCE, Tuner.CAMERA_MAX_DISTANCE);
 
 
-		//////////////////////////////////////
-		/// SPELLIT
-		/////////////////////////////////////
+        //////////////////////////////////////
+        /// SPELLIT
+        /////////////////////////////////////
 
-		if(Input.GetKeyDown(KeyCode.Q)){
-			selectedSpellSlot = 0;
-			toggleTargeting();
-		}
 
 		if(Input.GetKeyDown(KeyCode.W)){}
 
