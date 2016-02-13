@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Security.Cryptography.X509Certificates;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -22,7 +23,12 @@ public class PlayerMovement : MonoBehaviour
         Vector2 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
 
-        //Hiiren vasen nappi.
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            unitMovement.stop();
+        }
+
+            //Hiiren vasen nappi.
         if (pathfindingTimer <= 0 && Input.GetMouseButton(0))
         {
             //Pysäyttää hahmon ja lyö ilmaa jos vasen shift on pohjassa, muuten liikkuu kohteeseen.
@@ -34,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
                 //Liikkuu hiiren kohtaan.
                 if (hit.collider != null)
                 {
+                    //FMODUnity.RuntimeManager.PlayOneShot("event:/walk", transform.position);
                     unitMovement.moveTo(hit.point, groupID);
                     pathfindingTimer = 0.05f;
                 }

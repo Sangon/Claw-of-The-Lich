@@ -38,6 +38,15 @@ public class AstarAI : MonoBehaviour
         seeker.StartPath(transform.position, newPoint, OnPathComplete);
     }
 
+    public void stop()
+    {
+        if (path != null)
+        {
+            path = null;
+            currentWaypoint = 0;
+        }
+    }
+
     public void OnPathComplete(Path p)
     {
         //Debug.Log("Yay, we got a path back. Did it have an error? " + p.error);
@@ -171,6 +180,13 @@ public class AstarAI : MonoBehaviour
         {
             //We have no path to move after yet
             //Debug.Log("1111");
+            return;
+        }
+
+        if (currentWaypoint >= path.vectorPath.Count)
+        {
+            //Needed for unitMovement.stop()
+            path = null;
             return;
         }
 

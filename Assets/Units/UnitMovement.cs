@@ -18,7 +18,7 @@ public class UnitMovement : MonoBehaviour
 
     public void stop()
     {
-        if (astar != null && astar.path != null)
-            astar.path.Reset();
+        if (astar != null)
+            astar.stop();
     }
 }
