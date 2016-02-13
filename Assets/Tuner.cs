@@ -23,8 +23,6 @@ public class Tuner : MonoBehaviour
 
 	//CAMERA DEFAULT VALUES
 	public static readonly float CAMERA_MIN_DISTANCE = 75;
-	public static readonly float CAMERA_MAX_DISTANCE = 175;
-
 	public static readonly float CAMERA_MAX_DISTANCE = 225;
 
     public static readonly float rangedEnemyAttackRange = 150.0f;
