@@ -1,4 +1,4 @@
-Ôªøusing UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -11,10 +11,11 @@ public class UnitCombat : MonoBehaviour {
 	//Targetin seurausta varten.
 	public GameObject lockedTarget = null;
 
-	//NYI: Cleavea varten tarvittava kulma.
-	private float attackAngle = 0;
 	private float attackRange;
 	private bool attacking = false;
+	private int attackTimer = 60;
+	private int maxAttackTimer = 60;
+	private int attackPoint = 30;
 
 	//TODO: Parempi spellilista
 	private Skill[] spellList = new Skill[2];
@@ -29,7 +30,8 @@ public class UnitCombat : MonoBehaviour {
 
 	}
 
-	private int attackTimer = 60;
+	RaycastHit2D[] hits;
+
 	void FixedUpdate () {
 
 		if(health <= 0){
@@ -47,9 +49,43 @@ public class UnitCombat : MonoBehaviour {
 
 		}
 
-		//Melee attackin hahmottelua
-		Debug.DrawLine(new Vector3(transform.position.x - 30,transform.position.y - 5,transform.position.z),new Vector3(transform.position.x - 5,transform.position.y - 30,transform.position.z));
+		//Debug.Log (attackAngle);
+		//Debug.DrawLine(transform.position, new Vector3(transform.position.x + GetComponent<UnitMovement>().getMovementDelta().x*10,transform.position.y + GetComponent<UnitMovement>().getMovementDelta().y*10,0));
+		//Debug.Log("DIR: " + GetComponent<UnitMovement>().getDirection());
 
+		if(attacking){
+
+			//Nappaa targetit v‰h‰n ennen kuin tekee damage, est‰‰ sit‰ ett‰ targetit kerke‰‰ juosta rangesta pois joka kerta jos ne juoksee karkuun.
+
+			if(attackTimer == Mathf.Floor(maxAttackTimer*0.9f)){
+				hits = getUnitsInMelee(GetComponent<UnitMovement>().direction);
+
+			}
+
+
+			attackTimer--;
+
+
+			if(attackTimer >= maxAttackTimer){
+				stopAttack();
+			}
+
+			//Tehd‰‰n damage, otetaan kaikki targetit jotka olivat rangessa ja niihin damage.
+			if(attackTimer == attackPoint){
+				
+				if (hits != null) {
+					foreach (RaycastHit2D hit in hits) {
+						hit.collider.GetComponent<UnitCombat>().takeDamage(10);
+					}
+				}
+
+			}
+
+		}
+
+		DebugRay(GetComponent<UnitMovement>().direction);
+
+		//P‰ivitet‰‰n spellien logiikka.
 		foreach(Skill s in spellList){
 			s.FixedUpdate();
 		}
@@ -61,15 +97,15 @@ public class UnitCombat : MonoBehaviour {
 		
 		List<GameObject> targetList = new List<GameObject>();
 
-		//Hakee kaikki mobit Hostile tagill√§ ja lis√§√§ ne potentiaalisten vihollisten listaan.
+		//Hakee kaikki mobit Hostile tagill‰ ja lis‰‰ ne potentiaalisten vihollisten listaan.
 		GameObject[] hostileList = GameObject.FindGameObjectsWithTag("Hostile");
 		targetList.AddRange (hostileList);
 
-		//NYI: bugaa ihan huolella jostaki syyst√§
+		//NYI: bugaa ihan huolella jostaki syyst‰
 		//GameObject[] neutralList = GameObject.FindGameObjectsWithTag("Neutral");
 		//targetList.AddRange (neutralList);
 
-		//Laskee kuka potentiaalisten vihollisten listasta on l√§himp√§n√§ ja lockinnaa siihen.
+		//Laskee kuka potentiaalisten vihollisten listasta on l‰himp‰n‰ ja lockinnaa siihen.
 		float distance = Mathf.Infinity;
 		foreach(GameObject g in targetList){
 			float currentDistance = Vector3.Distance(g.transform.position,hit);
@@ -103,8 +139,6 @@ public class UnitCombat : MonoBehaviour {
 	}
 		
 	public void startAttack(){
-		//attackAngle = ((Mathf.Atan2(hit.y - gameObject.transform.position.y, hit.x - gameObject.transform.position.x) + Mathf.PI));
-		//Debug.Log ("attackAngle: " + attackAngle);
 		attacking = true;
 	}
 
@@ -113,16 +147,17 @@ public class UnitCombat : MonoBehaviour {
 		attackTimer = 60;
 	}
 
-	//Hakee et√§isyyden t√§m√§n ja parametrin√§ annetun unitin v√§lill√§.
+	//Hakee et‰isyyden t‰m‰n ja parametrin‰ annetun unitin v‰lill‰.
 	public float getRange(GameObject target){
 		return Vector2.Distance(transform.position, lockedTarget.transform.position);
 	}
 
-	//Tarkastaa nyt vain jos kyseinen kohde on attack rangen sis√§ll√§. Tarkistukset siit√§ jos vihollinen on liian kaukana en√§√§n seuraamiseen pit√§√§ tehd√§ itse.
+	//Tarkastaa nyt vain jos kyseinen kohde on attack rangen sis‰ll‰. Tarkistukset siit‰ jos vihollinen on liian kaukana en‰‰n seuraamiseen pit‰‰ tehd‰ itse.
 	public bool inRange(GameObject target){
-		//Asettaa vaan ranged unitille pidemm√§n rangen, LOS tarkistukset voi tehd√§ vaikka jokasen mobin omassa scriptiss√§, tai luoda uuden function t√§nne tarkistusta varten.
+		//Asettaa vaan ranged unitille pidemm‰n rangen, LOS tarkistukset voi tehd‰ vaikka jokasen mobin omassa scriptiss‰, tai luoda uuden function t‰nne tarkistusta varten.
 		if (target != null) {
-			if (Vector2.Distance (transform.position, lockedTarget.transform.position) < attackRange) {
+			if (Vector2.Distance (transform.position, lockedTarget.transform.position) < attackRange){
+			    lockedTarget = null;
 				return true;
 			} else {
 				return false;
@@ -138,11 +173,58 @@ public class UnitCombat : MonoBehaviour {
 
 	public void dealDamage(GameObject enemy, int amount){
 		enemy.GetComponent<UnitCombat>().takeDamage(amount);
-		
 	}
 
 	public void castSpellInSlot(int slot, GameObject unit){
 		spellList[slot].cast(unit);
+	}
+
+
+	//Haetaan meleerangessa olevat viholliset ja tehd‰‰n juttuja.
+	public RaycastHit2D[] getUnitsInMelee(UnitMovement.Direction dir){
+
+		if(dir == UnitMovement.Direction.W){
+			return Physics2D.RaycastAll(new Vector3(transform.position.x - 20, transform.position.y + 10,0),new Vector3(transform.position.x - 20, transform.position.y - 10,0));
+		}else if(dir == UnitMovement.Direction.SW){
+			return Physics2D.RaycastAll(new Vector3(transform.position.x - 30, transform.position.y - 5,0),new Vector3(transform.position.x - 5, transform.position.y - 20,0));
+		}else if(dir == UnitMovement.Direction.S){
+			return Physics2D.RaycastAll(new Vector3(transform.position.x - 10, transform.position.y - 20,0),new Vector3(transform.position.x + 10, transform.position.y - 20,0));
+		}else if(dir == UnitMovement.Direction.SE){
+			return Physics2D.RaycastAll(new Vector3(transform.position.x + 30, transform.position.y - 5,0),new Vector3(transform.position.x + 5, transform.position.y - 20,0));
+		}else if(dir == UnitMovement.Direction.E){
+			return Physics2D.RaycastAll(new Vector3(transform.position.x + 20, transform.position.y + 10,0),new Vector3(transform.position.x + 20, transform.position.y - 10,0));
+		}else if(dir == UnitMovement.Direction.NE){
+			return Physics2D.RaycastAll(new Vector3(transform.position.x + 30, transform.position.y + 5,0),new Vector3(transform.position.x + 5, transform.position.y + 20,0));
+		}else if(dir == UnitMovement.Direction.N){
+			return Physics2D.RaycastAll(new Vector3(transform.position.x - 10, transform.position.y + 20,0),new Vector3(transform.position.x + 10, transform.position.y + 20,0));
+		}else if(dir == UnitMovement.Direction.NW){
+			return Physics2D.RaycastAll(new Vector3(transform.position.x - 30, transform.position.y + 5,0),new Vector3(transform.position.x - 5, transform.position.y + 20,0));
+		}
+
+		return null;
+	}
+
+
+	//Debuggaamista varten melee raycastit.
+	public void DebugRay(UnitMovement.Direction dir){
+
+		if(dir == UnitMovement.Direction.W){
+			Debug.DrawLine(new Vector3(transform.position.x - 20 * 10, transform.position.y + 10 * 10, 0),new Vector3(transform.position.x - 20 * 10, transform.position.y - 10 * 10, 0));
+		}else if(dir == UnitMovement.Direction.SW){
+			Debug.DrawLine(new Vector3(transform.position.x - 30 * 10, transform.position.y - 5 * 10, 0),new Vector3(transform.position.x - 5 * 10, transform.position.y - 20 * 10, 0));
+		}else if(dir == UnitMovement.Direction.S){
+			Debug.DrawLine(new Vector3(transform.position.x - 10 * 10, transform.position.y - 20 * 10, 0),new Vector3(transform.position.x + 10 * 10, transform.position.y - 20 * 10, 0));
+		}else if(dir == UnitMovement.Direction.SE){
+			Debug.DrawLine(new Vector3(transform.position.x + 30 * 10, transform.position.y - 5 * 10, 0),new Vector3(transform.position.x + 5 * 10, transform.position.y - 20 * 10, 0));
+		}else if(dir == UnitMovement.Direction.E){
+			Debug.DrawLine(new Vector3(transform.position.x + 20 * 10, transform.position.y + 10 * 10, 0),new Vector3(transform.position.x + 20 * 10, transform.position.y - 10 * 10, 0));
+		}else if(dir == UnitMovement.Direction.NE){
+			Debug.DrawLine(new Vector3(transform.position.x + 30 * 10, transform.position.y + 5 * 10, 0),new Vector3(transform.position.x + 5 * 10, transform.position.y + 20 * 10, 0));
+		}else if(dir == UnitMovement.Direction.N){
+			Debug.DrawLine(new Vector3(transform.position.x - 10 * 10, transform.position.y + 20 * 10, 0),new Vector3(transform.position.x + 10 * 10, transform.position.y + 20 * 10, 0));
+		}else if(dir == UnitMovement.Direction.NW){
+			Debug.DrawLine(new Vector3(transform.position.x - 30 * 10, transform.position.y + 5 * 10, 0),new Vector3(transform.position.x - 5 * 10, transform.position.y + 20 * 10, 0));
+		}
 	}
 
 }

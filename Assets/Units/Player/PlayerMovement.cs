@@ -3,18 +3,22 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public uint groupID = 0;
+    public int groupID = 0;
     private float pathfindingTimer = 0;
-    private UnitMovement unitMovement = null;
-    private UnitCombat unitCombat = null;
+    private UnitMovement unitMovement;
+    private UnitCombat unitCombat;
+    private PartySystem partySystem;
 
     private int selectedSpellSlot = 0;
     private bool targeting = false;
+    private bool ignoreMoving = false;
 
     void Start()
     {
         unitMovement = GetComponent<UnitMovement>();
         unitCombat = GetComponent<UnitCombat>();
+        //partySystem = GetComponent<PartySystem>();
+        partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
     }
 
     // Update is called once per frame
@@ -29,29 +33,39 @@ public class PlayerMovement : MonoBehaviour
             unitMovement.stop();
         }
 
+
+
         //Hiiren vasen nappi.
-        if (pathfindingTimer <= 0 && Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
             //Pysäyttää hahmon ja lyö ilmaa jos vasen shift on pohjassa, muuten liikkuu kohteeseen.
             if (Input.GetKey(KeyCode.LeftShift))
             {
                 unitCombat.startAttack();
+                ignoreMoving = true;
             }
             else if (targeting)
             {
                 unitCombat.castSpellInSlot(selectedSpellSlot, gameObject);
                 toggleTargeting();
+                ignoreMoving = true;
+                unitMovement.stop();
             }
-            else if (pathfindingTimer <= 0)
-            {
-                //Liikkuu hiiren kohtaan.
-                if (hit.collider != null)
-                {
-                    //FMODUnity.RuntimeManager.PlayOneShot("event:/walk", transform.position);
-                    unitMovement.moveTo(hit.point, groupID);
-                    pathfindingTimer = 0.05f;
+        }
+        else if (Input.GetMouseButtonUp(0))
+            ignoreMoving = false;
 
-                }
+        // Left mouse button is held down
+        if (Input.GetMouseButton(0) && !ignoreMoving && pathfindingTimer <= 0)
+        {
+            //Liikkuu hiiren kohtaan.
+            if (hit.collider != null)
+            {
+                //FMODUnity.RuntimeManager.PlayOneShot("event:/walk", transform.position);
+                groupID = partySystem.isSelected(this.gameObject);
+                if (groupID != -1)
+                    unitMovement.moveTo(hit.point, groupID);
+                pathfindingTimer = Time.fixedDeltaTime*2.0f;
             }
         }
 
@@ -68,12 +82,12 @@ public class PlayerMovement : MonoBehaviour
         //Rullaa kameraa kauemmas.
         if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
-            Camera.main.orthographicSize += 10;
+            Camera.main.orthographicSize += Tuner.CAMERA_ZOOM_SPEED;
         }
         //Rulla kameraa lähemmäs.
         if (Input.GetAxis("Mouse ScrollWheel") > 0)
         {
-            Camera.main.orthographicSize -= 10;
+            Camera.main.orthographicSize -= Tuner.CAMERA_ZOOM_SPEED;
         }
         //Rajoittaa kameran max- ja minimietäisyydet.
         Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, Tuner.CAMERA_MIN_DISTANCE, Tuner.CAMERA_MAX_DISTANCE);
@@ -81,7 +95,15 @@ public class PlayerMovement : MonoBehaviour
         //////////////////////////////////////
         /// SPELLIT
         /////////////////////////////////////
-        if (Input.GetKeyDown(KeyCode.W)) { }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            toggleTargeting();
+        }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+
+        }
 
         if (Input.GetKeyDown(KeyCode.E)) { }
 

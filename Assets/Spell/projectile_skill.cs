@@ -21,7 +21,7 @@ public class projectile_skill :  Skill{
 		if(currentCooldown < maxCooldown){
 			currentCooldown++;
 			if(currentCooldown == maxCooldown){
-				print ("Ready: " + spellName);
+				Debug.Log("Ready: " + spellName);
 			}
 		}
 

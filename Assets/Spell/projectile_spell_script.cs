@@ -26,9 +26,7 @@ public class projectile_spell_script : Spell {
 	}
 
 	void OnTriggerEnter2D(Collider2D coll){
-		//explode();
-
-		print ("ALLAHU AKBAR " + coll.name);
+		explode();
 	}
 
 	public void explode(){

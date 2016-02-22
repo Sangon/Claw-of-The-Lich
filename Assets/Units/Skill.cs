@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public abstract class Skill : MonoBehaviour, ISkill{
+public abstract class Skill : ScriptableObject, ISkill{
 
 	protected int maxCooldown = Tuner.DEFAULT_SKILL_COOLDOWN;
 	protected float maxRange = Tuner.DEFAULT_SPELL_RANGE;

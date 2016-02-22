@@ -16,9 +16,7 @@ public class AstarAI : MonoBehaviour
 
     private Vector3 newPoint = Vector3.zero;
 
-    private uint groupID = 0;
-
-    private bool firstPath = true;
+    private int groupID = 0;
 
     public void Start()
     {
@@ -27,10 +25,9 @@ public class AstarAI : MonoBehaviour
         //seeker.StartPath(transform.position, target.position, OnPathComplete);
     }
 
-    public void move(Vector2 point, uint groupID = 0)
+    public void move(Vector2 point, int groupID = 0)
     {
         newPoint = new Vector3(point.x, point.y, 0);
-        firstPath = true;
         this.groupID = groupID;
         seeker.StartPath(transform.position, newPoint, OnPathComplete);
     }
@@ -44,6 +41,13 @@ public class AstarAI : MonoBehaviour
         }
     }
 
+    public Vector2 getNextPathPoint()
+    {
+        if (path != null)
+            return path.vectorPath[currentWaypoint];
+        return Vector2.zero;
+    }
+
     public void OnPathComplete(Path p)
     {
         //Debug.Log("Yay, we got a path back. Did it have an error? " + p.error);
@@ -51,7 +55,7 @@ public class AstarAI : MonoBehaviour
         {
             path = p;
             Vector2 lastPoint = path.vectorPath[path.vectorPath.Count - 1];
-
+            /*
             float minDistance = 3.0f;
             if (Vector2.Distance(transform.position, newPoint) < minDistance || Vector2.Distance(transform.position, lastPoint) < minDistance)
             {
@@ -59,6 +63,7 @@ public class AstarAI : MonoBehaviour
                 currentWaypoint = 0;
                 return;
             }
+            */
 
             bool directPath = false;
 
@@ -161,9 +166,13 @@ public class AstarAI : MonoBehaviour
                 }
             }
 
-            if (groupID > 0 && firstPath)
+            if (groupID > 0)
             {
-                moveToNextTile();
+                if (moveToNextTile())
+                {
+                    path.vectorPath.RemoveAt(path.vectorPath.Count - 1);
+                    path.vectorPath.Add(newPoint);
+                }
             }
 
             //Reset the waypoint counter
@@ -176,7 +185,6 @@ public class AstarAI : MonoBehaviour
         if (path == null)
         {
             //We have no path to move after yet
-            //Debug.Log("1111");
             return;
         }
 
@@ -187,23 +195,27 @@ public class AstarAI : MonoBehaviour
             return;
         }
 
-        //TODO: Optimize this!
+        
+        
         RaycastHit2D hit = Physics2D.Linecast(transform.position, newPoint, 1 << 9);
+        /*
+        //TODO: Optimize this!
         if (hit.collider == null)
         {
-            //Debug.Log("Suora yhteys1!");
+            //Debug.Log("Suora yhteys11!");
             path.vectorPath.Clear();
             path.vectorPath.Add(transform.position);
             path.vectorPath.Add(newPoint);
             currentWaypoint = 1;
         }
+        */
 
         //The max distance from the AI to a waypoint for it to continue to the next waypoint
         float nextWaypointDistance = Tuner.UNIT_BASE_SPEED * Time.fixedDeltaTime;
 
         //Check if we are close enough to the next waypoint
         //If we are, proceed to follow the next waypoint
-        if (Vector2.Distance(transform.position, path.vectorPath[currentWaypoint]) < nextWaypointDistance)
+        if (Vector2.Distance(transform.position, path.vectorPath[currentWaypoint]) <= nextWaypointDistance)
         {
             currentWaypoint++;
             if (currentWaypoint + 1 < path.vectorPath.Count)
@@ -258,19 +270,16 @@ public class AstarAI : MonoBehaviour
         //Direction to the next waypoint
         Vector2 dir = (path.vectorPath[currentWaypoint] - transform.position).normalized;
         dir *= Tuner.UNIT_BASE_SPEED * Time.fixedDeltaTime;
-        this.gameObject.transform.Translate(dir);
-
-        //Debug.Log("Moving: " + dir + " - " + path.vectorPath[currentWaypoint] + " - " + transform.position);
+        transform.Translate(dir);
     }
 
     bool moveToNextTile()
     {
-        firstPath = false;
         Vector2 closePoint = path.vectorPath[path.vectorPath.Count - 1];
         for (int i = 1; i <= 8; i++)
         {
-            closePoint.x = path.vectorPath[path.vectorPath.Count - 1].x + 15.0f * Mathf.Sin((360 - ((120 / i) * groupID)) * Mathf.Deg2Rad);
-            closePoint.y = path.vectorPath[path.vectorPath.Count - 1].y + 15.0f * Mathf.Cos((360 - ((120 / i) * groupID)) * Mathf.Deg2Rad);
+            closePoint.x = path.vectorPath[path.vectorPath.Count - 1].x + Tuner.PARTY_SPACING * Mathf.Sin((360 - ((120 / i) * groupID)) * Mathf.Deg2Rad);
+            closePoint.y = path.vectorPath[path.vectorPath.Count - 1].y + Tuner.PARTY_SPACING * Mathf.Cos((360 - ((120 / i) * groupID)) * Mathf.Deg2Rad);
 
             RaycastHit2D hit = Physics2D.Linecast(path.vectorPath[path.vectorPath.Count - 1], closePoint, 1 << 9);
             if (hit.collider == null)
