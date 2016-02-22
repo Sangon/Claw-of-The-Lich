@@ -55,17 +55,12 @@ public class UnitCombat : MonoBehaviour {
 
 		if(attacking){
 
-<<<<<<< HEAD
 			//Nappaa targetit v‰h‰n ennen kuin tekee damage, est‰‰ sit‰ ett‰ targetit kerke‰‰ juosta rangesta pois joka kerta jos ne juoksee karkuun.
-=======
-			//Nappaa targetit v√§h√§n ennen kuin tekee damage, est√§√§ sit√§ ett√§ targetit kerke√§√§ juosta rangesta pois joka kerta jos ne juoksee karkuun.
->>>>>>> origin/master
 
 			if(attackTimer == Mathf.Floor(maxAttackTimer*0.9f)){
 				hits = getUnitsInMelee(GetComponent<UnitMovement>().direction);
 
 			}
-<<<<<<< HEAD
 
 
 			attackTimer--;
@@ -91,32 +86,6 @@ public class UnitCombat : MonoBehaviour {
 		DebugRay(GetComponent<UnitMovement>().direction);
 
 		//P‰ivitet‰‰n spellien logiikka.
-=======
-
-
-			attackTimer--;
-
-
-			if(attackTimer >= maxAttackTimer){
-				stopAttack();
-			}
-
-			//Tehd√§√§n damage, otetaan kaikki targetit jotka olivat rangessa ja niihin damage.
-			if(attackTimer == attackPoint){
-				
-				if (hits != null) {
-					foreach (RaycastHit2D hit in hits) {
-						hit.collider.GetComponent<UnitCombat>().takeDamage(10);
-					}
-				}
-
-			}
-
-		}
-		DebugRay(GetComponent<UnitMovement>().direction);
-
-		//P√§ivitet√§√§n spellien logiikka.
->>>>>>> origin/master
 		foreach(Skill s in spellList){
 			s.FixedUpdate();
 		}
@@ -211,7 +180,6 @@ public class UnitCombat : MonoBehaviour {
 	}
 
 
-<<<<<<< HEAD
 	//Haetaan meleerangessa olevat viholliset ja tehd‰‰n juttuja.
 	public RaycastHit2D[] getUnitsInMelee(UnitMovement.Direction dir){
 
@@ -230,26 +198,6 @@ public class UnitCombat : MonoBehaviour {
 		}else if(dir == UnitMovement.Direction.N){
 			return Physics2D.RaycastAll(new Vector3(transform.position.x - 10, transform.position.y + 20,0),new Vector3(transform.position.x + 10, transform.position.y + 20,0));
 		}else if(dir == UnitMovement.Direction.NW){
-=======
-	//Haetaan meleerangessa olevat viholliset ja tehd√§√§n juttuja.
-	public RaycastHit2D[] getUnitsInMelee(int dir){
-
-		if(dir == 1){
-			return Physics2D.RaycastAll(new Vector3(transform.position.x - 20, transform.position.y + 10,0),new Vector3(transform.position.x - 20, transform.position.y - 10,0));
-		}else if(dir == 2){
-			return Physics2D.RaycastAll(new Vector3(transform.position.x - 30, transform.position.y - 5,0),new Vector3(transform.position.x - 5, transform.position.y - 20,0));
-		}else if(dir == 3){
-			return Physics2D.RaycastAll(new Vector3(transform.position.x - 10, transform.position.y - 20,0),new Vector3(transform.position.x + 10, transform.position.y - 20,0));
-		}else if(dir == 4){
-			return Physics2D.RaycastAll(new Vector3(transform.position.x + 30, transform.position.y - 5,0),new Vector3(transform.position.x + 5, transform.position.y - 20,0));
-		}else if(dir == 5){
-			return Physics2D.RaycastAll(new Vector3(transform.position.x + 20, transform.position.y + 10,0),new Vector3(transform.position.x + 20, transform.position.y - 10,0));
-		}else if(dir == 6){
-			return Physics2D.RaycastAll(new Vector3(transform.position.x + 30, transform.position.y + 5,0),new Vector3(transform.position.x + 5, transform.position.y + 20,0));
-		}else if(dir == 7){
-			return Physics2D.RaycastAll(new Vector3(transform.position.x - 10, transform.position.y + 20,0),new Vector3(transform.position.x + 10, transform.position.y + 20,0));
-		}else if(dir == 8){
->>>>>>> origin/master
 			return Physics2D.RaycastAll(new Vector3(transform.position.x - 30, transform.position.y + 5,0),new Vector3(transform.position.x - 5, transform.position.y + 20,0));
 		}
 
@@ -258,7 +206,6 @@ public class UnitCombat : MonoBehaviour {
 
 
 	//Debuggaamista varten melee raycastit.
-<<<<<<< HEAD
 	public void DebugRay(UnitMovement.Direction dir){
 
 		if(dir == UnitMovement.Direction.W){
@@ -277,26 +224,6 @@ public class UnitCombat : MonoBehaviour {
 			Debug.DrawLine(new Vector3(transform.position.x - 10 * 10, transform.position.y + 20 * 10, 0),new Vector3(transform.position.x + 10 * 10, transform.position.y + 20 * 10, 0));
 		}else if(dir == UnitMovement.Direction.NW){
 			Debug.DrawLine(new Vector3(transform.position.x - 30 * 10, transform.position.y + 5 * 10, 0),new Vector3(transform.position.x - 5 * 10, transform.position.y + 20 * 10, 0));
-=======
-	public void DebugRay(int dir){
-
-		if(dir == 1){
-			Debug.DrawLine(new Vector3(transform.position.x - 20, transform.position.y + 10,0),new Vector3(transform.position.x - 20, transform.position.y - 10,0));
-		}else if(dir == 2){
-			Debug.DrawLine(new Vector3(transform.position.x - 30, transform.position.y - 5,0),new Vector3(transform.position.x - 5, transform.position.y - 20,0));
-		}else if(dir == 3){
-			Debug.DrawLine(new Vector3(transform.position.x - 10, transform.position.y - 20,0),new Vector3(transform.position.x + 10, transform.position.y - 20,0));
-		}else if(dir == 4){
-			Debug.DrawLine(new Vector3(transform.position.x + 30, transform.position.y - 5,0),new Vector3(transform.position.x + 5, transform.position.y - 20,0));
-		}else if(dir == 5){
-			Debug.DrawLine(new Vector3(transform.position.x + 20, transform.position.y + 10,0),new Vector3(transform.position.x + 20, transform.position.y - 10,0));
-		}else if(dir == 6){
-			Debug.DrawLine(new Vector3(transform.position.x + 30, transform.position.y + 5,0),new Vector3(transform.position.x + 5, transform.position.y + 20,0));
-		}else if(dir == 7){
-			Debug.DrawLine(new Vector3(transform.position.x - 10, transform.position.y + 20,0),new Vector3(transform.position.x + 10, transform.position.y + 20,0));
-		}else if(dir == 8){
-			Debug.DrawLine(new Vector3(transform.position.x - 30, transform.position.y + 5,0),new Vector3(transform.position.x - 5, transform.position.y + 20,0));
->>>>>>> origin/master
 		}
 	}
 

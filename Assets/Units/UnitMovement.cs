@@ -22,13 +22,6 @@ public class UnitMovement : MonoBehaviour
 	private	Vector2 lastPosition = Vector2.zero;
 	public Direction direction = Direction.NE;
 
-<<<<<<< HEAD
-=======
-	private Vector2 movementDelta;
-	private	Vector2 lastPosition;
-	public int direction = 0;
-
->>>>>>> origin/master
     public void Start()
     {
         astar = GetComponent<AstarAI>();
@@ -100,34 +93,23 @@ public class UnitMovement : MonoBehaviour
 	
 	void FixedUpdate(){
 
-<<<<<<< HEAD
 		//Muodostaa deltan kahden viimesen pelitickin perusteella. Voidaan käyttää mm. suunnan kattomiseen ja animaation kääntelyyn.
 		/*
 		if(new Vector2(transform.position.x - lastPosition.x, transform.position.y - lastPosition.y).magnitude >= 0.1){
 			movementDelta = new Vector2(transform.position.x - lastPosition.x, transform.position.y - lastPosition.y);
 		}
 		
-=======
-		//Muodostaa deltan kahden viimesen pelitickin perusteella. Voidaan kÃ¤yttÃ¤Ã¤ mm. suunnan kattomiseen ja animaation kÃ¤Ã¤ntelyyn.
-		if(new Vector2(transform.position.x - lastPosition.x, transform.position.y - lastPosition.y).magnitude >= 0.1){
-			movementDelta = new Vector2(transform.position.x - lastPosition.x, transform.position.y - lastPosition.y);
-		}
-
->>>>>>> origin/master
 		if (lastPosition.x != transform.position.x && lastPosition.y != transform.position.y) {
 			lastPosition = transform.position;
 		}
 		*/
 
-<<<<<<< HEAD
 		if (astar != null && astar.path != null) {
 			Vector2 newPosition = astar.getNextPathPoint();
 			//print ("New: " + newPosition + " Current: " + transform.position);
 			movementDelta = new Vector2(newPosition.x - transform.position.x, newPosition.y - transform.position.y);
 		}
 
-=======
->>>>>>> origin/master
 		direction = getDirection();
 	}
 
@@ -137,12 +119,8 @@ public class UnitMovement : MonoBehaviour
 
 
 
-<<<<<<< HEAD
 	public Direction getDirection(){
 
-=======
-	public int getDirection(){
->>>>>>> origin/master
 		//Palauttaa suunnan mihin unitti on suuntaamassa.
 		//	
 		//		 8	 7   6
@@ -157,7 +135,6 @@ public class UnitMovement : MonoBehaviour
 		float qrt = Mathf.PI*2 / 16;
 
 		if(movementAngle > 0f && movementAngle < qrt || movementAngle > qrt*15 && movementAngle < qrt*16){
-<<<<<<< HEAD
 			return Direction.W;
 		}else if(movementAngle > qrt && movementAngle < qrt*3){
 			return Direction.SW;
@@ -177,27 +154,6 @@ public class UnitMovement : MonoBehaviour
 
 		//Palauttaa oletuksena Länsisuunnan.
 		return Direction.W;
-=======
-			return 1;
-		}else if(movementAngle > qrt && movementAngle < qrt*3){
-			return 2;
-		}else if(movementAngle > qrt*3 && movementAngle < qrt*5){
-			return 3;
-		}else if(movementAngle > qrt*5 && movementAngle < qrt*7){
-			return 4;
-		}else if(movementAngle > qrt*7 && movementAngle < qrt*9){
-			return 5;
-		}else if(movementAngle > qrt*9 && movementAngle < qrt*11){
-			return 6;
-		}else if(movementAngle > qrt*11 && movementAngle < qrt*13){
-			return 7;
-		}else if(movementAngle > qrt*13 && movementAngle < qrt*15){
-			return 8;
-		}
-
-		//Palautata oletuksena LÃ¤nsisuunnan.
-		return 0;
->>>>>>> origin/master
 
 	}
 }
