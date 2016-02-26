@@ -35,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
+
         //Hiiren vasen nappi.
         if (Input.GetMouseButtonDown(0))
         {

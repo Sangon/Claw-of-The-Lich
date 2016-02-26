@@ -19,7 +19,7 @@ public class UnitMovement : MonoBehaviour
     };
 	
 	private Vector2 movementDelta = Vector2.zero;
-	private	Vector2 lastPosition = Vector2.zero;
+	//private Vector2 lastPosition = Vector2.zero;
 	public Direction direction = Direction.NE;
 
     public void Start()

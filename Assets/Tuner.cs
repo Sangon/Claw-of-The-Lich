@@ -32,4 +32,6 @@ public class Tuner : MonoBehaviour
     public static readonly float enemyAgroRange = 1000.0f;
 
     public static readonly float PARTY_SPACING = 100.0f;
+
+    public static readonly float PATHFINDING_MINIMUM_DISTANCE = 20.0f;
 }

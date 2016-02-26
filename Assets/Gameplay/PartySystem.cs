@@ -73,7 +73,7 @@ public class PartySystem : MonoBehaviour {
         print("Character#" + characterNumber + " selected.");
         selectedCharacters[selectedCharacters.Count - 1].GetComponent<SpriteRenderer>().color = Color.black;
         Camera.main.gameObject.transform.parent = selectedCharacters[selectedCharacters.Count - 1].transform;
-        Camera.main.transform.position = new Vector3(Camera.main.transform.parent.position.x, Camera.main.transform.parent.position.y, -5.0f);
+        Camera.main.transform.position = new Vector3(Camera.main.transform.parent.position.x, Camera.main.transform.parent.position.y, -5000);
     }
 
     // Update is called once per frame

@@ -136,6 +136,9 @@ namespace Tiled2Unity
                 bool isTrigger = ImportUtils.GetAttributeAsBoolean(goXml, "isTrigger", isParentTrigger);
                 AddCollidersTo(child, isTrigger, goXml);
 
+                if (child.name.Equals("Collision"))
+                    child.gameObject.layer = 8;
+
                 // Do we have any children of our own?
                 AddGameObjectsTo(child, goXml, isTrigger, objPath, customImporters);
 
