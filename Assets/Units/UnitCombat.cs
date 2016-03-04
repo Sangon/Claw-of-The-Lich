@@ -6,10 +6,12 @@ public class UnitCombat : MonoBehaviour {
 
 
 	//Unitin health
-	public int health;
+	private float health;
+    private float maxHealth;
 
 	//Targetin seurausta varten.
 	public GameObject lockedTarget = null;
+    private HealthBar healthBar = null;
 
 	private float attackRange;
 	private bool attacking = false;
@@ -23,10 +25,13 @@ public class UnitCombat : MonoBehaviour {
 
     void Start () {
 		health = Tuner.UNIT_BASE_HEALTH;
-		attackRange = Tuner.UNIT_BASE_MELEE_RANGE;
+        maxHealth = Tuner.UNIT_BASE_HEALTH;
+        attackRange = Tuner.UNIT_BASE_MELEE_RANGE;
 
-		//TODO: Parempi spellien initialisointi.
-		spellList [0] = new projectile_skill();
+        healthBar = GetComponent<HealthBar>();
+
+        //TODO: Parempi spellien initialisointi.
+        spellList [0] = new projectile_skill();
 		spellList [1] = new projectile_skill();
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
 
@@ -170,11 +175,12 @@ public class UnitCombat : MonoBehaviour {
 		}
 	}
 
-	public void takeDamage(int damage){
+	public void takeDamage(float damage){
 		health -= damage;
+	    healthBar.update(getHealth() / getMaxHealth());
 	}
 
-	public void dealDamage(GameObject enemy, int amount){
+	public void dealDamage(GameObject enemy, float amount){
 
         if (enemy != null) {
             enemy.GetComponent<UnitCombat>().takeDamage(amount);
@@ -183,11 +189,15 @@ public class UnitCombat : MonoBehaviour {
         Debug.Log("DEALT DAMAGE." + enemy + " REMAINING HEALTH:" + enemy.GetComponent<UnitCombat>().getHealth());
 	}
 
-    public int getHealth() {
+    public float getHealth() {
         return health;
     }
+    public float getMaxHealth()
+    {
+        return maxHealth;
+    }
 
-	public void castSpellInSlot(int slot, GameObject unit){
+    public void castSpellInSlot(int slot, GameObject unit){
         if (partySystem.isSelected2(gameObject)){
             spellList[slot].cast(unit);
         }

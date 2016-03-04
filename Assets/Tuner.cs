@@ -8,7 +8,7 @@ public class Tuner : MonoBehaviour
     public static readonly float UNIT_BASE_SPEED = 500.0f;
 
 	//UNIT DEFAULT VALUES
-	public static readonly int UNIT_BASE_HEALTH = 10;
+	public static readonly float UNIT_BASE_HEALTH = 10f;
 	public static readonly float UNIT_BASE_RANGED_RANGE = 200f;
 	public static readonly float UNIT_BASE_MELEE_RANGE = 22*3f;
 
