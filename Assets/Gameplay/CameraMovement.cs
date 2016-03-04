@@ -8,6 +8,7 @@ public class CameraMovement : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        Camera.main.transparencySortMode = TransparencySortMode.Orthographic;
         height = Screen.height;
         width = Screen.width;
     }
@@ -33,6 +34,21 @@ public class CameraMovement : MonoBehaviour {
             Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(0, -Tuner.CAMERA_SCROLLING_SPEED, 0);
         }
         */
-
+        if (Input.GetKey("right"))
+        {
+            Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(Tuner.CAMERA_SCROLLING_SPEED, 0, 0);
+        }
+        if (Input.GetKey("left"))
+        {
+            Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(-Tuner.CAMERA_SCROLLING_SPEED, 0, 0);
+        }
+        if (Input.GetKey("up"))
+        {
+            Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(0, Tuner.CAMERA_SCROLLING_SPEED, 0);
+        }
+        if (Input.GetKey("down"))
+        {
+            Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(0, -Tuner.CAMERA_SCROLLING_SPEED, 0);
+        }
     }
 }

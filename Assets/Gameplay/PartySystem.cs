@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -51,6 +52,8 @@ public class PartySystem : MonoBehaviour {
         selectCharacter(3, true);
         selectCharacter(4, true);
         print("All characters selected");
+        //Camera.main.gameObject.transform.parent = selectedCharacters[0].transform;
+        //Camera.main.transform.position = new Vector3(Camera.main.transform.parent.position.x, Camera.main.transform.parent.position.y, -5000);
     }
 
     private void selectCharacter(int characterNumber, bool add = false)
@@ -83,8 +86,10 @@ public class PartySystem : MonoBehaviour {
         }
         print("Character#" + characterNumber + " selected.");
         selectedCharacters[selectedCharacters.Count - 1].GetComponent<SpriteRenderer>().color = Color.black;
-        Camera.main.gameObject.transform.parent = selectedCharacters[selectedCharacters.Count - 1].transform;
-        Camera.main.transform.position = new Vector3(Camera.main.transform.parent.position.x, Camera.main.transform.parent.position.y, -5000);
+        //if (selectedCharacters.Count < 4)
+            //Camera.main.gameObject.transform.parent = null;
+        //Camera.main.gameObject.transform.parent = selectedCharacters[selectedCharacters.Count - 1].transform;
+        //Camera.main.transform.position = new Vector3(Camera.main.transform.parent.position.x, Camera.main.transform.parent.position.y, -5000);
     }
 
     // Update is called once per frame
