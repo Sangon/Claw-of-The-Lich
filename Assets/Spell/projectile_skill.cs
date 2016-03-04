@@ -3,6 +3,8 @@ using System.Collections;
 
 public class projectile_skill :  Skill{
 
+    private int spellOffSet = 155;
+
 	public projectile_skill(){
 		spellName = "testSpell";
 		skillIcon = null;
@@ -11,7 +13,7 @@ public class projectile_skill :  Skill{
 	public override void cast (GameObject unit){
 		
 		if (currentCooldown == maxCooldown) {
-			Instantiate (Resources.Load (spellName), unit.transform.position, Quaternion.identity);
+			Instantiate (Resources.Load (spellName), unit.transform.position + new Vector3(0,spellOffSet,0), Quaternion.identity);
 			currentCooldown = 0;
 		}
 

@@ -32,6 +32,17 @@ public class PartySystem : MonoBehaviour {
         return -1;
     }
 
+    //Palauttaa true/false riippuen onko parametrinä annettu hahmo valittuna vai ei.
+    public bool isSelected2(GameObject character) {
+
+        foreach (GameObject c in selectedCharacters)
+        {
+            if (c == character)
+                return true;
+        }
+        return false;
+    }
+
     private void selectAll()
     {
         selectedCharacters.Clear();

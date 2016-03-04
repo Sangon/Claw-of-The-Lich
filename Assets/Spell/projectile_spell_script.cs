@@ -17,7 +17,7 @@ public class projectile_spell_script : Spell {
 		castLocation = getCurrentMousePos();
 		dir = new Vector2 (castLocation.x - transform.position.x, castLocation.y - transform.position.y);
 		Destroy (gameObject,2f);
-	}
+    }
 	
 
 	void FixedUpdate () {
@@ -36,9 +36,6 @@ public class projectile_spell_script : Spell {
 		//Tee damagea ympärille
 		GameObject[] hostileList = GameObject.FindGameObjectsWithTag("Hostile");
 		List<GameObject> targetList = new List<GameObject>();
-
-		//GameObject[] neutralList = GameObject.FindGameObjectsWithTag("Neutral");
-		//targetList.AddRange (neutralList);
 
 		targetList.AddRange (hostileList);
 

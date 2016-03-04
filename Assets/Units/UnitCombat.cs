@@ -13,22 +13,24 @@ public class UnitCombat : MonoBehaviour {
 
 	private float attackRange;
 	private bool attacking = false;
-	private int attackTimer = 60;
-	private int maxAttackTimer = 60;
-	private int attackPoint = 30;
+	private int attackTimer = 30;
+	private int maxAttackTimer = 30;
+	private int attackPoint = 15;
 
 	//TODO: Parempi spellilista
 	private Skill[] spellList = new Skill[2];
+    private PartySystem partySystem;
 
-	void Start () {
+    void Start () {
 		health = Tuner.UNIT_BASE_HEALTH;
 		attackRange = Tuner.UNIT_BASE_MELEE_RANGE;
 
 		//TODO: Parempi spellien initialisointi.
 		spellList [0] = new projectile_skill();
 		spellList [1] = new projectile_skill();
+        partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
 
-	}
+    }
 
 	RaycastHit2D[] hits;
 
@@ -38,45 +40,39 @@ public class UnitCombat : MonoBehaviour {
 			Destroy(gameObject);
 		}
 
-		if(lockedTarget != null){
-			
-			if (!inRange(lockedTarget)) {
-				GetComponent<UnitMovement>().moveTo(lockedTarget.transform.position);
-			}else{
-				GetComponent<UnitMovement>().stop();
-				startAttack();
-			}
-
-		}
-
-		//Debug.Log (attackAngle);
-		//Debug.DrawLine(transform.position, new Vector3(transform.position.x + GetComponent<UnitMovement>().getMovementDelta().x*10,transform.position.y + GetComponent<UnitMovement>().getMovementDelta().y*10,0));
-		//Debug.Log("DIR: " + GetComponent<UnitMovement>().getDirection());
-
+        if (lockedTarget != null)
+        {
+            if (!inRange(lockedTarget) && !attacking)
+            {
+                GetComponent<UnitMovement>().moveTo(lockedTarget.transform.position);
+            }else{
+                startAttack();
+            }
+        }
+        
 		if(attacking){
 
 			//Nappaa targetit v‰h‰n ennen kuin tekee damage, est‰‰ sit‰ ett‰ targetit kerke‰‰ juosta rangesta pois joka kerta jos ne juoksee karkuun.
 
-			if(attackTimer == Mathf.Floor(maxAttackTimer*0.9f)){
+			if(attackTimer == maxAttackTimer) {//Mathf.Floor(maxAttackTimer*0.9f)){
 				hits = getUnitsInMelee(GetComponent<UnitMovement>().direction);
-
 			}
-
 
 			attackTimer--;
 
-
-			if(attackTimer >= maxAttackTimer){
-				stopAttack();
+			if(attackTimer <= 0){
+                resetAttack();
 			}
-
+            Debug.Log(attackTimer);
 			//Tehd‰‰n damage, otetaan kaikki targetit jotka olivat rangessa ja niihin damage.
 			if(attackTimer == attackPoint){
 				
 				if (hits != null) {
 					foreach (RaycastHit2D hit in hits) {
-						hit.collider.GetComponent<UnitCombat>().takeDamage(10);
+                        if(hit.collider.GetComponent<UnitCombat>() != null)
+                            dealDamage(hit.collider.gameObject,10);
 					}
+                    hits = null;
 				}
 
 			}
@@ -94,27 +90,26 @@ public class UnitCombat : MonoBehaviour {
 	}
 
 	public void attackClosestTargetToPoint(Vector2 hit){
-		
-		List<GameObject> targetList = new List<GameObject>();
 
-		//Hakee kaikki mobit Hostile tagill‰ ja lis‰‰ ne potentiaalisten vihollisten listaan.
-		GameObject[] hostileList = GameObject.FindGameObjectsWithTag("Hostile");
-		targetList.AddRange (hostileList);
+        if (partySystem.isSelected2(gameObject)) {
+            List<GameObject> targetList = new List<GameObject>();
 
-		//NYI: bugaa ihan huolella jostaki syyst‰
-		//GameObject[] neutralList = GameObject.FindGameObjectsWithTag("Neutral");
-		//targetList.AddRange (neutralList);
+            //Hakee kaikki mobit Hostile tagill‰ ja lis‰‰ ne potentiaalisten vihollisten listaan.
+            GameObject[] hostileList = GameObject.FindGameObjectsWithTag("Hostile");
+            targetList.AddRange(hostileList);
 
-		//Laskee kuka potentiaalisten vihollisten listasta on l‰himp‰n‰ ja lockinnaa siihen.
-		float distance = Mathf.Infinity;
-		foreach(GameObject g in targetList){
-			float currentDistance = Vector3.Distance(g.transform.position,hit);
+            //Laskee kuka potentiaalisten vihollisten listasta on l‰himp‰n‰ ja lockinnaa siihen.
+            float distance = Mathf.Infinity;
+            foreach (GameObject g in targetList) {
+                float currentDistance = Vector3.Distance(g.transform.position, hit);
 
-			if(currentDistance < distance){
-				lockedTarget = g;
-				distance = currentDistance;
-			}
-		}
+                if (currentDistance < distance) {
+                    lockedTarget = g;
+                    distance = currentDistance;
+                }
+            }
+        }
+
 	}
 
 	public GameObject getClosestTargetToPoint(Vector2 hit){
@@ -139,12 +134,19 @@ public class UnitCombat : MonoBehaviour {
 	}
 		
 	public void startAttack(){
-		attacking = true;
+        GetComponent<UnitMovement>().stop();
+        attacking = true;
 	}
 
+    public void resetAttack() {
+        attacking = false;
+        attackTimer = maxAttackTimer;
+    }
+
 	public void stopAttack(){
+        lockedTarget = null;
 		attacking = false;
-		attackTimer = 60;
+		attackTimer = maxAttackTimer;
 	}
 
 	//Hakee et‰isyyden t‰m‰n ja parametrin‰ annetun unitin v‰lill‰.
@@ -154,10 +156,11 @@ public class UnitCombat : MonoBehaviour {
 
 	//Tarkastaa nyt vain jos kyseinen kohde on attack rangen sis‰ll‰. Tarkistukset siit‰ jos vihollinen on liian kaukana en‰‰n seuraamiseen pit‰‰ tehd‰ itse.
 	public bool inRange(GameObject target){
+
 		//Asettaa vaan ranged unitille pidemm‰n rangen, LOS tarkistukset voi tehd‰ vaikka jokasen mobin omassa scriptiss‰, tai luoda uuden function t‰nne tarkistusta varten.
 		if (target != null) {
-			if (Vector2.Distance (transform.position, lockedTarget.transform.position) < attackRange){
-			    lockedTarget = null;
+
+			if (getRange(target) < attackRange){
 				return true;
 			} else {
 				return false;
@@ -172,33 +175,45 @@ public class UnitCombat : MonoBehaviour {
 	}
 
 	public void dealDamage(GameObject enemy, int amount){
-		enemy.GetComponent<UnitCombat>().takeDamage(amount);
+
+        if (enemy != null) {
+            enemy.GetComponent<UnitCombat>().takeDamage(amount);
+        }
+
+        Debug.Log("DEALT DAMAGE." + enemy + " REMAINING HEALTH:" + enemy.GetComponent<UnitCombat>().getHealth());
 	}
 
+    public int getHealth() {
+        return health;
+    }
+
 	public void castSpellInSlot(int slot, GameObject unit){
-		spellList[slot].cast(unit);
+        if (partySystem.isSelected2(gameObject)){
+            spellList[slot].cast(unit);
+        }
 	}
 
 
 	//Haetaan meleerangessa olevat viholliset ja tehd‰‰n juttuja.
 	public RaycastHit2D[] getUnitsInMelee(UnitMovement.Direction dir){
+        int mod = 3;
 
-		if(dir == UnitMovement.Direction.W){
-			return Physics2D.RaycastAll(new Vector3(transform.position.x - 20, transform.position.y + 10,0),new Vector3(transform.position.x - 20, transform.position.y - 10,0));
+        if (dir == UnitMovement.Direction.W){
+			return Physics2D.RaycastAll(new Vector3(transform.position.x - 20 * mod, transform.position.y + 10 * mod, 0),new Vector3(transform.position.x - 20 * mod, transform.position.y - 10 * mod, 0));
 		}else if(dir == UnitMovement.Direction.SW){
-			return Physics2D.RaycastAll(new Vector3(transform.position.x - 30, transform.position.y - 5,0),new Vector3(transform.position.x - 5, transform.position.y - 20,0));
+			return Physics2D.RaycastAll(new Vector3(transform.position.x - 30 * mod, transform.position.y - 5 * mod, 0),new Vector3(transform.position.x - 5 * mod, transform.position.y - 20 * mod, 0));
 		}else if(dir == UnitMovement.Direction.S){
-			return Physics2D.RaycastAll(new Vector3(transform.position.x - 10, transform.position.y - 20,0),new Vector3(transform.position.x + 10, transform.position.y - 20,0));
+			return Physics2D.RaycastAll(new Vector3(transform.position.x - 10 * mod, transform.position.y - 20 * mod, 0),new Vector3(transform.position.x + 10 * mod, transform.position.y - 20 * mod, 0));
 		}else if(dir == UnitMovement.Direction.SE){
-			return Physics2D.RaycastAll(new Vector3(transform.position.x + 30, transform.position.y - 5,0),new Vector3(transform.position.x + 5, transform.position.y - 20,0));
+			return Physics2D.RaycastAll(new Vector3(transform.position.x + 30 * mod, transform.position.y - 5 * mod, 0),new Vector3(transform.position.x + 5 * mod, transform.position.y - 20 * mod, 0));
 		}else if(dir == UnitMovement.Direction.E){
-			return Physics2D.RaycastAll(new Vector3(transform.position.x + 20, transform.position.y + 10,0),new Vector3(transform.position.x + 20, transform.position.y - 10,0));
+			return Physics2D.RaycastAll(new Vector3(transform.position.x + 20 * mod, transform.position.y + 10 * mod, 0),new Vector3(transform.position.x + 20 * mod, transform.position.y - 10 * mod, 0));
 		}else if(dir == UnitMovement.Direction.NE){
-			return Physics2D.RaycastAll(new Vector3(transform.position.x + 30, transform.position.y + 5,0),new Vector3(transform.position.x + 5, transform.position.y + 20,0));
+			return Physics2D.RaycastAll(new Vector3(transform.position.x + 30 * mod, transform.position.y + 5 * mod, 0),new Vector3(transform.position.x + 5 * mod, transform.position.y + 20 * mod, 0));
 		}else if(dir == UnitMovement.Direction.N){
-			return Physics2D.RaycastAll(new Vector3(transform.position.x - 10, transform.position.y + 20,0),new Vector3(transform.position.x + 10, transform.position.y + 20,0));
+			return Physics2D.RaycastAll(new Vector3(transform.position.x - 10 * mod, transform.position.y + 20 * mod, 0),new Vector3(transform.position.x + 10 * mod, transform.position.y + 20 * mod, 0));
 		}else if(dir == UnitMovement.Direction.NW){
-			return Physics2D.RaycastAll(new Vector3(transform.position.x - 30, transform.position.y + 5,0),new Vector3(transform.position.x - 5, transform.position.y + 20,0));
+			return Physics2D.RaycastAll(new Vector3(transform.position.x - 30 * mod, transform.position.y + 5 * mod, 0),new Vector3(transform.position.x - 5 * mod, transform.position.y + 20 * mod, 0));
 		}
 
 		return null;
@@ -207,24 +222,25 @@ public class UnitCombat : MonoBehaviour {
 
 	//Debuggaamista varten melee raycastit.
 	public void DebugRay(UnitMovement.Direction dir){
-
-		if(dir == UnitMovement.Direction.W){
-			Debug.DrawLine(new Vector3(transform.position.x - 20 * 10, transform.position.y + 10 * 10, 0),new Vector3(transform.position.x - 20 * 10, transform.position.y - 10 * 10, 0));
+        int mod = 3;
+        if (dir == UnitMovement.Direction.W){
+			Debug.DrawLine(new Vector3(transform.position.x - 20 * mod, transform.position.y + 10 * mod, 0),new Vector3(transform.position.x - 20 * mod, transform.position.y - 10 * mod, 0));
 		}else if(dir == UnitMovement.Direction.SW){
-			Debug.DrawLine(new Vector3(transform.position.x - 30 * 10, transform.position.y - 5 * 10, 0),new Vector3(transform.position.x - 5 * 10, transform.position.y - 20 * 10, 0));
+			Debug.DrawLine(new Vector3(transform.position.x - 30 * mod, transform.position.y - 5 * mod, 0),new Vector3(transform.position.x - 5 * mod, transform.position.y - 20 * mod, 0));
 		}else if(dir == UnitMovement.Direction.S){
-			Debug.DrawLine(new Vector3(transform.position.x - 10 * 10, transform.position.y - 20 * 10, 0),new Vector3(transform.position.x + 10 * 10, transform.position.y - 20 * 10, 0));
+			Debug.DrawLine(new Vector3(transform.position.x - 10 * mod, transform.position.y - 20 * mod, 0),new Vector3(transform.position.x + 10 * mod, transform.position.y - 20 * mod, 0));
 		}else if(dir == UnitMovement.Direction.SE){
-			Debug.DrawLine(new Vector3(transform.position.x + 30 * 10, transform.position.y - 5 * 10, 0),new Vector3(transform.position.x + 5 * 10, transform.position.y - 20 * 10, 0));
+			Debug.DrawLine(new Vector3(transform.position.x + 30 * mod, transform.position.y - 5 * mod, 0),new Vector3(transform.position.x + 5 * mod, transform.position.y - 20 * mod, 0));
 		}else if(dir == UnitMovement.Direction.E){
-			Debug.DrawLine(new Vector3(transform.position.x + 20 * 10, transform.position.y + 10 * 10, 0),new Vector3(transform.position.x + 20 * 10, transform.position.y - 10 * 10, 0));
+			Debug.DrawLine(new Vector3(transform.position.x + 20 * mod, transform.position.y + 10 * mod, 0),new Vector3(transform.position.x + 20 * mod, transform.position.y - 10 * mod, 0));
 		}else if(dir == UnitMovement.Direction.NE){
-			Debug.DrawLine(new Vector3(transform.position.x + 30 * 10, transform.position.y + 5 * 10, 0),new Vector3(transform.position.x + 5 * 10, transform.position.y + 20 * 10, 0));
+			Debug.DrawLine(new Vector3(transform.position.x + 30 * mod, transform.position.y + 5 * mod, 0),new Vector3(transform.position.x + 5 * mod, transform.position.y + 20 * mod, 0));
 		}else if(dir == UnitMovement.Direction.N){
-			Debug.DrawLine(new Vector3(transform.position.x - 10 * 10, transform.position.y + 20 * 10, 0),new Vector3(transform.position.x + 10 * 10, transform.position.y + 20 * 10, 0));
+			Debug.DrawLine(new Vector3(transform.position.x - 10 * mod, transform.position.y + 20 * mod, 0),new Vector3(transform.position.x + 10 * mod, transform.position.y + 20 * mod, 0));
 		}else if(dir == UnitMovement.Direction.NW){
-			Debug.DrawLine(new Vector3(transform.position.x - 30 * 10, transform.position.y + 5 * 10, 0),new Vector3(transform.position.x - 5 * 10, transform.position.y + 20 * 10, 0));
+			Debug.DrawLine(new Vector3(transform.position.x - 30 * mod, transform.position.y + 5 * mod, 0),new Vector3(transform.position.x - 5 * mod, transform.position.y + 20 * mod, 0));
 		}
 	}
+
 
 }

@@ -65,7 +65,10 @@ public class PlayerMovement : MonoBehaviour
                 //FMODUnity.RuntimeManager.PlayOneShot("event:/walk", transform.position);
                 groupID = partySystem.isSelected(this.gameObject);
                 if (groupID != -1)
+                {
+                    unitCombat.stopAttack();
                     unitMovement.moveTo(hit.point, groupID);
+                }
                 pathfindingTimer = Time.fixedDeltaTime*2.0f;
             }
         }
@@ -73,9 +76,6 @@ public class PlayerMovement : MonoBehaviour
         //Hiiren oikea nappi.
         if (pathfindingTimer <= 0 && Input.GetMouseButton(1))
         {
-            //unitMovement.stop();
-
-            //TODO: Etsii lähimmän kohteen ja lockkaa siihen.
             unitCombat.attackClosestTargetToPoint(hit.point);
         }
         pathfindingTimer -= Time.fixedDeltaTime;
