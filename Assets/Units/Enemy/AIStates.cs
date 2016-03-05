@@ -11,13 +11,13 @@ public class AIStates : MonoBehaviour
     };
 
     private State currentState = State.Idle;
-    private UnitMovement unitMovement = null;
-    private UnitCombat unitCombat = null;
+    //private UnitMovement unitMovement = null;
+    //private UnitCombat unitCombat = null;
 
     void Start()
     {
-        unitMovement = GetComponent<UnitMovement>();
-        unitCombat = GetComponent<UnitCombat>();
+        //unitMovement = GetComponent<UnitMovement>();
+        //unitCombat = GetComponent<UnitCombat>();
     }
 
     void UpdateState()

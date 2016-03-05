@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
         Vector2 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.S))
         {
             unitMovement.stop();
         }
@@ -63,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
             if (hit.collider != null)
             {
                 //FMODUnity.RuntimeManager.PlayOneShot("event:/walk", transform.position);
-                groupID = partySystem.isSelected(this.gameObject);
+                groupID = partySystem.getGroupID(this.gameObject);
                 if (groupID != -1)
                 {
                     unitCombat.stopAttack();

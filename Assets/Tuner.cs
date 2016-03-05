@@ -4,6 +4,9 @@ using System.Collections;
 
 public class Tuner : MonoBehaviour
 {
+    //GAME LOGIC DEFAULT VALEUS
+    public static readonly int FPS_TARGET_FRAME_RATE = 120;
+
 	//PLAYER DEFAULT VALUES
     public static readonly float UNIT_BASE_SPEED = 500f;
 

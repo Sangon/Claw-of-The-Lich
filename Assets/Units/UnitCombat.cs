@@ -34,9 +34,8 @@ public class UnitCombat : MonoBehaviour
         maxHealth = Tuner.UNIT_BASE_HEALTH;
         attackRange = (isMelee) ? Tuner.UNIT_BASE_MELEE_RANGE : Tuner.UNIT_BASE_RANGED_RANGE;
 
-        //TODO: Parempi spellien initialisointi.
-        spellList[0] = new projectile_skill();
-        spellList[1] = new projectile_skill();
+        spellList[0] = ScriptableObject.CreateInstance("projectile_skill") as projectile_skill;
+        spellList[1] = ScriptableObject.CreateInstance("projectile_skill") as projectile_skill;
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
         unitMovement = GetComponent<UnitMovement>();
         healthBar = GetComponent<HealthBar>();
@@ -54,7 +53,6 @@ public class UnitCombat : MonoBehaviour
 
     void FixedUpdate()
     {
-
         checkForDeath();
 
         if (lockedTarget != null)
@@ -62,7 +60,6 @@ public class UnitCombat : MonoBehaviour
             if (!inRange(lockedTarget) && !attacking)
             {
                 unitMovement.moveTo(lockedTarget.transform.position);
-                print("moving");
             }
             else if (inRange(lockedTarget))
             {
@@ -78,7 +75,7 @@ public class UnitCombat : MonoBehaviour
                 if (isMelee)
                     hits = getUnitsInMelee(unitMovement.direction);
                 else
-                    print("TODO: Ranged attack.");
+                    hits = null; // TODO: Ranged attack!
             }
 
             attackTimer--;
@@ -120,7 +117,7 @@ public class UnitCombat : MonoBehaviour
     public void attackClosestTargetToPoint(Vector2 hit)
     {
 
-        if (partySystem.isSelected2(gameObject))
+        if (partySystem.getGroupID(gameObject) != -1)
         {
             List<GameObject> targetList = new List<GameObject>();
 
@@ -242,15 +239,20 @@ public class UnitCombat : MonoBehaviour
             return false;
         }
     }
-
+    //Can also be used to heal with negative argument
     public void takeDamage(float damage)
     {
-        health -= damage;
+        if ((health - damage) > maxHealth)
+            health = maxHealth;
+        else
+            health -= damage;
+
         checkForDeath();
+
         if (healthBar != null)
             healthBar.update(getHealth() / getMaxHealth());
     }
-
+    //Can also be used to heal with negative argument
     public void dealDamage(GameObject enemy, float amount)
     {
 
@@ -259,12 +261,24 @@ public class UnitCombat : MonoBehaviour
             enemy.GetComponent<UnitCombat>().takeDamage(amount);
         }
 
-        Debug.Log("DEALT DAMAGE." + enemy + " REMAINING HEALTH:" + enemy.GetComponent<UnitCombat>().getHealth());
+        //Debug.Log("DEALT DAMAGE." + enemy + " REMAINING HEALTH:" + enemy.GetComponent<UnitCombat>().getHealth());
     }
 
     public float getHealth()
     {
         return health;
+    }
+    public void setHealth(float hp)
+    {
+        health = hp;
+        if (healthBar != null)
+            healthBar.update(getHealth() / getMaxHealth());
+    }
+    public void resetHealth()
+    {
+        health = maxHealth;
+        if (healthBar != null)
+            healthBar.update(getHealth() / getMaxHealth());
     }
     public float getMaxHealth()
     {
@@ -277,7 +291,7 @@ public class UnitCombat : MonoBehaviour
 
     public void castSpellInSlot(int slot, GameObject unit)
     {
-        if (partySystem.isSelected2(gameObject))
+        if (partySystem.getGroupID(gameObject) != -1)
         {
             spellList[slot].cast(unit);
         }
@@ -305,8 +319,8 @@ public class UnitCombat : MonoBehaviour
                 float attackAngle = Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg;
                 if (Mathf.Abs((unitMovement.getFacingAngle()) - attackAngle) < 45f)
                     hostilesInRange.Add(hostile);
-                print(Mathf.Abs((unitMovement.getFacingAngle()) - attackAngle));
-                print("facingAngle: " + (unitMovement.getFacingAngle()) + " attackAngle: " + attackAngle);
+                //print(Mathf.Abs((unitMovement.getFacingAngle()) - attackAngle));
+                //print("facingAngle: " + (unitMovement.getFacingAngle()) + " attackAngle: " + attackAngle);
             }
         }
         /*

@@ -13,19 +13,18 @@ public class PartySystem : MonoBehaviour
     public List<GameObject> selectedCharacters;
     public List<GameObject> characters;
 
-    private CameraMovement cameraMovement = null;
+    private CameraScripts cameraScripts = null;
 
     // Use this for initialization
     void Start()
     {
-        cameraMovement = Camera.main.GetComponent<CameraMovement>();
+        cameraScripts = Camera.main.GetComponent<CameraScripts>();
         updateCharacterList();
         character1 = characters[0];
         character2 = characters[1];
         character3 = characters[2];
         character4 = characters[3];
         selectAll();
-
     }
 
     public GameObject getFirstSelectedCharacter()
@@ -51,7 +50,7 @@ public class PartySystem : MonoBehaviour
     }
 
     // Returns -1 if the character is not selected, otherwise returns the index of the character in the selectedCharacters list
-    public int isSelected(GameObject character)
+    public int getGroupID(GameObject character)
     {
         int groupID = 0;
         foreach (GameObject c in selectedCharacters)
@@ -63,18 +62,6 @@ public class PartySystem : MonoBehaviour
         return -1;
     }
 
-    //Palauttaa true/false riippuen onko parametrinä annettu hahmo valittuna vai ei.
-    public bool isSelected2(GameObject character)
-    {
-
-        foreach (GameObject c in selectedCharacters)
-        {
-            if (c == character)
-                return true;
-        }
-        return false;
-    }
-
     private void selectAll()
     {
         selectedCharacters.Clear();
@@ -82,22 +69,13 @@ public class PartySystem : MonoBehaviour
         selectCharacter(2, true);
         selectCharacter(3, true);
         selectCharacter(4, true);
-        print("All characters selected");
+        //print("All characters selected");
         //Camera.main.gameObject.transform.parent = selectedCharacters[0].transform;
         //Camera.main.transform.position = new Vector3(Camera.main.transform.parent.position.x, Camera.main.transform.parent.position.y, -5000);
     }
 
     private void selectCharacter(int characterNumber, bool add = false)
     {
-        if (!add)
-        {
-            foreach (GameObject c in selectedCharacters)
-            {
-                if (c != null)
-                    c.GetComponent<SpriteRenderer>().color = Color.white;
-            }
-            selectedCharacters.Clear();
-        }
         GameObject character = null;
         switch (characterNumber)
         {
@@ -117,23 +95,34 @@ public class PartySystem : MonoBehaviour
                 print("ERROR! selectCharacter(): characterNumber must be 1 - 4!");
                 return;
         }
-
         if (character != null)
         {
-            if (add && isSelected(character) != -1)
+            if (!add)
+            {
+                foreach (GameObject c in selectedCharacters)
+                {
+                    if (c != null)
+                        c.GetComponent<SpriteRenderer>().color = Color.white;
+                }
+                selectedCharacters.Clear();
+            }
+            if (add && getGroupID(character) != -1)
             {
                 selectedCharacters.Remove(character);
                 character.GetComponent<SpriteRenderer>().color = Color.white;
-                print("Character#" + characterNumber + " deselected.");
+                //print("Character#" + characterNumber + " deselected.");
             }
             else {
                 selectedCharacters.Add(character);
                 character.GetComponent<SpriteRenderer>().color = Color.black;
-                print("Character#" + characterNumber + " selected.");
+                //print("Character#" + characterNumber + " selected.");
             }
+        } else
+        {
+            selectedCharacters.Remove(character);
         }
 
-        cameraMovement.updateTarget();
+        cameraScripts.updateTarget();
         //if (selectedCharacters.Count < 4)
         //Camera.main.gameObject.transform.parent = null;
         //Camera.main.gameObject.transform.parent = selectedCharacters[selectedCharacters.Count - 1].transform;

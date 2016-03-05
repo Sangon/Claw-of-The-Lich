@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class projectile_skill :  Skill{
+public class projectile_skill : Skill {
 
     private int spellOffSet = 155;
 

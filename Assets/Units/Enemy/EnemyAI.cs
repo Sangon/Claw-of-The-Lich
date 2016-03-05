@@ -5,13 +5,13 @@ public class EnemyAI : MonoBehaviour
 {
     private float timeStamp;
 
-    private UnitMovement unitMovement = null;
+    //private UnitMovement unitMovement = null;
     private UnitCombat unitCombat = null;
     private PartySystem partySystem = null;
 
     void Start()
     {
-        unitMovement = GetComponent<UnitMovement>();
+        //unitMovement = GetComponent<UnitMovement>();
         unitCombat = GetComponent<UnitCombat>();
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
     }
