@@ -6,8 +6,14 @@ public class CameraMovement : MonoBehaviour {
     private int height;
     private int width;
 
+    private PartySystem partySystem = null;
+
+    private bool followTargets = true;
+    private Transform target;
+
 	// Use this for initialization
 	void Start () {
+        partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
         Camera.main.transparencySortMode = TransparencySortMode.Orthographic;
         height = Screen.height;
         width = Screen.width;
@@ -34,21 +40,57 @@ public class CameraMovement : MonoBehaviour {
             Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(0, -Tuner.CAMERA_SCROLLING_SPEED, 0);
         }
         */
-        if (Input.GetKey("right"))
+        if (Input.GetKey(KeyCode.RightArrow))
         {
             Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(Tuner.CAMERA_SCROLLING_SPEED, 0, 0);
         }
-        if (Input.GetKey("left"))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
             Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(-Tuner.CAMERA_SCROLLING_SPEED, 0, 0);
         }
-        if (Input.GetKey("up"))
+        if (Input.GetKey(KeyCode.UpArrow))
         {
             Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(0, Tuner.CAMERA_SCROLLING_SPEED, 0);
         }
-        if (Input.GetKey("down"))
+        if (Input.GetKey(KeyCode.DownArrow))
         {
             Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(0, -Tuner.CAMERA_SCROLLING_SPEED, 0);
         }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            toggleLock();
+        }
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            HealthBar[] healthBars = FindObjectsOfType(typeof(HealthBar)) as HealthBar[];
+            foreach (HealthBar bar in healthBars)
+            {
+                bar.toggleVisibility();
+            }
+        }
+    }
+
+    private void toggleLock()
+    {
+        followTargets = !followTargets;
+        updateTarget();
+    }
+    public void updateTarget()
+    {
+        if (followTargets && !partySystem.noneSelected())
+        {
+            Camera.main.transform.parent = partySystem.getFirstSelectedCharacter().transform;
+            if (Camera.main.transform.parent != null)
+                Camera.main.transform.position = new Vector3(Camera.main.transform.parent.position.x, Camera.main.transform.parent.position.y, -5000);
+        }
+        else
+            Camera.main.transform.parent = null;
+    }
+
+    void OnGUI()
+    {
+        GUI.Label(new Rect(10, 30, 300, 20), "Press F to Toggle Camera Lock to Selection");
+        GUI.Label(new Rect(10, 50, 300, 20), "Press V to Toggle Show Healthbars");
+        GUI.Label(new Rect(10, 70, 300, 20), "Press (Shift +) Num to (De)select a Character");
     }
 }

@@ -18,8 +18,6 @@ public class AstarAI : MonoBehaviour
 
     private int groupID = 0;
 
-    private int obstaclesLayer = 1 << 8;
-
     public void Start()
     {
         seeker = GetComponent<Seeker>();
@@ -49,8 +47,14 @@ public class AstarAI : MonoBehaviour
     public Vector2 getNextPathPoint()
     {
         if (path != null)
-            return path.vectorPath[currentWaypoint];
-        return Vector2.zero;
+        {
+            Vector2 pathPoint = new Vector2(path.vectorPath[currentWaypoint].x, path.vectorPath[currentWaypoint].y);
+            Vector2 curPos = new Vector2(transform.position.x, transform.position.y);
+            if (pathPoint.Equals(curPos))
+                return new Vector2(path.vectorPath[currentWaypoint+1].x, path.vectorPath[currentWaypoint+1].y);
+            return pathPoint;
+        }
+        return Vector3.zero;
     }
 
     public void onPathComplete(Path p)
@@ -72,7 +76,7 @@ public class AstarAI : MonoBehaviour
 
             bool directPath = false;
 
-            RaycastHit2D hit = Physics2D.Linecast(new Vector3(transform.position.x, transform.position.y, 0), targetPosition, obstaclesLayer);
+            RaycastHit2D hit = Physics2D.Linecast(new Vector3(transform.position.x, transform.position.y, 0), targetPosition, Tuner.LAYER_OBSTACLES);
             if (hit.collider == null)
             {
                 //Debug.Log("Suora yhteys1!");
@@ -82,7 +86,7 @@ public class AstarAI : MonoBehaviour
                 directPath = true;
             }
             else {
-                hit = Physics2D.Linecast(new Vector3(transform.position.x, transform.position.y, 0), lastPoint, obstaclesLayer);
+                hit = Physics2D.Linecast(new Vector3(transform.position.x, transform.position.y, 0), lastPoint, Tuner.LAYER_OBSTACLES);
                 if (hit.collider == null)
                 {
                     //Debug.Log("Suora yhteys2!");
@@ -96,13 +100,13 @@ public class AstarAI : MonoBehaviour
                     {
                         Vector2 startPoint = new Vector3(transform.position.x, transform.position.y, 0);
                         Vector2 endPoint = path.vectorPath[j];
-                        hit = Physics2D.Linecast(startPoint, endPoint, obstaclesLayer);
+                        hit = Physics2D.Linecast(startPoint, endPoint, Tuner.LAYER_OBSTACLES);
                         //Debug.Log("A: " + Vector2.Distance(hit.point, endPoint) + " -- " + endPoint);
                         //Debug.Log("Checking " + currentWaypoint + " " + j);
                         if (hit.collider == null)
                         {
                             startPoint = path.vectorPath[0];
-                            hit = Physics2D.Linecast(startPoint, endPoint, obstaclesLayer);
+                            hit = Physics2D.Linecast(startPoint, endPoint, Tuner.LAYER_OBSTACLES);
                             if (hit.collider == null)
                             {
                                 //Debug.Log("Ei osumaa! " + 0 + " " + j);
@@ -120,7 +124,7 @@ public class AstarAI : MonoBehaviour
                             }
                             else
                             {
-                                hit = Physics2D.Linecast(endPoint, startPoint, obstaclesLayer);
+                                hit = Physics2D.Linecast(endPoint, startPoint, Tuner.LAYER_OBSTACLES);
                                 //Debug.Log("B: " + Vector2.Distance(hit.point, startPoint) + " -- " + startPoint);
                                 if (hit.collider == null)
                                 {
@@ -161,7 +165,7 @@ public class AstarAI : MonoBehaviour
                 {
                     if (path.vectorPath.Count > 1)
                     {
-                        hit = Physics2D.Linecast(new Vector3(transform.position.x, transform.position.y, 0), path.vectorPath[1], obstaclesLayer);
+                        hit = Physics2D.Linecast(new Vector3(transform.position.x, transform.position.y, 0), path.vectorPath[1], Tuner.LAYER_OBSTACLES);
                         if (hit.collider == null)
                         {
                             //Debug.Log("Suora yhteys3!");
@@ -206,7 +210,7 @@ public class AstarAI : MonoBehaviour
             return;
         }
 
-        RaycastHit2D hit = Physics2D.Linecast(new Vector3(transform.position.x, transform.position.y, 0), targetPosition, obstaclesLayer);
+        RaycastHit2D hit = Physics2D.Linecast(new Vector3(transform.position.x, transform.position.y, 0), targetPosition, Tuner.LAYER_OBSTACLES);
         /*
         //TODO: Optimize this!
         if (hit.collider == null)
@@ -233,7 +237,7 @@ public class AstarAI : MonoBehaviour
                 {
                     Vector2 startPoint = path.vectorPath[currentWaypoint - 1];
                     Vector2 endPoint = path.vectorPath[j];
-                    hit = Physics2D.Linecast(startPoint, endPoint, obstaclesLayer);
+                    hit = Physics2D.Linecast(startPoint, endPoint, Tuner.LAYER_OBSTACLES);
                     //Debug.Log("A: " + Vector2.Distance(hit.point, endPoint) + " -- " + endPoint);
                     //Debug.Log("Checking " + currentWaypoint + " " + j);
                     if (hit.collider == null)
@@ -250,7 +254,7 @@ public class AstarAI : MonoBehaviour
                     }
                     else
                     {
-                        hit = Physics2D.Linecast(endPoint, startPoint, obstaclesLayer);
+                        hit = Physics2D.Linecast(endPoint, startPoint, Tuner.LAYER_OBSTACLES);
                         //Debug.Log("B: " + Vector2.Distance(hit.point, startPoint) + " -- " + startPoint);
                         if (hit.collider == null)
                         {
@@ -290,7 +294,7 @@ public class AstarAI : MonoBehaviour
             partyPoint.x = path.vectorPath[path.vectorPath.Count - 1].x + Tuner.PARTY_SPACING * Mathf.Sin((360 - ((120 / i) * groupID)) * Mathf.Deg2Rad);
             partyPoint.y = path.vectorPath[path.vectorPath.Count - 1].y + Tuner.PARTY_SPACING * Mathf.Cos((360 - ((120 / i) * groupID)) * Mathf.Deg2Rad);
 
-            RaycastHit2D hit = Physics2D.Linecast(path.vectorPath[path.vectorPath.Count - 1], partyPoint, obstaclesLayer);
+            RaycastHit2D hit = Physics2D.Linecast(path.vectorPath[path.vectorPath.Count - 1], partyPoint, Tuner.LAYER_OBSTACLES);
             if (hit.collider == null)
             {
                 //Debug.Log("Toimii1 " + targetPosition + " " + partyPoint + " " + i);
@@ -305,7 +309,7 @@ public class AstarAI : MonoBehaviour
             }
             else
             {
-                hit = Physics2D.Linecast(partyPoint, path.vectorPath[path.vectorPath.Count - 1], obstaclesLayer);
+                hit = Physics2D.Linecast(partyPoint, path.vectorPath[path.vectorPath.Count - 1], Tuner.LAYER_OBSTACLES);
                 if (hit.collider == null)
                 {
                     //Debug.Log("Toimii3 " + targetPosition + " " + partyPoint + " " + i);

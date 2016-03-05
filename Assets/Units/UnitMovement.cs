@@ -5,7 +5,8 @@ public class UnitMovement : MonoBehaviour
 {
     private AstarAI astar = null;
     private Animator animator = null;
-	
+    private UnitCombat unitCombat = null;
+
     public enum Direction
     {
         N,
@@ -17,21 +18,33 @@ public class UnitMovement : MonoBehaviour
         W,
         NW
     };
-	
-	private Vector2 movementDelta = Vector2.zero;
-	//private Vector2 lastPosition = Vector2.zero;
-	public Direction direction = Direction.NE;
+
+    private Vector3 newPosition = Vector3.zero;
+    private Vector2 relative = Vector2.zero;
+    public Direction direction = Direction.NE;
+
+    private float facingAngle = 0;
+
+    private bool canTurn = true;
+    private bool isMoving = false;
 
     public void Start()
     {
         astar = GetComponent<AstarAI>();
         animator = GetComponent<Animator>();
+        unitCombat = GetComponent<UnitCombat>();
     }
 
     public void moveTo(Vector2 point, int groupID = 0)
     {
         if (astar != null)
             astar.move(point, groupID);
+    }
+
+    public float getFacingAngle()
+    {
+        getDirection();
+        return facingAngle;
     }
 
     public void stop()
@@ -42,118 +55,141 @@ public class UnitMovement : MonoBehaviour
 
     void Update()
     {
-		if (animator != null && astar != null)
+        if (unitCombat.isAttacking())
+        {
+            //if (canTurn)
+                //animator.Play("Attack");
+            canTurn = false;
+        }
+        else
+            canTurn = true;
+        if (animator != null && astar != null)
         {
             if (astar.path != null)
             {
                 switch (direction)
                 {
                     case Direction.NE:
-					case Direction.N:
+                    case Direction.N:
                         animator.Play("Walk_NE");
                         break;
                     case Direction.SE:
-					case Direction.E:
+                    case Direction.E:
                         animator.Play("Walk_SE");
                         break;
                     case Direction.SW:
-					case Direction.S:
+                    case Direction.S:
                         animator.Play("Walk_SW");
                         break;
                     case Direction.NW:
-					case Direction.W:
+                    case Direction.W:
                         animator.Play("Walk_NW");
                         break;
                 }
             }
-			else
+            else
             {
-				switch (direction)
+                switch (direction)
                 {
-				case Direction.NE:
-				case Direction.N:
+                    case Direction.NE:
+                    case Direction.N:
                         animator.Play("Idle_NE");
                         break;
-				case Direction.SE:
-				case Direction.E:
+                    case Direction.SE:
+                    case Direction.E:
                         animator.Play("Idle_SE");
                         break;
-				case Direction.SW:
-				case Direction.S:
+                    case Direction.SW:
+                    case Direction.S:
                         animator.Play("Idle_SW");
                         break;
-				case Direction.NW:
-				case Direction.W:
+                    case Direction.NW:
+                    case Direction.W:
                         animator.Play("Idle_NW");
                         break;
                 }
             }
         }
     }
-	
-	void FixedUpdate(){
 
-		//Muodostaa deltan kahden viimesen pelitickin perusteella. Voidaan käyttää mm. suunnan kattomiseen ja animaation kääntelyyn.
-		/*
-		if(new Vector2(transform.position.x - lastPosition.x, transform.position.y - lastPosition.y).magnitude >= 0.1){
-			movementDelta = new Vector2(transform.position.x - lastPosition.x, transform.position.y - lastPosition.y);
-		}
-		
-		if (lastPosition.x != transform.position.x && lastPosition.y != transform.position.y) {
-			lastPosition = transform.position;
-		}
-		*/
+    void FixedUpdate()
+    {
+        if (astar != null && astar.path != null)
+        {
+            newPosition = astar.getNextPathPoint();
+            isMoving = true;
+        }
+        else
+            isMoving = false;
 
-		if (astar != null && astar.path != null) {
-			Vector2 newPosition = astar.getNextPathPoint();
-			//print ("New: " + newPosition + " Current: " + transform.position);
-			movementDelta = new Vector2(newPosition.x - transform.position.x, newPosition.y - transform.position.y);
-		}
-
-		direction = getDirection();
-	}
-
-	public Vector2 getMovementDelta(){
-		return movementDelta;
-	}
+        direction = getDirection();
+    }
 
 
 
-	public Direction getDirection(){
+    public Direction getDirection()
+    {
+        //Palauttaa suunnan mihin unitti on suuntaamassa.
+        //	
+        //		 8	 1   2
+        //		  \  |  /
+        //	   7-----------3
+        //		  /	 |  \
+        //		 6	 5   4
+        //
+        //
+        if (!canTurn)
+            return direction;
 
-		//Palauttaa suunnan mihin unitti on suuntaamassa.
-		//	
-		//		 8	 7   6
-		//		  \  |  /
-		//	   1-----------5
-		//		  /	 |  \
-		//		 2	 3   4
-		//
-		//
-		float movementAngle = Mathf.Atan2(transform.position.y + GetComponent<UnitMovement>().getMovementDelta().y*10 - transform.position.y, transform.position.x + GetComponent<UnitMovement>().getMovementDelta().x*10 - transform.position.x) + Mathf.PI;
+        if (isMoving || unitCombat == null || unitCombat.getLockedTarget() == null || !unitCombat.inRange(unitCombat.getLockedTarget()))
+            relative = transform.InverseTransformPoint(newPosition);
+        else if (unitCombat.getLockedTarget() != null && unitCombat.inRange(unitCombat.getLockedTarget()))
+        {
+            relative = transform.InverseTransformPoint(unitCombat.getLockedTarget().transform.position);
+            //print("attacking! " + relative + " facingAngle: " + Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg);
+        }
+        else
+            print("BUG");
+        facingAngle = Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg;
 
-		float qrt = Mathf.PI*2 / 16;
+        //8 directions
+        float a = 22.5f;
 
-		if(movementAngle > 0f && movementAngle < qrt || movementAngle > qrt*15 && movementAngle < qrt*16){
-			return Direction.W;
-		}else if(movementAngle > qrt && movementAngle < qrt*3){
-			return Direction.SW;
-		}else if(movementAngle > qrt*3 && movementAngle < qrt*5){
-			return Direction.S;
-		}else if(movementAngle > qrt*5 && movementAngle < qrt*7){
-			return Direction.SE;
-		}else if(movementAngle > qrt*7 && movementAngle < qrt*9){
-			return Direction.E;
-		}else if(movementAngle > qrt*9 && movementAngle < qrt*11){
-			return Direction.NE;
-		}else if(movementAngle > qrt*11 && movementAngle < qrt*13){
-			return Direction.N;
-		}else if(movementAngle > qrt*13 && movementAngle < qrt*15){
-			return Direction.NW;
-		}
+        if (facingAngle >= -a * 5 && facingAngle < -a * 3)
+        {
+            return Direction.W;
+        }
+        else if (facingAngle >= -a * 7 && facingAngle < -a * 5)
+        {
+            return Direction.SW;
+        }
+        else if (facingAngle >= a * 7 || facingAngle < -a * 7)
+        {
+            return Direction.S;
+        }
+        else if (facingAngle >= a * 5 && facingAngle < a * 7)
+        {
+            return Direction.SE;
+        }
+        else if (facingAngle >= a * 3 && facingAngle < a * 5)
+        {
+            return Direction.E;
+        }
+        else if (facingAngle >= a && facingAngle < a * 3)
+        {
+            return Direction.NE;
+        }
+        else if (facingAngle >= -a && facingAngle < a)
+        {
+            return Direction.N;
+        }
+        else if (facingAngle >= -a * 3 && facingAngle < -a)
+        {
+            return Direction.NW;
+        }
 
-		//Palauttaa oletuksena Länsisuunnan.
-		return Direction.W;
+        //Palauttaa oletuksena pohjoisen.
+        return Direction.N;
 
-	}
+    }
 }

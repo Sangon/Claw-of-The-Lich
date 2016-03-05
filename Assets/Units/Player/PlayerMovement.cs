@@ -116,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    void toggleTargeting()
+    private void toggleTargeting()
     {
 
         if (!targeting)
