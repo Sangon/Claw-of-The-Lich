@@ -16,8 +16,7 @@ public class PartySystem : MonoBehaviour
     private CameraScripts cameraScripts = null;
 
     // Use this for initialization
-    void Start()
-    {
+    void Start(){
         cameraScripts = Camera.main.GetComponent<CameraScripts>();
         updateCharacterList();
         character1 = characters[0];

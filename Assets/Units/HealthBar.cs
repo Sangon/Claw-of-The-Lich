@@ -21,8 +21,7 @@ public class HealthBar : MonoBehaviour
         }
     }
 
-    public void update(float size)
-    {
+    public void update(float size){
         if (healthBarIndicator == null)
             return;
 

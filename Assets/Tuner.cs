@@ -20,12 +20,12 @@ public class Tuner : MonoBehaviour
 	public static readonly float DEFAULT_SKILL_CAST_TIME = 1f;
 	public static readonly int DEFAULT_SKILL_COOLDOWN = 2 * 10;
 
-	public static readonly float DEFAULT_PROJECTILE_BLAST_RADIUS = 10f;
-	public static readonly float DEFAULT_PROJECTILE_VELOCITY = 10f;
-	public static readonly int DEFAULT_PROJECTILE_DAMAGE = 10;
+    public static readonly float DEFAULT_PROJECTILE_VELOCITY = 5f;
+    public static readonly int DEFAULT_PROJECTILE_DAMAGE = 1;
+    public static readonly float DEFAULT_PROJECTILE_RANGE = 30f;
 
-	//CAMERA DEFAULT VALUES
-	public static readonly float CAMERA_MIN_DISTANCE = 100;
+    //CAMERA DEFAULT VALUES
+    public static readonly float CAMERA_MIN_DISTANCE = 100;
 	public static readonly float CAMERA_MAX_DISTANCE = 6000;
     public static readonly float CAMERA_SCROLLING_SPEED = 35f;
     public static readonly float CAMERA_ZOOM_SPEED = 15f;

@@ -2,54 +2,47 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class projectile_spell_script : Spell {
-	
-	public float velocity;
-	public int damage;
-	public float blastRadius;
-	public Vector2 dir;
+public class projectile_spell_script : Spell
+{
 
-	void Start () {
-		spellID = 0;
-		velocity = Tuner.DEFAULT_PROJECTILE_VELOCITY;
-		blastRadius = Tuner.DEFAULT_PROJECTILE_BLAST_RADIUS;
-		damage = Tuner.DEFAULT_PROJECTILE_DAMAGE;
-		castLocation = getCurrentMousePos();
-		dir = new Vector2 (castLocation.x - transform.position.x, castLocation.y - transform.position.y);
-		Destroy (gameObject,2f);
+    public float velocity;
+    public int damage;
+    public Vector2 dir;
+    private GameObject parent;
+
+    void Start(){
+        spellID = 0;
+        velocity = Tuner.DEFAULT_PROJECTILE_VELOCITY;
+        damage = Tuner.DEFAULT_PROJECTILE_DAMAGE;
+        Destroy(gameObject, Tuner.DEFAULT_PROJECTILE_RANGE / Tuner.DEFAULT_PROJECTILE_VELOCITY);
     }
-	
 
-	void FixedUpdate () {
-		//Liikuttaa projektiiliä kohteen suuntaan
-		transform.Translate(dir.normalized*velocity);
-	}
-
-	void OnTriggerEnter2D(Collider2D coll){
-		explode();
-	}
-
-	public void explode(){
-		//Instansioi räjähdys
+    public void initAttack(Vector3 enemy, GameObject parent){
+        castLocation = enemy;
+        this.parent = parent;
+        dir = new Vector2(castLocation.x - transform.position.x, castLocation.y - transform.position.y);
+    }
 
 
-		//Tee damagea ympärille
-		GameObject[] hostileList = GameObject.FindGameObjectsWithTag("Hostile");
-		List<GameObject> targetList = new List<GameObject>();
+    void FixedUpdate()
+    {
+        //Liikuttaa projektiiliä kohteen suuntaan
+        if (dir != null)
+        {
+            transform.Translate(dir.normalized * velocity);
 
-		targetList.AddRange (hostileList);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position - new Vector3(dir.normalized.x * 10, dir.normalized.y * 10, 0), transform.position + new Vector3(dir.normalized.x * 10, dir.normalized.y * 10, 0), 0, (1 << 9) | (1 << 8));
 
+            if (hit.collider != null)
+            {
+                if (hit.collider.name != "Collision" && hit.collider.name != parent.name){
+                    hit.collider.gameObject.GetComponent<UnitCombat>().takeDamage(damage);
+                }
+                Destroy(gameObject);
+            }
 
-		foreach(GameObject g in targetList){
-			if(Vector2.Distance(g.transform.position , gameObject.transform.position) < blastRadius){
-				g.GetComponent<UnitCombat> ().takeDamage (damage);
-			}
-		}
-
-		destroy();
-	}
-
-	public bool colliding(){
-		return true;
-	}
+            Debug.DrawLine(transform.position - new Vector3(dir.normalized.x * 10, dir.normalized.y * 10, 0), transform.position + new Vector3(dir.normalized.x * 10, dir.normalized.y * 10, 0));
+            Debug.DrawLine(transform.position - new Vector3(dir.normalized.y * 10, -dir.normalized.x * 10, 0), transform.position + new Vector3(dir.normalized.y * 10, -dir.normalized.x * 10, 0));
+        }
+    }
 }

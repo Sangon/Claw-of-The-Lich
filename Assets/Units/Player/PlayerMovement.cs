@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -13,8 +14,7 @@ public class PlayerMovement : MonoBehaviour
     private bool targeting = false;
     private bool ignoreMoving = false;
 
-    void Start()
-    {
+    void Start(){
         unitMovement = GetComponent<UnitMovement>();
         unitCombat = GetComponent<UnitCombat>();
         //partySystem = GetComponent<PartySystem>();
@@ -42,8 +42,11 @@ public class PlayerMovement : MonoBehaviour
             //Pysäyttää hahmon ja lyö ilmaa jos vasen shift on pohjassa, muuten liikkuu kohteeseen.
             if (Input.GetKey(KeyCode.LeftShift))
             {
-                unitCombat.startAttack();
-                ignoreMoving = true;
+                if (partySystem.getGroupID(gameObject) != -1)
+                {
+                    unitCombat.startAttack();
+                    ignoreMoving = true;
+                }
             }
             else if (targeting)
             {
@@ -114,6 +117,13 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.D)) { }
 
+    }
+
+    public static Vector2 getCurrentMousePos()
+    {
+        Vector2 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
+        return hit.point;
     }
 
     private void toggleTargeting()

@@ -8,7 +8,7 @@ public class UnitCombat : MonoBehaviour
     private float maxHealth;
 
     //Unit type
-    public bool isMelee = true;
+    public bool isMelee = false;
 
     //Targetin seurausta varten.
     private GameObject lockedTarget = null;
@@ -30,8 +30,10 @@ public class UnitCombat : MonoBehaviour
 
     void Start()
     {
+
         health = Tuner.UNIT_BASE_HEALTH;
         maxHealth = Tuner.UNIT_BASE_HEALTH;
+        isMelee = false;
         attackRange = (isMelee) ? Tuner.UNIT_BASE_MELEE_RANGE : Tuner.UNIT_BASE_RANGED_RANGE;
 
         spellList[0] = ScriptableObject.CreateInstance("projectile_skill") as projectile_skill;
@@ -39,10 +41,10 @@ public class UnitCombat : MonoBehaviour
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
         unitMovement = GetComponent<UnitMovement>();
         healthBar = GetComponent<HealthBar>();
+
     }
 
-    void checkForDeath()
-    {
+    void checkForDeath(){
         if (health <= 0)
         {
             if (Camera.main.transform.parent == transform)
@@ -71,11 +73,10 @@ public class UnitCombat : MonoBehaviour
         {
             //Nappaa targetit v‰h‰n ennen kuin tekee damage, est‰‰ sit‰ ett‰ targetit kerke‰‰ juosta rangesta pois joka kerta jos ne juoksee karkuun.
             if (attackTimer == maxAttackTimer)
-            {//Mathf.Floor(maxAttackTimer*0.9f)){
+            {
+                //Mathf.Floor(maxAttackTimer*0.9f)){
                 if (isMelee)
                     hits = getUnitsInMelee(unitMovement.direction);
-                else
-                    hits = null; // TODO: Ranged attack!
             }
 
             attackTimer--;
@@ -84,26 +85,38 @@ public class UnitCombat : MonoBehaviour
             {
                 resetAttack();
             }
+
             //Debug.Log(attackTimer);
             //Tehd‰‰n damage, otetaan kaikki targetit jotka olivat rangessa ja niihin damage.
+
             if (attackTimer == attackPoint)
             {
-
-                if (hits != null)
+                if (isMelee)
                 {
-                    foreach (GameObject hit in hits)
+                    if (hits != null)
                     {
-                        if (hit != null && hit.GetComponent<UnitCombat>() != null && hit.transform.tag != this.transform.tag)
-                            dealDamage(hit, 0.5f);
+                        foreach (GameObject hit in hits){
+                            if (hit != null && hit.GetComponent<UnitCombat>() != null && hit.transform.tag != this.transform.tag)
+                                dealDamage(hit, 0.5f);
+                        }
+                        hits = null;
                     }
-                    hits = null;
-                }
 
+                }else {
+
+                    GameObject projectile = Instantiate(Resources.Load("testSpell"), transform.position + new Vector3(0, 50, 0), Quaternion.identity) as GameObject;
+                    if (lockedTarget == null)
+                    {
+                        projectile.GetComponent<projectile_spell_script>().initAttack(PlayerMovement.getCurrentMousePos(),gameObject);
+                    }
+                    else
+                    {
+                        projectile.GetComponent<projectile_spell_script>().initAttack(lockedTarget.transform.position,gameObject);
+                    }
+                }
             }
 
         }
-
-        //DebugRay(unitMovement.getDirection());
 
         //P‰ivitet‰‰n spellien logiikka.
         foreach (Skill s in spellList)
@@ -217,11 +230,9 @@ public class UnitCombat : MonoBehaviour
     //Tarkastaa nyt vain jos kyseinen kohde on attack rangen sis‰ll‰. Tarkistukset siit‰ jos vihollinen on liian kaukana en‰‰n seuraamiseen pit‰‰ tehd‰ itse.
     public bool inRange(GameObject target)
     {
-
         //Asettaa vaan ranged unitille pidemm‰n rangen, LOS tarkistukset voi tehd‰ vaikka jokasen mobin omassa scriptiss‰, tai luoda uuden function t‰nne tarkistusta varten.
         if (target != null)
         {
-
             if (getRange(target) < attackRange)
             {
                 if (!isMelee && lineOfSight(target))
@@ -234,8 +245,7 @@ public class UnitCombat : MonoBehaviour
             else {
                 return false;
             }
-        }
-        else {
+        }else {
             return false;
         }
     }
@@ -323,66 +333,6 @@ public class UnitCombat : MonoBehaviour
                 //print("facingAngle: " + (unitMovement.getFacingAngle()) + " attackAngle: " + attackAngle);
             }
         }
-        /*
-        if (dir == UnitMovement.Direction.W){
-			return Physics2D.RaycastAll(new Vector3(transform.position.x - 20 * mod, transform.position.y + 10 * mod, 0),new Vector3(transform.position.x - 20 * mod, transform.position.y - 10 * mod, 0), Tuner.UNIT_BASE_MELEE_RANGE, Tuner.LAYER_UNITS);
-		}else if(dir == UnitMovement.Direction.SW){
-			return Physics2D.RaycastAll(new Vector3(transform.position.x - 30 * mod, transform.position.y - 5 * mod, 0),new Vector3(transform.position.x - 5 * mod, transform.position.y - 20 * mod, 0), Tuner.UNIT_BASE_MELEE_RANGE, Tuner.LAYER_UNITS);
-		}else if(dir == UnitMovement.Direction.S){
-			return Physics2D.RaycastAll(new Vector3(transform.position.x - 10 * mod, transform.position.y - 20 * mod, 0),new Vector3(transform.position.x + 10 * mod, transform.position.y - 20 * mod, 0), Tuner.UNIT_BASE_MELEE_RANGE, Tuner.LAYER_UNITS);
-		}else if(dir == UnitMovement.Direction.SE){
-			return Physics2D.RaycastAll(new Vector3(transform.position.x + 30 * mod, transform.position.y - 5 * mod, 0),new Vector3(transform.position.x + 5 * mod, transform.position.y - 20 * mod, 0), Tuner.UNIT_BASE_MELEE_RANGE, Tuner.LAYER_UNITS);
-		}else if(dir == UnitMovement.Direction.E){
-			return Physics2D.RaycastAll(new Vector3(transform.position.x + 20 * mod, transform.position.y + 10 * mod, 0),new Vector3(transform.position.x + 20 * mod, transform.position.y - 10 * mod, 0), Tuner.UNIT_BASE_MELEE_RANGE, Tuner.LAYER_UNITS);
-		}else if(dir == UnitMovement.Direction.NE){
-			return Physics2D.RaycastAll(new Vector3(transform.position.x + 30 * mod, transform.position.y + 5 * mod, 0),new Vector3(transform.position.x + 5 * mod, transform.position.y + 20 * mod, 0), Tuner.UNIT_BASE_MELEE_RANGE, Tuner.LAYER_UNITS);
-		}else if(dir == UnitMovement.Direction.N){
-			return Physics2D.RaycastAll(new Vector3(transform.position.x - 10 * mod, transform.position.y + 20 * mod, 0),new Vector3(transform.position.x + 10 * mod, transform.position.y + 20 * mod, 0), Tuner.UNIT_BASE_MELEE_RANGE, Tuner.LAYER_UNITS);
-		}else if(dir == UnitMovement.Direction.NW){
-			return Physics2D.RaycastAll(new Vector3(transform.position.x - 30 * mod, transform.position.y + 5 * mod, 0),new Vector3(transform.position.x - 5 * mod, transform.position.y + 20 * mod, 0), Tuner.UNIT_BASE_MELEE_RANGE, Tuner.LAYER_UNITS);
-        }
-        */
         return hostilesInRange;
     }
-
-
-    //Debuggaamista varten melee raycastit.
-    public void DebugRay(UnitMovement.Direction dir)
-    {
-        int mod = 3;
-        if (dir == UnitMovement.Direction.W)
-        {
-            Debug.DrawLine(new Vector3(transform.position.x - 20 * mod, transform.position.y + 10 * mod, 0), new Vector3(transform.position.x - 20 * mod, transform.position.y - 10 * mod, 0));
-        }
-        else if (dir == UnitMovement.Direction.SW)
-        {
-            Debug.DrawLine(new Vector3(transform.position.x - 30 * mod, transform.position.y - 5 * mod, 0), new Vector3(transform.position.x - 5 * mod, transform.position.y - 20 * mod, 0));
-        }
-        else if (dir == UnitMovement.Direction.S)
-        {
-            Debug.DrawLine(new Vector3(transform.position.x - 10 * mod, transform.position.y - 20 * mod, 0), new Vector3(transform.position.x + 10 * mod, transform.position.y - 20 * mod, 0));
-        }
-        else if (dir == UnitMovement.Direction.SE)
-        {
-            Debug.DrawLine(new Vector3(transform.position.x + 30 * mod, transform.position.y - 5 * mod, 0), new Vector3(transform.position.x + 5 * mod, transform.position.y - 20 * mod, 0));
-        }
-        else if (dir == UnitMovement.Direction.E)
-        {
-            Debug.DrawLine(new Vector3(transform.position.x + 20 * mod, transform.position.y + 10 * mod, 0), new Vector3(transform.position.x + 20 * mod, transform.position.y - 10 * mod, 0));
-        }
-        else if (dir == UnitMovement.Direction.NE)
-        {
-            Debug.DrawLine(new Vector3(transform.position.x + 30 * mod, transform.position.y + 5 * mod, 0), new Vector3(transform.position.x + 5 * mod, transform.position.y + 20 * mod, 0));
-        }
-        else if (dir == UnitMovement.Direction.N)
-        {
-            Debug.DrawLine(new Vector3(transform.position.x - 10 * mod, transform.position.y + 20 * mod, 0), new Vector3(transform.position.x + 10 * mod, transform.position.y + 20 * mod, 0));
-        }
-        else if (dir == UnitMovement.Direction.NW)
-        {
-            Debug.DrawLine(new Vector3(transform.position.x - 30 * mod, transform.position.y + 5 * mod, 0), new Vector3(transform.position.x - 5 * mod, transform.position.y + 20 * mod, 0));
-        }
-    }
-
-
 }
