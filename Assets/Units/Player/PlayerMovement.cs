@@ -13,8 +13,17 @@ public class PlayerMovement : MonoBehaviour
     private int selectedSpellSlot = 0;
     private bool targeting = false;
     private bool ignoreMoving = false;
+    private Action lastAction = Action.nothing;
 
-    void Start(){
+    private enum Action
+    {
+        nothing,
+        attackMove,
+        pointAttack
+    };
+
+    void Start()
+    {
         unitMovement = GetComponent<UnitMovement>();
         unitCombat = GetComponent<UnitCombat>();
         //partySystem = GetComponent<PartySystem>();
@@ -33,34 +42,40 @@ public class PlayerMovement : MonoBehaviour
             unitMovement.stop();
         }
 
+        if (Input.GetMouseButtonUp(1))
+            lastAction = Action.nothing;
 
-
-
-        //Hiiren vasen nappi.
-        if (Input.GetMouseButtonDown(0))
+        //Hiiren oikea nappi.
+        if (Input.GetMouseButton(1) && !unitCombat.isAttacking())
         {
             //Pysäyttää hahmon ja lyö ilmaa jos vasen shift on pohjassa, muuten liikkuu kohteeseen.
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift) && lastAction != Action.attackMove)
             {
                 if (partySystem.getGroupID(gameObject) != -1)
                 {
+                    lastAction = Action.pointAttack;
                     unitCombat.startAttack();
-                    ignoreMoving = true;
                 }
             }
-            else if (targeting)
+            else if (lastAction != Action.pointAttack)
             {
-                unitCombat.castSpellInSlot(selectedSpellSlot, gameObject);
-                toggleTargeting();
-                ignoreMoving = true;
-                unitMovement.stop();
+                lastAction = Action.attackMove;
+                unitCombat.attackClosestTargetToPoint(hit.point);
             }
         }
-        else if (Input.GetMouseButtonUp(0))
-            ignoreMoving = false;
 
-        // Left mouse button is held down
-        if (Input.GetMouseButton(0) && !ignoreMoving && pathfindingTimer <= 0)
+        if (Input.GetMouseButtonUp(0))
+            ignoreMoving = false;
+        else if (Input.GetMouseButton(0) && !Input.GetMouseButton(1) && targeting)
+        {
+            unitCombat.castSpellInSlot(selectedSpellSlot, gameObject);
+            toggleTargeting();
+            unitMovement.stop();
+            ignoreMoving = true;
+            pathfindingTimer = Time.fixedDeltaTime * 2.0f;
+        }
+
+        if (Input.GetMouseButton(0) && !Input.GetMouseButton(1) && !ignoreMoving && !unitCombat.isAttacking() && !targeting && pathfindingTimer <= 0)
         {
             //Liikkuu hiiren kohtaan.
             if (hit.collider != null)
@@ -72,15 +87,10 @@ public class PlayerMovement : MonoBehaviour
                     unitCombat.stopAttack();
                     unitMovement.moveTo(hit.point, groupID);
                 }
-                pathfindingTimer = Time.fixedDeltaTime*2.0f;
+                pathfindingTimer = Time.fixedDeltaTime * 2.0f;
             }
         }
 
-        //Hiiren oikea nappi.
-        if (pathfindingTimer <= 0 && Input.GetMouseButton(1))
-        {
-            unitCombat.attackClosestTargetToPoint(hit.point);
-        }
         pathfindingTimer -= Time.fixedDeltaTime;
 
         //Rullaa kameraa kauemmas.

@@ -16,6 +16,8 @@ public class UnitCombat : MonoBehaviour
 
     private float attackRange;
     private bool attacking = false;
+    private bool attacked = true;
+    private bool lockedAttack = false;
     private int attackTimer = 30;
     private int maxAttackTimer = 30;
     private int attackPoint = 15;
@@ -24,6 +26,7 @@ public class UnitCombat : MonoBehaviour
     private Skill[] spellList = new Skill[2];
     private PartySystem partySystem;
     private UnitMovement unitMovement;
+    private CameraScripts cameraScripts;
 
     //Targets hit
     List<GameObject> hits = null;
@@ -33,7 +36,7 @@ public class UnitCombat : MonoBehaviour
 
         health = Tuner.UNIT_BASE_HEALTH;
         maxHealth = Tuner.UNIT_BASE_HEALTH;
-        isMelee = false;
+        //isMelee = false;
         attackRange = (isMelee) ? Tuner.UNIT_BASE_MELEE_RANGE : Tuner.UNIT_BASE_RANGED_RANGE;
 
         spellList[0] = ScriptableObject.CreateInstance("projectile_skill") as projectile_skill;
@@ -41,15 +44,19 @@ public class UnitCombat : MonoBehaviour
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
         unitMovement = GetComponent<UnitMovement>();
         healthBar = GetComponent<HealthBar>();
-
+        cameraScripts = Camera.main.GetComponent<CameraScripts>();
     }
 
-    void checkForDeath(){
+    void checkForDeath()
+    {
         if (health <= 0)
         {
             if (Camera.main.transform.parent == transform)
                 Camera.main.transform.parent = null;
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+            gameObject.tag = "Dead";
+            partySystem.updateCharacterList();
+            cameraScripts.updateTarget();
         }
     }
 
@@ -57,7 +64,7 @@ public class UnitCombat : MonoBehaviour
     {
         checkForDeath();
 
-        if (lockedTarget != null)
+        if (lockedAttack)
         {
             if (!inRange(lockedTarget) && !attacking)
             {
@@ -91,27 +98,30 @@ public class UnitCombat : MonoBehaviour
 
             if (attackTimer == attackPoint)
             {
+                attacked = true;
                 if (isMelee)
                 {
                     if (hits != null)
                     {
-                        foreach (GameObject hit in hits){
-                            if (hit != null && hit.GetComponent<UnitCombat>() != null && hit.transform.tag != this.transform.tag)
-                                dealDamage(hit, 0.5f);
+                        foreach (GameObject hit in hits)
+                        {
+                            if (hit != null && hit.activeSelf && hit.GetComponent<UnitCombat>() != null && hit.transform.tag != this.transform.tag)
+                                dealDamage(hit, Tuner.UNIT_BASE_MELEE_DAMAGE);
                         }
                         hits = null;
                     }
 
-                }else {
+                }
+                else {
 
-                    GameObject projectile = Instantiate(Resources.Load("testSpell"), transform.position + new Vector3(0, 50, 0), Quaternion.identity) as GameObject;
-                    if (lockedTarget == null)
+                    GameObject projectile = Instantiate(Resources.Load("testSpell"), transform.position, Quaternion.identity) as GameObject;
+                    if (lockedAttack)
                     {
-                        projectile.GetComponent<projectile_spell_script>().initAttack(PlayerMovement.getCurrentMousePos(),gameObject);
+                        projectile.GetComponent<projectile_spell_script>().initAttack(lockedTarget.transform.position, gameObject, true);
                     }
                     else
                     {
-                        projectile.GetComponent<projectile_spell_script>().initAttack(lockedTarget.transform.position,gameObject);
+                        projectile.GetComponent<projectile_spell_script>().initAttack(PlayerMovement.getCurrentMousePos(), gameObject, false);
                     }
                 }
             }
@@ -129,13 +139,15 @@ public class UnitCombat : MonoBehaviour
 
     public void attackClosestTargetToPoint(Vector2 hit)
     {
-
         if (partySystem.getGroupID(gameObject) != -1)
         {
             List<GameObject> targetList = new List<GameObject>();
 
             //Hakee kaikki mobit Hostile tagill‰ ja lis‰‰ ne potentiaalisten vihollisten listaan.
             GameObject[] hostileList = GameObject.FindGameObjectsWithTag("Hostile");
+            if (hostileList.Length == 0)
+                return;
+                
             targetList.AddRange(hostileList);
 
             //Laskee kuka potentiaalisten vihollisten listasta on l‰himp‰n‰ ja lockinnaa siihen.
@@ -146,6 +158,7 @@ public class UnitCombat : MonoBehaviour
 
                 if (currentDistance < distance)
                 {
+                    lockedAttack = true;
                     lockedTarget = g;
                     distance = currentDistance;
                 }
@@ -156,9 +169,11 @@ public class UnitCombat : MonoBehaviour
 
     public GameObject getClosestTargetToPoint(Vector2 hit)
     {
-
         List<GameObject> targetList = new List<GameObject>();
         GameObject[] hostileList = GameObject.FindGameObjectsWithTag("Hostile");
+        if (hostileList.Length == 0)
+            return null;
+
         targetList.AddRange(hostileList);
 
         GameObject target = null;
@@ -182,10 +197,12 @@ public class UnitCombat : MonoBehaviour
     {
         unitMovement.stop();
         attacking = true;
+        attacked = false;
     }
 
     public void resetAttack()
     {
+        lockedAttack = false;
         attacking = false;
         attackTimer = maxAttackTimer;
     }
@@ -193,6 +210,7 @@ public class UnitCombat : MonoBehaviour
     public void stopAttack()
     {
         lockedTarget = null;
+        lockedAttack = false;
         attacking = false;
         attackTimer = maxAttackTimer;
     }
@@ -208,9 +226,20 @@ public class UnitCombat : MonoBehaviour
         return attacking;
     }
 
+    public bool isLockedAttack()
+    {
+        return lockedAttack;
+    }
+
+    public bool hasAttacked()
+    {
+        return attacked;
+    }
+
     public void setLockedTarget(GameObject target)
     {
         lockedTarget = target;
+        lockedAttack = true;
     }
     public GameObject getLockedTarget()
     {
@@ -218,7 +247,7 @@ public class UnitCombat : MonoBehaviour
     }
     public bool lineOfSight(GameObject target)
     {
-        if (target != null)
+        if (target != null && target.activeSelf)
         {
             RaycastHit2D hit = Physics2D.Linecast(transform.position, target.transform.position, Tuner.LAYER_OBSTACLES);
             if (hit.collider == null)
@@ -231,7 +260,7 @@ public class UnitCombat : MonoBehaviour
     public bool inRange(GameObject target)
     {
         //Asettaa vaan ranged unitille pidemm‰n rangen, LOS tarkistukset voi tehd‰ vaikka jokasen mobin omassa scriptiss‰, tai luoda uuden function t‰nne tarkistusta varten.
-        if (target != null)
+        if (target != null && target.activeSelf)
         {
             if (getRange(target) < attackRange)
             {
@@ -245,7 +274,8 @@ public class UnitCombat : MonoBehaviour
             else {
                 return false;
             }
-        }else {
+        }
+        else {
             return false;
         }
     }
@@ -266,7 +296,7 @@ public class UnitCombat : MonoBehaviour
     public void dealDamage(GameObject enemy, float amount)
     {
 
-        if (enemy != null)
+        if (enemy != null && enemy.activeSelf)
         {
             enemy.GetComponent<UnitCombat>().takeDamage(amount);
         }

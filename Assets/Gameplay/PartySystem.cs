@@ -28,9 +28,12 @@ public class PartySystem : MonoBehaviour
 
     public GameObject getFirstSelectedCharacter()
     {
-        if (selectedCharacters.Count == 0)
-            return null;
-        return selectedCharacters[0];
+        foreach (GameObject c in selectedCharacters)
+        {
+            if (c.activeSelf)
+                return c;
+        }
+        return null;
     }
 
     public bool noneSelected()
@@ -94,13 +97,13 @@ public class PartySystem : MonoBehaviour
                 print("ERROR! selectCharacter(): characterNumber must be 1 - 4!");
                 return;
         }
-        if (character != null)
+        if (character != null && character.activeSelf)
         {
             if (!add)
             {
                 foreach (GameObject c in selectedCharacters)
                 {
-                    if (c != null)
+                    if (c.activeSelf)
                         c.GetComponent<SpriteRenderer>().color = Color.white;
                 }
                 selectedCharacters.Clear();
@@ -128,7 +131,7 @@ public class PartySystem : MonoBehaviour
         //Camera.main.transform.position = new Vector3(Camera.main.transform.parent.position.x, Camera.main.transform.parent.position.y, -5000);
     }
 
-    private void updateCharacterList()
+    public void updateCharacterList()
     {
         characters = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
     }

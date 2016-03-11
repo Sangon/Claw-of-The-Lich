@@ -51,5 +51,6 @@ public class HUD : MonoBehaviour
         float fps = 1.0f / Time.deltaTime;
         string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
         GUI.Label(new Rect(width - 110, 10, 110, 20), text);
+        GUI.Label(new Rect(width - 110, 30, 110, 20), "Enemies left: " + GameObject.FindGameObjectsWithTag("Hostile").Length);
     }
 }

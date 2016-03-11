@@ -59,7 +59,7 @@ public class UnitMovement : MonoBehaviour
         {
             //if (canTurn)
                 //animator.Play("Attack");
-            canTurn = false;
+            canTurn = true; //?
         }
         else
             canTurn = true;
@@ -141,15 +141,19 @@ public class UnitMovement : MonoBehaviour
         if (!canTurn)
             return direction;
 
-        if (isMoving || unitCombat == null || unitCombat.getLockedTarget() == null || !unitCombat.inRange(unitCombat.getLockedTarget()))
-            relative = transform.InverseTransformPoint(newPosition);
-        else if (unitCombat.getLockedTarget() != null && unitCombat.inRange(unitCombat.getLockedTarget()))
+        if (isMoving || unitCombat == null || !unitCombat.isAttacking() || (unitCombat.isLockedAttack() && !unitCombat.inRange(unitCombat.getLockedTarget())))
+            ; // Do nothing
+        else if (!unitCombat.hasAttacked())
         {
-            relative = transform.InverseTransformPoint(unitCombat.getLockedTarget().transform.position);
+            if (!unitCombat.isLockedAttack())
+                newPosition = PlayerMovement.getCurrentMousePos();
+            else
+                newPosition = unitCombat.getLockedTarget().transform.position;
             //print("attacking! " + relative + " facingAngle: " + Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg);
         }
-        else
-            print("BUG");
+
+        relative = transform.InverseTransformPoint(newPosition);
+
         facingAngle = Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg;
 
         //8 directions
