@@ -1081,12 +1081,12 @@ public class AstarPathEditor : Editor {
 
 			DrawHeuristicOptimizationSettings();
 
-			script.limitGraphUpdates = EditorGUILayout.Toggle(new GUIContent("Limit Graph Updates", "Limit graph updates to only run every x seconds. Can have positive impact on performance if many graph updates are done"), script.limitGraphUpdates);
+			script.batchGraphUpdates = EditorGUILayout.Toggle(new GUIContent("Batch Graph Updates", "Limit graph updates to only run every x seconds. Can have positive impact on performance if many graph updates are done"), script.batchGraphUpdates);
 
-			guiLayoutx.BeginFadeArea(script.limitGraphUpdates, "graphUpdateFreq");
-			if (guiLayoutx.DrawID("graphUpdateFreq")) {
+			guiLayoutx.BeginFadeArea(script.batchGraphUpdates, "graphUpdateInterval");
+			if (guiLayoutx.DrawID("graphUpdateInterval")) {
 				EditorGUI.indentLevel++;
-				script.maxGraphUpdateFreq = EditorGUILayout.FloatField("Max Update Frequency (s)", script.maxGraphUpdateFreq);
+				script.graphUpdateBatchingInterval = EditorGUILayout.FloatField(new GUIContent("Update Interval (s)", "Minimum number of seconds between each graph update"), script.graphUpdateBatchingInterval);
 				EditorGUI.indentLevel--;
 			}
 			guiLayoutx.EndFadeArea();
@@ -1125,7 +1125,9 @@ public class AstarPathEditor : Editor {
 
 	/** Opens the A* Inspector and shows the section for editing tags */
 	public static void EditTags () {
-		AstarPath astar = AstarPath.active ?? GameObject.FindObjectOfType(typeof(AstarPath)) as AstarPath;
+		AstarPath astar = AstarPath.active;
+
+		if (astar == null) astar = GameObject.FindObjectOfType<AstarPath>();
 
 		if (astar != null) {
 			editTags = true;

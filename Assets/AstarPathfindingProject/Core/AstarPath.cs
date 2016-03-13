@@ -26,7 +26,7 @@ public class AstarPath : MonoBehaviour {
 	 */
 	public static System.Version Version {
 		get {
-			return new System.Version(3, 8, 1);
+			return new System.Version(3, 8, 2);
 		}
 	}
 
@@ -275,8 +275,8 @@ public class AstarPath : MonoBehaviour {
 	 */
 	public int minAreaSize = 0;
 
-	/** Limit graph updates.
-	 * If toggled, graph updates will batched and executed less often (specified by #maxGraphUpdateFreq).
+	/** Throttle graph updates and batch them to improve performance.
+	 * If toggled, graph updates will batched and executed less often (specified by #graphUpdateBatchingInterval).
 	 *
 	 * This can have a positive impact on pathfinding throughput since the pathfinding threads do not need
 	 * to be stopped as often, and it reduces the overhead per graph update.
@@ -285,11 +285,14 @@ public class AstarPath : MonoBehaviour {
 	 *
 	 * However do not use this if you want minimal latency between a graph update being requested
 	 * and it being applied.
+	 * This only applies to graph updates requested using the UpdateGraphs method. Not those requested
+	 * using RegisterSafeUpdate or AddWorkItem.
+	 *
 	 */
-	public bool limitGraphUpdates = true;
+	public bool batchGraphUpdates = false;
 
 	/** How often should graphs be updated.
-	 * If #limitGraphUpdates is true, this defines the minimum amount of seconds between each graph update.
+	 * If #batchGraphUpdates is true, this defines the minimum number of seconds between each graph update.
 	 *
 	 * This can have a positive impact on pathfinding throughput since the pathfinding threads do not need
 	 * to be stopped as often, and it reduces the overhead per graph update.
@@ -298,8 +301,23 @@ public class AstarPath : MonoBehaviour {
 	 *
 	 * However do not use this if you want minimal latency between a graph update being requested
 	 * and it being applied.
+	 * This only applies to graph updates requested using the UpdateGraphs method. Not those requested
+	 * using RegisterSafeUpdate or AddWorkItem.
+	 *
 	 */
-	public float maxGraphUpdateFreq = 0.2F;
+	public float graphUpdateBatchingInterval = 0.2F;
+
+	/** Batch graph updates.
+	 * \deprecated This field has been renamed to 'batchGraphUpdates'.
+	 */
+	[System.Obsolete("This field has been renamed to 'batchGraphUpdates'")]
+	public bool limitGraphUpdates { get { return batchGraphUpdates; } set { batchGraphUpdates = value; } }
+
+	/** Limit for how often should graphs be updated.
+	 * \deprecated This field has been renamed to 'graphUpdateBatchingInterval'.
+	 */
+	[System.Obsolete("This field has been renamed to 'graphUpdateBatchingInterval'")]
+	public float maxGraphUpdateFreq { get { return graphUpdateBatchingInterval; } set { graphUpdateBatchingInterval = value; } }
 
 	/** @} */
 	#endregion
@@ -1034,7 +1052,7 @@ public class AstarPath : MonoBehaviour {
 
 	#region GraphUpdateMethods
 
-	/** Will apply queued graph updates as soon as possible, regardless of #limitGraphUpdates.
+	/** Will apply queued graph updates as soon as possible, regardless of #batchGraphUpdates.
 	 * Calling this multiple times will not create multiple callbacks.
 	 * Makes sure DoUpdateGraphs is called as soon as possible.\n
 	 * This function is useful if you are limiting graph updates, but you want a specific graph update to be applied as soon as possible regardless of the time limit.
@@ -1047,16 +1065,17 @@ public class AstarPath : MonoBehaviour {
 			itm.init = QueueGraphUpdatesInternal;
 			itm.update = ProcessGraphUpdates;
 			AddWorkItem(itm);
+			lastGraphUpdate = Time.realtimeSinceStartup;
 		}
 	}
 
 	/** Waits a moment with updating graphs.
-	 * If limitGraphUpdates is set, we want to keep some space between them to let pathfinding threads running and then calculate all queued calls at once
+	 * If batchGraphUpdates is set, we want to keep some space between them to let pathfinding threads running and then calculate all queued calls at once
 	 */
 	IEnumerator DelayedGraphUpdate () {
 		graphUpdateRoutineRunning = true;
 
-		yield return new WaitForSeconds(maxGraphUpdateFreq-(Time.time-lastGraphUpdate));
+		yield return new WaitForSeconds(graphUpdateBatchingInterval-(Time.realtimeSinceStartup-lastGraphUpdate));
 		QueueGraphUpdates();
 		graphUpdateRoutineRunning = false;
 	}
@@ -1097,7 +1116,7 @@ public class AstarPath : MonoBehaviour {
 
 	/** Update all graphs using the GraphUpdateObject.
 	 * This can be used to, e.g make all nodes in an area unwalkable, or set them to a higher penalty.
-	 * The graphs will be updated as soon as possible (with respect to #limitGraphUpdates)
+	 * The graphs will be updated as soon as possible (with respect to #batchGraphUpdates)
 	 *
 	 * \see FlushGraphUpdates
 	 */
@@ -1111,7 +1130,7 @@ public class AstarPath : MonoBehaviour {
 		graphUpdateQueue.Enqueue(ob);
 
 		//If we should limit graph updates, start a coroutine which waits until we should update graphs
-		if (limitGraphUpdates && Time.time-lastGraphUpdate < maxGraphUpdateFreq) {
+		if (batchGraphUpdates && Time.realtimeSinceStartup-lastGraphUpdate < graphUpdateBatchingInterval) {
 			if (!graphUpdateRoutineRunning) {
 				StartCoroutine(DelayedGraphUpdate());
 			}
