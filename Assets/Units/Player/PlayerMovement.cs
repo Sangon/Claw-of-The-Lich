@@ -80,7 +80,6 @@ public class PlayerMovement : MonoBehaviour
             //Liikkuu hiiren kohtaan.
             if (hit.collider != null)
             {
-                //FMODUnity.RuntimeManager.PlayOneShot("event:/walk", transform.position);
                 groupID = partySystem.getGroupID(this.gameObject);
                 if (groupID != -1)
                 {

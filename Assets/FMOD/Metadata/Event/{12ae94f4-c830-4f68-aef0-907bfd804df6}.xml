@@ -5,7 +5,7 @@
             <value>flying_axe</value>
         </property>
         <property name="outputFormat">
-            <value>2</value>
+            <value>1</value>
         </property>
         <relationship name="mixer">
             <destination>{fe91c353-8ca4-44a4-86ff-3eaefaeb8987}</destination>
@@ -32,7 +32,7 @@
             <destination>{d2e1827a-ccd0-45fe-b2b2-1a9316247261}</destination>
         </relationship>
         <relationship name="folder">
-            <destination>{a6fc8e42-1fdf-4331-a591-c3b432fd8cb9}</destination>
+            <destination>{6d30bdb5-f470-4102-94f0-af4beeab61a6}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{fe91c353-8ca4-44a4-86ff-3eaefaeb8987}">
@@ -60,7 +60,7 @@
     <object class="MarkerTrack" id="{5108a82f-3455-49e0-8222-ef5527f0bc0f}"/>
     <object class="GroupTrack" id="{1b82e476-a06b-407b-89ae-aa0771712f63}">
         <relationship name="modules">
-            <destination>{92920026-a351-41b2-af99-1b6b85b5e945}</destination>
+            <destination>{37e9424f-cab6-4160-901f-236943ed32b2}</destination>
         </relationship>
         <relationship name="mixerGroup">
             <destination>{b8e1aef9-1c1d-454a-924f-3cc35e83069a}</destination>
@@ -68,7 +68,7 @@
     </object>
     <object class="Timeline" id="{c6789ba4-2145-4611-8b90-62f2f482c3db}">
         <relationship name="modules">
-            <destination>{92920026-a351-41b2-af99-1b6b85b5e945}</destination>
+            <destination>{37e9424f-cab6-4160-901f-236943ed32b2}</destination>
         </relationship>
     </object>
     <object class="EventMixerMaster" id="{0d7f92f0-c29d-489c-ae73-154ca245b124}">
@@ -88,15 +88,18 @@
         </relationship>
     </object>
     <object class="MixerBusPanner" id="{a477f38d-1462-434e-a027-bdea95ffd4dc}"/>
-    <object class="SingleSound" id="{92920026-a351-41b2-af99-1b6b85b5e945}">
+    <object class="SingleSound" id="{37e9424f-cab6-4160-901f-236943ed32b2}">
         <property name="start">
             <value>0</value>
         </property>
         <property name="length">
-            <value>0.059999999999999998</value>
+            <value>0.29166666666666669</value>
+        </property>
+        <property name="pitch">
+            <value>-17</value>
         </property>
         <relationship name="audioFile">
-            <destination>{86d3c6fb-b13f-45ba-8628-37caec12ef92}</destination>
+            <destination>{15b5ecac-d6a3-4f47-aa60-802f8d648c4e}</destination>
         </relationship>
     </object>
     <object class="EventMixerGroup" id="{b8e1aef9-1c1d-454a-924f-3cc35e83069a}">
@@ -132,7 +135,7 @@
     <object class="SpatialiserEffect" id="{d158367b-3a5b-4598-b006-095122e9dee0}"/>
     <object class="MixerSend" id="{e78f6dd8-c417-48f2-9a21-521ff2808e65}">
         <property name="inputFormat">
-            <value>2</value>
+            <value>1</value>
         </property>
         <relationship name="mixerReturn">
             <destination>{b7b111d0-42b9-4e92-86d9-2a9612af9d08}</destination>

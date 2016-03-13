@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.07.00">
+    <object class="AudioFile" id="{6359fc4f-32d0-4acc-91a7-78c127c988ce}">
+        <property name="frequencyInKHz">
+            <value>48</value>
+        </property>
+        <property name="channelCount">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>6</value>
+        </property>
+        <property name="audioFilePath">
+            <value>$(AUDIO_BIN_DIR)/creek_5 {429b8f35-fe76-4d62-a350-b6dcfa17ff24}.aif</value>
+        </property>
+        <relationship name="container">
+            <destination>{43aa4ab5-480a-4563-ba49-9c5ed0b480e9}</destination>
+        </relationship>
+    </object>
+</objects>

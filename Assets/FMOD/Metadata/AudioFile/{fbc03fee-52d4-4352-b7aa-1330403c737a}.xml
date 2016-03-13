@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.07.00">
+    <object class="AudioFile" id="{fbc03fee-52d4-4352-b7aa-1330403c737a}">
+        <property name="frequencyInKHz">
+            <value>48</value>
+        </property>
+        <property name="channelCount">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>0.5</value>
+        </property>
+        <property name="audioFilePath">
+            <value>$(AUDIO_BIN_DIR)/hit_metal_1 {42ad2f96-afb5-40a1-b54a-cc88ed53a1ea}.aif</value>
+        </property>
+        <relationship name="container">
+            <destination>{43aa4ab5-480a-4563-ba49-9c5ed0b480e9}</destination>
+        </relationship>
+    </object>
+</objects>

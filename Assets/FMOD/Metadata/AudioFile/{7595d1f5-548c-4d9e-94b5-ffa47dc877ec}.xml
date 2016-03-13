@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.07.00">
+    <object class="AudioFile" id="{7595d1f5-548c-4d9e-94b5-ffa47dc877ec}">
+        <property name="frequencyInKHz">
+            <value>48</value>
+        </property>
+        <property name="channelCount">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>60</value>
+        </property>
+        <property name="audioFilePath">
+            <value>$(AUDIO_BIN_DIR)/atmo graveyard {b89be04c-cbe9-4a2a-9d07-f261737d3be6}.aif</value>
+        </property>
+        <relationship name="container">
+            <destination>{43aa4ab5-480a-4563-ba49-9c5ed0b480e9}</destination>
+        </relationship>
+    </object>
+</objects>

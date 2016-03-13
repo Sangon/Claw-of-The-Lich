@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.01.07.00">
     <object class="Workspace" id="{77500c60-5e74-41fe-8bc1-887c9d4aa3a5}">
         <property name="outputFormat">
-            <value>6</value>
+            <value>3</value>
         </property>
         <relationship name="masterEventFolder">
             <destination>{a6fc8e42-1fdf-4331-a591-c3b432fd8cb9}</destination>

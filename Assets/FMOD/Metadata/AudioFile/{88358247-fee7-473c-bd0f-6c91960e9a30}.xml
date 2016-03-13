@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.07.00">
+    <object class="AudioFile" id="{88358247-fee7-473c-bd0f-6c91960e9a30}">
+        <property name="frequencyInKHz">
+            <value>48</value>
+        </property>
+        <property name="channelCount">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>26.301375</value>
+        </property>
+        <property name="audioFilePath">
+            <value>$(AUDIO_BIN_DIR)/game_music_threat {aadeb632-2128-4a93-b808-afb18bf891a5}.wav</value>
+        </property>
+        <relationship name="container">
+            <destination>{43aa4ab5-480a-4563-ba49-9c5ed0b480e9}</destination>
+        </relationship>
+    </object>
+</objects>

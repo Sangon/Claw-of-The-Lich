@@ -5,7 +5,7 @@
             <value>hit_bone</value>
         </property>
         <property name="outputFormat">
-            <value>2</value>
+            <value>1</value>
         </property>
         <relationship name="mixer">
             <destination>{d9ea066f-88f1-43b5-bbb7-fa67b2860977}</destination>
@@ -32,7 +32,7 @@
             <destination>{d2e1827a-ccd0-45fe-b2b2-1a9316247261}</destination>
         </relationship>
         <relationship name="folder">
-            <destination>{a6fc8e42-1fdf-4331-a591-c3b432fd8cb9}</destination>
+            <destination>{6d30bdb5-f470-4102-94f0-af4beeab61a6}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{d9ea066f-88f1-43b5-bbb7-fa67b2860977}">
@@ -135,7 +135,7 @@
     <object class="SpatialiserEffect" id="{67bd2fea-f358-4231-87fd-c0c1b67a7fe6}"/>
     <object class="MixerSend" id="{58844c61-6dab-4e8b-8dbb-ace87a08e68a}">
         <property name="inputFormat">
-            <value>2</value>
+            <value>1</value>
         </property>
         <relationship name="mixerReturn">
             <destination>{b7b111d0-42b9-4e92-86d9-2a9612af9d08}</destination>

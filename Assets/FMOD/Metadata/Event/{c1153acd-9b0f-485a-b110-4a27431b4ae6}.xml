@@ -5,7 +5,7 @@
             <value>walk</value>
         </property>
         <property name="outputFormat">
-            <value>2</value>
+            <value>1</value>
         </property>
         <relationship name="mixer">
             <destination>{c59cda2a-042a-480e-a1f5-b66258ec7834}</destination>
@@ -35,7 +35,7 @@
             <destination>{d2e1827a-ccd0-45fe-b2b2-1a9316247261}</destination>
         </relationship>
         <relationship name="folder">
-            <destination>{a6fc8e42-1fdf-4331-a591-c3b432fd8cb9}</destination>
+            <destination>{6d30bdb5-f470-4102-94f0-af4beeab61a6}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{c59cda2a-042a-480e-a1f5-b66258ec7834}">
@@ -177,7 +177,7 @@
     <object class="SpatialiserEffect" id="{42bd5e3a-e2f4-4209-8551-2424edf04047}"/>
     <object class="MixerSend" id="{1d666850-6a78-4567-848c-be0179d84891}">
         <property name="inputFormat">
-            <value>2</value>
+            <value>1</value>
         </property>
         <relationship name="mixerReturn">
             <destination>{b7b111d0-42b9-4e92-86d9-2a9612af9d08}</destination>

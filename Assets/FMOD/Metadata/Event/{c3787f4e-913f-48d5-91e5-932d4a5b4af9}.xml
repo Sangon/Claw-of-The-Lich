@@ -5,7 +5,7 @@
             <value>breaking_wood</value>
         </property>
         <property name="outputFormat">
-            <value>2</value>
+            <value>1</value>
         </property>
         <relationship name="mixer">
             <destination>{5d4d59ab-ca1b-4410-8ef9-c38b0b2a1ac6}</destination>
@@ -32,7 +32,7 @@
             <destination>{d2e1827a-ccd0-45fe-b2b2-1a9316247261}</destination>
         </relationship>
         <relationship name="folder">
-            <destination>{a6fc8e42-1fdf-4331-a591-c3b432fd8cb9}</destination>
+            <destination>{6d30bdb5-f470-4102-94f0-af4beeab61a6}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{5d4d59ab-ca1b-4410-8ef9-c38b0b2a1ac6}">
@@ -132,7 +132,7 @@
     <object class="SpatialiserEffect" id="{188bd6bf-b595-462d-885f-561651c137b0}"/>
     <object class="MixerSend" id="{355830c0-80c3-4d4f-bff1-9fa694984efc}">
         <property name="inputFormat">
-            <value>2</value>
+            <value>1</value>
         </property>
         <relationship name="mixerReturn">
             <destination>{b7b111d0-42b9-4e92-86d9-2a9612af9d08}</destination>

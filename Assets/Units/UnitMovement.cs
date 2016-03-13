@@ -28,11 +28,14 @@ public class UnitMovement : MonoBehaviour
     private bool canTurn = true;
     private bool isMoving = false;
 
+    private FMOD.Studio.EventInstance footStepsAudio;
+
     public void Start()
     {
         astar = GetComponent<AstarAI>();
         animator = GetComponent<Animator>();
         unitCombat = GetComponent<UnitCombat>();
+        footStepsAudio = FMODUnity.RuntimeManager.CreateInstance("event:/sfx/walk");
     }
 
     public void moveTo(Vector2 point, int groupID = 0)
@@ -55,10 +58,30 @@ public class UnitMovement : MonoBehaviour
 
     void Update()
     {
+        FMOD.Studio.PLAYBACK_STATE state;
+        footStepsAudio.getPlaybackState(out state);
+        if (isMoving)
+        {
+            //FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/walk", Camera.main.transform.position);
+            FMOD.ATTRIBUTES_3D attributes = FMODUnity.RuntimeUtils.To3DAttributes(Camera.main.transform.position);
+            footStepsAudio.set3DAttributes(attributes);
+            footStepsAudio.setParameterValue("Surface", 1f); // 0 = grass, 1f = sand road
+
+            if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                // Start looping sound if play condition is met and sound not already playing
+                footStepsAudio.start();
+            }
+        }
+        else if (state == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+        {
+            // Stop looping sound if already playing and play condition is no longer true
+            footStepsAudio.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        }
         if (unitCombat.isAttacking())
         {
             //if (canTurn)
-                //animator.Play("Attack");
+            //animator.Play("Attack");
             canTurn = true; //?
         }
         else
@@ -124,8 +147,6 @@ public class UnitMovement : MonoBehaviour
 
         direction = getDirection();
     }
-
-
 
     public Direction getDirection()
     {

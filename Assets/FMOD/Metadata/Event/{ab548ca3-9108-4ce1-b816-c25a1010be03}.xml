@@ -5,7 +5,7 @@
             <value>victory_fanfare</value>
         </property>
         <property name="outputFormat">
-            <value>2</value>
+            <value>1</value>
         </property>
         <relationship name="mixer">
             <destination>{eef02ba3-598a-435f-bd6e-1940b73bd280}</destination>
@@ -32,7 +32,7 @@
             <destination>{d2e1827a-ccd0-45fe-b2b2-1a9316247261}</destination>
         </relationship>
         <relationship name="folder">
-            <destination>{a6fc8e42-1fdf-4331-a591-c3b432fd8cb9}</destination>
+            <destination>{a96ceda8-8e65-4cfa-8b91-aede7fac080e}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{eef02ba3-598a-435f-bd6e-1940b73bd280}">
@@ -132,7 +132,7 @@
     <object class="SpatialiserEffect" id="{9eb2d757-490f-4a52-ba46-b6914f17b75f}"/>
     <object class="MixerSend" id="{ef62ee8c-cec7-4b45-9f05-6f487ace24c0}">
         <property name="inputFormat">
-            <value>2</value>
+            <value>1</value>
         </property>
         <relationship name="mixerReturn">
             <destination>{b7b111d0-42b9-4e92-86d9-2a9612af9d08}</destination>

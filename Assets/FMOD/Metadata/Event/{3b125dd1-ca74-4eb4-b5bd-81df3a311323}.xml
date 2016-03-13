@@ -5,7 +5,7 @@
             <value>explosion</value>
         </property>
         <property name="outputFormat">
-            <value>2</value>
+            <value>1</value>
         </property>
         <relationship name="mixer">
             <destination>{bb3977bc-0a81-4ee6-8781-372f68f29a9f}</destination>
@@ -32,7 +32,7 @@
             <destination>{d2e1827a-ccd0-45fe-b2b2-1a9316247261}</destination>
         </relationship>
         <relationship name="folder">
-            <destination>{a6fc8e42-1fdf-4331-a591-c3b432fd8cb9}</destination>
+            <destination>{6d30bdb5-f470-4102-94f0-af4beeab61a6}</destination>
         </relationship>
     </object>
     <object class="EventMixer" id="{bb3977bc-0a81-4ee6-8781-372f68f29a9f}">
@@ -149,7 +149,7 @@
     <object class="SpatialiserEffect" id="{ccaeb986-f304-46ba-b5c7-081920b85fe2}"/>
     <object class="MixerSend" id="{384a3068-356e-4666-84c2-1307feef99b2}">
         <property name="inputFormat">
-            <value>2</value>
+            <value>1</value>
         </property>
         <relationship name="mixerReturn">
             <destination>{b7b111d0-42b9-4e92-86d9-2a9612af9d08}</destination>
