@@ -19,14 +19,16 @@ public class projectile_skill : Skill {
 
 	}
 	public override void FixedUpdate(){
-		
-		if(currentCooldown < maxCooldown){
-			currentCooldown++;
-			if(currentCooldown == maxCooldown){
-				Debug.Log("Ready: " + spellName);
-			}
-		}
 
-	}
+        if (currentCooldown < maxCooldown)
+        {
+            currentCooldown++;
+            if (currentCooldown == maxCooldown)
+            {
+                Debug.Log("Ready: " + spellName);
+            }
+        }
+
+    }
 
 }

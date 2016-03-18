@@ -224,7 +224,7 @@ public class AstarAI : MonoBehaviour
         */
 
         //The max distance from the AI to a waypoint for it to continue to the next waypoint
-        float nextWaypointDistance = Tuner.UNIT_BASE_SPEED * Time.fixedDeltaTime;
+        float nextWaypointDistance = gameObject.GetComponent<UnitMovement>().getMovementSpeed() * Time.fixedDeltaTime;
 
         //Check if we are close enough to the next waypoint
         //If we are, proceed to follow the next waypoint
@@ -282,7 +282,7 @@ public class AstarAI : MonoBehaviour
 
         //Direction to the next waypoint
         Vector2 dir = (path.vectorPath[currentWaypoint] - new Vector3(transform.position.x, transform.position.y, 0)).normalized;
-        dir *= Tuner.UNIT_BASE_SPEED * Time.fixedDeltaTime;
+        dir *= gameObject.GetComponent<UnitMovement>().getMovementSpeed() * Time.fixedDeltaTime;
         transform.Translate(dir);
     }
 

@@ -1,11 +1,14 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class UnitMovement : MonoBehaviour
 {
     private AstarAI astar = null;
     private Animator animator = null;
     private UnitCombat unitCombat = null;
+
+    private float movementSpeed = Tuner.UNIT_BASE_SPEED;
 
     public enum Direction
     {
@@ -48,6 +51,14 @@ public class UnitMovement : MonoBehaviour
     {
         getDirection();
         return facingAngle;
+    }
+
+    internal void setMovementSpeed(float value){
+        movementSpeed = value;
+    }
+
+    internal float getMovementSpeed(){
+        return movementSpeed;
     }
 
     public void stop()

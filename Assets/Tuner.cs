@@ -29,6 +29,12 @@ public class Tuner : MonoBehaviour
     public static readonly float DEFAULT_PROJECTILE_OFFSET = 100f; // Y-axis, from bottom of the sprite
     public static readonly float DEFAULT_PROJECTILE_HITBOX_RADIUS = 50f;
 
+    public static readonly float DEFAULT_WHIRLWIND_RADIUS = UNIT_BASE_MELEE_RANGE * 2;
+    public static readonly float BASE_WHIRLWIND_DAMAGE = UNIT_BASE_MELEE_DAMAGE * 2;
+
+    public static readonly float BASE_CHARGE_DAMAGE = UNIT_BASE_MELEE_DAMAGE * 2;
+    public static readonly float BASE_CHARGE_SPEED = UNIT_BASE_MELEE_DAMAGE * 2;
+
     //CAMERA DEFAULT VALUES
     public static readonly float CAMERA_MIN_DISTANCE = 100;
 	public static readonly float CAMERA_MAX_DISTANCE = 6000;
@@ -45,5 +51,6 @@ public class Tuner : MonoBehaviour
 
     public static readonly int LAYER_OBSTACLES = 1 << 8;
     public static readonly int LAYER_UNITS = 1 << 9;
+
 
 }

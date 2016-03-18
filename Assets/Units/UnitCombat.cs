@@ -39,18 +39,18 @@ public class UnitCombat : MonoBehaviour
         //isMelee = false;
         attackRange = (isMelee) ? Tuner.UNIT_BASE_MELEE_RANGE : Tuner.UNIT_BASE_RANGED_RANGE;
 
-        spellList[0] = ScriptableObject.CreateInstance("projectile_skill") as projectile_skill;
+        spellList[0] = ScriptableObject.CreateInstance("charge_skill") as charge_skill;
         spellList[1] = ScriptableObject.CreateInstance("projectile_skill") as projectile_skill;
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
         unitMovement = GetComponent<UnitMovement>();
         healthBar = GetComponent<HealthBar>();
         cameraScripts = Camera.main.GetComponent<CameraScripts>();
+
     }
 
     void checkForDeath()
     {
-        if (health <= 0)
-        {
+        if (health <= 0){
             if (Camera.main.transform.parent == transform)
                 Camera.main.transform.parent = null;
             gameObject.SetActive(false);
@@ -179,8 +179,7 @@ public class UnitCombat : MonoBehaviour
         GameObject target = null;
 
         float distance = Mathf.Infinity;
-        foreach (GameObject g in targetList)
-        {
+        foreach (GameObject g in targetList){
             float currentDistance = Vector3.Distance(g.transform.position, hit);
 
             if (currentDistance < distance)
@@ -202,7 +201,6 @@ public class UnitCombat : MonoBehaviour
 
     public void resetAttack()
     {
-        lockedAttack = false;
         attacking = false;
         attackTimer = maxAttackTimer;
     }
@@ -296,8 +294,7 @@ public class UnitCombat : MonoBehaviour
     public void dealDamage(GameObject enemy, float amount)
     {
 
-        if (enemy != null && enemy.activeSelf)
-        {
+        if (enemy != null && enemy.activeSelf){
             enemy.GetComponent<UnitCombat>().takeDamage(amount);
         }
 
