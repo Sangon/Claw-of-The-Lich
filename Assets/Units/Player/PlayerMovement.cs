@@ -75,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
             pathfindingTimer = Time.fixedDeltaTime * 2.0f;
         }
 
-        if (Input.GetMouseButton(0) && !Input.GetMouseButton(1) && !ignoreMoving && !unitCombat.isAttacking() && !targeting && pathfindingTimer <= 0)
+        if (Input.GetMouseButton(0) && !Input.GetMouseButton(1) && !ignoreMoving && !unitCombat.isAttacking() && !targeting && pathfindingTimer <= 0 && !unitMovement.isMovementLocked())
         {
             //Liikkuu hiiren kohtaan.
             if (hit.collider != null)
@@ -108,14 +108,14 @@ public class PlayerMovement : MonoBehaviour
         //////////////////////////////////////
         /// SPELLIT
         /////////////////////////////////////
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
+        if (Input.GetKeyDown(KeyCode.Q)){
+            selectedSpellSlot = 0;
             toggleTargeting();
         }
 
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-
+        if (Input.GetKeyDown(KeyCode.W)){
+            selectedSpellSlot = 1;
+            toggleTargeting();
         }
 
         if (Input.GetKeyDown(KeyCode.E)) { }
@@ -135,22 +135,37 @@ public class PlayerMovement : MonoBehaviour
         return hit.point;
     }
 
+    //Togglettaa targettaamisen ja jos spellin voi castia ilman targettaamista niin castitaan se.
     private void toggleTargeting()
     {
 
-        if (!targeting)
+        if (GetComponent<UnitCombat>().getSkill(selectedSpellSlot).isTargetable())
         {
-            targeting = true;
+            if (!targeting)
+            {
+                targeting = true;
+            }
+            else
+            {
+                targeting = false;
+            }
         }
-        else {
-            targeting = false;
+        else{
+            unitMovement.stop();
+            unitCombat.castSpellInSlot(selectedSpellSlot, gameObject);
         }
+
 
         //TODO: vaihda kursori 
     }
 
     void OnGUI()
     {
-        GUI.Label(new Rect(10, 10, 100, 20), "Targeting: " + targeting);
+        int i = 0;
+
+        foreach (GameObject g in partySystem.selectedCharacters){
+            GUI.Label(new Rect(300, 15*i + 10, 100, 20), "Skill 1: " + g.GetComponent<UnitCombat>().getSkill(0).getCurrentCooldownInSeconds() + " Skill 2: " + g.GetComponent<UnitCombat>().getSkill(1).getCurrentCooldownInSeconds());
+            i++;
+        }
     }
 }

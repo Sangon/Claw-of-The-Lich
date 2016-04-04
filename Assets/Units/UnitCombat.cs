@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class UnitCombat : MonoBehaviour
 {
@@ -17,7 +18,6 @@ public class UnitCombat : MonoBehaviour
     private float attackRange;
     private bool attacking = false;
     private bool attacked = true;
-    private bool lockedAttack = false;
     private int attackTimer = 30;
     private int maxAttackTimer = 30;
     private int attackPoint = 15;
@@ -39,8 +39,8 @@ public class UnitCombat : MonoBehaviour
         //isMelee = false;
         attackRange = (isMelee) ? Tuner.UNIT_BASE_MELEE_RANGE : Tuner.UNIT_BASE_RANGED_RANGE;
 
-        spellList[0] = ScriptableObject.CreateInstance("charge_skill") as charge_skill;
-        spellList[1] = ScriptableObject.CreateInstance("projectile_skill") as projectile_skill;
+        spellList[0] = ScriptableObject.CreateInstance("whirlwind_skill") as whirlwind_skill;
+        spellList[1] = ScriptableObject.CreateInstance("charge_skill") as charge_skill;
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
         unitMovement = GetComponent<UnitMovement>();
         healthBar = GetComponent<HealthBar>();
@@ -64,7 +64,7 @@ public class UnitCombat : MonoBehaviour
     {
         checkForDeath();
 
-        if (lockedAttack)
+        if (isLockedAttack())
         {
             if (!inRange(lockedTarget) && !attacking)
             {
@@ -115,7 +115,7 @@ public class UnitCombat : MonoBehaviour
                 else {
 
                     GameObject projectile = Instantiate(Resources.Load("testSpell"), transform.position, Quaternion.identity) as GameObject;
-                    if (lockedAttack)
+                    if (isLockedAttack())
                     {
                         projectile.GetComponent<projectile_spell_script>().initAttack(lockedTarget.transform.position, gameObject, true);
                     }
@@ -158,13 +158,17 @@ public class UnitCombat : MonoBehaviour
 
                 if (currentDistance < distance)
                 {
-                    lockedAttack = true;
                     lockedTarget = g;
                     distance = currentDistance;
                 }
             }
         }
 
+    }
+
+    internal Skill getSkill(int selectedSpellSlot)
+    {
+        return spellList[selectedSpellSlot];
     }
 
     public GameObject getClosestTargetToPoint(Vector2 hit)
@@ -208,7 +212,6 @@ public class UnitCombat : MonoBehaviour
     public void stopAttack()
     {
         lockedTarget = null;
-        lockedAttack = false;
         attacking = false;
         attackTimer = maxAttackTimer;
     }
@@ -226,7 +229,7 @@ public class UnitCombat : MonoBehaviour
 
     public bool isLockedAttack()
     {
-        return lockedAttack;
+        return lockedTarget == null ? false : true;
     }
 
     public bool hasAttacked()
@@ -237,7 +240,6 @@ public class UnitCombat : MonoBehaviour
     public void setLockedTarget(GameObject target)
     {
         lockedTarget = target;
-        lockedAttack = true;
     }
     public GameObject getLockedTarget()
     {
@@ -328,12 +330,13 @@ public class UnitCombat : MonoBehaviour
 
     public void castSpellInSlot(int slot, GameObject unit)
     {
+
         if (partySystem.getGroupID(gameObject) != -1)
         {
             spellList[slot].cast(unit);
         }
-    }
 
+    }
 
     //Haetaan meleerangessa olevat viholliset ja tehdään juttuja.
     public List<GameObject> getUnitsInMelee(UnitMovement.Direction dir)
@@ -360,6 +363,7 @@ public class UnitCombat : MonoBehaviour
                 //print("facingAngle: " + (unitMovement.getFacingAngle()) + " attackAngle: " + attackAngle);
             }
         }
+
         return hostilesInRange;
     }
 }

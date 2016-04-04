@@ -8,7 +8,11 @@ public class UnitMovement : MonoBehaviour
     private Animator animator = null;
     private UnitCombat unitCombat = null;
 
+
     private float movementSpeed = Tuner.UNIT_BASE_SPEED;
+    private bool movementLock = false;
+
+    private Vector2 lastPosition;
 
     public enum Direction
     {
@@ -22,6 +26,7 @@ public class UnitMovement : MonoBehaviour
         NW
     };
 
+    private Vector2 movementDelta;
     private Vector3 newPosition = Vector3.zero;
     private Vector2 relative = Vector2.zero;
     public Direction direction = Direction.NE;
@@ -49,7 +54,7 @@ public class UnitMovement : MonoBehaviour
 
     public float getFacingAngle()
     {
-        getDirection();
+        setDirection();
         return facingAngle;
     }
 
@@ -69,6 +74,7 @@ public class UnitMovement : MonoBehaviour
 
     void Update()
     {
+
         FMOD.Studio.PLAYBACK_STATE state;
         footStepsAudio.getPlaybackState(out state);
         if (isMoving)
@@ -97,8 +103,7 @@ public class UnitMovement : MonoBehaviour
         }
         else
             canTurn = true;
-        if (animator != null && astar != null)
-        {
+        if (animator != null && astar != null){
             if (astar.path != null)
             {
                 switch (direction)
@@ -121,8 +126,7 @@ public class UnitMovement : MonoBehaviour
                         break;
                 }
             }
-            else
-            {
+            else{
                 switch (direction)
                 {
                     case Direction.NE:
@@ -144,6 +148,9 @@ public class UnitMovement : MonoBehaviour
                 }
             }
         }
+
+
+
     }
 
     void FixedUpdate()
@@ -156,27 +163,23 @@ public class UnitMovement : MonoBehaviour
         else
             isMoving = false;
 
-        direction = getDirection();
+
+        if (lastPosition != new Vector2(transform.position.x, transform.position.y)){
+            direction = setDirection();
+        }
+
+
+        lastPosition = transform.position;
     }
 
-    public Direction getDirection()
+    public Direction setDirection()
     {
-        //Palauttaa suunnan mihin unitti on suuntaamassa.
-        //	
-        //		 8	 1   2
-        //		  \  |  /
-        //	   7-----------3
-        //		  /	 |  \
-        //		 6	 5   4
-        //
-        //
         if (!canTurn)
             return direction;
 
         if (isMoving || unitCombat == null || !unitCombat.isAttacking() || (unitCombat.isLockedAttack() && !unitCombat.inRange(unitCombat.getLockedTarget())))
             ; // Do nothing
-        else if (!unitCombat.hasAttacked())
-        {
+        else if (!unitCombat.hasAttacked()){
             if (!unitCombat.isLockedAttack())
                 newPosition = PlayerMovement.getCurrentMousePos();
             else
@@ -227,5 +230,28 @@ public class UnitMovement : MonoBehaviour
         //Palauttaa oletuksena pohjoisen.
         return Direction.N;
 
+    }
+
+    public void setDirection(Direction dir){
+        direction = dir;
+    }
+
+    public Direction getDirection()
+    {
+        return direction;
+    }
+
+    public bool isMovementLocked()
+    {
+        return movementLock;
+    }
+
+   public void unlockMovement(){
+        movementLock = false;
+
+    }
+
+    public void lockMovement(){
+        movementLock = true;
     }
 }

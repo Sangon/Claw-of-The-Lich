@@ -20,7 +20,7 @@ public class Tuner : MonoBehaviour
     //SPELL DEFAULT VALUES
 	public static readonly float DEFAULT_SPELL_RANGE = 150f;
 	public static readonly float DEFAULT_SKILL_CAST_TIME = 1f;
-	public static readonly int DEFAULT_SKILL_COOLDOWN = 2 * 10;
+	public static readonly int DEFAULT_SKILL_COOLDOWN = 2 * 50;
 
     public static readonly float DEFAULT_PROJECTILE_VELOCITY = 15f;
     public static readonly float DEFAULT_PROJECTILE_DAMAGE = 1.0f;
@@ -32,8 +32,8 @@ public class Tuner : MonoBehaviour
     public static readonly float DEFAULT_WHIRLWIND_RADIUS = UNIT_BASE_MELEE_RANGE * 2;
     public static readonly float BASE_WHIRLWIND_DAMAGE = UNIT_BASE_MELEE_DAMAGE * 2;
 
-    public static readonly float BASE_CHARGE_DAMAGE = UNIT_BASE_MELEE_DAMAGE * 2;
-    public static readonly float BASE_CHARGE_SPEED = UNIT_BASE_MELEE_DAMAGE * 2;
+    public static readonly float BASE_CHARGE_DAMAGE = UNIT_BASE_MELEE_DAMAGE * 2f;
+    public static readonly float BASE_CHARGE_SPEED = UNIT_BASE_SPEED * 5f;
 
     //CAMERA DEFAULT VALUES
     public static readonly float CAMERA_MIN_DISTANCE = 100;
