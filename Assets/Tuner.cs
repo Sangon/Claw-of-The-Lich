@@ -51,6 +51,4 @@ public class Tuner : MonoBehaviour
 
     public static readonly int LAYER_OBSTACLES = 1 << 8;
     public static readonly int LAYER_UNITS = 1 << 9;
-
-
 }

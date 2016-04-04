@@ -15,8 +15,7 @@ public class EnemyAIMelee : MonoBehaviour
 
     private UnitMovement unitMovement = null;
 
-    void Start()
-    {
+    void Start(){
         unitMovement = GetComponent<UnitMovement>();
     }
 
@@ -26,7 +25,7 @@ public class EnemyAIMelee : MonoBehaviour
         enemyPos = enemy.transform.position;
 
         // print(Vector2.Distance(playerPos, enemyPos));
-        if (Vector2.Distance(playerPos, enemyPos) < Tuner.enemyAgroRange && timeStamp < Time.time)
+        if (Vector2.Distance(playerPos, enemyPos) < 100f && timeStamp < Time.time)
         {
             unitMovement.moveTo(playerPos);
             timeStamp = Time.time + 0.3f;
