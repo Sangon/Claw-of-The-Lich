@@ -21,11 +21,7 @@ public class EnemyAI : MonoBehaviour
         if (partySystem.noneAlive())
             return;
 
-        bool ranged = false;
         bool directLine = true;
-
-        if (unitCombat.getAttackRange() > Tuner.UNIT_BASE_MELEE_RANGE)
-            ranged = true;
 
         float dis = 0;
         GameObject target = null;
@@ -44,7 +40,7 @@ public class EnemyAI : MonoBehaviour
         if (target != null)
         {
             dis = Vector2.Distance(target.transform.position, transform.position);
-            if (ranged)
+            if (!unitCombat.isMelee)
             {
                 RaycastHit2D hit = Physics2D.Linecast(transform.position, target.transform.position, Tuner.LAYER_OBSTACLES);
                 if (hit.collider != null)
@@ -53,7 +49,7 @@ public class EnemyAI : MonoBehaviour
 
             if (directLine)
             {
-                unitCombat.setLockedTarget(target);
+                unitCombat.aggro(target);
                 /*if (timeStamp < Time.time && dis > unitCombat.getAttackRange() || (timeStamp < Time.time && !directLine))
                 {
                     unitMovement.moveTo(target.transform.position);

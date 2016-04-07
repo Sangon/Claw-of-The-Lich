@@ -33,7 +33,6 @@ public class UnitCombat : MonoBehaviour
 
     void Start()
     {
-
         health = Tuner.UNIT_BASE_HEALTH;
         maxHealth = Tuner.UNIT_BASE_HEALTH;
         //isMelee = false;
@@ -45,12 +44,12 @@ public class UnitCombat : MonoBehaviour
         unitMovement = GetComponent<UnitMovement>();
         healthBar = GetComponent<HealthBar>();
         cameraScripts = Camera.main.GetComponent<CameraScripts>();
-
     }
 
     void checkForDeath()
     {
-        if (health <= 0){
+        if (health <= 0)
+        {
             if (Camera.main.transform.parent == transform)
                 Camera.main.transform.parent = null;
             gameObject.SetActive(false);
@@ -66,14 +65,15 @@ public class UnitCombat : MonoBehaviour
 
         if (lockedAttack)
         {
-            if (!inRange(lockedTarget) && !attacking)
+            if (lockedTarget != null && lockedTarget.activeSelf)
             {
-                unitMovement.moveTo(lockedTarget.transform.position);
+                if (!inRange(lockedTarget) && !attacking)
+                    unitMovement.moveTo(lockedTarget.transform.position);
+                else if (inRange(lockedTarget))
+                    startAttack();
             }
-            else if (inRange(lockedTarget))
-            {
-                startAttack();
-            }
+            else // Target is dead!
+                stopAttack();
         }
 
         if (isAttacking())
@@ -83,20 +83,14 @@ public class UnitCombat : MonoBehaviour
             {
                 //Mathf.Floor(maxAttackTimer*0.9f)){
                 if (isMelee)
-                    hits = getUnitsInMelee(unitMovement.direction);
+                    hits = getUnitsInMelee(unitMovement.getDirection());
             }
 
             attackTimer--;
 
             if (attackTimer <= 0)
-            {
                 resetAttack();
-            }
-
-            //Debug.Log(attackTimer);
-            //Tehd‰‰n damage, otetaan kaikki targetit jotka olivat rangessa ja niihin damage.
-
-            if (attackTimer == attackPoint)
+            else if (attackTimer == attackPoint)
             {
                 attacked = true;
                 if (isMelee)
@@ -113,11 +107,11 @@ public class UnitCombat : MonoBehaviour
 
                 }
                 else {
-
                     GameObject projectile = Instantiate(Resources.Load("testSpell"), transform.position, Quaternion.identity) as GameObject;
                     if (lockedAttack)
                     {
-                        projectile.GetComponent<projectile_spell_script>().initAttack(lockedTarget.transform.position, gameObject, true);
+                        Vector3 polygonColliderCenter = lockedTarget.GetComponent<PolygonCollider2D>().bounds.center;
+                        projectile.GetComponent<projectile_spell_script>().initAttack(polygonColliderCenter, gameObject, true);
                     }
                     else
                     {
@@ -141,27 +135,32 @@ public class UnitCombat : MonoBehaviour
     {
         if (partySystem.getGroupID(gameObject) != -1)
         {
+            GameObject bestTarget = null;
             List<GameObject> targetList = new List<GameObject>();
 
             //Hakee kaikki mobit Hostile tagill‰ ja lis‰‰ ne potentiaalisten vihollisten listaan.
             GameObject[] hostileList = GameObject.FindGameObjectsWithTag("Hostile");
             if (hostileList.Length == 0)
                 return;
-                
+
             targetList.AddRange(hostileList);
 
             //Laskee kuka potentiaalisten vihollisten listasta on l‰himp‰n‰ ja lockinnaa siihen.
             float distance = Mathf.Infinity;
             foreach (GameObject g in targetList)
             {
-                float currentDistance = Vector3.Distance(g.transform.position, hit);
+                float currentDistance = Vector2.Distance(g.transform.position, hit);
 
                 if (currentDistance < distance)
                 {
-                    lockedAttack = true;
-                    lockedTarget = g;
+                    bestTarget = g;
                     distance = currentDistance;
                 }
+            }
+            if (distance <= Tuner.ATTACKMOVE_MAX_SEARCH_DISTANCE_FROM_CLICK_POINT)
+            {
+                lockedAttack = true;
+                lockedTarget = bestTarget;
             }
         }
 
@@ -178,8 +177,9 @@ public class UnitCombat : MonoBehaviour
 
         GameObject target = null;
 
-        float distance = Mathf.Infinity;
-        foreach (GameObject g in targetList){
+        float distance = float.MaxValue;
+        foreach (GameObject g in targetList)
+        {
             float currentDistance = Vector3.Distance(g.transform.position, hit);
 
             if (currentDistance < distance)
@@ -234,7 +234,7 @@ public class UnitCombat : MonoBehaviour
         return attacked;
     }
 
-    public void setLockedTarget(GameObject target)
+    private void setLockedTarget(GameObject target)
     {
         lockedTarget = target;
         lockedAttack = true;
@@ -257,7 +257,6 @@ public class UnitCombat : MonoBehaviour
     //Tarkastaa nyt vain jos kyseinen kohde on attack rangen sis‰ll‰. Tarkistukset siit‰ jos vihollinen on liian kaukana en‰‰n seuraamiseen pit‰‰ tehd‰ itse.
     public bool inRange(GameObject target)
     {
-        //Asettaa vaan ranged unitille pidemm‰n rangen, LOS tarkistukset voi tehd‰ vaikka jokasen mobin omassa scriptiss‰, tai luoda uuden function t‰nne tarkistusta varten.
         if (target != null && target.activeSelf)
         {
             if (getRange(target) < attackRange)
@@ -278,7 +277,7 @@ public class UnitCombat : MonoBehaviour
         }
     }
     //Can also be used to heal with negative argument
-    public void takeDamage(float damage)
+    public void takeDamage(float damage, GameObject source = null)
     {
         if ((health - damage) > maxHealth)
             health = maxHealth;
@@ -287,6 +286,12 @@ public class UnitCombat : MonoBehaviour
 
         checkForDeath();
 
+        if (gameObject.activeSelf && !gameObject.tag.Equals("Player"))
+        {
+            // Still alive
+            aggro(source);
+        }
+
         if (healthBar != null)
             healthBar.update(getHealth() / getMaxHealth());
     }
@@ -294,13 +299,21 @@ public class UnitCombat : MonoBehaviour
     public void dealDamage(GameObject enemy, float amount)
     {
 
-        if (enemy != null && enemy.activeSelf){
+        if (enemy != null && enemy.activeSelf)
+        {
             enemy.GetComponent<UnitCombat>().takeDamage(amount);
         }
 
         //Debug.Log("DEALT DAMAGE." + enemy + " REMAINING HEALTH:" + enemy.GetComponent<UnitCombat>().getHealth());
     }
 
+    public void aggro(GameObject target)
+    {
+        if (!isAttacking())
+        {
+            setLockedTarget(target);
+        }
+    }
     public float getHealth()
     {
         return health;

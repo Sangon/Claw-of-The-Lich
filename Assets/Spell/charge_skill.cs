@@ -44,7 +44,7 @@ public class charge_skill : Skill {
             Vector2 moveVector = (new Vector2(parent.transform.position.x, parent.transform.position.y) - chargeVector);
             parent.GetComponent<UnitMovement>().moveTo(moveVector);
 
-            Debug.Log("VECTOR: " + chargeVector + "Charge: " + (chargeVector + new Vector2(parent.transform.position.x, parent.transform.position.y)));
+            //Debug.Log("VECTOR: " + chargeVector + "Charge: " + (chargeVector + new Vector2(parent.transform.position.x, parent.transform.position.y)));
             if (chargeTimer == 0){
                 parent.GetComponent<UnitMovement>().setMovementSpeed(Tuner.UNIT_BASE_SPEED);
                 parent.GetComponent<UnitMovement>().stop();

@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public class PartySystem : MonoBehaviour
 {
@@ -12,13 +13,19 @@ public class PartySystem : MonoBehaviour
     private GameObject character4;
     public List<GameObject> selectedCharacters;
     public List<GameObject> characters;
+    private List<int> partyPositions;
 
     private CameraScripts cameraScripts = null;
 
+    private GameObject mouseOverTarget = null;
+    public bool clickSelected = false;
+
     // Use this for initialization
-    void Start(){
+    void Start()
+    {
         cameraScripts = Camera.main.GetComponent<CameraScripts>();
-        updateCharacterList();
+        initPositions();
+        initCharacterList();
         character1 = characters[0];
         character2 = characters[1];
         character3 = characters[2];
@@ -63,6 +70,49 @@ public class PartySystem : MonoBehaviour
         }
         return -1;
     }
+    public void initCharacterList()
+    {
+        characters = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
+    }
+
+    public void updateCharacterList()
+    {
+        for (int i = characters.Count - 1; i >= 0; i--)
+        {
+
+            if (!characters[i].activeSelf)
+            {
+                // Deselect selected dead character
+                deselectCharacter(characters[i]);
+                // Remove dead character from character list
+                characters.RemoveAt(i);
+            }
+        }
+    }
+
+    private void initPositions()
+    {
+        partyPositions = new List<int>(new int[4]);
+        resetPositions();
+    }
+
+    public void resetPositions()
+    {
+        for (int i = 0; i < partyPositions.Count; i++)
+            partyPositions[i] = -1;
+    }
+
+    public bool setPosition(int groupID, int position)
+    {
+        foreach (int p in partyPositions)
+        {
+            //print(groupID);
+            if (p == position)
+                return false;
+        }
+        partyPositions[groupID] = position;
+        return true;
+    }
 
     private void selectAll()
     {
@@ -74,6 +124,32 @@ public class PartySystem : MonoBehaviour
         //print("All characters selected");
         //Camera.main.gameObject.transform.parent = selectedCharacters[0].transform;
         //Camera.main.transform.position = new Vector3(Camera.main.transform.parent.position.x, Camera.main.transform.parent.position.y, -5000);
+    }
+
+    private void deselectCharacter(GameObject character)
+    {
+        if (character != null && getGroupID(character) != -1)
+        {
+            selectedCharacters.Remove(character);
+            character.GetComponent<SpriteRenderer>().color = Color.black;
+            //print("Character#" + characterNumber + " deselected.");
+        }
+    }
+
+    private void selectCharacter(GameObject character, bool add = false)
+    {
+        if (!add && getGroupID(character) != -1)
+            return;
+        if (character == character1)
+            selectCharacter(1, add);
+        else if (character == character2)
+            selectCharacter(2, add);
+        else if (character == character3)
+            selectCharacter(3, add);
+        else if (character == character4)
+            selectCharacter(4, add);
+        else
+            selectCharacter(-1);
     }
 
     private void selectCharacter(int characterNumber, bool add = false)
@@ -104,22 +180,19 @@ public class PartySystem : MonoBehaviour
                 foreach (GameObject c in selectedCharacters)
                 {
                     if (c.activeSelf)
-                        c.GetComponent<SpriteRenderer>().color = Color.white;
+                        c.GetComponent<SpriteRenderer>().color = Color.black;
                 }
                 selectedCharacters.Clear();
             }
             if (add && getGroupID(character) != -1)
-            {
-                selectedCharacters.Remove(character);
-                character.GetComponent<SpriteRenderer>().color = Color.white;
-                //print("Character#" + characterNumber + " deselected.");
-            }
+                deselectCharacter(character);
             else {
                 selectedCharacters.Add(character);
-                character.GetComponent<SpriteRenderer>().color = Color.black;
+                character.GetComponent<SpriteRenderer>().color = Color.white;
                 //print("Character#" + characterNumber + " selected.");
             }
-        } else
+        }
+        else
         {
             selectedCharacters.Remove(character);
         }
@@ -129,11 +202,6 @@ public class PartySystem : MonoBehaviour
         //Camera.main.gameObject.transform.parent = null;
         //Camera.main.gameObject.transform.parent = selectedCharacters[selectedCharacters.Count - 1].transform;
         //Camera.main.transform.position = new Vector3(Camera.main.transform.parent.position.x, Camera.main.transform.parent.position.y, -5000);
-    }
-
-    public void updateCharacterList()
-    {
-        characters = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
     }
 
     void FixedUpdate()
@@ -164,6 +232,53 @@ public class PartySystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             selectCharacter(4, Input.GetKey(KeyCode.LeftShift));
+        }
+        mouseOverSelection(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        if (mouseOverTarget == null)
+            clickSelected = false;
+        else
+            clickSelected = true;
+
+        if (Input.GetMouseButtonDown(0) && mouseOverTarget != null)
+        {
+            selectCharacter(mouseOverTarget, Input.GetKey(KeyCode.LeftShift));
+        }
+
+        //GameObject marker = GameObject.Find("DebugMarker");
+        //marker.transform.position = character1.transform.position;
+    }
+
+    public void mouseOverSelection(Vector2 ray)
+    {
+        PointerEventData pe = new PointerEventData(EventSystem.current);
+        pe.position = Input.mousePosition;
+
+        List<RaycastResult> hits = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pe, hits);
+
+        if (mouseOverTarget != null)
+        {
+            if (getGroupID(mouseOverTarget) == -1)
+                mouseOverTarget.GetComponent<SpriteRenderer>().color = Color.black;
+            else
+                mouseOverTarget.GetComponent<SpriteRenderer>().color = Color.white;
+            mouseOverTarget = null;
+        }
+        if (hits.Count > 0) //if no object was found there is no minimum
+        {
+            float min = hits[0].distance; //lets assume that the minimum is at the 0th place
+            int minIndex = 0; //store the index of the minimum because thats hoow we can find our object
+
+            for (int i = 1; i < hits.Count; ++i)// iterate from the 1st element to the last.(Note that we ignore the 0th element)
+            {
+                if (hits[i].distance < min) //if we found smaller distance and its not the player we got a new minimum
+                {
+                    min = hits[i].distance; //refresh the minimum distance value
+                    minIndex = i; //refresh the distance
+                }
+            }
+            mouseOverTarget = hits[minIndex].gameObject.transform.parent.gameObject.transform.parent.gameObject;
+            mouseOverTarget.GetComponent<SpriteRenderer>().color = Color.yellow;
         }
     }
 }

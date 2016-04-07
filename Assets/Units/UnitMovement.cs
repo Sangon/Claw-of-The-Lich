@@ -7,6 +7,7 @@ public class UnitMovement : MonoBehaviour
     private AstarAI astar = null;
     private Animator animator = null;
     private UnitCombat unitCombat = null;
+    private Traps traps = null;
 
     private float movementSpeed = Tuner.UNIT_BASE_SPEED;
 
@@ -22,9 +23,8 @@ public class UnitMovement : MonoBehaviour
         NW
     };
 
-    private Vector3 newPosition = Vector3.zero;
-    private Vector2 relative = Vector2.zero;
-    public Direction direction = Direction.NE;
+    private Vector3 relativePosition = Vector3.zero;
+    private Direction direction = Direction.NE;
 
     private float facingAngle = 0;
 
@@ -38,6 +38,7 @@ public class UnitMovement : MonoBehaviour
         astar = GetComponent<AstarAI>();
         animator = GetComponent<Animator>();
         unitCombat = GetComponent<UnitCombat>();
+        traps = GameObject.Find("Traps").GetComponent<Traps>();
         footStepsAudio = FMODUnity.RuntimeManager.CreateInstance("event:/sfx/walk");
     }
 
@@ -49,7 +50,6 @@ public class UnitMovement : MonoBehaviour
 
     public float getFacingAngle()
     {
-        getDirection();
         return facingAngle;
     }
 
@@ -65,6 +65,11 @@ public class UnitMovement : MonoBehaviour
     {
         if (astar != null)
             astar.stop();
+    }
+
+    private void checkTriggerCollisions()
+    {
+        traps.checkTrigger(transform.position, transform.tag);
     }
 
     void Update()
@@ -89,6 +94,9 @@ public class UnitMovement : MonoBehaviour
             // Stop looping sound if already playing and play condition is no longer true
             footStepsAudio.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
+
+        checkTriggerCollisions();
+
         if (unitCombat.isAttacking())
         {
             //if (canTurn)
@@ -99,7 +107,7 @@ public class UnitMovement : MonoBehaviour
             canTurn = true;
         if (animator != null && astar != null)
         {
-            if (astar.path != null)
+            if (isMoving)
             {
                 switch (direction)
                 {
@@ -150,16 +158,21 @@ public class UnitMovement : MonoBehaviour
     {
         if (astar != null && astar.path != null)
         {
-            newPosition = astar.getNextPathPoint();
+            //newPosition = astar.getNextPathPoint();
+            relativePosition = astar.getMovementDirection();
             isMoving = true;
         }
         else
             isMoving = false;
 
-        direction = getDirection();
+        calculateDirection();
     }
 
     public Direction getDirection()
+    {
+        return direction;
+    }
+    public void calculateDirection()
     {
         //Palauttaa suunnan mihin unitti on suuntaamassa.
         //	
@@ -171,61 +184,58 @@ public class UnitMovement : MonoBehaviour
         //
         //
         if (!canTurn)
-            return direction;
+            return;
 
         if (isMoving || unitCombat == null || !unitCombat.isAttacking() || (unitCombat.isLockedAttack() && !unitCombat.inRange(unitCombat.getLockedTarget())))
             ; // Do nothing
         else if (!unitCombat.hasAttacked())
         {
+            Vector3 newPosition;
+            // The unit is attacking; turn the unit towards its target
             if (!unitCombat.isLockedAttack())
                 newPosition = PlayerMovement.getCurrentMousePos();
             else
                 newPosition = unitCombat.getLockedTarget().transform.position;
+            relativePosition = transform.InverseTransformPoint(newPosition);
             //print("attacking! " + relative + " facingAngle: " + Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg);
         }
 
-        relative = transform.InverseTransformPoint(newPosition);
-
-        facingAngle = Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg;
+        facingAngle = Mathf.Atan2(relativePosition.x, relativePosition.y) * Mathf.Rad2Deg;
 
         //8 directions
         float a = 22.5f;
 
         if (facingAngle >= -a * 5 && facingAngle < -a * 3)
         {
-            return Direction.W;
+            direction = Direction.W;
         }
         else if (facingAngle >= -a * 7 && facingAngle < -a * 5)
         {
-            return Direction.SW;
+            direction = Direction.SW;
         }
         else if (facingAngle >= a * 7 || facingAngle < -a * 7)
         {
-            return Direction.S;
+            direction = Direction.S;
         }
         else if (facingAngle >= a * 5 && facingAngle < a * 7)
         {
-            return Direction.SE;
+            direction = Direction.SE;
         }
         else if (facingAngle >= a * 3 && facingAngle < a * 5)
         {
-            return Direction.E;
+            direction = Direction.E;
         }
         else if (facingAngle >= a && facingAngle < a * 3)
         {
-            return Direction.NE;
+            direction = Direction.NE;
         }
         else if (facingAngle >= -a && facingAngle < a)
         {
-            return Direction.N;
+            direction = Direction.N;
         }
         else if (facingAngle >= -a * 3 && facingAngle < -a)
         {
-            return Direction.NW;
+            direction = Direction.NW;
         }
-
-        //Palauttaa oletuksena pohjoisen.
-        return Direction.N;
-
     }
 }

@@ -8,7 +8,7 @@ public class projectile_spell_script : Spell
     public float velocity;
     public float damage;
     public Vector2 dir;
-    //private GameObject parent;
+    private GameObject parent;
     private string ownerTag;
 
     void Awake(){
@@ -21,7 +21,7 @@ public class projectile_spell_script : Spell
 
     public void initAttack(Vector3 enemy, GameObject parent, bool handleOffset){
         castLocation = enemy;
-        //this.parent = parent;
+        this.parent = parent;
         ownerTag = parent.tag;
         if (handleOffset)
             castLocation.y += Tuner.DEFAULT_PROJECTILE_OFFSET;
@@ -43,7 +43,7 @@ public class projectile_spell_script : Spell
             } 
             else if (!hit.collider.name.Equals("Collision") && !hit.collider.gameObject.tag.Equals(ownerTag))
             {
-                hit.collider.gameObject.GetComponent<UnitCombat>().takeDamage(damage);
+                hit.collider.gameObject.GetComponent<UnitCombat>().takeDamage(damage, parent);
                 Destroy(gameObject);
                 return false;
             }

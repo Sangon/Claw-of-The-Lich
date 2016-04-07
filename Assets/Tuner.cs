@@ -45,12 +45,16 @@ public class Tuner : MonoBehaviour
     public static readonly float meleeEnemyAttackRange = 150f;
     public static readonly float enemyAggroRange = 1000f;
 
+    //PARTYSYSTEM DEFAULT VALUES
     public static readonly float PARTY_SPACING = 100f;
 
-    public static readonly float PATHFINDING_MINIMUM_DISTANCE = 20f;
+    //PATHFINDING & MOVEMENT DEFAULT VALUES
+    public static readonly float PATHFINDING_MINIMUM_DISTANCE_FROM_UNIT = 10f;
+    public static readonly float ATTACKMOVE_MAX_SEARCH_DISTANCE_FROM_CLICK_POINT = 200f;
 
+    //UNITY EDITOR DEFAULT VALUES
     public static readonly int LAYER_OBSTACLES = 1 << 8;
     public static readonly int LAYER_UNITS = 1 << 9;
-
-
+    public static readonly int LAYER_SELECTION = 1 << 10;
+    public static readonly int LAYER_GROUND = 1 << 11;
 }
