@@ -36,7 +36,7 @@ public class Tuner : MonoBehaviour
     public static readonly float BASE_CHARGE_SPEED = UNIT_BASE_SPEED * 5f;
 
     public static readonly float DEAULT_BLOT_OUT_DURATION = 3 + 2;
-    public static readonly float DEFAULT_BLOT_OUT_RADIUS = 440;
+    public static readonly float DEFAULT_BLOT_OUT_RADIUS = 880;
     public static readonly float BASE_BLOT_OUT_DAMAGE = 0.01f;
 
     //CAMERA DEFAULT VALUES

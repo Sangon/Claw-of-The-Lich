@@ -7,7 +7,7 @@ public class blot_out_skill : Skill {
     public blot_out_skill() {
         spellName = "blot_out";
         skillIcon = null;
-
+        maxCooldown = 15*50;
     }
 
     public override void cast(GameObject unit)

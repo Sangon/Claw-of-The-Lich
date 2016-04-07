@@ -6,7 +6,7 @@ public abstract class Skill : ScriptableObject, ISkill{
 
 	protected int maxCooldown = Tuner.DEFAULT_SKILL_COOLDOWN;
 	protected float maxRange = Tuner.DEFAULT_SPELL_RANGE;
-	protected float currentCooldown = Tuner.DEFAULT_SKILL_COOLDOWN;
+	protected float currentCooldown = 0;
 	protected float castTime = Tuner.DEFAULT_SKILL_CAST_TIME;
 	protected string spellName = "";
 	protected Texture2D skillIcon = null;
