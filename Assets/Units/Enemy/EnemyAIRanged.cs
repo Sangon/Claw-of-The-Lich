@@ -45,7 +45,7 @@ public class EnemyAIRanged : MonoBehaviour
             unitMovement.stop();
 
         }
-        else if (Vector2.Distance(playerPos, enemyPos) < Tuner.enemyAgroRange && timeStamp < Time.time)
+        else if (Vector2.Distance(playerPos, enemyPos) < Tuner.enemyAggroRange && timeStamp < Time.time)
         {
             unitMovement.moveTo(playerPos);
             timeStamp = Time.time + 0.3f;

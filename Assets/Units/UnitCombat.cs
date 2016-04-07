@@ -39,7 +39,7 @@ public class UnitCombat : MonoBehaviour
         //isMelee = false;
         attackRange = (isMelee) ? Tuner.UNIT_BASE_MELEE_RANGE : Tuner.UNIT_BASE_RANGED_RANGE;
 
-        spellList[0] = ScriptableObject.CreateInstance("whirlwind_skill") as whirlwind_skill;
+        spellList[0] = ScriptableObject.CreateInstance("blot_out_skill") as blot_out_skill;
         spellList[1] = ScriptableObject.CreateInstance("charge_skill") as charge_skill;
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
         unitMovement = GetComponent<UnitMovement>();
@@ -114,7 +114,7 @@ public class UnitCombat : MonoBehaviour
                 }
                 else {
 
-                    GameObject projectile = Instantiate(Resources.Load("testSpell"), transform.position, Quaternion.identity) as GameObject;
+                    GameObject projectile = Instantiate(Resources.Load("fireball_projectile"), transform.position, Quaternion.identity) as GameObject;
                     if (isLockedAttack())
                     {
                         projectile.GetComponent<projectile_spell_script>().initAttack(lockedTarget.transform.position, gameObject, true);
@@ -292,6 +292,7 @@ public class UnitCombat : MonoBehaviour
         if (healthBar != null)
             healthBar.update(getHealth() / getMaxHealth());
     }
+
     //Can also be used to heal with negative argument
     public void dealDamage(GameObject enemy, float amount)
     {

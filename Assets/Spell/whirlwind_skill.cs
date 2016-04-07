@@ -7,20 +7,21 @@ public class whirlwind_skill : Skill
 {
     private float wwtimer = 0;
     private float maxwwTimer = 20;
-    private GameObject parent;
+    private GameObject parent = null;
     public whirlwind_skill () {
         spellName = "whirlwind";
         skillIcon = null;
         targetable = false;
     }
 
-    public override void cast(GameObject unit)
-    {
+    public override void cast(GameObject unit){
 
         parent = unit;
-        if (currentCooldown == maxCooldown){
+        if (currentCooldown == maxCooldown)
+        {
             currentCooldown = 0;
-            foreach (GameObject g in getUnitsAtPoint(unit.transform.position, Tuner.DEFAULT_WHIRLWIND_RADIUS)) {
+            foreach (GameObject g in getUnitsAtPoint(unit.transform.position, Tuner.DEFAULT_WHIRLWIND_RADIUS))
+            {
                 g.GetComponent<UnitCombat>().takeDamage(Tuner.BASE_WHIRLWIND_DAMAGE);
             }
         }
@@ -34,9 +35,6 @@ public class whirlwind_skill : Skill
 
     public override void FixedUpdate()
     {
-
-
-
         if (currentCooldown < maxCooldown){
             currentCooldown++;
             if (currentCooldown == maxCooldown)
@@ -44,6 +42,9 @@ public class whirlwind_skill : Skill
                 Debug.Log("Ready: " + spellName);
             }
         }
+
+        if (parent == null)
+            return;
 
         if (wwtimer <= 0)
         {

@@ -8,7 +8,6 @@ public class projectile_spell_script : Spell
     public float velocity;
     public float damage;
     public Vector2 dir;
-    //private GameObject parent;
     private string ownerTag;
 
     void Awake(){
@@ -21,7 +20,6 @@ public class projectile_spell_script : Spell
 
     public void initAttack(Vector3 enemy, GameObject parent, bool handleOffset){
         castLocation = enemy;
-        //this.parent = parent;
         ownerTag = parent.tag;
         if (handleOffset)
             castLocation.y += Tuner.DEFAULT_PROJECTILE_OFFSET;
