@@ -293,21 +293,21 @@ public class PartySystem : MonoBehaviour
         }
         if (hits.Count > 0) //if no object was found there is no minimum
         {
-            float min = hits[0].distance; //lets assume that the minimum is at the 0th place
+            float min = Vector2.Distance(hits[0].gameObject.transform.position, ray); //lets assume that the minimum is at the 0th place
             int minIndex = 0; //store the index of the minimum because thats hoow we can find our object
 
             for (int i = 1; i < hits.Count; ++i)// iterate from the 1st element to the last.(Note that we ignore the 0th element)
             {
-                if (hits[i].distance < min) //if we found smaller distance and its not the player we got a new minimum
+                if (Vector2.Distance(hits[i].gameObject.transform.position, ray) < min) //if we found smaller distance and its not the player we got a new minimum
                 {
-                    min = hits[i].distance; //refresh the minimum distance value
+                    min = Vector2.Distance(hits[i].gameObject.transform.position, ray); //refresh the minimum distance value
                     minIndex = i; //refresh the distance
                 }
             }
             if (!hits[minIndex].gameObject.tag.Equals("UI"))
             {
                 mouseOverTarget = hits[minIndex].gameObject.transform.parent.gameObject.transform.parent.gameObject;
-                mouseOverTarget.GetComponent<SpriteRenderer>().color = Color.yellow;
+                mouseOverTarget.GetComponent<SpriteRenderer>().color = Color.green;
             }
         }
     }
