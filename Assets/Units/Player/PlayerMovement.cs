@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private UnitMovement unitMovement;
     private UnitCombat unitCombat;
     private PartySystem partySystem;
+    private PlayerHUD playerHUD;
 
     private int selectedSpellSlot = 0;
     private bool targeting = false;
@@ -30,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
         unitMovement = GetComponent<UnitMovement>();
         unitCombat = GetComponent<UnitCombat>();
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
+        playerHUD = GetComponent<PlayerHUD>();
     }
 
     void FixedUpdate()
@@ -94,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
             pathfindingTimer = Time.fixedDeltaTime * 2.0f;
         }
 
-        if (partySystem.clickSelected && Input.GetMouseButtonDown(0))
+        if ((partySystem.mouseOverCharacter || playerHUD.mouseOverHUD) && Input.GetMouseButtonDown(0))
             ignoreMoving = true;
 
         if (Input.GetMouseButton(0) && !Input.GetMouseButton(1) && !Input.GetKey(KeyCode.LeftShift) && !ignoreMoving && !targeting && pathfindingTimer <= 0)

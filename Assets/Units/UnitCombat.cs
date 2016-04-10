@@ -8,7 +8,7 @@ public class UnitCombat : MonoBehaviour
     private float maxHealth;
 
     //Unit type
-    public bool isMelee = false;
+    private bool melee = false;
 
     //Targetin seurausta varten.
     private GameObject lockedTarget = null;
@@ -36,8 +36,11 @@ public class UnitCombat : MonoBehaviour
     {
         health = Tuner.UNIT_BASE_HEALTH;
         maxHealth = Tuner.UNIT_BASE_HEALTH;
-        //isMelee = false;
-        attackRange = (isMelee) ? Tuner.UNIT_BASE_MELEE_RANGE : Tuner.UNIT_BASE_RANGED_RANGE;
+
+        if (gameObject.name.Contains("Melee"))
+            melee = true;
+
+        attackRange = (isMelee()) ? Tuner.UNIT_BASE_MELEE_RANGE : Tuner.UNIT_BASE_RANGED_RANGE;
 
         spellList[0] = ScriptableObject.CreateInstance("charge_skill") as charge_skill;
         spellList[1] = ScriptableObject.CreateInstance("projectile_skill") as projectile_skill;
@@ -49,6 +52,24 @@ public class UnitCombat : MonoBehaviour
             playerHUD = GetComponent<PlayerHUD>();
 
         cameraScripts = Camera.main.GetComponent<CameraScripts>();
+    }
+
+    public void changeWeapon()
+    {
+        melee = !melee;
+        attackRange = (isMelee()) ? Tuner.UNIT_BASE_MELEE_RANGE : Tuner.UNIT_BASE_RANGED_RANGE;
+    }
+
+    public bool isAlive()
+    {
+        if (getHealth() > 0f)
+            return true;
+        return false;
+    }
+
+    public bool isMelee()
+    {
+        return melee;
     }
 
     void checkForDeath()
@@ -87,7 +108,7 @@ public class UnitCombat : MonoBehaviour
             if (attackTimer == maxAttackTimer)
             {
                 //Mathf.Floor(maxAttackTimer*0.9f)){
-                if (isMelee)
+                if (isMelee())
                     hits = getUnitsInMelee(unitMovement.getDirection());
             }
 
@@ -98,7 +119,7 @@ public class UnitCombat : MonoBehaviour
             else if (attackTimer == attackPoint)
             {
                 attacked = true;
-                if (isMelee)
+                if (isMelee())
                 {
                     if (hits != null)
                     {
@@ -266,9 +287,9 @@ public class UnitCombat : MonoBehaviour
         {
             if (getRange(target) < attackRange)
             {
-                if (!isMelee && lineOfSight(target))
+                if (!isMelee() && lineOfSight(target))
                     return true;
-                else if (isMelee)
+                else if (isMelee())
                     return true;
                 else
                     return false;

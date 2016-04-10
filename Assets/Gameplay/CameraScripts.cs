@@ -76,7 +76,7 @@ public class CameraScripts : MonoBehaviour
             if (selection != null)
             {
                 Camera.main.transform.parent = selection.transform;
-                Camera.main.transform.position = new Vector3(Camera.main.transform.parent.position.x, Camera.main.transform.parent.position.y, -5000);
+                //Camera.main.transform.position = new Vector3(Camera.main.transform.parent.position.x, Camera.main.transform.parent.position.y, -5000);
             }
         }
         else

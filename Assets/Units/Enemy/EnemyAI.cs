@@ -26,7 +26,7 @@ public class EnemyAI : MonoBehaviour
         float dis = 0;
         GameObject target = null;
 
-        foreach (GameObject character in partySystem.characters)
+        foreach (GameObject character in partySystem.aliveCharacters)
         {
             dis = Vector2.Distance(character.transform.position, transform.position);
             if (dis < Tuner.enemyAggroRange)

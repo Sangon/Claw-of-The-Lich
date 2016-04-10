@@ -29,7 +29,7 @@ public class HUD : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.H))
         {
-            foreach (GameObject c in partySystem.characters)
+            foreach (GameObject c in partySystem.aliveCharacters)
             {
                 if (c != null && c.GetComponent<UnitCombat>() != null)
                     c.GetComponent<UnitCombat>().takeDamage(-c.GetComponent<UnitCombat>().getMaxHealth());

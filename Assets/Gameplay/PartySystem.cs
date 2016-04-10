@@ -13,12 +13,13 @@ public class PartySystem : MonoBehaviour
     private GameObject character4;
     public List<GameObject> selectedCharacters;
     public List<GameObject> characters;
+    public List<GameObject> aliveCharacters;
     private List<int> partyPositions;
 
     private CameraScripts cameraScripts = null;
 
     private GameObject mouseOverTarget = null;
-    public bool clickSelected = false;
+    public bool mouseOverCharacter = false;
 
     // Use this for initialization
     void Start()
@@ -31,6 +32,14 @@ public class PartySystem : MonoBehaviour
         character3 = characters[2];
         character4 = characters[3];
         selectAll();
+    }
+
+    // 1 - 4
+    public GameObject getCharacter(int ID)
+    {
+        if (ID >= 1 && ID <= 4)
+            return characters[ID - 1];
+        return null;
     }
 
     public GameObject getFirstSelectedCharacter()
@@ -53,7 +62,7 @@ public class PartySystem : MonoBehaviour
     public bool noneAlive()
     {
         updateCharacterList();
-        if (characters.Count == 0)
+        if (aliveCharacters.Count == 0)
             return true;
         return false;
     }
@@ -76,19 +85,23 @@ public class PartySystem : MonoBehaviour
         characters.Add(GameObject.Find("Character#2"));
         characters.Add(GameObject.Find("Character#3"));
         characters.Add(GameObject.Find("Character#4"));
+        aliveCharacters.Add(GameObject.Find("Character#1"));
+        aliveCharacters.Add(GameObject.Find("Character#2"));
+        aliveCharacters.Add(GameObject.Find("Character#3"));
+        aliveCharacters.Add(GameObject.Find("Character#4"));
     }
 
     public void updateCharacterList()
     {
-        for (int i = characters.Count - 1; i >= 0; i--)
+        for (int i = aliveCharacters.Count - 1; i >= 0; i--)
         {
-            if (!characters[i].activeSelf)
+            if (!aliveCharacters[i].activeSelf)
             {
                 // Deselect selected dead character
-                deselectCharacter(characters[i]);
-                characters[i].GetComponent<PlayerHUD>().Update();
+                deselectCharacter(aliveCharacters[i]);
+                aliveCharacters[i].GetComponent<PlayerHUD>().Update();
                 // Remove dead character from character list
-                characters.RemoveAt(i);
+                aliveCharacters.RemoveAt(i);
             }
         }
     }
@@ -244,11 +257,11 @@ public class PartySystem : MonoBehaviour
         {
             selectCharacter(4, Input.GetKey(KeyCode.LeftShift));
         }
-        mouseOverSelection(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        mouseOver(Camera.main.ScreenToWorldPoint(Input.mousePosition));
         if (mouseOverTarget == null)
-            clickSelected = false;
+            mouseOverCharacter = false;
         else
-            clickSelected = true;
+            mouseOverCharacter = true;
 
         if (Input.GetMouseButtonDown(0) && mouseOverTarget != null)
         {
@@ -261,7 +274,8 @@ public class PartySystem : MonoBehaviour
         //marker.transform.position = character1.transform.position;
     }
 
-    public void mouseOverSelection(Vector2 ray)
+    // Select units by clicking them
+    public void mouseOver(Vector2 ray)
     {
         PointerEventData pe = new PointerEventData(EventSystem.current);
         pe.position = Input.mousePosition;
@@ -290,8 +304,11 @@ public class PartySystem : MonoBehaviour
                     minIndex = i; //refresh the distance
                 }
             }
-            mouseOverTarget = hits[minIndex].gameObject.transform.parent.gameObject.transform.parent.gameObject;
-            mouseOverTarget.GetComponent<SpriteRenderer>().color = Color.yellow;
+            if (!hits[minIndex].gameObject.tag.Equals("UI"))
+            {
+                mouseOverTarget = hits[minIndex].gameObject.transform.parent.gameObject.transform.parent.gameObject;
+                mouseOverTarget.GetComponent<SpriteRenderer>().color = Color.yellow;
+            }
         }
     }
 }
