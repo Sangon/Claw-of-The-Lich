@@ -57,4 +57,5 @@ public class Tuner : MonoBehaviour
     public static readonly int LAYER_UNITS = 1 << 9;
     public static readonly int LAYER_SELECTION = 1 << 10;
     public static readonly int LAYER_GROUND = 1 << 11;
+    public static readonly int LAYER_FLOOR = 1 << 12;
 }

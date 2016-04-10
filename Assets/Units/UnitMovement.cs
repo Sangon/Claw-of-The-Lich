@@ -53,11 +53,13 @@ public class UnitMovement : MonoBehaviour
         return facingAngle;
     }
 
-    internal void setMovementSpeed(float value){
+    internal void setMovementSpeed(float value)
+    {
         movementSpeed = value;
     }
 
-    internal float getMovementSpeed(){
+    internal float getMovementSpeed()
+    {
         return movementSpeed;
     }
 
@@ -70,6 +72,21 @@ public class UnitMovement : MonoBehaviour
     private void checkTriggerCollisions()
     {
         traps.checkTrigger(transform.position, transform.tag);
+
+        if (gameObject.tag.Equals("Player"))
+        {
+            Vector2 pos = gameObject.transform.position;
+            Vector2 end = pos + new Vector2(0, 1f);
+            Debug.DrawLine(pos, end, Color.magenta);
+            RaycastHit2D[] hits = Physics2D.LinecastAll(pos, end, Tuner.LAYER_FLOOR);
+            if (hits.Length > 0)
+            {
+                for (int i = 0; i < hits.Length; i++)
+                {
+                    hits[i].collider.gameObject.GetComponent<HouseTransparency>().trigger();
+                }
+            }
+        }
     }
 
     void Update()

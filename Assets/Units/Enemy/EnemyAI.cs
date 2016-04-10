@@ -21,7 +21,7 @@ public class EnemyAI : MonoBehaviour
         if (partySystem.noneAlive())
             return;
 
-        bool directLine = true;
+        bool lineOfSight = true;
 
         float dis = 0;
         GameObject target = null;
@@ -40,26 +40,13 @@ public class EnemyAI : MonoBehaviour
         if (target != null)
         {
             dis = Vector2.Distance(target.transform.position, transform.position);
-            if (!unitCombat.isMelee)
-            {
-                RaycastHit2D hit = Physics2D.Linecast(transform.position, target.transform.position, Tuner.LAYER_OBSTACLES);
-                if (hit.collider != null)
-                    directLine = false;
-            }
+            RaycastHit2D hit = Physics2D.Linecast(transform.position, target.transform.position, Tuner.LAYER_OBSTACLES);
+            if (hit.collider != null)
+                lineOfSight = false;
 
-            if (directLine)
+            if (lineOfSight)
             {
                 unitCombat.aggro(target);
-                /*if (timeStamp < Time.time && dis > unitCombat.getAttackRange() || (timeStamp < Time.time && !directLine))
-                {
-                    unitMovement.moveTo(target.transform.position);
-                    timeStamp = Time.time + 0.3f;
-                }
-                else if (dis <= unitCombat.getAttackRange() && directLine)
-                {
-                    unitMovement.stop();
-                }
-                */
             }
         }
     }

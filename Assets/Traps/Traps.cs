@@ -28,7 +28,7 @@ public class Traps : MonoBehaviour
             float dis = Vector2.Distance(trap.transform.position, position);
             if (dis <= trap.getTriggerDistance())
             {
-                trap.trigger();
+                trap.trigger(tag);
             }
         }
     }
