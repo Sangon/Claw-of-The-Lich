@@ -72,18 +72,21 @@ public class PartySystem : MonoBehaviour
     }
     public void initCharacterList()
     {
-        characters = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
+        characters.Add(GameObject.Find("Character#1"));
+        characters.Add(GameObject.Find("Character#2"));
+        characters.Add(GameObject.Find("Character#3"));
+        characters.Add(GameObject.Find("Character#4"));
     }
 
     public void updateCharacterList()
     {
         for (int i = characters.Count - 1; i >= 0; i--)
         {
-
             if (!characters[i].activeSelf)
             {
                 // Deselect selected dead character
                 deselectCharacter(characters[i]);
+                characters[i].GetComponent<PlayerHUD>().Update();
                 // Remove dead character from character list
                 characters.RemoveAt(i);
             }
@@ -116,7 +119,7 @@ public class PartySystem : MonoBehaviour
 
     private void selectAll()
     {
-        selectedCharacters.Clear();
+        deSelectAll();
         selectCharacter(1, true);
         selectCharacter(2, true);
         selectCharacter(3, true);
@@ -124,6 +127,14 @@ public class PartySystem : MonoBehaviour
         //print("All characters selected");
         //Camera.main.gameObject.transform.parent = selectedCharacters[0].transform;
         //Camera.main.transform.position = new Vector3(Camera.main.transform.parent.position.x, Camera.main.transform.parent.position.y, -5000);
+    }
+
+    private void deSelectAll()
+    {
+        deselectCharacter(character1);
+        deselectCharacter(character2);
+        deselectCharacter(character3);
+        deselectCharacter(character4);
     }
 
     private void deselectCharacter(GameObject character)
@@ -241,6 +252,8 @@ public class PartySystem : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && mouseOverTarget != null)
         {
+            if (!Input.GetKey(KeyCode.LeftShift))
+                deSelectAll();
             selectCharacter(mouseOverTarget, Input.GetKey(KeyCode.LeftShift));
         }
 

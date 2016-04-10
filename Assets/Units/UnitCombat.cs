@@ -13,6 +13,7 @@ public class UnitCombat : MonoBehaviour
     //Targetin seurausta varten.
     private GameObject lockedTarget = null;
     private HealthBar healthBar = null;
+    private PlayerHUD playerHUD = null;
 
     private float attackRange;
     private bool attacking = false;
@@ -43,6 +44,10 @@ public class UnitCombat : MonoBehaviour
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
         unitMovement = GetComponent<UnitMovement>();
         healthBar = GetComponent<HealthBar>();
+
+        if (gameObject.tag.Equals("Player"))
+            playerHUD = GetComponent<PlayerHUD>();
+
         cameraScripts = Camera.main.GetComponent<CameraScripts>();
     }
 
@@ -285,6 +290,7 @@ public class UnitCombat : MonoBehaviour
             health -= damage;
 
         checkForDeath();
+        updateHUD();
 
         if (gameObject.activeSelf && !gameObject.tag.Equals("Player"))
         {
@@ -292,8 +298,6 @@ public class UnitCombat : MonoBehaviour
             aggro(source);
         }
 
-        if (healthBar != null)
-            healthBar.update(getHealth() / getMaxHealth());
     }
     //Can also be used to heal with negative argument
     public void dealDamage(GameObject enemy, float amount)
@@ -305,6 +309,14 @@ public class UnitCombat : MonoBehaviour
         }
 
         //Debug.Log("DEALT DAMAGE." + enemy + " REMAINING HEALTH:" + enemy.GetComponent<UnitCombat>().getHealth());
+    }
+
+    private void updateHUD()
+    {
+        if (healthBar != null)
+            healthBar.update(getHealth() / getMaxHealth());
+        if (playerHUD != null)
+            playerHUD.updateStats(getHealth() / getMaxHealth(), 1f);
     }
 
     public void aggro(GameObject target)
@@ -321,14 +333,12 @@ public class UnitCombat : MonoBehaviour
     public void setHealth(float hp)
     {
         health = hp;
-        if (healthBar != null)
-            healthBar.update(getHealth() / getMaxHealth());
+        updateHUD();
     }
     public void resetHealth()
     {
         health = maxHealth;
-        if (healthBar != null)
-            healthBar.update(getHealth() / getMaxHealth());
+        updateHUD();
     }
     public float getMaxHealth()
     {

@@ -172,6 +172,8 @@ public class PlayerMovement : MonoBehaviour
 
     void OnGUI()
     {
-        GUI.Label(new Rect(10, 10, 100, 20), "Targeting: " + targeting);
+        int offset = (partySystem.getGroupID(gameObject) * 20);
+        if (offset >= 0)
+            GUI.Label(new Rect(10, 100 + offset, 100, 20), "Targeting: " + targeting);
     }
 }

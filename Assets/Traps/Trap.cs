@@ -23,7 +23,7 @@ public class Trap : MonoBehaviour
             }
             cooldownNow = cooldownMax;
         }
-        else
+        else if (tag.Equals(triggererTag))
             retriggerCooldown = Time.fixedDeltaTime * 2;
     }
 

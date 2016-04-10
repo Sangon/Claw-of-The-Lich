@@ -42,11 +42,12 @@ public class HUD : MonoBehaviour
         int width = Screen.width;
         //int height = Screen.height;
 
-        GUI.Label(new Rect(10, 30, 300, 20), "Press F to Toggle Camera Lock to Selection");
-        GUI.Label(new Rect(10, 50, 300, 20), "Press V to Toggle Show Healthbars");
-        GUI.Label(new Rect(10, 70, 300, 20), "Press (Shift +) Num to (De)select a Character");
-        GUI.Label(new Rect(10, 90, 300, 20), "Press H to Heal Player Characters");
-        GUI.Label(new Rect(10, 110, 300, 20), "Press S to Stop Moving");
+        GUI.Label(new Rect(10, 180, 300, 20), "Press F to Toggle Camera Lock to Selection");
+        GUI.Label(new Rect(10, 200, 300, 20), "Press V to Toggle Show Healthbars");
+        GUI.Label(new Rect(10, 220, 300, 20), "Press (Shift +) Num to (De)select a Character");
+        GUI.Label(new Rect(10, 240, 300, 20), "Press § to Select All Characters");
+        GUI.Label(new Rect(10, 260, 300, 20), "Press H to Heal Player Characters");
+        GUI.Label(new Rect(10, 280, 300, 20), "Press S to Stop Moving");
         float msec = Time.deltaTime * 1000.0f;
         float fps = 1.0f / Time.deltaTime;
         string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
