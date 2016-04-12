@@ -133,10 +133,10 @@ public class PartySystem : MonoBehaviour
     private void selectAll()
     {
         deSelectAll();
-        selectCharacter(1, true);
-        selectCharacter(2, true);
-        selectCharacter(3, true);
-        selectCharacter(4, true);
+        selectCharacter(character1, true);
+        selectCharacter(character2, true);
+        selectCharacter(character3, true);
+        selectCharacter(character4, true);
         //print("All characters selected");
         //Camera.main.gameObject.transform.parent = selectedCharacters[0].transform;
         //Camera.main.transform.position = new Vector3(Camera.main.transform.parent.position.x, Camera.main.transform.parent.position.y, -5000);
@@ -160,43 +160,8 @@ public class PartySystem : MonoBehaviour
         }
     }
 
-    private void selectCharacter(GameObject character, bool add = false)
+    public void selectCharacter(GameObject character, bool add = false)
     {
-        if (!add && getGroupID(character) != -1)
-            return;
-        if (character == character1)
-            selectCharacter(1, add);
-        else if (character == character2)
-            selectCharacter(2, add);
-        else if (character == character3)
-            selectCharacter(3, add);
-        else if (character == character4)
-            selectCharacter(4, add);
-        else
-            selectCharacter(-1);
-    }
-
-    private void selectCharacter(int characterNumber, bool add = false)
-    {
-        GameObject character = null;
-        switch (characterNumber)
-        {
-            case 1:
-                character = character1;
-                break;
-            case 2:
-                character = character2;
-                break;
-            case 3:
-                character = character3;
-                break;
-            case 4:
-                character = character4;
-                break;
-            default:
-                print("ERROR! selectCharacter(): characterNumber must be 1 - 4!");
-                return;
-        }
         if (character != null && character.activeSelf)
         {
             if (!add)
@@ -226,6 +191,7 @@ public class PartySystem : MonoBehaviour
         //Camera.main.gameObject.transform.parent = null;
         //Camera.main.gameObject.transform.parent = selectedCharacters[selectedCharacters.Count - 1].transform;
         //Camera.main.transform.position = new Vector3(Camera.main.transform.parent.position.x, Camera.main.transform.parent.position.y, -5000);
+
     }
 
     void FixedUpdate()
@@ -243,19 +209,19 @@ public class PartySystem : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            selectCharacter(1, Input.GetKey(KeyCode.LeftShift));
+            selectCharacter(character1, Input.GetKey(KeyCode.LeftShift));
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            selectCharacter(2, Input.GetKey(KeyCode.LeftShift));
+            selectCharacter(character2, Input.GetKey(KeyCode.LeftShift));
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            selectCharacter(3, Input.GetKey(KeyCode.LeftShift));
+            selectCharacter(character3, Input.GetKey(KeyCode.LeftShift));
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            selectCharacter(4, Input.GetKey(KeyCode.LeftShift));
+            selectCharacter(character4, Input.GetKey(KeyCode.LeftShift));
         }
         mouseOver(Camera.main.ScreenToWorldPoint(Input.mousePosition));
         if (mouseOverTarget == null)
@@ -304,7 +270,7 @@ public class PartySystem : MonoBehaviour
                     minIndex = i; //refresh the distance
                 }
             }
-            if (!hits[minIndex].gameObject.tag.Equals("UI"))
+            if (hits[minIndex].gameObject.tag.Equals("PlayerHitbox"))
             {
                 mouseOverTarget = hits[minIndex].gameObject.transform.parent.gameObject.transform.parent.gameObject;
                 mouseOverTarget.GetComponent<SpriteRenderer>().color = Color.green;

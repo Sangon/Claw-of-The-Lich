@@ -67,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
             lastAction = Action.nothing;
 
         //Hiiren oikea nappi.
-        if (Input.GetMouseButton(1) && !unitCombat.isAttacking())
+        if (Input.GetMouseButton(1) && !unitCombat.isAttacking() && !playerHUD.mouseOverHUD)
         {
             //Pysäyttää hahmon ja lyö ilmaa jos vasen shift on pohjassa, muuten liikkuu kohteeseen.
             if (Input.GetKey(KeyCode.LeftShift) && lastAction != Action.attackMove)

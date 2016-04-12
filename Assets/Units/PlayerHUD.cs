@@ -9,7 +9,8 @@ public class PlayerHUD : MonoBehaviour
     private Transform healthBarIndicator = null;
     private Transform staminaBarIndicator = null;
     private GameObject selectionIndicator = null;
-    private GameObject weaponIndicator = null;
+    private GameObject weaponPrimaryIndicator = null;
+    private GameObject weaponSecondaryIndicator = null;
     private GameObject bar = null;
     private Sprite meleeSprite = null;
     private Sprite rangedSprite = null;
@@ -63,7 +64,8 @@ public class PlayerHUD : MonoBehaviour
         healthBarIndicator = bar.transform.Find("Bar_HP");
         staminaBarIndicator = bar.transform.Find("Bar_Stamina");
         selectionIndicator = bar.transform.Find("Selection").gameObject;
-        weaponIndicator = bar.transform.Find("Weapon").gameObject;
+        weaponPrimaryIndicator = bar.transform.Find("Weapon_Primary").gameObject;
+        weaponSecondaryIndicator = bar.transform.Find("Weapon_Secondary").gameObject;
 
         meleeSprite = Resources.Load<Sprite>("HUD_Weapon_Melee");
         rangedSprite = Resources.Load<Sprite>("HUD_Weapon_Ranged");
@@ -75,30 +77,57 @@ public class PlayerHUD : MonoBehaviour
     public void Update()
     {
         mouseOver(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-        if (mouseOverTarget == null)
-            mouseOverHUD = false;
-        else
-            mouseOverHUD = true;
 
-        if (Input.GetMouseButtonDown(0) && mouseOverTarget != null)
+        if (mouseOverTarget != null && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)))
         {
+            mouseOverHUD = true;
             GameObject character = getOwner(mouseOverTarget);
             if (character != null && character == gameObject)
-                character.GetComponent<UnitCombat>().changeWeapon();
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (mouseOverTarget.name.Equals("Weapon_Primary"))
+                    {
+                        character.GetComponent<UnitCombat>().changeWeapon();
+                    }
+                    else if (mouseOverTarget.name.Equals("Portrait"))
+                    {
+                        partySystem.selectCharacter(character, Input.GetKey(KeyCode.LeftShift));
+                    }
+                }
+                else if (Input.GetMouseButtonDown(1))
+                {
+                    if (mouseOverTarget.name.Equals("Weapon_Primary"))
+                    {
+                        foreach (GameObject c in partySystem.aliveCharacters)
+                        {
+                            if (character.GetComponent<UnitCombat>().isMelee() != c.GetComponent<UnitCombat>().isMelee())
+                                c.GetComponent<UnitCombat>().changeWeapon();
+                        }
+                    }
+                }
+            }
         }
+        else if (mouseOverTarget == null)
+            mouseOverHUD = false;
         if (unitCombat.isAlive())
         {
             if (partySystem.getGroupID(gameObject) >= 0)
                 selectionIndicator.GetComponent<Image>().color = Color.green;
             else
                 selectionIndicator.GetComponent<Image>().color = Color.red;
-        } else
+        }
+        else
             selectionIndicator.GetComponent<Image>().color = Color.black;
 
-        if (unitCombat.isMelee() && weaponIndicator.GetComponent<Image>().sprite == rangedSprite)
-            weaponIndicator.GetComponent<Image>().sprite = meleeSprite;
-        else if (!unitCombat.isMelee() && weaponIndicator.GetComponent<Image>().sprite == meleeSprite)
-            weaponIndicator.GetComponent<Image>().sprite = rangedSprite;
+        if (unitCombat.isMelee() && weaponPrimaryIndicator.GetComponent<Image>().sprite == rangedSprite)
+            weaponPrimaryIndicator.GetComponent<Image>().sprite = meleeSprite;
+        else if (!unitCombat.isMelee() && weaponPrimaryIndicator.GetComponent<Image>().sprite == meleeSprite)
+            weaponPrimaryIndicator.GetComponent<Image>().sprite = rangedSprite;
+        if (unitCombat.isMelee() && weaponSecondaryIndicator.GetComponent<Image>().sprite == meleeSprite)
+            weaponSecondaryIndicator.GetComponent<Image>().sprite = rangedSprite;
+        else if (!unitCombat.isMelee() && weaponSecondaryIndicator.GetComponent<Image>().sprite == rangedSprite)
+            weaponSecondaryIndicator.GetComponent<Image>().sprite = meleeSprite;
     }
 
     // Update is called once per frame
@@ -168,7 +197,8 @@ public class PlayerHUD : MonoBehaviour
                 {
                     // Highlight the icon
                     mouseOverTarget.GetComponent<Image>().color = Color.green;
-                } else
+                }
+                else
                 {
                     mouseOverTarget = null;
                 }
