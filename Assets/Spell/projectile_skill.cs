@@ -28,6 +28,7 @@ public class projectile_skill : Skill {
                 Debug.Log("Ready: " + spellName);
             }
         }
+
     }
 
 }

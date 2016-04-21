@@ -14,22 +14,53 @@ public class AstarAI : MonoBehaviour
     //The waypoint we are currently moving towards
     private int currentWaypoint = 0;
 
+    private Vector3 clickPoint = Vector3.zero;
     private Vector3 targetPosition = Vector3.zero;
 
+    private Vector3 oldPos = Vector3.zero;
+
     private int groupID = 0;
+
+    private PartySystem partySystem = null;
 
     public void Start()
     {
         seeker = GetComponent<Seeker>();
+        partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
     }
 
     public void move(Vector2 point, int groupID = 0)
     {
-        targetPosition = new Vector3(point.x, point.y, 0);
+        clickPoint = point;
+        /*
+        if (Vector2.Distance(point, new Vector2(transform.position.x, transform.position.y)) < Tuner.PATHFINDING_MINIMUM_DISTANCE)
+        {
+            //print("old: " + point);
+            point += (point - new Vector2(transform.position.x, transform.position.y)).normalized * 10f;
+            //print("new: " + point);
+            //return;
+        }
+        */
+
+        // Find the closest node to the (clicked) position
+        targetPosition = AstarPath.active.GetNearest(point, NNConstraint.Default).clampedPosition;
+        //print(targetPosition);
+
         this.groupID = groupID;
 
-        if (Vector2.Distance(targetPosition, new Vector3(transform.position.x, transform.position.y, 0)) < Tuner.PATHFINDING_MINIMUM_DISTANCE)
+        if (groupID > 0)
+        {
+            // The character is in a party (is selected)!
+            if (groupID == 1)
+            {
+                // We are moving the second character in the party: clear partypositions
+                partySystem.resetPositions();
+            }
+        }
+        else if (Vector2.Distance(targetPosition, new Vector2(transform.position.x, transform.position.y)) < Tuner.PATHFINDING_MINIMUM_DISTANCE_FROM_UNIT)
+        {
             return;
+        }
 
         //Start a new path to the targetPosition, return the result to the OnPathComplete function
         seeker.StartPath(new Vector3(transform.position.x, transform.position.y, 0), targetPosition, onPathComplete);
@@ -44,15 +75,14 @@ public class AstarAI : MonoBehaviour
         }
     }
 
-    public Vector2 getNextPathPoint()
+    public Vector3 getMovementDirection()
     {
         if (path != null)
         {
-            Vector2 pathPoint = new Vector2(path.vectorPath[currentWaypoint].x, path.vectorPath[currentWaypoint].y);
-            Vector2 curPos = new Vector2(transform.position.x, transform.position.y);
-            if (pathPoint.Equals(curPos))
-                return new Vector2(path.vectorPath[currentWaypoint+1].x, path.vectorPath[currentWaypoint+1].y);
-            return pathPoint;
+            Vector3 pathPoint = new Vector3(path.vectorPath[currentWaypoint].x, path.vectorPath[currentWaypoint].y, 0);
+            if (pathPoint.Equals(oldPos))
+                pathPoint = new Vector3(path.vectorPath[currentWaypoint + 1].x, path.vectorPath[currentWaypoint + 1].y, 0);
+            return pathPoint - oldPos;
         }
         return Vector3.zero;
     }
@@ -64,112 +94,88 @@ public class AstarAI : MonoBehaviour
         {
             path = p;
             Vector2 lastPoint = path.vectorPath[path.vectorPath.Count - 1];
-            /*
-            float minDistance = 3.0f;
-            if (Vector2.Distance(new Vector3(transform.position.x, transform.position.y, 0), targetPosition) < minDistance || Vector2.Distance(new Vector3(transform.position.x, transform.position.y, 0), lastPoint) < minDistance)
-            {
-                path = null;
-                currentWaypoint = 0;
-                return;
-            }
-            */
-
             bool directPath = false;
 
-            RaycastHit2D hit = Physics2D.Linecast(new Vector3(transform.position.x, transform.position.y, 0), targetPosition, Tuner.LAYER_OBSTACLES);
+            //print("last: " + lastPoint);
+            //print("targ: " + targetPosition);
+
+            RaycastHit2D hit = Physics2D.Linecast(transform.position, targetPosition, Tuner.LAYER_OBSTACLES);
             if (hit.collider == null)
             {
                 //Debug.Log("Suora yhteys1!");
-                path.vectorPath.Clear();
-                path.vectorPath.Add(new Vector3(transform.position.x, transform.position.y, 0));
-                path.vectorPath.Add(targetPosition);
-                directPath = true;
-            }
-            else {
-                hit = Physics2D.Linecast(new Vector3(transform.position.x, transform.position.y, 0), lastPoint, Tuner.LAYER_OBSTACLES);
-                if (hit.collider == null)
+                //path.vectorPath.Clear();
+                //path.vectorPath.Add(transform.position);
+                GraphNode node = AstarPath.active.GetNearest(targetPosition).node;
+                //Vector3 dir = ((Vector3)node.position - targetPosition).normalized;
+                //print("Dir: " + dir);
+                //print("Index1: " + node.NodeIndex);
+                //GraphNode nearNode = AstarPath.active.GetNearest(targetPosition + dir * 128.0f).node;
+                //GameObject.Find("DebugMarker").transform.position = (Vector3)nearNode.position;
+                bool freeNode = true;
+                for (int i = 0; i < 8; i++)
                 {
-                    //Debug.Log("Suora yhteys2!");
-                    path.vectorPath.Clear();
-                    path.vectorPath.Add(new Vector3(transform.position.x, transform.position.y, 0));
-                    path.vectorPath.Add(lastPoint);
-                    directPath = true;
-                }
-                else {
-                    for (int j = path.vectorPath.Count - 1; j > 1; j--)
+                    if (!AstarPath.active.astarData.gridGraph.HasNodeConnection((GridNode)node, i))
                     {
-                        Vector2 startPoint = new Vector3(transform.position.x, transform.position.y, 0);
-                        Vector2 endPoint = path.vectorPath[j];
-                        hit = Physics2D.Linecast(startPoint, endPoint, Tuner.LAYER_OBSTACLES);
-                        //Debug.Log("A: " + Vector2.Distance(hit.point, endPoint) + " -- " + endPoint);
-                        //Debug.Log("Checking " + currentWaypoint + " " + j);
-                        if (hit.collider == null)
-                        {
-                            startPoint = path.vectorPath[0];
-                            hit = Physics2D.Linecast(startPoint, endPoint, Tuner.LAYER_OBSTACLES);
-                            if (hit.collider == null)
-                            {
-                                //Debug.Log("Ei osumaa! " + 0 + " " + j);
-                                //Debug.Log(startPoint + " " + endPoint);
-                                path.vectorPath.RemoveRange(0, j - 0);
-                                directPath = true;
-                                break;
-                            }
-                            else if (Vector2.Distance(hit.point, endPoint) < 4.0f)
-                            {
-                                //Debug.Log("1: " + Vector2.Distance(hit.point, endPoint));
-                                path.vectorPath.RemoveRange(0, j - 0);
-                                directPath = true;
-                                break;
-                            }
-                            else
-                            {
-                                hit = Physics2D.Linecast(endPoint, startPoint, Tuner.LAYER_OBSTACLES);
-                                //Debug.Log("B: " + Vector2.Distance(hit.point, startPoint) + " -- " + startPoint);
-                                if (hit.collider == null)
-                                {
-                                    //Debug.Log("2");
-                                    path.vectorPath.RemoveRange(currentWaypoint, j - currentWaypoint);
-                                    directPath = true;
-                                    break;
-                                }
-                                else if (Vector2.Distance(hit.point, startPoint) < 4.0f)
-                                {
-                                    //Debug.Log("3: " + Vector2.Distance(hit.point, startPoint));
-                                    path.vectorPath.RemoveRange(currentWaypoint, j - currentWaypoint);
-                                    directPath = true;
-                                    break;
-                                }
-                            }
-                        }
+                        freeNode = false;
+                        break;
                     }
                 }
-            }
-            if (!directPath && path.vectorPath.Count > 1)
-            {
-                Vector2 dir1 = (path.vectorPath[0] - new Vector3(transform.position.x, transform.position.y, 0)).normalized;
-                Vector2 dir2 = (path.vectorPath[1] - path.vectorPath[0]).normalized;
-                Vector2 sum = dir1 + dir2;
-
-                bool removedPath = false;
-
-                //Debug.Log("Dir1: " + dir1);
-                //Debug.Log("Dir2: " + dir2 + " Sum: " + sum);
-
-                if (sum == Vector2.zero || dir1 == Vector2.zero || (Mathf.Abs(sum.x) <= 0.85f && Mathf.Abs(sum.y) <= 0.85f))
+                if (freeNode)
                 {
-                    removedPath = true;
-                    path.vectorPath.RemoveAt(0);
+                    path.vectorPath.Clear();
+                    path.vectorPath.Add(clickPoint);
+                    directPath = true;
                 }
-                if (!removedPath)
+
+                //print("Index2: " + nearNode.NodeIndex);
+                //print(nearNode.Walkable);
+                //path.vectorPath.Add(targetPosition);
+                //directPath = true;
+            }
+            if (!directPath)
+            {
+                if (Vector2.Distance(transform.position, lastPoint) >= Tuner.PATHFINDING_MINIMUM_DISTANCE_FROM_UNIT)
                 {
-                    if (path.vectorPath.Count > 1)
+                    hit = Physics2D.Linecast(transform.position, lastPoint, Tuner.LAYER_OBSTACLES);
+                    if (hit.collider == null)
                     {
-                        hit = Physics2D.Linecast(new Vector3(transform.position.x, transform.position.y, 0), path.vectorPath[1], Tuner.LAYER_OBSTACLES);
-                        if (hit.collider == null)
+                        //Debug.Log("Jo");
+                        path.vectorPath.Clear();
+                        path.vectorPath.Add(new Vector3(transform.position.x, transform.position.y, 0));
+                        path.vectorPath.Add(lastPoint);
+                        directPath = true;
+                    }
+                    else {
+                        //Debug.Log("Ei");
+                        directPath = parsePath(true);
+                    }
+                }
+                if (path.vectorPath.Count > 1)
+                {
+                    Vector2 dir1 = (path.vectorPath[0] - new Vector3(transform.position.x, transform.position.y, 0)).normalized;
+                    Vector2 dir2 = (path.vectorPath[1] - path.vectorPath[0]).normalized;
+                    Vector2 sum = dir1 + dir2;
+
+                    bool removedPath = false;
+
+                    //Debug.Log("Dir1: " + dir1);
+                    //Debug.Log("Dir2: " + dir2 + " Sum: " + sum);
+
+                    if (sum == Vector2.zero || dir1 == Vector2.zero || (Mathf.Abs(sum.x) <= 0.85f && Mathf.Abs(sum.y) <= 0.85f))
+                    {
+                        removedPath = true;
+                        path.vectorPath.RemoveAt(0);
+                    }
+                    if (!removedPath)
+                    {
+                        if (path.vectorPath.Count > 1)
                         {
-                            //Debug.Log("Suora yhteys3!");
-                            path.vectorPath.RemoveAt(0);
+                            hit = Physics2D.Linecast(new Vector3(transform.position.x, transform.position.y, 0), path.vectorPath[1], Tuner.LAYER_OBSTACLES);
+                            if (hit.collider == null)
+                            {
+                                //Debug.Log("Suora yhteys3!");
+                                path.vectorPath.RemoveAt(0);
+                            }
                         }
                     }
                 }
@@ -179,7 +185,8 @@ public class AstarAI : MonoBehaviour
             {
                 if (moveToNextTile())
                 {
-                    if (Vector2.Distance(targetPosition, new Vector3(transform.position.x, transform.position.y, 0)) < Tuner.PATHFINDING_MINIMUM_DISTANCE)
+                    //print(Vector2.Distance(targetPosition, new Vector2(transform.position.x, transform.position.y)));
+                    if (Vector2.Distance(targetPosition, new Vector2(transform.position.x, transform.position.y)) < Tuner.PATHFINDING_MINIMUM_DISTANCE_FROM_UNIT)
                     {
                         path = null;
                         currentWaypoint = 0;
@@ -193,6 +200,73 @@ public class AstarAI : MonoBehaviour
             //Reset the waypoint counter
             currentWaypoint = 0;
         }
+    }
+
+    private bool parsePath(bool checkFromCurPos)
+    {
+        for (int j = path.vectorPath.Count - 1; j > currentWaypoint; j--)
+        {
+            Vector2 startPoint;
+
+            if (checkFromCurPos)
+                startPoint = transform.position;
+            else
+                startPoint = path.vectorPath[currentWaypoint];
+
+            Vector2 endPoint = path.vectorPath[j];
+
+            RaycastHit2D hit = Physics2D.Linecast(startPoint, endPoint, Tuner.LAYER_OBSTACLES);
+
+            //Debug.Log("A: " + Vector2.Distance(hit.point, endPoint) + " -- " + endPoint);
+            //Debug.Log("Checking " + currentWaypoint + " " + j);
+
+            if (hit.collider == null)
+            {
+                if (!checkFromCurPos)
+                {
+                    //Debug.Log("Ei osumaa! " + (currentWaypoint + 1) + " " + j);
+                    path.vectorPath.RemoveRange(currentWaypoint + 1, j - (currentWaypoint + 1));
+                    break;
+                }
+                else {
+                    startPoint = path.vectorPath[0];
+                    hit = Physics2D.Linecast(startPoint, endPoint, Tuner.LAYER_OBSTACLES);
+                    if (hit.collider == null)
+                    {
+                        //Debug.Log("Ei osumaa! " + 0 + " " + j);
+                        //Debug.Log(startPoint + " " + endPoint);
+                        path.vectorPath.RemoveRange(0, j - 0);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+        /*
+        else if (Vector2.Distance(hit.point, endPoint) < 40.0f)
+        {
+            Debug.Log("1: " + Vector2.Distance(hit.point, endPoint));
+            path.vectorPath.RemoveRange(currentWaypoint, j - currentWaypoint);
+            break;
+        }
+        else
+        {
+            hit = Physics2D.Linecast(endPoint, startPoint, Tuner.LAYER_OBSTACLES);
+            //Debug.Log("B: " + Vector2.Distance(hit.point, startPoint) + " -- " + startPoint);
+            if (hit.collider == null)
+            {
+                Debug.Log("2");
+                path.vectorPath.RemoveRange(currentWaypoint, j - currentWaypoint);
+                break;
+            }
+            else if (Vector2.Distance(hit.point, startPoint) < 40.0f)
+            {
+                Debug.Log("3: " + Vector2.Distance(hit.point, startPoint));
+                path.vectorPath.RemoveRange(currentWaypoint, j - currentWaypoint);
+                break;
+            }
+        }
+        */
     }
 
     public void FixedUpdate()
@@ -210,7 +284,7 @@ public class AstarAI : MonoBehaviour
             return;
         }
 
-        RaycastHit2D hit = Physics2D.Linecast(new Vector3(transform.position.x, transform.position.y, 0), targetPosition, Tuner.LAYER_OBSTACLES);
+        //RaycastHit2D hit = Physics2D.Linecast(transform.position, targetPosition, Tuner.LAYER_OBSTACLES);
         /*
         //TODO: Optimize this!
         if (hit.collider == null)
@@ -228,49 +302,13 @@ public class AstarAI : MonoBehaviour
 
         //Check if we are close enough to the next waypoint
         //If we are, proceed to follow the next waypoint
-        if (Vector2.Distance(new Vector3(transform.position.x, transform.position.y, 0), path.vectorPath[currentWaypoint]) <= nextWaypointDistance)
+        if (Vector2.Distance(transform.position, path.vectorPath[currentWaypoint]) <= nextWaypointDistance)
         {
-            currentWaypoint++;
-            if (currentWaypoint + 1 < path.vectorPath.Count)
+            if (currentWaypoint + 2 < path.vectorPath.Count)
             {
-                for (int j = path.vectorPath.Count - 1; j > currentWaypoint; j--)
-                {
-                    Vector2 startPoint = path.vectorPath[currentWaypoint - 1];
-                    Vector2 endPoint = path.vectorPath[j];
-                    hit = Physics2D.Linecast(startPoint, endPoint, Tuner.LAYER_OBSTACLES);
-                    //Debug.Log("A: " + Vector2.Distance(hit.point, endPoint) + " -- " + endPoint);
-                    //Debug.Log("Checking " + currentWaypoint + " " + j);
-                    if (hit.collider == null)
-                    {
-                        //Debug.Log("Ei osumaa! " + currentWaypoint + " " + j);
-                        path.vectorPath.RemoveRange(currentWaypoint, j - currentWaypoint);
-                        break;
-                    }
-                    else if (Vector2.Distance(hit.point, endPoint) < 4.0f)
-                    {
-                        //Debug.Log("1: " + Vector2.Distance(hit.point, endPoint));
-                        path.vectorPath.RemoveRange(currentWaypoint, j - currentWaypoint);
-                        break;
-                    }
-                    else
-                    {
-                        hit = Physics2D.Linecast(endPoint, startPoint, Tuner.LAYER_OBSTACLES);
-                        //Debug.Log("B: " + Vector2.Distance(hit.point, startPoint) + " -- " + startPoint);
-                        if (hit.collider == null)
-                        {
-                            //Debug.Log("2");
-                            path.vectorPath.RemoveRange(currentWaypoint, j - currentWaypoint);
-                            break;
-                        }
-                        else if (Vector2.Distance(hit.point, startPoint) < 4.0f)
-                        {
-                            //Debug.Log("3: " + Vector2.Distance(hit.point, startPoint));
-                            path.vectorPath.RemoveRange(currentWaypoint, j - currentWaypoint);
-                            break;
-                        }
-                    }
-                }
+                parsePath(false);
             }
+            currentWaypoint++;
         }
 
         if (currentWaypoint >= path.vectorPath.Count)
@@ -280,8 +318,10 @@ public class AstarAI : MonoBehaviour
             return;
         }
 
+        oldPos = transform.position;
+
         //Direction to the next waypoint
-        Vector2 dir = (path.vectorPath[currentWaypoint] - new Vector3(transform.position.x, transform.position.y, 0)).normalized;
+        Vector2 dir = (new Vector3(path.vectorPath[currentWaypoint].x, path.vectorPath[currentWaypoint].y, 0) - new Vector3(transform.position.x, transform.position.y, 0)).normalized;
         dir *= gameObject.GetComponent<UnitMovement>().getMovementSpeed() * Time.fixedDeltaTime;
         transform.Translate(dir);
     }
@@ -289,12 +329,20 @@ public class AstarAI : MonoBehaviour
     bool moveToNextTile()
     {
         Vector2 partyPoint = path.vectorPath[path.vectorPath.Count - 1];
+        int offset = 0;
+
         for (int i = 1; i <= 8; i++)
         {
-            partyPoint.x = path.vectorPath[path.vectorPath.Count - 1].x + Tuner.PARTY_SPACING * Mathf.Sin((360 - ((120 / i) * groupID)) * Mathf.Deg2Rad);
-            partyPoint.y = path.vectorPath[path.vectorPath.Count - 1].y + Tuner.PARTY_SPACING * Mathf.Cos((360 - ((120 / i) * groupID)) * Mathf.Deg2Rad);
+            offset = 300 - (60 * groupID) - ((i - 1) * 45);
 
-            RaycastHit2D hit = Physics2D.Linecast(path.vectorPath[path.vectorPath.Count - 1], partyPoint, Tuner.LAYER_OBSTACLES);
+            if (!partySystem.setPosition(groupID, offset))
+                continue;
+
+            RaycastHit2D hit;
+            partyPoint.x = path.vectorPath[path.vectorPath.Count - 1].x + Tuner.PARTY_SPACING * Mathf.Sin(offset * Mathf.Deg2Rad);
+            partyPoint.y = path.vectorPath[path.vectorPath.Count - 1].y + Tuner.PARTY_SPACING * Mathf.Cos(offset * Mathf.Deg2Rad);
+            hit = Physics2D.Linecast(path.vectorPath[path.vectorPath.Count - 1], partyPoint, Tuner.LAYER_OBSTACLES);
+
             if (hit.collider == null)
             {
                 //Debug.Log("Toimii1 " + targetPosition + " " + partyPoint + " " + i);

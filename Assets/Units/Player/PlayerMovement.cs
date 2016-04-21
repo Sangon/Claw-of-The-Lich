@@ -9,11 +9,15 @@ public class PlayerMovement : MonoBehaviour
     private UnitMovement unitMovement;
     private UnitCombat unitCombat;
     private PartySystem partySystem;
+    private PlayerHUD playerHUD;
 
     private int selectedSpellSlot = 0;
     private bool targeting = false;
     private bool ignoreMoving = false;
     private Action lastAction = Action.nothing;
+
+    private Vector2 movePoint;
+    private bool moveAfterAttack = false;
 
     private enum Action
     {
@@ -26,13 +30,30 @@ public class PlayerMovement : MonoBehaviour
     {
         unitMovement = GetComponent<UnitMovement>();
         unitCombat = GetComponent<UnitCombat>();
-        //partySystem = GetComponent<PartySystem>();
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
+        playerHUD = GetComponent<PlayerHUD>();
     }
 
-    // Update is called once per frame
+    void FixedUpdate()
+    {
+        groupID = partySystem.getGroupID(this.gameObject);
+        if (!unitCombat.isAttacking() && moveAfterAttack)
+        {
+            if (groupID != -1)
+            {
+                // Character is no longer attacking and the player issued a move order
+                unitCombat.stopAttack();
+                unitMovement.moveTo(movePoint, groupID);
+            }
+            moveAfterAttack = false;
+        }
+    }
+
+
+
     void Update()
     {
+        groupID = partySystem.getGroupID(this.gameObject);
         //Hakee hiiren kohdan world spacessa.
         Vector2 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
@@ -46,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
             lastAction = Action.nothing;
 
         //Hiiren oikea nappi.
-        if (Input.GetMouseButton(1) && !unitCombat.isAttacking())
+        if (Input.GetMouseButton(1) && !unitCombat.isAttacking() && !playerHUD.mouseOverHUD)
         {
             //Pysäyttää hahmon ja lyö ilmaa jos vasen shift on pohjassa, muuten liikkuu kohteeseen.
             if (Input.GetKey(KeyCode.LeftShift) && lastAction != Action.attackMove)
@@ -75,16 +96,26 @@ public class PlayerMovement : MonoBehaviour
             pathfindingTimer = Time.fixedDeltaTime * 2.0f;
         }
 
-        if (Input.GetMouseButton(0) && !Input.GetMouseButton(1) && !ignoreMoving && !unitCombat.isAttacking() && !targeting && pathfindingTimer <= 0 && !unitMovement.isMovementLocked())
+        if ((partySystem.mouseOverCharacter || playerHUD.mouseOverHUD) && Input.GetMouseButtonDown(0))
+            ignoreMoving = true;
+
+        if (Input.GetMouseButton(0) && !Input.GetMouseButton(1) && !Input.GetKey(KeyCode.LeftShift) && !ignoreMoving && !targeting && pathfindingTimer <= 0)
         {
             //Liikkuu hiiren kohtaan.
             if (hit.collider != null)
             {
-                groupID = partySystem.getGroupID(this.gameObject);
                 if (groupID != -1)
                 {
-                    unitCombat.stopAttack();
-                    unitMovement.moveTo(hit.point, groupID);
+                    movePoint = hit.point;
+                    if (unitCombat.isAttacking())
+                    {
+                        // Trying to move, but the character is attacking. Move after the attack has finished
+                        moveAfterAttack = true;
+                    }
+                    else {
+                        unitCombat.stopAttack();
+                        unitMovement.moveTo(movePoint, groupID);
+                    }
                 }
                 pathfindingTimer = Time.fixedDeltaTime * 2.0f;
             }
@@ -108,6 +139,7 @@ public class PlayerMovement : MonoBehaviour
         //////////////////////////////////////
         /// SPELLIT
         /////////////////////////////////////
+        /// 
         if (Input.GetKeyDown(KeyCode.Q)){
             selectedSpellSlot = 0;
             toggleTargeting();
@@ -135,37 +167,16 @@ public class PlayerMovement : MonoBehaviour
         return hit.point;
     }
 
-    //Togglettaa targettaamisen ja jos spellin voi castia ilman targettaamista niin castitaan se.
     private void toggleTargeting()
     {
-
-        if (GetComponent<UnitCombat>().getSkill(selectedSpellSlot).isTargetable())
-        {
-            if (!targeting)
-            {
-                targeting = true;
-            }
-            else
-            {
-                targeting = false;
-            }
-        }
-        else{
-            unitMovement.stop();
-            unitCombat.castSpellInSlot(selectedSpellSlot, gameObject);
-        }
-
-
+        targeting = !targeting;
         //TODO: vaihda kursori 
     }
 
     void OnGUI()
     {
-        int i = 0;
-
-        foreach (GameObject g in partySystem.selectedCharacters){
-            GUI.Label(new Rect(300, 15*i + 10, 100, 20), "Skill 1: " + g.GetComponent<UnitCombat>().getSkill(0).getCurrentCooldownInSeconds() + " Skill 2: " + g.GetComponent<UnitCombat>().getSkill(1).getCurrentCooldownInSeconds());
-            i++;
-        }
+        int offset = (partySystem.getGroupID(gameObject) * 20);
+        if (offset >= 0)
+            GUI.Label(new Rect(10, 100 + offset, 100, 20), "Targeting: " + targeting);
     }
 }

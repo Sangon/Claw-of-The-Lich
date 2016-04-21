@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System;
 
 public class UnitCombat : MonoBehaviour
 {
@@ -9,15 +8,17 @@ public class UnitCombat : MonoBehaviour
     private float maxHealth;
 
     //Unit type
-    public bool isMelee = false;
+    private bool melee = false;
 
     //Targetin seurausta varten.
     private GameObject lockedTarget = null;
     private HealthBar healthBar = null;
+    private PlayerHUD playerHUD = null;
 
     private float attackRange;
     private bool attacking = false;
     private bool attacked = true;
+    private bool lockedAttack = false;
     private int attackTimer = 30;
     private int maxAttackTimer = 30;
     private int attackPoint = 15;
@@ -28,29 +29,57 @@ public class UnitCombat : MonoBehaviour
     private UnitMovement unitMovement;
     private CameraScripts cameraScripts;
 
+    private unit_attributes attributes;
+
     //Targets hit
     List<GameObject> hits = null;
 
     void Start()
     {
+        attributes = new unit_attributes(gameObject.name);
+        health = attributes.health;
+        maxHealth = attributes.health;
 
-        health = Tuner.UNIT_BASE_HEALTH;
-        maxHealth = Tuner.UNIT_BASE_HEALTH;
-        //isMelee = false;
-        attackRange = (isMelee) ? Tuner.UNIT_BASE_MELEE_RANGE : Tuner.UNIT_BASE_RANGED_RANGE;
+        if (gameObject.name.Contains("Melee"))
+            melee = true;
 
-        spellList[0] = ScriptableObject.CreateInstance("blot_out_skill") as blot_out_skill;
-        spellList[1] = ScriptableObject.CreateInstance("charge_skill") as charge_skill;
+        melee = attributes.isMelee;
+
+        attackRange = (isMelee()) ? Tuner.UNIT_BASE_MELEE_RANGE : Tuner.UNIT_BASE_RANGED_RANGE;
+
+        spellList[1] = attributes.skill1;
+        spellList[0] = attributes.skill2;
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
         unitMovement = GetComponent<UnitMovement>();
         healthBar = GetComponent<HealthBar>();
-        cameraScripts = Camera.main.GetComponent<CameraScripts>();
 
+        if (gameObject.tag.Equals("Player"))
+            playerHUD = GetComponent<PlayerHUD>();
+
+        cameraScripts = Camera.main.GetComponent<CameraScripts>();
+    }
+
+    public void changeWeapon(){
+        melee = !melee;
+        attackRange = (isMelee()) ? Tuner.UNIT_BASE_MELEE_RANGE : Tuner.UNIT_BASE_RANGED_RANGE;
+    }
+
+    public bool isAlive()
+    {
+        if (getHealth() > 0f)
+            return true;
+        return false;
+    }
+
+    public bool isMelee()
+    {
+        return melee;
     }
 
     void checkForDeath()
     {
-        if (health <= 0){
+        if (health <= 0)
+        {
             if (Camera.main.transform.parent == transform)
                 Camera.main.transform.parent = null;
             gameObject.SetActive(false);
@@ -64,16 +93,17 @@ public class UnitCombat : MonoBehaviour
     {
         checkForDeath();
 
-        if (isLockedAttack())
+        if (lockedAttack)
         {
-            if (!inRange(lockedTarget) && !attacking)
+            if (lockedTarget != null && lockedTarget.activeSelf)
             {
-                unitMovement.moveTo(lockedTarget.transform.position);
+                if (!inRange(lockedTarget) && !attacking)
+                    unitMovement.moveTo(lockedTarget.transform.position);
+                else if (inRange(lockedTarget))
+                    startAttack();
             }
-            else if (inRange(lockedTarget))
-            {
-                startAttack();
-            }
+            else // Target is dead!
+                stopAttack();
         }
 
         if (isAttacking())
@@ -82,24 +112,18 @@ public class UnitCombat : MonoBehaviour
             if (attackTimer == maxAttackTimer)
             {
                 //Mathf.Floor(maxAttackTimer*0.9f)){
-                if (isMelee)
-                    hits = getUnitsInMelee(unitMovement.direction);
+                if (isMelee())
+                    hits = getUnitsInMelee(unitMovement.getDirection());
             }
 
             attackTimer--;
 
             if (attackTimer <= 0)
-            {
                 resetAttack();
-            }
-
-            //Debug.Log(attackTimer);
-            //Tehd‰‰n damage, otetaan kaikki targetit jotka olivat rangessa ja niihin damage.
-
-            if (attackTimer == attackPoint)
+            else if (attackTimer == attackPoint)
             {
                 attacked = true;
-                if (isMelee)
+                if (isMelee())
                 {
                     if (hits != null)
                     {
@@ -113,11 +137,11 @@ public class UnitCombat : MonoBehaviour
 
                 }
                 else {
-
-                    GameObject projectile = Instantiate(Resources.Load("fireball_projectile"), transform.position, Quaternion.identity) as GameObject;
-                    if (isLockedAttack())
+                    GameObject projectile = Instantiate(Resources.Load("testSpell"), transform.position, Quaternion.identity) as GameObject;
+                    if (lockedAttack)
                     {
-                        projectile.GetComponent<projectile_spell_script>().initAttack(lockedTarget.transform.position, gameObject, true);
+                        Vector3 polygonColliderCenter = lockedTarget.GetComponent<PolygonCollider2D>().bounds.center;
+                        projectile.GetComponent<projectile_spell_script>().initAttack(polygonColliderCenter, gameObject, true);
                     }
                     else
                     {
@@ -141,34 +165,35 @@ public class UnitCombat : MonoBehaviour
     {
         if (partySystem.getGroupID(gameObject) != -1)
         {
+            GameObject bestTarget = null;
             List<GameObject> targetList = new List<GameObject>();
 
             //Hakee kaikki mobit Hostile tagill‰ ja lis‰‰ ne potentiaalisten vihollisten listaan.
             GameObject[] hostileList = GameObject.FindGameObjectsWithTag("Hostile");
             if (hostileList.Length == 0)
                 return;
-                
+
             targetList.AddRange(hostileList);
 
             //Laskee kuka potentiaalisten vihollisten listasta on l‰himp‰n‰ ja lockinnaa siihen.
             float distance = Mathf.Infinity;
             foreach (GameObject g in targetList)
             {
-                float currentDistance = Vector3.Distance(g.transform.position, hit);
+                float currentDistance = Vector2.Distance(g.transform.position, hit);
 
                 if (currentDistance < distance)
                 {
-                    lockedTarget = g;
+                    bestTarget = g;
                     distance = currentDistance;
                 }
             }
+            if (distance <= Tuner.ATTACKMOVE_MAX_SEARCH_DISTANCE_FROM_CLICK_POINT)
+            {
+                lockedAttack = true;
+                lockedTarget = bestTarget;
+            }
         }
 
-    }
-
-    internal Skill getSkill(int selectedSpellSlot)
-    {
-        return spellList[selectedSpellSlot];
     }
 
     public GameObject getClosestTargetToPoint(Vector2 hit)
@@ -182,8 +207,9 @@ public class UnitCombat : MonoBehaviour
 
         GameObject target = null;
 
-        float distance = Mathf.Infinity;
-        foreach (GameObject g in targetList){
+        float distance = float.MaxValue;
+        foreach (GameObject g in targetList)
+        {
             float currentDistance = Vector3.Distance(g.transform.position, hit);
 
             if (currentDistance < distance)
@@ -201,6 +227,7 @@ public class UnitCombat : MonoBehaviour
         unitMovement.stop();
         attacking = true;
         attacked = false;
+        GetComponent<Animator>().Play("Attacking_SW");
     }
 
     public void resetAttack()
@@ -212,6 +239,7 @@ public class UnitCombat : MonoBehaviour
     public void stopAttack()
     {
         lockedTarget = null;
+        lockedAttack = false;
         attacking = false;
         attackTimer = maxAttackTimer;
     }
@@ -229,7 +257,7 @@ public class UnitCombat : MonoBehaviour
 
     public bool isLockedAttack()
     {
-        return lockedTarget == null ? false : true;
+        return lockedAttack;
     }
 
     public bool hasAttacked()
@@ -237,9 +265,10 @@ public class UnitCombat : MonoBehaviour
         return attacked;
     }
 
-    public void setLockedTarget(GameObject target)
+    private void setLockedTarget(GameObject target)
     {
         lockedTarget = target;
+        lockedAttack = true;
     }
     public GameObject getLockedTarget()
     {
@@ -259,14 +288,13 @@ public class UnitCombat : MonoBehaviour
     //Tarkastaa nyt vain jos kyseinen kohde on attack rangen sis‰ll‰. Tarkistukset siit‰ jos vihollinen on liian kaukana en‰‰n seuraamiseen pit‰‰ tehd‰ itse.
     public bool inRange(GameObject target)
     {
-        //Asettaa vaan ranged unitille pidemm‰n rangen, LOS tarkistukset voi tehd‰ vaikka jokasen mobin omassa scriptiss‰, tai luoda uuden function t‰nne tarkistusta varten.
         if (target != null && target.activeSelf)
         {
             if (getRange(target) < attackRange)
             {
-                if (!isMelee && lineOfSight(target))
+                if (!isMelee() && lineOfSight(target))
                     return true;
-                else if (isMelee)
+                else if (isMelee())
                     return true;
                 else
                     return false;
@@ -280,7 +308,7 @@ public class UnitCombat : MonoBehaviour
         }
     }
     //Can also be used to heal with negative argument
-    public void takeDamage(float damage)
+    public void takeDamage(float damage, GameObject source = null)
     {
         if ((health - damage) > maxHealth)
             health = maxHealth;
@@ -288,22 +316,42 @@ public class UnitCombat : MonoBehaviour
             health -= damage;
 
         checkForDeath();
+        updateHUD();
 
-        if (healthBar != null)
-            healthBar.update(getHealth() / getMaxHealth());
+        if (gameObject.activeSelf && !gameObject.tag.Equals("Player"))
+        {
+            // Still alive
+            aggro(source);
+        }
+
     }
-
     //Can also be used to heal with negative argument
     public void dealDamage(GameObject enemy, float amount)
     {
 
-        if (enemy != null && enemy.activeSelf){
+        if (enemy != null && enemy.activeSelf)
+        {
             enemy.GetComponent<UnitCombat>().takeDamage(amount);
         }
 
         //Debug.Log("DEALT DAMAGE." + enemy + " REMAINING HEALTH:" + enemy.GetComponent<UnitCombat>().getHealth());
     }
 
+    private void updateHUD()
+    {
+        if (healthBar != null)
+            healthBar.update(getHealth() / getMaxHealth());
+        if (playerHUD != null)
+            playerHUD.updateStats(getHealth() / getMaxHealth(), 1f);
+    }
+
+    public void aggro(GameObject target)
+    {
+        if (!isAttacking())
+        {
+            setLockedTarget(target);
+        }
+    }
     public float getHealth()
     {
         return health;
@@ -311,14 +359,12 @@ public class UnitCombat : MonoBehaviour
     public void setHealth(float hp)
     {
         health = hp;
-        if (healthBar != null)
-            healthBar.update(getHealth() / getMaxHealth());
+        updateHUD();
     }
     public void resetHealth()
     {
         health = maxHealth;
-        if (healthBar != null)
-            healthBar.update(getHealth() / getMaxHealth());
+        updateHUD();
     }
     public float getMaxHealth()
     {
@@ -331,13 +377,12 @@ public class UnitCombat : MonoBehaviour
 
     public void castSpellInSlot(int slot, GameObject unit)
     {
-
         if (partySystem.getGroupID(gameObject) != -1)
         {
             spellList[slot].cast(unit);
         }
-
     }
+
 
     //Haetaan meleerangessa olevat viholliset ja tehd‰‰n juttuja.
     public List<GameObject> getUnitsInMelee(UnitMovement.Direction dir)
@@ -364,7 +409,6 @@ public class UnitCombat : MonoBehaviour
                 //print("facingAngle: " + (unitMovement.getFacingAngle()) + " attackAngle: " + attackAngle);
             }
         }
-
         return hostilesInRange;
     }
 }

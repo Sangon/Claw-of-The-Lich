@@ -6,13 +6,10 @@ public abstract class Skill : ScriptableObject, ISkill{
 
 	protected int maxCooldown = Tuner.DEFAULT_SKILL_COOLDOWN;
 	protected float maxRange = Tuner.DEFAULT_SPELL_RANGE;
-	protected float currentCooldown = 0;
+	protected float currentCooldown = Tuner.DEFAULT_SKILL_COOLDOWN;
 	protected float castTime = Tuner.DEFAULT_SKILL_CAST_TIME;
 	protected string spellName = "";
 	protected Texture2D skillIcon = null;
-
-    protected bool targetable = true;
-
 
 	//Jokanen spelli toteuttaa oman casti ja metodinsa.
 	public abstract void cast(GameObject unit);
@@ -28,23 +25,14 @@ public abstract class Skill : ScriptableObject, ISkill{
 		}
 	}
 
+	//Cooldowni toimii niin että lasketaan ylöspäin niin pitkään kunnes tulee max cooldown vastaan.
+	//Jos halutaan nähdä montako sekuntia on jäljellä niin käytetään tätä functiota.
+	public float getCurrentCooldown (){
+		return (maxCooldown - currentCooldown);
+	}
 
-    //Cooldowni toimii niin että lasketaan ylöspäin niin pitkään kunnes tulee max cooldown vastaan.
-    //Jos halutaan nähdä montako peli tickiä on jäljellä niin käytetään tätä functiota.
-    public float getCurrentCooldown()
-    {
-        return (maxCooldown - currentCooldown);
-    }
-
-    //Cooldowni toimii niin että lasketaan ylöspäin niin pitkään kunnes tulee max cooldown vastaan.
-    //Jos halutaan nähdä montako sekuntia on jäljellä niin käytetään tätä functiota.
-    public float getCurrentCooldownInSeconds()
-    {
-        return (maxCooldown - currentCooldown)/50;
-    }
-
-    //Getterit muille muuttujille.
-    public int getMaxCooldown (){
+	//Getterit muille muuttujille.
+	public int getMaxCooldown (){
 		return maxCooldown;
 	}
 
@@ -72,11 +60,6 @@ public abstract class Skill : ScriptableObject, ISkill{
         Vector2 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
         return hit.point;
-    }
-
-    public bool isTargetable()
-    {
-        return targetable;
     }
 
 }

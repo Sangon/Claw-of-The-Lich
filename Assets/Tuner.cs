@@ -20,7 +20,7 @@ public class Tuner : MonoBehaviour
     //SPELL DEFAULT VALUES
 	public static readonly float DEFAULT_SPELL_RANGE = 150f;
 	public static readonly float DEFAULT_SKILL_CAST_TIME = 1f;
-	public static readonly int DEFAULT_SKILL_COOLDOWN = 2 * 50;
+	public static readonly int DEFAULT_SKILL_COOLDOWN = 2 * 10;
 
     public static readonly float DEFAULT_PROJECTILE_VELOCITY = 15f;
     public static readonly float DEFAULT_PROJECTILE_DAMAGE = 1.0f;
@@ -32,27 +32,34 @@ public class Tuner : MonoBehaviour
     public static readonly float DEFAULT_WHIRLWIND_RADIUS = UNIT_BASE_MELEE_RANGE * 2;
     public static readonly float BASE_WHIRLWIND_DAMAGE = UNIT_BASE_MELEE_DAMAGE * 2;
 
-    public static readonly float BASE_CHARGE_DAMAGE = UNIT_BASE_MELEE_DAMAGE * 2f;
-    public static readonly float BASE_CHARGE_SPEED = UNIT_BASE_SPEED * 5f;
+    public static readonly float BASE_CHARGE_DAMAGE = UNIT_BASE_MELEE_DAMAGE * 2;
+    public static readonly float BASE_CHARGE_SPEED = UNIT_BASE_MELEE_DAMAGE * 2;
 
-    public static readonly float DEAULT_BLOT_OUT_DURATION = 3 + 2;
-    public static readonly float DEFAULT_BLOT_OUT_RADIUS = 880;
-    public static readonly float BASE_BLOT_OUT_DAMAGE = 0.01f;
+    public static readonly float DEAULT_BLOT_OUT_DURATION = 2 + 2;
+    public static readonly float DEFAULT_BLOT_OUT_RADIUS = 440;
+    public static readonly float BASE_BLOT_OUT_DAMAGE = 0.2f;
 
     //CAMERA DEFAULT VALUES
     public static readonly float CAMERA_MIN_DISTANCE = 100;
 	public static readonly float CAMERA_MAX_DISTANCE = 6000;
-    public static readonly float CAMERA_SCROLLING_SPEED = 35f;
+    public static readonly float CAMERA_SCROLLING_SPEED = 5f;
     public static readonly float CAMERA_ZOOM_SPEED = 15f;
 
     public static readonly float rangedEnemyAttackRange = 750f;
     public static readonly float meleeEnemyAttackRange = 150f;
     public static readonly float enemyAggroRange = 1000f;
 
+    //PARTYSYSTEM DEFAULT VALUES
     public static readonly float PARTY_SPACING = 100f;
 
-    public static readonly float PATHFINDING_MINIMUM_DISTANCE = 20f;
+    //PATHFINDING & MOVEMENT DEFAULT VALUES
+    public static readonly float PATHFINDING_MINIMUM_DISTANCE_FROM_UNIT = 10f;
+    public static readonly float ATTACKMOVE_MAX_SEARCH_DISTANCE_FROM_CLICK_POINT = 200f;
 
+    //UNITY EDITOR DEFAULT VALUES
     public static readonly int LAYER_OBSTACLES = 1 << 8;
     public static readonly int LAYER_UNITS = 1 << 9;
+    public static readonly int LAYER_SELECTION = 1 << 10;
+    public static readonly int LAYER_GROUND = 1 << 11;
+    public static readonly int LAYER_FLOOR = 1 << 12;
 }

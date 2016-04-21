@@ -1,0 +1,481 @@
+fileFormatVersion: 2
+guid: 69779df07ad738149972f5bd152d939b
+timeCreated: 1460703792
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: fireball_spritesheet_0
+    21300002: fireball_spritesheet_1
+    21300004: fireball_spritesheet_2
+    21300006: fireball_spritesheet_3
+    21300008: fireball_spritesheet_6
+    21300010: fireball_spritesheet_7
+    21300012: fireball_spritesheet_8
+    21300014: fireball_spritesheet_9
+    21300016: fireball_spritesheet_12
+    21300018: fireball_spritesheet_13
+    21300020: fireball_spritesheet_14
+    21300022: fireball_spritesheet_15
+    21300024: fireball_spritesheet_16
+    21300026: fireball_spritesheet_17
+    21300028: fireball_spritesheet_18
+    21300030: fireball_spritesheet_19
+    21300032: fireball_spritesheet_20
+    21300034: fireball_spritesheet_21
+    21300036: fireball_spritesheet_22
+    21300038: fireball_spritesheet_23
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: fireball_spritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 1030
+        width: 78
+        height: 205
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -12, y: 102.5}
+        - {x: -39, y: 54.5}
+        - {x: -39, y: -88.5}
+        - {x: -21, y: -102.5}
+        - {x: 28, y: -102.5}
+        - {x: 39, y: -85.5}
+        - {x: 39, y: 102.5}
+    - name: fireball_spritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 340
+        y: 1030
+        width: 78
+        height: 205
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -12, y: 102.5}
+        - {x: -39, y: 54.5}
+        - {x: -39, y: -88.5}
+        - {x: -21, y: -102.5}
+        - {x: 28, y: -102.5}
+        - {x: 39, y: -85.5}
+        - {x: 39, y: 102.5}
+    - name: fireball_spritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 597
+        y: 1031
+        width: 79
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 39.5, y: 99.5}
+        - {x: 30.5, y: 114.5}
+        - {x: -2.5, y: 114.5}
+        - {x: -39.5, y: 47.5}
+        - {x: -39.5, y: -114.5}
+        - {x: 32.5, y: -114.5}
+        - {x: 36.5, y: -97.5}
+        - {x: 35.5, y: -45.5}
+        - {x: 39.5, y: -22.5}
+    - name: fireball_spritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 853
+        y: 1031
+        width: 79
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 39.5, y: 99.5}
+        - {x: 30.5, y: 114.5}
+        - {x: -2.5, y: 114.5}
+        - {x: -39.5, y: 47.5}
+        - {x: -39.5, y: -114.5}
+        - {x: 32.5, y: -114.5}
+        - {x: 36.5, y: -97.5}
+        - {x: 35.5, y: -45.5}
+        - {x: 39.5, y: -22.5}
+    - name: fireball_spritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 603
+        y: 772
+        width: 70
+        height: 217
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -2, y: 106.5}
+        - {x: -7, y: 108.5}
+        - {x: -35, y: 108.5}
+        - {x: -35, y: -108.5}
+        - {x: 34, y: -108.5}
+        - {x: 35, y: -101.5}
+        - {x: 35, y: 75.5}
+        - {x: 32, y: 84.5}
+    - name: fireball_spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 859
+        y: 772
+        width: 70
+        height: 217
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -2, y: 106.5}
+        - {x: -7, y: 108.5}
+        - {x: -35, y: 108.5}
+        - {x: -35, y: -108.5}
+        - {x: 34, y: -108.5}
+        - {x: 35, y: -101.5}
+        - {x: 35, y: 75.5}
+        - {x: 32, y: 84.5}
+    - name: fireball_spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 773
+        width: 68
+        height: 245
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 74.5}
+        - {x: -34, y: 64.5}
+        - {x: -34, y: -116.5}
+        - {x: -23, y: -122.5}
+        - {x: 34, y: -122.5}
+        - {x: 34, y: 74.5}
+      - - {x: -2, y: 122.5}
+        - {x: -9, y: 110.5}
+        - {x: -9, y: 85.5}
+        - {x: -4, y: 76.5}
+        - {x: 24, y: 76.5}
+        - {x: 31, y: 78.5}
+        - {x: 34, y: 81.5}
+        - {x: 34, y: 112.5}
+        - {x: 32, y: 122.5}
+    - name: fireball_spritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 348
+        y: 773
+        width: 68
+        height: 246
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32, y: 74}
+        - {x: -34, y: 64}
+        - {x: -34, y: -117}
+        - {x: -23, y: -123}
+        - {x: 34, y: -123}
+        - {x: 34, y: 74}
+      - - {x: -7, y: 123}
+        - {x: -9, y: 112}
+        - {x: -9, y: 79}
+        - {x: -4, y: 76}
+        - {x: 21, y: 76}
+        - {x: 31, y: 78}
+        - {x: 34, y: 85}
+        - {x: 34, y: 107}
+        - {x: 27, y: 123}
+    - name: fireball_spritesheet_12
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 516
+        width: 88
+        height: 204
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -4, y: 102}
+        - {x: -44, y: 75}
+        - {x: -44, y: -89}
+        - {x: -39, y: -102}
+        - {x: 35, y: -102}
+        - {x: 44, y: -57}
+        - {x: 44, y: 80}
+        - {x: 34, y: 102}
+    - name: fireball_spritesheet_13
+      rect:
+        serializedVersion: 2
+        x: 848
+        y: 516
+        width: 88
+        height: 204
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -4, y: 102}
+        - {x: -44, y: 75}
+        - {x: -44, y: -89}
+        - {x: -39, y: -102}
+        - {x: 35, y: -102}
+        - {x: 44, y: -57}
+        - {x: 44, y: 80}
+        - {x: 34, y: 102}
+    - name: fireball_spritesheet_14
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 517
+        width: 79
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -12.5, y: 63}
+        - {x: -39.5, y: 17}
+        - {x: -39.5, y: -115}
+        - {x: -23.5, y: -120}
+        - {x: 39.5, y: -120}
+        - {x: 39.5, y: 60}
+        - {x: 36.5, y: 63}
+      - - {x: -21.5, y: 120}
+        - {x: -28.5, y: 108}
+        - {x: -28.5, y: 83}
+        - {x: -27.5, y: 77}
+        - {x: -23.5, y: 72}
+        - {x: -1.5, y: 72}
+        - {x: 5.5, y: 74}
+        - {x: 5.5, y: 120}
+    - name: fireball_spritesheet_15
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 517
+        width: 79
+        height: 241
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -12.5, y: 62.5}
+        - {x: -39.5, y: 16.5}
+        - {x: -39.5, y: -115.5}
+        - {x: -23.5, y: -120.5}
+        - {x: 39.5, y: -120.5}
+        - {x: 39.5, y: 59.5}
+        - {x: 36.5, y: 62.5}
+      - - {x: -27.5, y: 120.5}
+        - {x: -28.5, y: 115.5}
+        - {x: -28.5, y: 71.5}
+        - {x: -6.5, y: 71.5}
+        - {x: 2.5, y: 75.5}
+        - {x: 5.5, y: 84.5}
+        - {x: 5.5, y: 113.5}
+        - {x: 1.5, y: 120.5}
+    - name: fireball_spritesheet_16
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 260
+        width: 87
+        height: 221
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 15.5, y: 110.5}
+        - {x: 11.5, y: 106.5}
+        - {x: 6.5, y: 98.5}
+        - {x: -43.5, y: 80.5}
+        - {x: -43.5, y: -20.5}
+        - {x: -34.5, y: -94.5}
+        - {x: -14.5, y: -110.5}
+        - {x: 43.5, y: -110.5}
+        - {x: 43.5, y: 110.5}
+    - name: fireball_spritesheet_17
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 260
+        width: 87
+        height: 221
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 15.5, y: 110.5}
+        - {x: 11.5, y: 106.5}
+        - {x: 6.5, y: 98.5}
+        - {x: -43.5, y: 80.5}
+        - {x: -43.5, y: -20.5}
+        - {x: -34.5, y: -94.5}
+        - {x: -14.5, y: -110.5}
+        - {x: 43.5, y: -110.5}
+        - {x: 43.5, y: 110.5}
+    - name: fireball_spritesheet_18
+      rect:
+        serializedVersion: 2
+        x: 588
+        y: 261
+        width: 87
+        height: 219
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -43.5, y: 109.5}
+        - {x: -43.5, y: -109.5}
+        - {x: 42.5, y: -109.5}
+        - {x: 43.5, y: -106.5}
+        - {x: 43.5, y: 73.5}
+        - {x: -0.5, y: 109.5}
+    - name: fireball_spritesheet_19
+      rect:
+        serializedVersion: 2
+        x: 844
+        y: 261
+        width: 87
+        height: 219
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -43.5, y: 109.5}
+        - {x: -43.5, y: -109.5}
+        - {x: 42.5, y: -109.5}
+        - {x: 43.5, y: -106.5}
+        - {x: 43.5, y: 73.5}
+        - {x: -0.5, y: 109.5}
+    - name: fireball_spritesheet_20
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 5
+        width: 104
+        height: 230
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -43, y: 115}
+        - {x: -52, y: 105}
+        - {x: -52, y: -29}
+        - {x: -42, y: -115}
+        - {x: 37, y: -115}
+        - {x: 52, y: -100}
+        - {x: 52, y: 80}
+        - {x: 10, y: 115}
+    - name: fireball_spritesheet_21
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 5
+        width: 104
+        height: 230
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -43, y: 115}
+        - {x: -52, y: 105}
+        - {x: -52, y: -29}
+        - {x: -42, y: -115}
+        - {x: 37, y: -115}
+        - {x: 52, y: -100}
+        - {x: 52, y: 80}
+        - {x: 10, y: 115}
+    - name: fireball_spritesheet_22
+      rect:
+        serializedVersion: 2
+        x: 597
+        y: 4
+        width: 76
+        height: 218
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -24, y: 109}
+        - {x: -38, y: 102}
+        - {x: -38, y: -109}
+        - {x: 25, y: -109}
+        - {x: 38, y: -87}
+        - {x: 38, y: 78}
+        - {x: 16, y: 109}
+    - name: fireball_spritesheet_23
+      rect:
+        serializedVersion: 2
+        x: 853
+        y: 4
+        width: 76
+        height: 218
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -24, y: 109}
+        - {x: -38, y: 102}
+        - {x: -38, y: -109}
+        - {x: 25, y: -109}
+        - {x: 38, y: -87}
+        - {x: 38, y: 78}
+        - {x: 16, y: 109}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

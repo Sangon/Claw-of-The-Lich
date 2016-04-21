@@ -27,39 +27,39 @@ public class CameraScripts : MonoBehaviour
         mousePos = Input.mousePosition;
         if (!followTargets)
         {
-            if (mousePos.x > width - width / 20)
+            if (mousePos.x > (width - (width * 0.05f)))
             {
                 Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(Tuner.CAMERA_SCROLLING_SPEED, 0, 0);
             }
-            if (mousePos.x < height / 20)
+            if (mousePos.x < (height * 0.05f))
             {
                 Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(-Tuner.CAMERA_SCROLLING_SPEED, 0, 0);
             }
-            if (mousePos.y > height - height / 20)
+            if (mousePos.y > (height - (height * 0.05f)))
             {
                 Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(0, Tuner.CAMERA_SCROLLING_SPEED, 0);
             }
-            if (mousePos.y < width / 20)
+            if (mousePos.y < (width * 0.05f))
             {
                 Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(0, -Tuner.CAMERA_SCROLLING_SPEED, 0);
             }
-             }
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(Tuner.CAMERA_SCROLLING_SPEED, 0, 0);
-            }
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(-Tuner.CAMERA_SCROLLING_SPEED, 0, 0);
-            }
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(0, Tuner.CAMERA_SCROLLING_SPEED, 0);
-            }
-            if (Input.GetKey(KeyCode.DownArrow))
-            {
-                Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(0, -Tuner.CAMERA_SCROLLING_SPEED, 0);
-            }
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(Tuner.CAMERA_SCROLLING_SPEED, 0, 0);
+        }
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(-Tuner.CAMERA_SCROLLING_SPEED, 0, 0);
+        }
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(0, Tuner.CAMERA_SCROLLING_SPEED, 0);
+        }
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(0, -Tuner.CAMERA_SCROLLING_SPEED, 0);
+        }
     }
 
     public void toggleLock()
@@ -76,7 +76,7 @@ public class CameraScripts : MonoBehaviour
             if (selection != null)
             {
                 Camera.main.transform.parent = selection.transform;
-                Camera.main.transform.position = new Vector3(Camera.main.transform.parent.position.x, Camera.main.transform.parent.position.y, -5000);
+                //Camera.main.transform.position = new Vector3(Camera.main.transform.parent.position.x, Camera.main.transform.parent.position.y, -5000);
             }
         }
         else
