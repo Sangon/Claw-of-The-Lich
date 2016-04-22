@@ -12,7 +12,7 @@ public class UnitMovement : MonoBehaviour
     private float movementSpeed = Tuner.UNIT_BASE_SPEED;
 
     public enum Direction
-    {
+{
         N,
         NE,
         E,
@@ -113,44 +113,29 @@ public class UnitMovement : MonoBehaviour
 
         checkTriggerCollisions();
 
-        if (unitCombat.isAttacking())
-        {
-            //if (canTurn)
-            //animator.Play("Attack");
-<<<<<<< HEAD
-            canTurn = true; //?
-        }
-        else
-            canTurn = true;
-        if (animator != null && astar != null)
-        {
-            if (isMoving)
-            {
-                switch (direction)
-=======
-         switch (direction)
->>>>>>> refs/remotes/origin/combat_branch
-                {
-                    case Direction.NE:
-                    case Direction.N:
-                        animator.Play("Attacking_NE");
-                        break;
-                    case Direction.SE:
-                    case Direction.E:
-                        animator.Play("Attacking_SE");
-                        break;
-                    case Direction.SW:
-                    case Direction.S:
-                        animator.Play("Attacking_SW");
-                        break;
-                    case Direction.NW:
-                    case Direction.W:
-                        animator.Play("Attacking_NW");
-                        break;
-                }
+        if (unitCombat.isAttacking()){
+             switch (direction){
+                        case Direction.NE:
+                        case Direction.N:
+                            animator.Play("Attacking_NE");
+                            break;
+                        case Direction.SE:
+                        case Direction.E:
+                            animator.Play("Attacking_SE");
+                            break;
+                        case Direction.NW:
+                        case Direction.W:
+                            animator.Play("Attacking_NW");
+                            break;
+                        case Direction.S:
+                        case Direction.SW:
+
+                            //Käyttäkää SX SW sijaan. Älkää kysykö miks ja älkää yrittäkö vaihtaa takas.
+                            animator.Play("Attacking_SX");
+                            break;
+            }
             canTurn = true; //????
-        }
-        else { 
+        }else{ 
             canTurn = true;
             if (animator != null && astar != null)
             {
@@ -237,12 +222,7 @@ public class UnitMovement : MonoBehaviour
 
         if (isMoving || unitCombat == null || !unitCombat.isAttacking() || (unitCombat.isLockedAttack() && !unitCombat.inRange(unitCombat.getLockedTarget())))
             ; // Do nothing
-<<<<<<< HEAD
-        else if (!unitCombat.hasAttacked())
-        {
-=======
         else if (!unitCombat.hasAttacked()){
->>>>>>> refs/remotes/origin/combat_branch
             Vector3 newPosition;
             // The unit is attacking; turn the unit towards its target
             if (!unitCombat.isLockedAttack())

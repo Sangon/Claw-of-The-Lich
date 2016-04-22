@@ -36,23 +36,15 @@ public class UnitCombat : MonoBehaviour
 
     void Start()
     {
-<<<<<<< HEAD
-        health = Tuner.UNIT_BASE_HEALTH;
-        maxHealth = Tuner.UNIT_BASE_HEALTH;
-=======
         attributes = new unit_attributes(gameObject.name);
         health = attributes.health;
         maxHealth = attributes.health;
->>>>>>> refs/remotes/origin/combat_branch
 
         if (gameObject.name.Contains("Melee"))
             melee = true;
 
-<<<<<<< HEAD
-=======
         melee = attributes.isMelee;
 
->>>>>>> refs/remotes/origin/combat_branch
         attackRange = (isMelee()) ? Tuner.UNIT_BASE_MELEE_RANGE : Tuner.UNIT_BASE_RANGED_RANGE;
 
         spellList[1] = attributes.skill1;
@@ -66,22 +58,6 @@ public class UnitCombat : MonoBehaviour
 
         cameraScripts = Camera.main.GetComponent<CameraScripts>();
     }
-<<<<<<< HEAD
-
-    public void changeWeapon()
-    {
-        melee = !melee;
-        attackRange = (isMelee()) ? Tuner.UNIT_BASE_MELEE_RANGE : Tuner.UNIT_BASE_RANGED_RANGE;
-    }
-
-    public bool isAlive()
-    {
-        if (getHealth() > 0f)
-            return true;
-        return false;
-    }
-
-=======
 
     public void changeWeapon(){
         melee = !melee;
@@ -95,7 +71,6 @@ public class UnitCombat : MonoBehaviour
         return false;
     }
 
->>>>>>> refs/remotes/origin/combat_branch
     public bool isMelee()
     {
         return melee;

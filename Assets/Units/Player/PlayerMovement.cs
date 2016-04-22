@@ -32,27 +32,6 @@ public class PlayerMovement : MonoBehaviour
         unitCombat = GetComponent<UnitCombat>();
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
         playerHUD = GetComponent<PlayerHUD>();
-<<<<<<< HEAD
-    }
-
-    void FixedUpdate()
-    {
-        groupID = partySystem.getGroupID(this.gameObject);
-        if (!unitCombat.isAttacking() && moveAfterAttack)
-        {
-            if (groupID != -1)
-            {
-                // Character is no longer attacking and the player issued a move order
-                unitCombat.stopAttack();
-                unitMovement.moveTo(movePoint, groupID);
-            }
-            moveAfterAttack = false;
-        }
-    }
-
-
-    // Update is called once per frame
-=======
     }
 
     void FixedUpdate()
@@ -72,7 +51,6 @@ public class PlayerMovement : MonoBehaviour
 
 
 
->>>>>>> refs/remotes/origin/combat_branch
     void Update()
     {
         groupID = partySystem.getGroupID(this.gameObject);

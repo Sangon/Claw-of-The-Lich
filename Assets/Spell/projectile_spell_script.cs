@@ -12,7 +12,7 @@ public class projectile_spell_script : Spell
     private GameObject parent;
     private string ownerTag;
 
-    private Vector2 movementDelta;
+
     private Vector2 lastPosition;
     public int direction = 0;
 
@@ -145,10 +145,5 @@ public class projectile_spell_script : Spell
         //Palautata oletuksena Länsisuunnan.
         return 0;
 
-    }
-
-    public Vector2 getMovementDelta()
-    {
-        return movementDelta;
     }
 }
