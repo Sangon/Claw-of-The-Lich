@@ -29,21 +29,34 @@ public class UnitCombat : MonoBehaviour
     private UnitMovement unitMovement;
     private CameraScripts cameraScripts;
 
+    private unit_attributes attributes;
+
     //Targets hit
     List<GameObject> hits = null;
 
     void Start()
     {
+<<<<<<< HEAD
         health = Tuner.UNIT_BASE_HEALTH;
         maxHealth = Tuner.UNIT_BASE_HEALTH;
+=======
+        attributes = new unit_attributes(gameObject.name);
+        health = attributes.health;
+        maxHealth = attributes.health;
+>>>>>>> refs/remotes/origin/combat_branch
 
         if (gameObject.name.Contains("Melee"))
             melee = true;
 
+<<<<<<< HEAD
+=======
+        melee = attributes.isMelee;
+
+>>>>>>> refs/remotes/origin/combat_branch
         attackRange = (isMelee()) ? Tuner.UNIT_BASE_MELEE_RANGE : Tuner.UNIT_BASE_RANGED_RANGE;
 
-        spellList[0] = ScriptableObject.CreateInstance("charge_skill") as charge_skill;
-        spellList[1] = ScriptableObject.CreateInstance("projectile_skill") as projectile_skill;
+        spellList[1] = attributes.skill1;
+        spellList[0] = attributes.skill2;
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
         unitMovement = GetComponent<UnitMovement>();
         healthBar = GetComponent<HealthBar>();
@@ -53,6 +66,7 @@ public class UnitCombat : MonoBehaviour
 
         cameraScripts = Camera.main.GetComponent<CameraScripts>();
     }
+<<<<<<< HEAD
 
     public void changeWeapon()
     {
@@ -67,6 +81,21 @@ public class UnitCombat : MonoBehaviour
         return false;
     }
 
+=======
+
+    public void changeWeapon(){
+        melee = !melee;
+        attackRange = (isMelee()) ? Tuner.UNIT_BASE_MELEE_RANGE : Tuner.UNIT_BASE_RANGED_RANGE;
+    }
+
+    public bool isAlive()
+    {
+        if (getHealth() > 0f)
+            return true;
+        return false;
+    }
+
+>>>>>>> refs/remotes/origin/combat_branch
     public bool isMelee()
     {
         return melee;
@@ -223,6 +252,7 @@ public class UnitCombat : MonoBehaviour
         unitMovement.stop();
         attacking = true;
         attacked = false;
+        GetComponent<Animator>().Play("Attacking_SW");
     }
 
     public void resetAttack()

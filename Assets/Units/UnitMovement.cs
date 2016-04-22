@@ -33,8 +33,7 @@ public class UnitMovement : MonoBehaviour
 
     private FMOD.Studio.EventInstance footStepsAudio;
 
-    public void Start()
-    {
+    public void Start(){
         astar = GetComponent<AstarAI>();
         animator = GetComponent<Animator>();
         unitCombat = GetComponent<UnitCombat>();
@@ -118,6 +117,7 @@ public class UnitMovement : MonoBehaviour
         {
             //if (canTurn)
             //animator.Play("Attack");
+<<<<<<< HEAD
             canTurn = true; //?
         }
         else
@@ -127,45 +127,76 @@ public class UnitMovement : MonoBehaviour
             if (isMoving)
             {
                 switch (direction)
+=======
+         switch (direction)
+>>>>>>> refs/remotes/origin/combat_branch
                 {
                     case Direction.NE:
                     case Direction.N:
-                        animator.Play("Walk_NE");
+                        animator.Play("Attacking_NE");
                         break;
                     case Direction.SE:
                     case Direction.E:
-                        animator.Play("Walk_SE");
+                        animator.Play("Attacking_SE");
                         break;
                     case Direction.SW:
                     case Direction.S:
-                        animator.Play("Walk_SW");
+                        animator.Play("Attacking_SW");
                         break;
                     case Direction.NW:
                     case Direction.W:
-                        animator.Play("Walk_NW");
+                        animator.Play("Attacking_NW");
                         break;
                 }
-            }
-            else
+            canTurn = true; //????
+        }
+        else { 
+            canTurn = true;
+            if (animator != null && astar != null)
             {
-                switch (direction)
+                if (isMoving)
                 {
-                    case Direction.NE:
-                    case Direction.N:
-                        animator.Play("Idle_NE");
-                        break;
-                    case Direction.SE:
-                    case Direction.E:
-                        animator.Play("Idle_SE");
-                        break;
-                    case Direction.SW:
-                    case Direction.S:
-                        animator.Play("Idle_SW");
-                        break;
-                    case Direction.NW:
-                    case Direction.W:
-                        animator.Play("Idle_NW");
-                        break;
+                    switch (direction)
+                    {
+                        case Direction.NE:
+                        case Direction.N:
+                            animator.Play("Walk_NE");
+                            break;
+                        case Direction.SE:
+                        case Direction.E:
+                            animator.Play("Walk_SE");
+                            break;
+                        case Direction.SW:
+                        case Direction.S:
+                            animator.Play("Walk_SW");
+                            break;
+                        case Direction.NW:
+                        case Direction.W:
+                            animator.Play("Walk_NW");
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (direction)
+                    {
+                        case Direction.NE:
+                        case Direction.N:
+                            animator.Play("Idle_NE");
+                            break;
+                        case Direction.SE:
+                        case Direction.E:
+                            animator.Play("Idle_SE");
+                            break;
+                        case Direction.SW:
+                        case Direction.S:
+                            animator.Play("Idle_SW");
+                            break;
+                        case Direction.NW:
+                        case Direction.W:
+                            animator.Play("Idle_NW");
+                            break;
+                    }
                 }
             }
         }
@@ -173,6 +204,7 @@ public class UnitMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+
         if (astar != null && astar.path != null)
         {
             //newPosition = astar.getNextPathPoint();
@@ -205,8 +237,12 @@ public class UnitMovement : MonoBehaviour
 
         if (isMoving || unitCombat == null || !unitCombat.isAttacking() || (unitCombat.isLockedAttack() && !unitCombat.inRange(unitCombat.getLockedTarget())))
             ; // Do nothing
+<<<<<<< HEAD
         else if (!unitCombat.hasAttacked())
         {
+=======
+        else if (!unitCombat.hasAttacked()){
+>>>>>>> refs/remotes/origin/combat_branch
             Vector3 newPosition;
             // The unit is attacking; turn the unit towards its target
             if (!unitCombat.isLockedAttack())

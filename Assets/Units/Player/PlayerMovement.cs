@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
         unitCombat = GetComponent<UnitCombat>();
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
         playerHUD = GetComponent<PlayerHUD>();
+<<<<<<< HEAD
     }
 
     void FixedUpdate()
@@ -51,6 +52,27 @@ public class PlayerMovement : MonoBehaviour
 
 
     // Update is called once per frame
+=======
+    }
+
+    void FixedUpdate()
+    {
+        groupID = partySystem.getGroupID(this.gameObject);
+        if (!unitCombat.isAttacking() && moveAfterAttack)
+        {
+            if (groupID != -1)
+            {
+                // Character is no longer attacking and the player issued a move order
+                unitCombat.stopAttack();
+                unitMovement.moveTo(movePoint, groupID);
+            }
+            moveAfterAttack = false;
+        }
+    }
+
+
+
+>>>>>>> refs/remotes/origin/combat_branch
     void Update()
     {
         groupID = partySystem.getGroupID(this.gameObject);
@@ -139,14 +161,15 @@ public class PlayerMovement : MonoBehaviour
         //////////////////////////////////////
         /// SPELLIT
         /////////////////////////////////////
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
+        /// 
+        if (Input.GetKeyDown(KeyCode.Q)){
+            selectedSpellSlot = 0;
             toggleTargeting();
         }
 
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-
+        if (Input.GetKeyDown(KeyCode.W)){
+            selectedSpellSlot = 1;
+            toggleTargeting();
         }
 
         if (Input.GetKeyDown(KeyCode.E)) { }

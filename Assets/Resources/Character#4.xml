@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<attribute>
+	<health>5</health>
+	<skillslot1>blot_out_skill</skillslot1>
+	<skillslot2>empty_skill</skillslot2>
+	<ismelee>false</ismelee>
+	<movementspeed>750</movementspeed>
+</attribute>

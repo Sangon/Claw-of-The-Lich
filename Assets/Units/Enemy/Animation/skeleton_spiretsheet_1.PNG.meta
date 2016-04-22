@@ -1,7 +1,12 @@
 fileFormatVersion: 2
 guid: ee5b99ab86fec6b4fa5ace17c8574de0
+<<<<<<< HEAD
 timeCreated: 1460034440
 licenseType: Free
+=======
+timeCreated: 1460703912
+licenseType: Pro
+>>>>>>> refs/remotes/origin/combat_branch
 TextureImporter:
   fileIDToRecycleName:
     21300000: skeleton_spiretsheet_1_0
