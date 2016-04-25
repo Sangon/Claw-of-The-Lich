@@ -5,6 +5,7 @@ using System;
 public class PlayerMovement : MonoBehaviour
 {
     public int groupID = 0;
+	private int lastGroupID = 0;
     private float pathfindingTimer = 0;
     private UnitMovement unitMovement;
     private UnitCombat unitCombat;
@@ -36,20 +37,20 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        groupID = partySystem.getGroupID(this.gameObject);
+        //groupID = partySystem.getGroupID(this.gameObject);
         if (!unitCombat.isAttacking() && moveAfterAttack)
         {
-            if (groupID != -1)
-            {
-                // Character is no longer attacking and the player issued a move order
-                unitCombat.stopAttack();
-                unitMovement.moveTo(movePoint, groupID);
-            }
+            //if (groupID != -1)
+            //{
+            // Character is no longer attacking and the player issued a move order
+            unitCombat.stopAttack();
+            unitMovement.moveTo(movePoint, lastGroupID);
+            //}
             moveAfterAttack = false;
         }
     }
     
-    void Update()
+    void LateUpdate()
     {
         groupID = partySystem.getGroupID(this.gameObject);
         //Hakee hiiren kohdan world spacessa.
@@ -109,6 +110,7 @@ public class PlayerMovement : MonoBehaviour
                     {
                         // Trying to move, but the character is attacking. Move after the attack has finished
                         moveAfterAttack = true;
+						lastGroupID = groupID;
                     }
                     else {
                         unitCombat.stopAttack();
