@@ -32,7 +32,7 @@ public class HUD : MonoBehaviour
             foreach (GameObject c in partySystem.aliveCharacters)
             {
                 if (c != null && c.GetComponent<UnitCombat>() != null)
-                    c.GetComponent<UnitCombat>().takeDamage(-c.GetComponent<UnitCombat>().getMaxHealth());
+                    c.GetComponent<UnitCombat>().takeDamage(-c.GetComponent<UnitCombat>().getMaxHealth(), null);
             }
         }
     }

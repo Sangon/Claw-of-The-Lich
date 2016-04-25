@@ -12,7 +12,7 @@ public class UnitMovement : MonoBehaviour
     private float movementSpeed = Tuner.UNIT_BASE_SPEED;
 
     public enum Direction
-{
+    {
         N,
         NE,
         E,
@@ -33,7 +33,8 @@ public class UnitMovement : MonoBehaviour
 
     private FMOD.Studio.EventInstance footStepsAudio;
 
-    public void Start(){
+    public void Start()
+    {
         astar = GetComponent<AstarAI>();
         animator = GetComponent<Animator>();
         unitCombat = GetComponent<UnitCombat>();
@@ -113,29 +114,32 @@ public class UnitMovement : MonoBehaviour
 
         checkTriggerCollisions();
 
-        if (unitCombat.isAttacking()){
-             switch (direction){
-                        case Direction.NE:
-                        case Direction.N:
-                            animator.Play("Attacking_NE");
-                            break;
-                        case Direction.SE:
-                        case Direction.E:
-                            animator.Play("Attacking_SE");
-                            break;
-                        case Direction.NW:
-                        case Direction.W:
-                            animator.Play("Attacking_NW");
-                            break;
-                        case Direction.S:
-                        case Direction.SW:
+        if (unitCombat.isAttacking())
+        {
+            switch (direction)
+            {
+                case Direction.NE:
+                case Direction.N:
+                    animator.Play("Attack_NE");
+                    break;
+                case Direction.SE:
+                case Direction.E:
+                    animator.Play("Attack_SE");
+                    break;
+                case Direction.NW:
+                case Direction.W:
+                    animator.Play("Attack_NW");
+                    break;
+                case Direction.S:
+                case Direction.SW:
 
-                            //Käyttäkää SX SW sijaan. Älkää kysykö miks ja älkää yrittäkö vaihtaa takas.
-                            animator.Play("Attacking_SX");
-                            break;
+                    //Käyttäkää SX SW sijaan. Älkää kysykö miks ja älkää yrittäkö vaihtaa takas.
+                    animator.Play("Attack_SW");
+                    break;
             }
             canTurn = true; //????
-        }else{ 
+        }
+        else {
             canTurn = true;
             if (animator != null && astar != null)
             {
@@ -222,7 +226,8 @@ public class UnitMovement : MonoBehaviour
 
         if (isMoving || unitCombat == null || !unitCombat.isAttacking() || (unitCombat.isLockedAttack() && !unitCombat.inRange(unitCombat.getLockedTarget())))
             ; // Do nothing
-        else if (!unitCombat.hasAttacked()){
+        else if (!unitCombat.hasAttacked())
+        {
             Vector3 newPosition;
             // The unit is attacking; turn the unit towards its target
             if (!unitCombat.isLockedAttack())

@@ -48,9 +48,7 @@ public class PlayerMovement : MonoBehaviour
             moveAfterAttack = false;
         }
     }
-
-
-
+    
     void Update()
     {
         groupID = partySystem.getGroupID(this.gameObject);
@@ -123,23 +121,9 @@ public class PlayerMovement : MonoBehaviour
 
         pathfindingTimer -= Time.fixedDeltaTime;
 
-        //Rullaa kameraa kauemmas.
-        if (Input.GetAxis("Mouse ScrollWheel") < 0)
-        {
-            Camera.main.orthographicSize += Tuner.CAMERA_ZOOM_SPEED;
-        }
-        //Rulla kameraa lähemmäs.
-        if (Input.GetAxis("Mouse ScrollWheel") > 0)
-        {
-            Camera.main.orthographicSize -= Tuner.CAMERA_ZOOM_SPEED;
-        }
-        //Rajoittaa kameran max- ja minimietäisyydet.
-        Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, Tuner.CAMERA_MIN_DISTANCE, Tuner.CAMERA_MAX_DISTANCE);
-
         //////////////////////////////////////
         /// SPELLIT
         /////////////////////////////////////
-        /// 
         if (Input.GetKeyDown(KeyCode.Q)){
             selectedSpellSlot = 0;
             toggleTargeting();

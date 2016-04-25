@@ -30,7 +30,7 @@ public class blot_out_skill : Skill {
             currentCooldown++;
             if (currentCooldown == maxCooldown)
             {
-                Debug.Log("Ready: " + spellName);
+                //Debug.Log("Ready: " + spellName);
             }
         }
     }

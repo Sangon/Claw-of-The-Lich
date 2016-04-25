@@ -42,7 +42,7 @@ public class PlayerHUD : MonoBehaviour
             bar = GameObject.Find("HUDBars").transform.Find("Bar2").gameObject;
             foreach (Transform child in bar.transform)
             {
-                child.transform.position += new Vector3(350f, 0, 0);
+                child.transform.position += new Vector3(300f, 0, 0);
             }
         }
         if (gameObject.name.Equals("Character#3"))
@@ -50,7 +50,7 @@ public class PlayerHUD : MonoBehaviour
             bar = GameObject.Find("HUDBars").transform.Find("Bar3").gameObject;
             foreach (Transform child in bar.transform)
             {
-                child.transform.position += new Vector3(700f, 0, 0);
+                child.transform.position += new Vector3(600f, 0, 0);
             }
         }
         if (gameObject.name.Equals("Character#4"))
@@ -58,7 +58,7 @@ public class PlayerHUD : MonoBehaviour
             bar = GameObject.Find("HUDBars").transform.Find("Bar4").gameObject;
             foreach (Transform child in bar.transform)
             {
-                child.transform.position += new Vector3(1050f, 0, 0);
+                child.transform.position += new Vector3(900f, 0, 0);
             }
         }
         healthBarIndicator = bar.transform.Find("Bar_HP");

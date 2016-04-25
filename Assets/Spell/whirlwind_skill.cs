@@ -15,7 +15,7 @@ public class whirlwind_skill : Skill {
         if (currentCooldown == maxCooldown){
             currentCooldown = 0;
             foreach (GameObject g in getUnitsAtPoint(unit.transform.position, Tuner.DEFAULT_WHIRLWIND_RADIUS)) {
-                g.GetComponent<UnitCombat>().takeDamage(Tuner.BASE_WHIRLWIND_DAMAGE);
+                g.GetComponent<UnitCombat>().takeDamage(Tuner.BASE_WHIRLWIND_DAMAGE, unit);
             }
         }
     }

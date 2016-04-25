@@ -227,7 +227,7 @@ public class UnitCombat : MonoBehaviour
         unitMovement.stop();
         attacking = true;
         attacked = false;
-        GetComponent<Animator>().Play("Attacking_SW");
+        //GetComponent<Animator>().Play("Attacking_SW");
     }
 
     public void resetAttack()
@@ -308,7 +308,7 @@ public class UnitCombat : MonoBehaviour
         }
     }
     //Can also be used to heal with negative argument
-    public void takeDamage(float damage, GameObject source = null)
+    public void takeDamage(float damage, GameObject source)
     {
         if ((health - damage) > maxHealth)
             health = maxHealth;
@@ -318,22 +318,20 @@ public class UnitCombat : MonoBehaviour
         checkForDeath();
         updateHUD();
 
-        if (gameObject.activeSelf && !gameObject.tag.Equals("Player"))
+        if (source != null && gameObject.activeSelf && source.activeSelf && !gameObject.tag.Equals("Player") && source != gameObject)
         {
-            // Still alive
+            // AI: Aggro on the attacker
             aggro(source);
         }
 
     }
     //Can also be used to heal with negative argument
-    public void dealDamage(GameObject enemy, float amount)
+    public void dealDamage(GameObject enemy, float amount) //Onko t‰‰ oikeesti tarpeellinen?
     {
-
         if (enemy != null && enemy.activeSelf)
         {
-            enemy.GetComponent<UnitCombat>().takeDamage(amount);
+            enemy.GetComponent<UnitCombat>().takeDamage(amount, gameObject);
         }
-
         //Debug.Log("DEALT DAMAGE." + enemy + " REMAINING HEALTH:" + enemy.GetComponent<UnitCombat>().getHealth());
     }
 

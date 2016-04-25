@@ -17,7 +17,7 @@ public class blot_out_spell_script : Spell {
         timer++;
 
             foreach (GameObject g in getUnitsAtPoint(transform.position, Tuner.DEFAULT_BLOT_OUT_RADIUS)){
-                g.GetComponent<UnitCombat>().takeDamage(Tuner.BASE_BLOT_OUT_DAMAGE);
+                g.GetComponent<UnitCombat>().takeDamage(Tuner.BASE_BLOT_OUT_DAMAGE, parent);
             }
 
             System.Random rand = new System.Random();

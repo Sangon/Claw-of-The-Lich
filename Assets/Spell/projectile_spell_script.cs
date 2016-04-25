@@ -64,7 +64,7 @@ public class projectile_spell_script : Spell
 
             if (getDirection() == i){
                 GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(spriteName + i);
-                Debug.Log("asdasd : " + GetComponent<SpriteRenderer>().sprite);
+                //Debug.Log("asdasd : " + GetComponent<SpriteRenderer>().sprite);
             }
 
         }

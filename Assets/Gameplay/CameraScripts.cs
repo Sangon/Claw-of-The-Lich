@@ -24,41 +24,57 @@ public class CameraScripts : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Rullaa kameraa kauemmas.
+        if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        {
+            Camera.main.orthographicSize += Tuner.CAMERA_ZOOM_SPEED;
+        }
+        //Rulla kameraa lähemmäs.
+        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        {
+            Camera.main.orthographicSize -= Tuner.CAMERA_ZOOM_SPEED;
+        }
+        //Rajoittaa kameran max- ja minimietäisyydet.
+        Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, Tuner.CAMERA_MIN_DISTANCE, Tuner.CAMERA_MAX_DISTANCE);
+
         mousePos = Input.mousePosition;
+
+        float scrollSpeed = Tuner.CAMERA_SCROLLING_SPEED + (Tuner.CAMERA_SCROLLING_SPEED * (Camera.main.orthographicSize/500f));
+
         if (!followTargets)
         {
             if (mousePos.x > (width - (width * 0.05f)))
             {
-                Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(Tuner.CAMERA_SCROLLING_SPEED, 0, 0);
+                Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(scrollSpeed, 0, 0);
             }
             if (mousePos.x < (height * 0.05f))
             {
-                Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(-Tuner.CAMERA_SCROLLING_SPEED, 0, 0);
+                Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(-scrollSpeed, 0, 0);
             }
             if (mousePos.y > (height - (height * 0.05f)))
             {
-                Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(0, Tuner.CAMERA_SCROLLING_SPEED, 0);
+                Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(0, scrollSpeed, 0);
             }
             if (mousePos.y < (width * 0.05f))
             {
-                Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(0, -Tuner.CAMERA_SCROLLING_SPEED, 0);
+                Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(0, -scrollSpeed, 0);
             }
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(Tuner.CAMERA_SCROLLING_SPEED, 0, 0);
+            Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(scrollSpeed, 0, 0);
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(-Tuner.CAMERA_SCROLLING_SPEED, 0, 0);
+            Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(-scrollSpeed, 0, 0);
         }
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(0, Tuner.CAMERA_SCROLLING_SPEED, 0);
+            Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(0, scrollSpeed, 0);
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(0, -Tuner.CAMERA_SCROLLING_SPEED, 0);
+            Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(0, -scrollSpeed, 0);
         }
     }
 
