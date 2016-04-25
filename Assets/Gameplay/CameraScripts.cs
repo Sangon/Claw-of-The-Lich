@@ -17,13 +17,14 @@ public class CameraScripts : MonoBehaviour
     {
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
         Camera.main.transparencySortMode = TransparencySortMode.Orthographic;
-        height = Screen.height;
-        width = Screen.width;
     }
 
     // Update is called once per frame
     void Update()
     {
+        height = Screen.height;
+        width = Screen.width;
+	
         //Rullaa kameraa kauemmas.
         if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
@@ -92,7 +93,7 @@ public class CameraScripts : MonoBehaviour
             if (selection != null)
             {
                 Camera.main.transform.parent = selection.transform;
-                //Camera.main.transform.position = new Vector3(Camera.main.transform.parent.position.x, Camera.main.transform.parent.position.y, -5000);
+                Camera.main.transform.position = new Vector3(Camera.main.transform.parent.position.x, Camera.main.transform.parent.position.y, -5000);
             }
         }
         else
