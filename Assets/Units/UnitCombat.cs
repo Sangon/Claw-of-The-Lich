@@ -59,6 +59,11 @@ public class UnitCombat : MonoBehaviour
         cameraScripts = Camera.main.GetComponent<CameraScripts>();
     }
 
+    public Skill[] getSpellList()
+    {
+        return spellList;
+    }
+
     public void changeWeapon(){
         melee = !melee;
         attackRange = (isMelee()) ? Tuner.UNIT_BASE_MELEE_RANGE : Tuner.UNIT_BASE_RANGED_RANGE;

@@ -5,12 +5,13 @@ using System;
 public class PlayerMovement : MonoBehaviour
 {
     public int groupID = 0;
-	private int lastGroupID = 0;
+    private int lastGroupID = 0;
     private float pathfindingTimer = 0;
     private UnitMovement unitMovement;
     private UnitCombat unitCombat;
     private PartySystem partySystem;
     private PlayerHUD playerHUD;
+    private TargetedAbilityIndicator targetedAbilityIndicator;
 
     private int selectedSpellSlot = 0;
     private bool targeting = false;
@@ -33,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
         unitCombat = GetComponent<UnitCombat>();
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
         playerHUD = GetComponent<PlayerHUD>();
+        targetedAbilityIndicator = GameObject.Find("HUD").GetComponent<TargetedAbilityIndicator>();
     }
 
     void FixedUpdate()
@@ -49,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
             moveAfterAttack = false;
         }
     }
-    
+
     void LateUpdate()
     {
         groupID = partySystem.getGroupID(this.gameObject);
@@ -110,7 +112,7 @@ public class PlayerMovement : MonoBehaviour
                     {
                         // Trying to move, but the character is attacking. Move after the attack has finished
                         moveAfterAttack = true;
-						lastGroupID = groupID;
+                        lastGroupID = groupID;
                     }
                     else {
                         unitCombat.stopAttack();
@@ -126,23 +128,37 @@ public class PlayerMovement : MonoBehaviour
         //////////////////////////////////////
         /// SPELLIT
         /////////////////////////////////////
-        if (Input.GetKeyDown(KeyCode.Q)){
+        if (Input.GetKeyDown(KeyCode.Q) && gameObject.name.Equals("Character#1"))
+        {
             selectedSpellSlot = 0;
             toggleTargeting();
         }
 
-        if (Input.GetKeyDown(KeyCode.W)){
+        if (Input.GetKeyDown(KeyCode.W) && gameObject.name.Equals("Character#1"))
+        {
             selectedSpellSlot = 1;
             toggleTargeting();
         }
 
-        if (Input.GetKeyDown(KeyCode.E)) { }
+        if (Input.GetKeyDown(KeyCode.E) && gameObject.name.Equals("Character#2")) {
+            selectedSpellSlot = 0;
+            toggleTargeting();
+        }
 
-        if (Input.GetKeyDown(KeyCode.A)) { }
+        if (Input.GetKeyDown(KeyCode.A) && gameObject.name.Equals("Character#2")) {
+            selectedSpellSlot = 1;
+            toggleTargeting();
+        }
 
-        if (Input.GetKeyDown(KeyCode.S)) { }
+        if (Input.GetKeyDown(KeyCode.S) && gameObject.name.Equals("Character#3")) {
+            selectedSpellSlot = 0;
+            toggleTargeting();
+        }
 
-        if (Input.GetKeyDown(KeyCode.D)) { }
+        if (Input.GetKeyDown(KeyCode.D) && gameObject.name.Equals("Character#3")) {
+            selectedSpellSlot = 1;
+            toggleTargeting();
+        }
 
     }
 
@@ -156,6 +172,22 @@ public class PlayerMovement : MonoBehaviour
     private void toggleTargeting()
     {
         targeting = !targeting;
+        string spell = unitCombat.getSpellList()[selectedSpellSlot].getSpellName();
+        if (targeting && gameObject.name.Equals("Character#3"))
+        {
+            if (spell.Equals("blot_out")) //Arrow rain skill
+                targetedAbilityIndicator.showIndicator(gameObject, TargetedAbilityIndicator.Skills.arrow, getCurrentMousePos());
+            else if (spell.Equals("charge")) //Charge skill
+                targetedAbilityIndicator.showIndicator(gameObject, TargetedAbilityIndicator.Skills.charge, getCurrentMousePos());
+        }
+        else if (gameObject.name.Equals("Character#3"))
+        {
+            if (spell.Equals("blot_out")) //Arrow rain skill
+                targetedAbilityIndicator.hideIndicator(gameObject, TargetedAbilityIndicator.Skills.arrow);
+            else if (spell.Equals("charge")) //Charge skill
+                targetedAbilityIndicator.hideIndicator(gameObject, TargetedAbilityIndicator.Skills.charge);
+        }
+
         //TODO: vaihda kursori 
     }
 

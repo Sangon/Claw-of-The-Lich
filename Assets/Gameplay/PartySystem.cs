@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 
 public class PartySystem : MonoBehaviour
 {
-
     private GameObject character1;
     private GameObject character2;
     private GameObject character3;

@@ -62,5 +62,9 @@ public abstract class Skill : ScriptableObject, ISkill{
         return hit.point;
     }
 
+    public string getSpellName()
+    {
+        return spellName;
+    }
 }
 

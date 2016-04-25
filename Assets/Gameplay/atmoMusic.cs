@@ -7,9 +7,8 @@ Numpad 4-6 musiikit
 Numpad 7 ja 8 sateen voimmakkuus
 */
 
-public class atmoMusic : MonoBehaviour {
-
-    
+public class AtmoMusic : MonoBehaviour
+{
     [FMODUnity.EventRef]
     public string inputSound = "event:/sfx/hit_arrow";
 
@@ -29,10 +28,8 @@ public class atmoMusic : MonoBehaviour {
 
     float rainlvl;
     
-
-
-    void Start () {
-
+    void Start()
+    {
         atmoEv = FMODUnity.RuntimeManager.CreateInstance(atmoAll);
         atmoEv.getParameter("location", out atmoLoc);
         atmoEv.getParameter("rain", out atmoRain);
@@ -43,20 +40,15 @@ public class atmoMusic : MonoBehaviour {
         atmoEv.start();
         audioType = true;
 
-
-
         rainlvl = 0;
-     
     }
-	
-	// Update is called once per frame
-	void Update () {
 
-        
+    // Update is called once per frame
+    void Update()
+    {
         FMOD.ATTRIBUTES_3D attributes = FMODUnity.RuntimeUtils.To3DAttributes(Camera.main.transform.position);
         atmoEv.set3DAttributes(attributes);
         musicEv.set3DAttributes(attributes);
-
 
         if (audioType == true)
         {
@@ -75,8 +67,7 @@ public class atmoMusic : MonoBehaviour {
                 musicEv.start();
                 block = true;
             }
-        } 
-
+        }
 
         if (Input.GetKeyDown("space"))
         {
@@ -92,19 +83,18 @@ public class atmoMusic : MonoBehaviour {
         }
 
         if (Input.GetKeyDown("[2]"))
-        {           
+        {
             atmoLoc.setValue(1);
             print("gravey");
             audioType = true;
         }
 
         if (Input.GetKeyDown("[3]"))
-        { 
+        {
             atmoLoc.setValue(2);
             print("castle");
             audioType = true;
         }
-
 
         if (Input.GetKeyDown("[7]"))
         {
@@ -123,7 +113,7 @@ public class atmoMusic : MonoBehaviour {
             atmoRain.setValue(rainlvl);
             print("rainlvl =" + rainlvl);
         }
-        
+
         if (Input.GetKeyDown("[4]"))
         {
             musicType.setValue(0);
@@ -144,6 +134,6 @@ public class atmoMusic : MonoBehaviour {
             print("Style 3");
             audioType = false;
         }
-        
+
     }
 }
