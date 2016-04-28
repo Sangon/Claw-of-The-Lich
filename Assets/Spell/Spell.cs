@@ -27,6 +27,11 @@ public class Spell : MonoBehaviour
         parent = g;
     }
 
+    public GameObject getParent()
+    {
+        return parent;
+    }
+
     public List<GameObject> getUnitsAtPoint(Vector2 point, float radius)
     {
         List<GameObject> mobs = new List<GameObject>();

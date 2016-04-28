@@ -29,7 +29,7 @@ public class UnitMovement : MonoBehaviour
     private float facingAngle = 0;
 
     private bool canTurn = true;
-    private bool isMoving = false;
+    private bool moving = false;
 
     private FMOD.Studio.EventInstance footStepsAudio;
 
@@ -40,6 +40,11 @@ public class UnitMovement : MonoBehaviour
         unitCombat = GetComponent<UnitCombat>();
         traps = GameObject.Find("Traps").GetComponent<Traps>();
         footStepsAudio = FMODUnity.RuntimeManager.CreateInstance("event:/sfx/walk");
+    }
+
+    public bool isMoving()
+    {
+        return moving;
     }
 
     public void moveTo(Vector2 point, int groupID = 0)
@@ -69,7 +74,7 @@ public class UnitMovement : MonoBehaviour
             astar.stop();
     }
 
-    private void checkTriggerCollisions()
+    private void checkTriggerCollisions(bool debug = false)
     {
         traps.checkTrigger(transform.position, transform.tag);
 
@@ -77,7 +82,8 @@ public class UnitMovement : MonoBehaviour
         {
             Vector2 pos = gameObject.transform.position;
             Vector2 end = pos + new Vector2(0, 1f);
-            Debug.DrawLine(pos, end, Color.magenta);
+            if (debug)
+                Debug.DrawLine(pos, end, Color.magenta);
             RaycastHit2D[] hits = Physics2D.LinecastAll(pos, end, Tuner.LAYER_FLOOR);
             if (hits.Length > 0)
             {
@@ -89,11 +95,24 @@ public class UnitMovement : MonoBehaviour
         }
     }
 
+    public bool lineOfSight(Vector2 start, Vector2 end, bool debug = false)
+    {
+        Vector2 dir = (start - end).normalized;
+        start -= dir;
+        end += dir;
+        RaycastHit2D hit = Physics2D.Linecast(start, end, Tuner.LAYER_OBSTACLES);
+        if (debug)
+            Debug.DrawLine(start, end, Color.yellow, 1.0f);
+        if (hit.collider == null)
+            return true;
+        return false;
+    }
+
     void Update()
     {
         FMOD.Studio.PLAYBACK_STATE state;
         footStepsAudio.getPlaybackState(out state);
-        if (isMoving)
+        if (isMoving())
         {
             //FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/walk", Camera.main.transform.position);
             FMOD.ATTRIBUTES_3D attributes = FMODUnity.RuntimeUtils.To3DAttributes(Camera.main.transform.position);
@@ -143,7 +162,7 @@ public class UnitMovement : MonoBehaviour
             canTurn = true;
             if (animator != null && astar != null)
             {
-                if (isMoving)
+                if (isMoving())
                 {
                     switch (direction)
                     {
@@ -198,10 +217,10 @@ public class UnitMovement : MonoBehaviour
         {
             //newPosition = astar.getNextPathPoint();
             relativePosition = astar.getMovementDirection();
-            isMoving = true;
+            moving = true;
         }
         else
-            isMoving = false;
+            moving = false;
 
         calculateDirection();
     }
@@ -224,7 +243,7 @@ public class UnitMovement : MonoBehaviour
         if (!canTurn)
             return;
 
-        if (isMoving || unitCombat == null || !unitCombat.isAttacking() || (unitCombat.isLockedAttack() && !unitCombat.inRange(unitCombat.getLockedTarget())))
+        if (isMoving() || unitCombat == null || !unitCombat.isAttacking() || (unitCombat.isLockedAttack() && !unitCombat.inRange(unitCombat.getLockedTarget())))
             ; // Do nothing
         else if (!unitCombat.hasAttacked())
         {

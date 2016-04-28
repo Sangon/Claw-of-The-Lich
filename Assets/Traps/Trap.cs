@@ -7,7 +7,7 @@ public class Trap : MonoBehaviour
     public float triggerDistance = 200f;
     private float cooldownMax = 2f;
     private float cooldownNow = 0f;
-    private String triggererTag = "Player";
+    private string triggererTag = "Player";
     private float retriggerCooldown = 0;
 
     public void trigger(String tag)
@@ -17,9 +17,11 @@ public class Trap : MonoBehaviour
             if (UnityEngine.Random.Range(-1f, 1f) >= 0)
             {
                 GameObject unit = Instantiate(Resources.Load("Melee"), transform.position, Quaternion.identity) as GameObject;
+                unit.name = "Melee";
             } else
             {
                 GameObject unit = Instantiate(Resources.Load("Ranged"), transform.position, Quaternion.identity) as GameObject;
+                unit.name = "Ranged";
             }
             cooldownNow = cooldownMax;
         }

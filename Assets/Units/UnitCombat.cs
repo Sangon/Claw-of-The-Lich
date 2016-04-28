@@ -64,9 +64,15 @@ public class UnitCombat : MonoBehaviour
         return spellList;
     }
 
-    public void changeWeapon(){
+    public void changeWeapon()
+    {
         melee = !melee;
         attackRange = (isMelee()) ? Tuner.UNIT_BASE_MELEE_RANGE : Tuner.UNIT_BASE_RANGED_RANGE;
+    }
+    public void changeWeaponTo(bool melee)
+    {
+        if ((isMelee() && !melee) || (!isMelee() && melee))
+            changeWeapon();
     }
 
     public bool isAlive()
@@ -281,13 +287,7 @@ public class UnitCombat : MonoBehaviour
     }
     public bool lineOfSight(GameObject target)
     {
-        if (target != null && target.activeSelf)
-        {
-            RaycastHit2D hit = Physics2D.Linecast(transform.position, target.transform.position, Tuner.LAYER_OBSTACLES);
-            if (hit.collider == null)
-                return true;
-        }
-        return false;
+        return unitMovement.lineOfSight(transform.position, target.transform.position);
     }
 
     //Tarkastaa nyt vain jos kyseinen kohde on attack rangen sis‰ll‰. Tarkistukset siit‰ jos vihollinen on liian kaukana en‰‰n seuraamiseen pit‰‰ tehd‰ itse.
@@ -295,18 +295,10 @@ public class UnitCombat : MonoBehaviour
     {
         if (target != null && target.activeSelf)
         {
-            if (getRange(target) < attackRange)
-            {
-                if (!isMelee() && lineOfSight(target))
-                    return true;
-                else if (isMelee())
-                    return true;
-                else
-                    return false;
-            }
-            else {
+            if (getRange(target) < attackRange && lineOfSight(target))
+                return true;
+            else
                 return false;
-            }
         }
         else {
             return false;
@@ -406,7 +398,7 @@ public class UnitCombat : MonoBehaviour
             {
                 Vector2 relative = transform.InverseTransformPoint(hostile.transform.position);
                 float attackAngle = Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg;
-                if (Mathf.Abs((unitMovement.getFacingAngle()) - attackAngle) < 45f)
+                if (Mathf.Abs((unitMovement.getFacingAngle()) - attackAngle) < Tuner.DEFAULT_MELEE_ATTACK_CONE_DEGREES)
                     hostilesInRange.Add(hostile);
                 //print(Mathf.Abs((unitMovement.getFacingAngle()) - attackAngle));
                 //print("facingAngle: " + (unitMovement.getFacingAngle()) + " attackAngle: " + attackAngle);

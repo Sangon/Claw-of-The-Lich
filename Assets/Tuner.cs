@@ -26,7 +26,7 @@ public class Tuner : MonoBehaviour
     public static readonly float DEFAULT_PROJECTILE_DAMAGE = 1.0f;
     public static readonly float DEFAULT_PROJECTILE_RANGE = 30f;
 
-    public static readonly float DEFAULT_PROJECTILE_OFFSET = 100f; // Y-axis, from bottom of the sprite
+    public static readonly float DEFAULT_PROJECTILE_OFFSET = 100f; //Y-axis, from bottom of the sprite
     public static readonly float DEFAULT_PROJECTILE_HITBOX_RADIUS = 50f;
 
     public static readonly float DEFAULT_WHIRLWIND_RADIUS = UNIT_BASE_MELEE_RANGE * 2;
@@ -39,15 +39,13 @@ public class Tuner : MonoBehaviour
     public static readonly float DEFAULT_BLOT_OUT_RADIUS = 440;
     public static readonly float BASE_BLOT_OUT_DAMAGE = 0.2f;
 
+    public static readonly float DEFAULT_MELEE_ATTACK_CONE_DEGREES = 45f;
+
     //CAMERA DEFAULT VALUES
     public static readonly float CAMERA_MIN_DISTANCE = 100;
 	public static readonly float CAMERA_MAX_DISTANCE = 6000;
     public static readonly float CAMERA_SCROLLING_SPEED = 5f;
     public static readonly float CAMERA_ZOOM_SPEED = 15f;
-
-    public static readonly float rangedEnemyAttackRange = 750f;
-    public static readonly float meleeEnemyAttackRange = 150f;
-    public static readonly float enemyAggroRange = 1000f;
 
     //PARTYSYSTEM DEFAULT VALUES
     public static readonly float PARTY_SPACING = 100f;
@@ -55,6 +53,14 @@ public class Tuner : MonoBehaviour
     //PATHFINDING & MOVEMENT DEFAULT VALUES
     public static readonly float PATHFINDING_MINIMUM_DISTANCE_FROM_UNIT = 10f;
     public static readonly float ATTACKMOVE_MAX_SEARCH_DISTANCE_FROM_CLICK_POINT = 200f;
+
+    //ENEMY AI DEFAULT VALUES
+    public static readonly float UNIT_AGGRO_RANGE = 1000f;
+    public static readonly float UNIT_AGGRO_CALLOUT_RANGE = 500f; //Enemy units within this range (of the aggroing unit) get aggroed too
+    public static readonly float IDLING_STATE_TIME_MIN = 3f; //The minimum time in seconds the enemy spends in idle mode before it wanders
+    public static readonly float IDLING_STATE_TIME_MAX = 10f; //The maximum time in seconds the enemy spends in idle mode before it wanders
+    public static readonly float WANDERING_DISTANCE_MAX = 200f; //The maximum distance the enemy can wander from its starting position
+    public static readonly float CHASING_TIME_MAX = 3f; //The maximum time in seconds the enemy spends chasing the player without seeing him before giving up and returning to its starting position
 
     //UNITY EDITOR DEFAULT VALUES
     public static readonly int LAYER_OBSTACLES = 1 << 8;

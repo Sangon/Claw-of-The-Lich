@@ -5,23 +5,21 @@ public class EnemyAI : MonoBehaviour
 {
     private float timeStamp;
 
-    //private UnitMovement unitMovement = null;
+    private UnitMovement unitMovement = null;
     private UnitCombat unitCombat = null;
     private PartySystem partySystem = null;
 
     void Start()
     {
-        //unitMovement = GetComponent<UnitMovement>();
+        unitMovement = GetComponent<UnitMovement>();
         unitCombat = GetComponent<UnitCombat>();
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
     }
 
-    void FixedUpdate()
+    public bool lookForOpponents()
     {
         if (partySystem.noneAlive())
-            return;
-
-        bool lineOfSight = true;
+            return false;
 
         float dis = 0;
         GameObject target = null;
@@ -29,26 +27,23 @@ public class EnemyAI : MonoBehaviour
         foreach (GameObject character in partySystem.aliveCharacters)
         {
             dis = Vector2.Distance(character.transform.position, transform.position);
-            if (dis < Tuner.enemyAggroRange)
+            if (dis < Tuner.UNIT_AGGRO_RANGE)
             {
                 if (target != null && dis < Vector2.Distance(target.transform.position, transform.position))
-                    target = character;
+                    target = character; //This character is closer than the old target: change target
                 else if (target == null)
                     target = character;
             }
         }
         if (target != null)
         {
-            dis = Vector2.Distance(target.transform.position, transform.position);
-            RaycastHit2D hit = Physics2D.Linecast(transform.position, target.transform.position, Tuner.LAYER_OBSTACLES);
-            if (hit.collider != null)
-                lineOfSight = false;
-
-            if (lineOfSight)
+            if (unitMovement.lineOfSight(transform.position, target.transform.position))
             {
                 unitCombat.aggro(target);
+                return true;
             }
         }
+        return false;
     }
 }
 
