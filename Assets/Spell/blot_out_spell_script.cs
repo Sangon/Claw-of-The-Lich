@@ -11,7 +11,6 @@ public class blot_out_spell_script : Spell
         Destroy(gameObject, Tuner.DEAULT_BLOT_OUT_DURATION);
     }
 
-
     void FixedUpdate()
     {
         timer++;
@@ -20,12 +19,16 @@ public class blot_out_spell_script : Spell
             g.GetComponent<UnitCombat>().takeDamage(Tuner.BASE_BLOT_OUT_DAMAGE, getParent());
         }
 
-        System.Random rand = new System.Random();
-        Vector2 randomVector = new Vector2(transform.position.x - Tuner.DEFAULT_BLOT_OUT_RADIUS / 2 + rand.Next(0, (int)(Tuner.DEFAULT_BLOT_OUT_RADIUS)), transform.position.y - Tuner.DEFAULT_BLOT_OUT_RADIUS / 2 + rand.Next(0, (int)(Tuner.DEFAULT_BLOT_OUT_RADIUS)) + 800);
+        //System.Random rand = new System.Random();
+
+
+
+        //Vector2 randomVector = new Vector2(transform.position.x - Tuner.DEFAULT_BLOT_OUT_RADIUS + 2 * rand.Next(0, (int)(Tuner.DEFAULT_BLOT_OUT_RADIUS)), transform.position.y - Tuner.DEFAULT_BLOT_OUT_RADIUS / 2 + rand.Next(0, (int)(Tuner.DEFAULT_BLOT_OUT_RADIUS)) + 800);
         if (timer % 2 == 0)
         {
+            Vector2 randomVector = Ellipse.getRandomPointInsideEllipse(transform.position, Tuner.DEFAULT_BLOT_OUT_RADIUS);
+            randomVector.y += 800f;
             Instantiate(Resources.Load("blot_out_projectile"), randomVector, Quaternion.identity);
         }
-
     }
 }

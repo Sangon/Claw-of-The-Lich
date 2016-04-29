@@ -36,7 +36,7 @@ public class Tuner : MonoBehaviour
     public static readonly float BASE_CHARGE_SPEED = UNIT_BASE_MELEE_DAMAGE * 2;
 
     public static readonly float DEAULT_BLOT_OUT_DURATION = 2 + 2;
-    public static readonly float DEFAULT_BLOT_OUT_RADIUS = 440;
+    public static readonly float DEFAULT_BLOT_OUT_RADIUS = 440f;
     public static readonly float BASE_BLOT_OUT_DAMAGE = 0.2f;
 
     public static readonly float DEFAULT_MELEE_ATTACK_CONE_DEGREES = 45f;

@@ -9,7 +9,7 @@ public class empty_skill : Skill{
         skillIcon = null;
         maxCooldown = 0;
     }
-    public override void cast(GameObject unit){}
+    public override void cast(GameObject owner){}
 
     public override void FixedUpdate(){}
 }

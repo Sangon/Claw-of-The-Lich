@@ -30,11 +30,10 @@ public class AIStates : MonoBehaviour
 
     void FixedUpdate()
     {
-        bool hasTarget = false;
+        bool hasTarget = enemyAI.lookForOpponents();
+
         if (unitCombat.getLockedTarget() != null)
             hasTarget = true;
-        else
-            hasTarget = enemyAI.lookForOpponents();
 
         if (hasTarget)
             changeState(State.Chase);
@@ -52,7 +51,7 @@ public class AIStates : MonoBehaviour
             case State.Chase:
                 if (unitCombat.getLockedTarget() != null)
                 {
-                    if (!unitMovement.lineOfSight(transform.position, unitCombat.getLockedTarget().transform.position, true))
+                    if (!unitMovement.lineOfSight(transform.position, unitCombat.getLockedTarget().transform.position))
                     {
                         if (chasingTime >= Tuner.CHASING_TIME_MAX)
                             changeState(State.Idle); //Give up chasing after CHASING_TIME_MAX seconds

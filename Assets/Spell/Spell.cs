@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class Spell : MonoBehaviour
 {
-
     public Vector2 castLocation;
     public int spellID;
     public string spellName;
@@ -40,15 +39,27 @@ public class Spell : MonoBehaviour
         foreach (GameObject g in hostileList)
         {
 
+            Vector2 enemyPos = g.transform.position;
+            Vector2 ellipsePos = point;
+            Vector2 ellipseRadius = new Vector2(radius, (radius * 0.5f));
+
+            float a = Mathf.Pow((enemyPos.x - ellipsePos.x), 2);
+            float b = Mathf.Pow((enemyPos.y - ellipsePos.y), 2);
+            float rX = Mathf.Pow(ellipseRadius.x, 2);
+            float rY = Mathf.Pow(ellipseRadius.y, 2);
+
+            if (((a / rX) + (b / rY)) <= 1)
+            {
+                mobs.Add(g);
+            }
+            /*
             if (Vector2.Distance(point, g.transform.position) < radius)
             {
                 mobs.Add(g);
             }
-
+            */
         }
 
         return mobs;
     }
-
-
 }

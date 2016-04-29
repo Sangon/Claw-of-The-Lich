@@ -10,10 +10,10 @@ public class projectile_skill : Skill {
 		skillIcon = null;
 	}
 
-	public override void cast (GameObject unit){
+	public override void cast (GameObject owner){
 		
 		if (currentCooldown == maxCooldown) {
-			Instantiate (Resources.Load (spellName), unit.transform.position + new Vector3(0,spellOffSet,0), Quaternion.identity);
+			Instantiate (Resources.Load (spellName), owner.transform.position + new Vector3(0,spellOffSet,0), Quaternion.identity);
 			currentCooldown = 0;
 		}
 

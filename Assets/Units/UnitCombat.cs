@@ -12,8 +12,6 @@ public class UnitCombat : MonoBehaviour
 
     //Targetin seurausta varten.
     private GameObject lockedTarget = null;
-    private HealthBar healthBar = null;
-    private PlayerHUD playerHUD = null;
 
     private float attackRange;
     private bool attacking = false;
@@ -51,10 +49,6 @@ public class UnitCombat : MonoBehaviour
         spellList[0] = attributes.skill2;
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
         unitMovement = GetComponent<UnitMovement>();
-        healthBar = GetComponent<HealthBar>();
-
-        if (gameObject.tag.Equals("Player"))
-            playerHUD = GetComponent<PlayerHUD>();
 
         cameraScripts = Camera.main.GetComponent<CameraScripts>();
     }
@@ -95,8 +89,11 @@ public class UnitCombat : MonoBehaviour
                 Camera.main.transform.parent = null;
             gameObject.SetActive(false);
             gameObject.tag = "Dead";
-            partySystem.updateCharacterList();
-            cameraScripts.updateTarget();
+            if (gameObject.tag.Equals("Player"))
+            {
+                partySystem.updateCharacterList();
+                cameraScripts.updateTarget();
+            }
         }
     }
 
@@ -108,7 +105,7 @@ public class UnitCombat : MonoBehaviour
         {
             if (lockedTarget != null && lockedTarget.activeSelf)
             {
-                if (!inRange(lockedTarget) && !attacking)
+                if (!inRange(lockedTarget) && !isAttacking())
                     unitMovement.moveTo(lockedTarget.transform.position);
                 else if (inRange(lockedTarget))
                     startAttack();
@@ -313,7 +310,6 @@ public class UnitCombat : MonoBehaviour
             health -= damage;
 
         checkForDeath();
-        updateHUD();
 
         if (source != null && gameObject.activeSelf && source.activeSelf && !gameObject.tag.Equals("Player") && source != gameObject)
         {
@@ -323,7 +319,7 @@ public class UnitCombat : MonoBehaviour
 
     }
     //Can also be used to heal with negative argument
-    public void dealDamage(GameObject enemy, float amount) //Onko t‰‰ oikeesti tarpeellinen?
+    public void dealDamage(GameObject enemy, float amount)
     {
         if (enemy != null && enemy.activeSelf)
         {
@@ -332,20 +328,9 @@ public class UnitCombat : MonoBehaviour
         //Debug.Log("DEALT DAMAGE." + enemy + " REMAINING HEALTH:" + enemy.GetComponent<UnitCombat>().getHealth());
     }
 
-    private void updateHUD()
-    {
-        if (healthBar != null)
-            healthBar.update(getHealth() / getMaxHealth());
-        if (playerHUD != null)
-            playerHUD.updateStats(getHealth() / getMaxHealth(), 1f);
-    }
-
     public void aggro(GameObject target)
     {
-        if (!isAttacking())
-        {
-            setLockedTarget(target);
-        }
+        setLockedTarget(target);
     }
     public float getHealth()
     {
@@ -354,12 +339,10 @@ public class UnitCombat : MonoBehaviour
     public void setHealth(float hp)
     {
         health = hp;
-        updateHUD();
     }
     public void resetHealth()
     {
         health = maxHealth;
-        updateHUD();
     }
     public float getMaxHealth()
     {
@@ -370,14 +353,10 @@ public class UnitCombat : MonoBehaviour
         return attackRange;
     }
 
-    public void castSpellInSlot(int slot, GameObject unit)
+    public void castSpellInSlot(int slot)
     {
-        if (partySystem.getGroupID(gameObject) != -1)
-        {
-            spellList[slot].cast(unit);
-        }
+        spellList[slot].cast(gameObject);
     }
-
 
     //Haetaan meleerangessa olevat viholliset ja tehd‰‰n juttuja.
     public List<GameObject> getUnitsInMelee(UnitMovement.Direction dir)

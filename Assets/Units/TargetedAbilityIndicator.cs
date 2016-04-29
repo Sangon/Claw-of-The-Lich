@@ -5,18 +5,13 @@ using System.Runtime.Remoting.Channels;
 
 public class TargetedAbilityIndicator : MonoBehaviour
 {
-    bool index = false;
-    Vector3 newPosition;
-    public GameObject circle;
-    public GameObject rect;
-    //public GameObject myNewInstance;
-
     public List<GameObject> indicators;
 
     public enum Skills
     {
         charge,
-        arrow
+        arrow,
+        whirlwind
     }
 
     public void showIndicator(GameObject player, Skills skill, Vector2 mousePoint)
@@ -26,14 +21,36 @@ public class TargetedAbilityIndicator : MonoBehaviour
             case Skills.charge:
                 //Vector2 direction = mousePoint - new Vector2(player.transform.position.x, player.transform.position.y);
                 GameObject chargeIndicator = player.transform.Find("Canvas").Find("ChargeIndicator").gameObject;
-                chargeIndicator.SetActive(true);
-                indicators.Add(chargeIndicator);
-                chargeIndicator.transform.LookAt(mousePoint);
+                if (!chargeIndicator.activeSelf)
+                {
+                    chargeIndicator.SetActive(true);
+                    indicators.Add(chargeIndicator);
+                    chargeIndicator.transform.LookAt(mousePoint);
+                }
                 break;
             case Skills.arrow:
                 GameObject arrowIndicator = player.transform.Find("Canvas").Find("ArrowIndicator").gameObject;
-                arrowIndicator.SetActive(true);
-                indicators.Add(arrowIndicator);
+                if (!arrowIndicator.activeSelf)
+                {
+                    Sprite sprite = arrowIndicator.GetComponent<SpriteRenderer>().sprite;
+                    float spriteWidth = sprite.bounds.size.x * sprite.pixelsPerUnit;
+                    float scale = 2 * (Tuner.DEFAULT_BLOT_OUT_RADIUS / spriteWidth);
+                    arrowIndicator.GetComponent<RectTransform>().localScale = new Vector2(scale, scale);
+                    arrowIndicator.SetActive(true);
+                    indicators.Add(arrowIndicator);
+                }
+                break;
+            case Skills.whirlwind:
+                GameObject whirlwindIndicator = player.transform.Find("Canvas").Find("WhirlwindIndicator").gameObject;
+                if (!whirlwindIndicator.activeSelf)
+                {
+                    Sprite sprite = whirlwindIndicator.GetComponent<SpriteRenderer>().sprite;
+                    float spriteWidth = sprite.bounds.size.x * sprite.pixelsPerUnit;
+                    float scale = 2 * (Tuner.DEFAULT_WHIRLWIND_RADIUS / spriteWidth);
+                    whirlwindIndicator.GetComponent<RectTransform>().localScale = new Vector2(scale, scale);
+                    whirlwindIndicator.SetActive(true);
+                    indicators.Add(whirlwindIndicator);
+                }
                 break;
         }
     }
@@ -44,13 +61,27 @@ public class TargetedAbilityIndicator : MonoBehaviour
         {
             case Skills.charge:
                 GameObject chargeIndicator = player.transform.Find("Canvas").Find("ChargeIndicator").gameObject;
-                chargeIndicator.SetActive(false);
-                indicators.Remove(chargeIndicator);
+                if (chargeIndicator.activeSelf)
+                {
+                    chargeIndicator.SetActive(false);
+                    indicators.Remove(chargeIndicator);
+                }
                 break;
             case Skills.arrow:
                 GameObject arrowIndicator = player.transform.Find("Canvas").Find("ArrowIndicator").gameObject;
-                arrowIndicator.SetActive(false);
-                indicators.Remove(arrowIndicator);
+                if (arrowIndicator.activeSelf)
+                {
+                    arrowIndicator.SetActive(false);
+                    indicators.Remove(arrowIndicator);
+                }
+                break;
+            case Skills.whirlwind:
+                GameObject whirlwindIndicator = player.transform.Find("Canvas").Find("WhirlwindIndicator").gameObject;
+                if (whirlwindIndicator.activeSelf)
+                {
+                    whirlwindIndicator.SetActive(false);
+                    indicators.Remove(whirlwindIndicator);
+                }
                 break;
         }
     }
@@ -62,35 +93,39 @@ public class TargetedAbilityIndicator : MonoBehaviour
         else
             Cursor.visible = true;
 
-        newPosition = PlayerMovement.getCurrentMousePos();
+        Vector2 newPosition = PlayerMovement.getCurrentMousePos();
 
-        foreach (GameObject i in indicators)
+        GameObject[] hostileList = GameObject.FindGameObjectsWithTag("Hostile");
+
+        foreach (GameObject h in hostileList)
         {
-            if (i.name.Equals("ArrowIndicator"))
+            if (h.GetComponent<SpriteRenderer>().color == Color.cyan)
             {
-                i.transform.position = new Vector3(newPosition.x, newPosition.y, 0);
-
-                GameObject[] hostileList = GameObject.FindGameObjectsWithTag("Hostile");
-
-                foreach (GameObject h in hostileList)
+                if (h.name.Contains("Melee"))
+                    h.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0);
+                else if (h.name.Contains("Ranged"))
+                    h.GetComponent<SpriteRenderer>().color = new Color(199, 255, 0);
+            }
+            foreach (GameObject i in indicators)
+            {
+                if (i.name.Equals("ArrowIndicator") || i.name.Equals("WhirlwindIndicator"))
                 {
                     Vector2 enemyPos = h.transform.position;
                     Vector2 ellipsePos = i.transform.position;
-                    Vector2 ellipseRadius = new Vector2(384.0f, 192.0f);
-
-                    float a = Mathf.Pow((enemyPos.x - ellipsePos.x), 2);
-                    float b = Mathf.Pow((enemyPos.y - ellipsePos.y), 2);
-                    float rX = Mathf.Pow(ellipseRadius.x, 2);
-                    float rY = Mathf.Pow(ellipseRadius.y, 2);
-
-                    if (((a / rX) + (b / rY)) <= 1)
+                    float ellipseWidth = 0;
+                    if (i.name.Equals("ArrowIndicator"))
+                    {
+                        ellipseWidth = Tuner.DEFAULT_BLOT_OUT_RADIUS;
+                        i.transform.position = new Vector3(newPosition.x, newPosition.y, 0);
+                    }
+                    else if (i.name.Equals("WhirlwindIndicator"))
+                    {
+                        ellipseWidth = Tuner.DEFAULT_WHIRLWIND_RADIUS;
+                        i.transform.position = new Vector3(i.transform.parent.parent.position.x, i.transform.parent.parent.position.y, 0);
+                    }
+                    if (Ellipse.pointInsideEllipse(enemyPos, ellipsePos, ellipseWidth))
                     {
                         h.GetComponent<SpriteRenderer>().color = Color.cyan;
-                    } else if (h.GetComponent<SpriteRenderer>().color == Color.cyan) {
-                        if (h.name.Contains("Melee"))
-                            h.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0);
-                        else if (h.name.Contains("Ranged"))
-                            h.GetComponent<SpriteRenderer>().color = new Color(199, 255, 0);
                     }
                 }
             }

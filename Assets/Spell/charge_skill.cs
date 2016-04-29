@@ -14,21 +14,16 @@ public class charge_skill : Skill {
         skillIcon = null;
     }
 
-    public override void cast(GameObject unit){
+    public override void cast(GameObject owner){
 
         if (currentCooldown == maxCooldown){
-            parent = unit;
+            parent = owner;
 
             chargeVector = new Vector2(parent.transform.position.x, parent.transform.position.y) - getCurrentMousePos();
             chargeTimer = maxChargeTimer;
 
             parent.GetComponent<UnitMovement>().setMovementSpeed(Tuner.UNIT_BASE_SPEED * 5);
             currentCooldown = 0;
-
-
-
- 
-
         }
     }
     public override void FixedUpdate(){

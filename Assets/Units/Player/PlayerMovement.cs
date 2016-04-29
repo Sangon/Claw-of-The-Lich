@@ -11,9 +11,8 @@ public class PlayerMovement : MonoBehaviour
     private UnitCombat unitCombat;
     private PartySystem partySystem;
     private PlayerHUD playerHUD;
-    private TargetedAbilityIndicator targetedAbilityIndicator;
+    private GameHUD gameHUD;
 
-    private int selectedSpellSlot = 0;
     private bool targeting = false;
     private bool ignoreMoving = false;
     private Action lastAction = Action.nothing;
@@ -33,8 +32,8 @@ public class PlayerMovement : MonoBehaviour
         unitMovement = GetComponent<UnitMovement>();
         unitCombat = GetComponent<UnitCombat>();
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
-        playerHUD = GetComponent<PlayerHUD>();
-        targetedAbilityIndicator = GameObject.Find("HUD").GetComponent<TargetedAbilityIndicator>();
+        playerHUD = GameObject.Find("HUD").GetComponent<PlayerHUD>();
+        gameHUD = GameObject.Find("HUD").GetComponent<GameHUD>();
     }
 
     void FixedUpdate()
@@ -44,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
         {
             //if (groupID != -1)
             //{
-            // Character is no longer attacking and the player issued a move order
+            //Character is no longer attacking and the player issued a move order
             unitCombat.stopAttack();
             unitMovement.moveTo(movePoint, lastGroupID);
             //}
@@ -59,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
         Vector2 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
 
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             unitMovement.stop();
         }
@@ -68,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
             lastAction = Action.nothing;
 
         //Hiiren oikea nappi.
-        if (Input.GetMouseButton(1) && !unitCombat.isAttacking() && !playerHUD.mouseOverHUD)
+        if (Input.GetMouseButton(1) && !unitCombat.isAttacking() && !playerHUD.isMouseOverHUD() && !gameHUD.isTargeting())
         {
             //Pysäyttää hahmon ja lyö ilmaa jos vasen shift on pohjassa, muuten liikkuu kohteeseen.
             if (Input.GetKey(KeyCode.LeftShift) && lastAction != Action.attackMove)
@@ -88,16 +87,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
             ignoreMoving = false;
-        else if (Input.GetMouseButton(0) && !Input.GetMouseButton(1) && targeting)
-        {
-            unitCombat.castSpellInSlot(selectedSpellSlot, gameObject);
-            toggleTargeting();
-            unitMovement.stop();
-            ignoreMoving = true;
-            pathfindingTimer = Time.fixedDeltaTime * 2.0f;
-        }
 
-        if ((partySystem.mouseOverCharacter || playerHUD.mouseOverHUD) && Input.GetMouseButtonDown(0))
+        if ((partySystem.isMouseOverCharacter() || playerHUD.isMouseOverHUD() || gameHUD.isTargeting()) && Input.GetMouseButtonDown(0))
             ignoreMoving = true;
 
         if (Input.GetMouseButton(0) && !Input.GetMouseButton(1) && !Input.GetKey(KeyCode.LeftShift) && !ignoreMoving && !targeting && pathfindingTimer <= 0)
@@ -110,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
                     movePoint = hit.point;
                     if (unitCombat.isAttacking())
                     {
-                        // Trying to move, but the character is attacking. Move after the attack has finished
+                        //Trying to move, but the character is attacking. Move after the attack has finished
                         moveAfterAttack = true;
                         lastGroupID = groupID;
                     }
@@ -124,42 +115,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         pathfindingTimer -= Time.fixedDeltaTime;
-
-        //////////////////////////////////////
-        /// SPELLIT
-        /////////////////////////////////////
-        if (Input.GetKeyDown(KeyCode.Q) && gameObject.name.Equals("Character#1"))
-        {
-            selectedSpellSlot = 0;
-            toggleTargeting();
-        }
-
-        if (Input.GetKeyDown(KeyCode.W) && gameObject.name.Equals("Character#1"))
-        {
-            selectedSpellSlot = 1;
-            toggleTargeting();
-        }
-
-        if (Input.GetKeyDown(KeyCode.E) && gameObject.name.Equals("Character#2")) {
-            selectedSpellSlot = 0;
-            toggleTargeting();
-        }
-
-        if (Input.GetKeyDown(KeyCode.A) && gameObject.name.Equals("Character#2")) {
-            selectedSpellSlot = 1;
-            toggleTargeting();
-        }
-
-        if (Input.GetKeyDown(KeyCode.S) && gameObject.name.Equals("Character#3")) {
-            selectedSpellSlot = 0;
-            toggleTargeting();
-        }
-
-        if (Input.GetKeyDown(KeyCode.D) && gameObject.name.Equals("Character#3")) {
-            selectedSpellSlot = 1;
-            toggleTargeting();
-        }
-
     }
 
     public static Vector2 getCurrentMousePos()
@@ -169,27 +124,6 @@ public class PlayerMovement : MonoBehaviour
         return hit.point;
     }
 
-    private void toggleTargeting()
-    {
-        targeting = !targeting;
-        string spell = unitCombat.getSpellList()[selectedSpellSlot].getSpellName();
-        if (targeting && gameObject.name.Equals("Character#3"))
-        {
-            if (spell.Equals("blot_out")) //Arrow rain skill
-                targetedAbilityIndicator.showIndicator(gameObject, TargetedAbilityIndicator.Skills.arrow, getCurrentMousePos());
-            else if (spell.Equals("charge")) //Charge skill
-                targetedAbilityIndicator.showIndicator(gameObject, TargetedAbilityIndicator.Skills.charge, getCurrentMousePos());
-        }
-        else if (gameObject.name.Equals("Character#3"))
-        {
-            if (spell.Equals("blot_out")) //Arrow rain skill
-                targetedAbilityIndicator.hideIndicator(gameObject, TargetedAbilityIndicator.Skills.arrow);
-            else if (spell.Equals("charge")) //Charge skill
-                targetedAbilityIndicator.hideIndicator(gameObject, TargetedAbilityIndicator.Skills.charge);
-        }
-
-        //TODO: vaihda kursori 
-    }
 
     void OnGUI()
     {

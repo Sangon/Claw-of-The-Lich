@@ -6,83 +6,66 @@ using UnityEngine.EventSystems;
 
 public class PlayerHUD : MonoBehaviour
 {
-    private Transform healthBarIndicator = null;
-    private Transform staminaBarIndicator = null;
-    private GameObject selectionIndicator = null;
-    private GameObject weaponPrimaryIndicator = null;
-    private GameObject weaponSecondaryIndicator = null;
-    private GameObject bar = null;
-    private Sprite meleeSprite = null;
-    private Sprite rangedSprite = null;
+    private Sprite meleeSprite;
+    private Sprite rangedSprite;
     private float healthBarWidth = 0;
     private float staminaBarWidth = 0;
 
-    private GameObject mouseOverTarget = null;
-    public bool mouseOverHUD = false;
+    private GameObject mouseOverTarget;
+    private bool mouseOverHUD = false;
 
     private PartySystem partySystem;
-    private UnitCombat unitCombat;
+    private GameHUD gameHUD;
+
+    public bool isMouseOverHUD()
+    {
+        return mouseOverHUD;
+    }
 
     // Use this for initialization
     void Start()
     {
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
-        unitCombat = GetComponent<UnitCombat>();
+        gameHUD = GameObject.Find("HUD").GetComponent<GameHUD>();
 
-        if (gameObject.name.Equals("Character#1"))
+        GameObject bar = transform.Find("HUDBars").Find("Bar1").gameObject;
+        healthBarWidth = bar.transform.Find("Bar_HP").localScale.x;
+        staminaBarWidth = bar.transform.Find("Bar_Stamina").localScale.x;
+
+        StartCoroutine(LateStart(0.01f));
+    }
+
+    IEnumerator LateStart(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+
+        GameObject bar = null;
+        for (int i = 1; i <= 4; i++)
         {
-            bar = GameObject.Find("HUDBars").transform.Find("Bar1").gameObject;
+            bar = transform.Find("HUDBars").Find("Bar" + i).gameObject;
             foreach (Transform child in bar.transform)
             {
-                child.transform.position += new Vector3(0, 0, 0);
+                child.transform.position += new Vector3((i - 1) * 300f, 0, 0);
             }
         }
-        if (gameObject.name.Equals("Character#2"))
-        {
-            bar = GameObject.Find("HUDBars").transform.Find("Bar2").gameObject;
-            foreach (Transform child in bar.transform)
-            {
-                child.transform.position += new Vector3(300f, 0, 0);
-            }
-        }
-        if (gameObject.name.Equals("Character#3"))
-        {
-            bar = GameObject.Find("HUDBars").transform.Find("Bar3").gameObject;
-            foreach (Transform child in bar.transform)
-            {
-                child.transform.position += new Vector3(600f, 0, 0);
-            }
-        }
-        if (gameObject.name.Equals("Character#4"))
-        {
-            bar = GameObject.Find("HUDBars").transform.Find("Bar4").gameObject;
-            foreach (Transform child in bar.transform)
-            {
-                child.transform.position += new Vector3(900f, 0, 0);
-            }
-        }
-        healthBarIndicator = bar.transform.Find("Bar_HP");
-        staminaBarIndicator = bar.transform.Find("Bar_Stamina");
-        selectionIndicator = bar.transform.Find("Selection").gameObject;
-        weaponPrimaryIndicator = bar.transform.Find("Weapon_Primary").gameObject;
-        weaponSecondaryIndicator = bar.transform.Find("Weapon_Secondary").gameObject;
 
         meleeSprite = Resources.Load<Sprite>("HUD_Weapon_Melee");
         rangedSprite = Resources.Load<Sprite>("HUD_Weapon_Ranged");
-
-        healthBarWidth = healthBarIndicator.localScale.x;
-        staminaBarWidth = staminaBarIndicator.localScale.x;
     }
 
-    public void Update()
+    public void LateUpdate()
     {
-        mouseOver(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        resetTarget();
+        if (!gameHUD.isTargeting())
+            mouseOver(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
-        if (mouseOverTarget != null && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)))
-        {
+        if (mouseOverTarget != null)
             mouseOverHUD = true;
+
+        if (mouseOverTarget != null && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) && !gameHUD.isTargeting() && !partySystem.isMouseOverCharacter())
+        {
             GameObject character = getOwner(mouseOverTarget);
-            if (character != null && character == gameObject)
+            if (character != null)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -110,41 +93,60 @@ public class PlayerHUD : MonoBehaviour
         }
         else if (mouseOverTarget == null)
             mouseOverHUD = false;
-        if (unitCombat.isAlive())
-        {
-            if (partySystem.getGroupID(gameObject) >= 0)
-                selectionIndicator.GetComponent<Image>().color = Color.green;
-            else
-                selectionIndicator.GetComponent<Image>().color = Color.red;
-        }
-        else
-            selectionIndicator.GetComponent<Image>().color = Color.black;
 
-        if (unitCombat.isMelee() && weaponPrimaryIndicator.GetComponent<Image>().sprite == rangedSprite)
-            weaponPrimaryIndicator.GetComponent<Image>().sprite = meleeSprite;
-        else if (!unitCombat.isMelee() && weaponPrimaryIndicator.GetComponent<Image>().sprite == meleeSprite)
-            weaponPrimaryIndicator.GetComponent<Image>().sprite = rangedSprite;
-        if (unitCombat.isMelee() && weaponSecondaryIndicator.GetComponent<Image>().sprite == meleeSprite)
-            weaponSecondaryIndicator.GetComponent<Image>().sprite = rangedSprite;
-        else if (!unitCombat.isMelee() && weaponSecondaryIndicator.GetComponent<Image>().sprite == rangedSprite)
-            weaponSecondaryIndicator.GetComponent<Image>().sprite = meleeSprite;
+        for (int i = 1; i <= 4; i++)
+        {
+            GameObject character = partySystem.getCharacter(i);
+            UnitCombat unitCombat = character.GetComponent<UnitCombat>();
+            GameObject bar = transform.Find("HUDBars").Find("Bar" + i).gameObject;
+
+            Transform healthBarIndicator = bar.transform.Find("Bar_HP");
+            Transform staminaBarIndicator = bar.transform.Find("Bar_Stamina");
+            GameObject selectionIndicator = bar.transform.Find("Selection").gameObject;
+            GameObject weaponPrimaryIndicator = bar.transform.Find("Weapon_Primary").gameObject;
+            GameObject weaponSecondaryIndicator = bar.transform.Find("Weapon_Secondary").gameObject;
+
+            float healthScale = (unitCombat.getHealth() / unitCombat.getMaxHealth());
+            float staminaScale = (unitCombat.getHealth() / unitCombat.getMaxHealth());
+
+            Mathf.Clamp(healthScale, 0, 1f);
+            Mathf.Clamp(staminaScale, 0, 1f);
+
+            // Set Stamina Bar width to 0 if the character is dead
+            if (!unitCombat.isAlive())
+                staminaScale = 0f;
+
+            healthBarIndicator.localScale = new Vector3(healthBarWidth * healthScale, healthBarIndicator.localScale.y, healthBarIndicator.localScale.z);
+            staminaBarIndicator.localScale = new Vector3(staminaBarWidth * staminaScale, staminaBarIndicator.localScale.y, staminaBarIndicator.localScale.z);
+
+            if (unitCombat.isAlive())
+            {
+                if (partySystem.getGroupID(character) >= 0)
+                    selectionIndicator.GetComponent<Image>().color = Color.green;
+                else
+                    selectionIndicator.GetComponent<Image>().color = Color.red;
+            }
+            else
+                selectionIndicator.GetComponent<Image>().color = Color.black;
+
+            if (unitCombat.isMelee() && weaponPrimaryIndicator.GetComponent<Image>().sprite == rangedSprite)
+                weaponPrimaryIndicator.GetComponent<Image>().sprite = meleeSprite;
+            else if (!unitCombat.isMelee() && weaponPrimaryIndicator.GetComponent<Image>().sprite == meleeSprite)
+                weaponPrimaryIndicator.GetComponent<Image>().sprite = rangedSprite;
+            if (unitCombat.isMelee() && weaponSecondaryIndicator.GetComponent<Image>().sprite == meleeSprite)
+                weaponSecondaryIndicator.GetComponent<Image>().sprite = rangedSprite;
+            else if (!unitCombat.isMelee() && weaponSecondaryIndicator.GetComponent<Image>().sprite == rangedSprite)
+                weaponSecondaryIndicator.GetComponent<Image>().sprite = meleeSprite;
+        }
     }
 
-    // Update is called once per frame
-    public void updateStats(float healthScale, float staminaScale)
+    private void resetTarget()
     {
-        if (healthBarIndicator == null || staminaBarIndicator == null)
-            return;
-
-        Mathf.Clamp(healthScale, 0, 1f);
-        Mathf.Clamp(staminaScale, 0, 1f);
-
-        // Set Stamina Bar width to 0 if the character is dead
-        if (unitCombat.getHealth() <= 0f)
-            staminaScale = 0f;
-
-        healthBarIndicator.localScale = new Vector3(healthBarWidth * healthScale, healthBarIndicator.localScale.y, healthBarIndicator.localScale.z);
-        staminaBarIndicator.localScale = new Vector3(staminaBarWidth * staminaScale, staminaBarIndicator.localScale.y, staminaBarIndicator.localScale.z);
+        if (mouseOverTarget != null)
+        {
+            mouseOverTarget.GetComponent<Image>().color = Color.white;
+            mouseOverTarget = null;
+        }
     }
 
     private GameObject getOwner(GameObject HUDElement)
@@ -170,11 +172,6 @@ public class PlayerHUD : MonoBehaviour
         List<RaycastResult> hits = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pe, hits);
 
-        if (mouseOverTarget != null)
-        {
-            mouseOverTarget.GetComponent<Image>().color = Color.white;
-            mouseOverTarget = null;
-        }
         if (hits.Count > 0) //if no object was found there is no minimum
         {
             float min = hits[0].distance; //lets assume that the minimum is at the 0th place

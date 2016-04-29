@@ -15,15 +15,24 @@ public class PartySystem : MonoBehaviour
     public List<GameObject> aliveCharacters;
     private List<int> partyPositions;
 
-    private CameraScripts cameraScripts = null;
+    private CameraScripts cameraScripts;
+    private PlayerHUD playerHUD;
+    private GameHUD gameHUD;
 
-    private GameObject mouseOverTarget = null;
-    public bool mouseOverCharacter = false;
+    private GameObject mouseOverTarget;
+    private bool mouseOverCharacter;
+
+    public bool isMouseOverCharacter()
+    {
+        return mouseOverCharacter;
+    }
 
     // Use this for initialization
     void Start()
     {
         cameraScripts = Camera.main.GetComponent<CameraScripts>();
+        playerHUD = GameObject.Find("HUD").GetComponent<PlayerHUD>();
+        gameHUD = GameObject.Find("HUD").GetComponent<GameHUD>();
         initPositions();
         initCharacterList();
         character1 = characters[0];
@@ -33,7 +42,7 @@ public class PartySystem : MonoBehaviour
         selectAll();
     }
 
-    // 1 - 4
+    //1 - 4
     public GameObject getCharacter(int ID)
     {
         if (ID >= 1 && ID <= 4)
@@ -98,7 +107,7 @@ public class PartySystem : MonoBehaviour
             {
                 // Deselect selected dead character
                 deselectCharacter(aliveCharacters[i]);
-                aliveCharacters[i].GetComponent<PlayerHUD>().Update();
+                //aliveCharacters[i].GetComponent<PlayerHUD>().Update();
                 // Remove dead character from character list
                 aliveCharacters.RemoveAt(i);
             }
@@ -199,7 +208,7 @@ public class PartySystem : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         // The key below esc selects all characters
         if (Input.GetKeyDown(KeyCode.Backslash))
@@ -222,7 +231,12 @@ public class PartySystem : MonoBehaviour
         {
             selectCharacter(character4, Input.GetKey(KeyCode.LeftShift));
         }
-        mouseOver(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+
+        resetTarget();
+
+        if (!gameHUD.isTargeting() && !playerHUD.isMouseOverHUD())
+            mouseOver(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+
         if (mouseOverTarget == null)
             mouseOverCharacter = false;
         else
@@ -239,15 +253,8 @@ public class PartySystem : MonoBehaviour
         //marker.transform.position = character1.transform.position;
     }
 
-    // Select units by clicking them
-    public void mouseOver(Vector2 ray)
+    private void resetTarget()
     {
-        PointerEventData pe = new PointerEventData(EventSystem.current);
-        pe.position = Input.mousePosition;
-
-        List<RaycastResult> hits = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(pe, hits);
-
         if (mouseOverTarget != null)
         {
             if (getGroupID(mouseOverTarget) == -1)
@@ -256,6 +263,17 @@ public class PartySystem : MonoBehaviour
                 mouseOverTarget.GetComponent<SpriteRenderer>().color = Color.white;
             mouseOverTarget = null;
         }
+    }
+
+    // Select units by clicking them
+    private void mouseOver(Vector2 ray)
+    {
+        PointerEventData pe = new PointerEventData(EventSystem.current);
+        pe.position = Input.mousePosition;
+
+        List<RaycastResult> hits = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pe, hits);
+
         if (hits.Count > 0) //if no object was found there is no minimum
         {
             float min = Vector2.Distance(hits[0].gameObject.transform.position, ray); //lets assume that the minimum is at the 0th place

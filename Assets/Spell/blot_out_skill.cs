@@ -10,13 +10,13 @@ public class blot_out_skill : Skill {
         maxCooldown = 1*50;
     }
 
-    public override void cast(GameObject unit)
+    public override void cast(GameObject owner)
     {
         if (currentCooldown == maxCooldown)
         {
 
             GameObject g = Instantiate(Resources.Load(spellName), getCurrentMousePos(), Quaternion.identity) as GameObject;
-            g.GetComponent<blot_out_spell_script>().setParent(unit);
+            g.GetComponent<blot_out_spell_script>().setParent(owner);
 
             currentCooldown = 0;
         }
