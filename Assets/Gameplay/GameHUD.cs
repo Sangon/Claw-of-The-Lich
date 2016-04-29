@@ -8,11 +8,14 @@ public class GameHUD : MonoBehaviour
     private TargetedAbilityIndicator targetedAbilityIndicator;
 
     private bool[] targeting = new bool[8];
+    private bool[] wasTargeting = new bool[8];
+
+    private int times;
 
     public bool isTargeting()
     {
         for (int i = 0; i < 8; i++)
-            if (targeting[i])
+            if (wasTargeting[i] || targeting[i])
                 return true;
         return false;
     }
@@ -28,7 +31,7 @@ public class GameHUD : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.G))
         {
             cameraScripts.toggleLock();
         }
@@ -52,16 +55,23 @@ public class GameHUD : MonoBehaviour
         //////////////////////////////////////
         /// SPELLIT
         /////////////////////////////////////
+        for (int i = 0; i < 8; i++)
+            wasTargeting[i] = targeting[i];
+
         GameObject character = null;
+
         if (Input.GetKeyDown(KeyCode.Q) && partySystem.getCharacter(1).GetComponent<UnitCombat>().isAlive())
         {
             targeting[0] = true;
         }
-        if (Input.GetKeyUp(KeyCode.Q) && targeting[0])
+        if (targeting[0] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.Q)))
         {
-            character = partySystem.getCharacter(1);
-            character.GetComponent<UnitCombat>().castSpellInSlot(0);
-            character.GetComponent<UnitMovement>().stop();
+            if (!Input.GetKey(KeyCode.Q))
+            {
+                character = partySystem.getCharacter(1);
+                character.GetComponent<UnitCombat>().castSpellInSlot(0);
+                character.GetComponent<UnitMovement>().stop();
+            }
             targeting[0] = false;
         }
 
@@ -69,11 +79,14 @@ public class GameHUD : MonoBehaviour
         {
             targeting[1] = true;
         }
-        if (Input.GetKeyUp(KeyCode.W) && targeting[1])
+        if (targeting[1] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.W)))
         {
-            character = partySystem.getCharacter(1);
-            character.GetComponent<UnitCombat>().castSpellInSlot(1);
-            character.GetComponent<UnitMovement>().stop();
+            if (!Input.GetKey(KeyCode.W))
+            {
+                character = partySystem.getCharacter(1);
+                character.GetComponent<UnitCombat>().castSpellInSlot(1);
+                character.GetComponent<UnitMovement>().stop();
+            }
             targeting[1] = false;
         }
 
@@ -81,23 +94,30 @@ public class GameHUD : MonoBehaviour
         {
             targeting[2] = true;
         }
-        if (Input.GetKeyUp(KeyCode.E) && targeting[2])
+        if (targeting[2] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.E)))
         {
-            character = partySystem.getCharacter(2);
-            character.GetComponent<UnitCombat>().castSpellInSlot(0);
-            character.GetComponent<UnitMovement>().stop();
+            if (!Input.GetKey(KeyCode.E))
+            {
+                character = partySystem.getCharacter(2);
+                character.GetComponent<UnitCombat>().castSpellInSlot(0);
+                character.GetComponent<UnitMovement>().stop();
+            }
             targeting[2] = false;
         }
 
         if (Input.GetKeyDown(KeyCode.R) && partySystem.getCharacter(2).GetComponent<UnitCombat>().isAlive())
         {
             targeting[3] = true;
+            print("R");
         }
-        if (Input.GetKeyUp(KeyCode.R) && targeting[3])
+        if (targeting[3] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.R)))
         {
-            character = partySystem.getCharacter(2);
-            character.GetComponent<UnitCombat>().castSpellInSlot(1);
-            character.GetComponent<UnitMovement>().stop();
+            if (!Input.GetKey(KeyCode.R))
+            {
+                character = partySystem.getCharacter(2);
+                character.GetComponent<UnitCombat>().castSpellInSlot(1);
+                character.GetComponent<UnitMovement>().stop();
+            }
             targeting[3] = false;
         }
 
@@ -105,11 +125,14 @@ public class GameHUD : MonoBehaviour
         {
             targeting[4] = true;
         }
-        if (Input.GetKeyUp(KeyCode.A) && targeting[4])
+        if (targeting[4] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.A)))
         {
-            character = partySystem.getCharacter(3);
-            character.GetComponent<UnitCombat>().castSpellInSlot(0);
-            character.GetComponent<UnitMovement>().stop();
+            if (!Input.GetKey(KeyCode.A))
+            {
+                character = partySystem.getCharacter(3);
+                character.GetComponent<UnitCombat>().castSpellInSlot(0);
+                character.GetComponent<UnitMovement>().stop();
+            }
             targeting[4] = false;
         }
 
@@ -117,12 +140,45 @@ public class GameHUD : MonoBehaviour
         {
             targeting[5] = true;
         }
-        if (Input.GetKeyUp(KeyCode.S) && targeting[5])
+        if (targeting[5] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.S)))
         {
-            character = partySystem.getCharacter(3);
-            character.GetComponent<UnitCombat>().castSpellInSlot(1);
-            character.GetComponent<UnitMovement>().stop();
+            if (!Input.GetKey(KeyCode.S))
+            {
+                character = partySystem.getCharacter(3);
+                character.GetComponent<UnitCombat>().castSpellInSlot(1);
+                character.GetComponent<UnitMovement>().stop();
+            }
             targeting[5] = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.D) && partySystem.getCharacter(4).GetComponent<UnitCombat>().isAlive())
+        {
+            targeting[6] = true;
+        }
+        if (targeting[6] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.D)))
+        {
+            if (!Input.GetKey(KeyCode.D))
+            {
+                character = partySystem.getCharacter(4);
+                character.GetComponent<UnitCombat>().castSpellInSlot(0);
+                character.GetComponent<UnitMovement>().stop();
+            }
+            targeting[6] = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.F) && partySystem.getCharacter(4).GetComponent<UnitCombat>().isAlive())
+        {
+            targeting[7] = true;
+        }
+        if (targeting[7] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.F)))
+        {
+            if (!Input.GetKey(KeyCode.F))
+            {
+                character = partySystem.getCharacter(4);
+                character.GetComponent<UnitCombat>().castSpellInSlot(1);
+                character.GetComponent<UnitMovement>().stop();
+            }
+            targeting[7] = false;
         }
 
         for (int i = 0; i < 8; i++)
@@ -140,7 +196,8 @@ public class GameHUD : MonoBehaviour
                     targetedAbilityIndicator.showIndicator(character, TargetedAbilityIndicator.Skills.charge, PlayerMovement.getCurrentMousePos());
                 else if (spell.Equals("whirlwind")) //Whirlwind skill
                     targetedAbilityIndicator.showIndicator(character, TargetedAbilityIndicator.Skills.whirlwind, PlayerMovement.getCurrentMousePos());
-            } else
+            }
+            else
             {
                 if (spell.Equals("blot_out")) //Arrow rain skill
                     targetedAbilityIndicator.hideIndicator(character, TargetedAbilityIndicator.Skills.arrow);
@@ -156,8 +213,9 @@ public class GameHUD : MonoBehaviour
     {
         int width = Screen.width;
         //int height = Screen.height;
-
-        GUI.Label(new Rect(10, 180, 300, 20), "Press F to Toggle Camera Lock to Selection");
+        for (int i = 0; i < 4; i++)
+            GUI.Label(new Rect(10, 100 + (i * 20), 100, 20), "Targeting: " + (targeting[i * 2] || targeting[(i * 2) + 1]));
+        GUI.Label(new Rect(10, 180, 300, 20), "Press G to Toggle Camera Lock to Selection");
         GUI.Label(new Rect(10, 200, 300, 20), "Press V to Toggle Show Healthbars");
         GUI.Label(new Rect(10, 220, 300, 20), "Press (Shift +) Num to (De)select a Character");
         GUI.Label(new Rect(10, 240, 300, 20), "Press § to Select All Characters");

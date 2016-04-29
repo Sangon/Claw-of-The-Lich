@@ -87,13 +87,16 @@ public class UnitCombat : MonoBehaviour
         {
             if (Camera.main.transform.parent == transform)
                 Camera.main.transform.parent = null;
+
             gameObject.SetActive(false);
-            gameObject.tag = "Dead";
+
             if (gameObject.tag.Equals("Player"))
             {
                 partySystem.updateCharacterList();
                 cameraScripts.updateTarget();
             }
+
+            gameObject.tag = "Dead";
         }
     }
 

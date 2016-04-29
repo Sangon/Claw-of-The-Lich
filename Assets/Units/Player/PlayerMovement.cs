@@ -13,8 +13,8 @@ public class PlayerMovement : MonoBehaviour
     private PlayerHUD playerHUD;
     private GameHUD gameHUD;
 
-    private bool targeting = false;
-    private bool ignoreMoving = false;
+    private bool ignoreRightClick = false;
+    private bool ignoreLeftClick = false;
     private Action lastAction = Action.nothing;
 
     private Vector2 movePoint;
@@ -64,12 +64,20 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (Input.GetMouseButtonUp(1))
+        {
             lastAction = Action.nothing;
+            ignoreRightClick = false;
+        }
+        if (gameHUD.isTargeting() || playerHUD.isMouseOverHUD())
+        {
+            ignoreRightClick = true;
+
+        }
 
         //Hiiren oikea nappi.
-        if (Input.GetMouseButton(1) && !unitCombat.isAttacking() && !playerHUD.isMouseOverHUD() && !gameHUD.isTargeting())
+        if (Input.GetMouseButton(1) && !unitCombat.isAttacking() && !ignoreRightClick)
         {
-            //Pysäyttää hahmon ja lyö ilmaa jos vasen shift on pohjassa, muuten liikkuu kohteeseen.
+            //Pysäyttää hahmon ja lyö ilmaa jos vasen shift on pohjassa
             if (Input.GetKey(KeyCode.LeftShift) && lastAction != Action.attackMove)
             {
                 if (partySystem.getGroupID(gameObject) != -1)
@@ -86,12 +94,12 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (Input.GetMouseButtonUp(0))
-            ignoreMoving = false;
+            ignoreLeftClick = false;
 
-        if ((partySystem.isMouseOverCharacter() || playerHUD.isMouseOverHUD() || gameHUD.isTargeting()) && Input.GetMouseButtonDown(0))
-            ignoreMoving = true;
+        if ((partySystem.isMouseOverCharacter() || playerHUD.isMouseOverHUD()) && Input.GetMouseButtonDown(0))
+            ignoreLeftClick = true;
 
-        if (Input.GetMouseButton(0) && !Input.GetMouseButton(1) && !Input.GetKey(KeyCode.LeftShift) && !ignoreMoving && !targeting && pathfindingTimer <= 0)
+        if (Input.GetMouseButton(0) && !Input.GetMouseButton(1) && !Input.GetKey(KeyCode.LeftShift) && !ignoreLeftClick && pathfindingTimer <= 0)
         {
             //Liikkuu hiiren kohtaan.
             if (hit.collider != null)
@@ -122,13 +130,5 @@ public class PlayerMovement : MonoBehaviour
         Vector2 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
         return hit.point;
-    }
-
-
-    void OnGUI()
-    {
-        int offset = (partySystem.getGroupID(gameObject) * 20);
-        if (offset >= 0)
-            GUI.Label(new Rect(10, 100 + offset, 100, 20), "Targeting: " + targeting);
     }
 }
