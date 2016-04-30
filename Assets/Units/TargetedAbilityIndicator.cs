@@ -86,14 +86,92 @@ public class TargetedAbilityIndicator : MonoBehaviour
         }
     }
 
+    private void drawIndicator(GameObject indicator, GameObject unit)
+    {
+        Vector2 mousePosition = PlayerMovement.getCurrentMousePos();
+        Vector2 unitPos = Vector2.zero;
+        if (unit != null)
+            unitPos = unit.transform.position;
+
+        if (indicator.name.Equals("ArrowIndicator") || indicator.name.Equals("WhirlwindIndicator"))
+        {
+            Vector2 ellipsePos = indicator.transform.position;
+            float ellipseWidth = 0;
+            if (indicator.name.Equals("ArrowIndicator"))
+            {
+                ellipseWidth = Tuner.DEFAULT_BLOT_OUT_RADIUS;
+                indicator.transform.position = new Vector3(mousePosition.x, mousePosition.y, 0);
+            }
+            else if (indicator.name.Equals("WhirlwindIndicator"))
+            {
+                ellipseWidth = Tuner.DEFAULT_WHIRLWIND_RADIUS;
+                indicator.transform.position = new Vector3(indicator.transform.parent.parent.position.x, indicator.transform.parent.parent.position.y, 0);
+            }
+            if (unit != null && Ellipse.pointInsideEllipse(unitPos, ellipsePos, ellipseWidth))
+            {
+                unit.GetComponent<SpriteRenderer>().color = Color.cyan;
+            }
+        }
+        else if (indicator.name.Equals("ChargeIndicator"))
+        {
+            /*
+                                P3 = (-v.y, v.x) / Sqrt(v.x^2 + v.y^2) * h
+                                P4 = (-v.y, v.x) / Sqrt(v.x^2 + v.y^2) * -h
+            */
+            Vector2 p1 = indicator.transform.parent.parent.position;
+            Vector2 p2 = mousePosition;
+            Vector2 v = p2 - p1;
+
+            float angle = Mathf.Atan2(p2.y - p1.y, p2.x - p1.x);
+
+            Vector2 p3;
+            if (angle > 0)
+                p3 = new Vector2(-v.y, v.x) / Mathf.Sqrt(v.x * v.x + v.y * v.y) * (25f + (25f * Mathf.Sin(angle)));
+            else
+                p3 = new Vector2(-v.y, v.x) / Mathf.Sqrt(v.x * v.x + v.y * v.y) * (25f + (25f * Mathf.Sin(-angle)));
+            Vector2 p4 = new Vector2(-p3.x, -p3.y);
+
+            //Vector2 leftEnd = mousePosition;
+            //Vector2 rightEnd = mousePosition;
+            Debug.DrawLine(p1, p3 + p1, Color.blue);
+            Debug.DrawLine(p1, p4 + p1, Color.blue);
+
+            RectTransform rect = indicator.GetComponent<RectTransform>();
+            rect.transform.localEulerAngles = new Vector3(0, 0, angle * Mathf.Rad2Deg);
+
+            //print(angle);
+
+            Vector2 point2 = Ellipse.getPointOnEllipsePerimeter(p1, 256f, angle);
+
+            /*
+            if (angle > 0)
+                angle = angle + 0.10f + (0.28f * Mathf.Sin(angle));
+            else
+                angle = angle + 0.10f - (0.28f * Mathf.Sin(angle));
+            */
+
+            //Vector2 point = Ellipse.getPointOnEllipsePerimeter(p1, 256f, angle);
+            Debug.DrawLine(p1, point2 + p1, Color.red);
+            rect.transform.localScale = new Vector3(point2.magnitude / 5f, p3.magnitude / 5f, 1f);
+            Vector3[] fourCornersArray = new Vector3[4];
+            rect.GetWorldCorners(fourCornersArray);
+            float height = Vector3.Distance(fourCornersArray[0], fourCornersArray[2]);
+            //float width = Vector3.Distance(fourCornersArray[0], fourCornersArray[1]);
+            //print("h: " + height + " w: " + width);
+            //float spriteHeight = i.GetComponent<SpriteRenderer>().sprite.rect.height;
+            //float scaleY = rect.transform.localScale.y;
+            rect.transform.position = new Vector2(p1.x, p1.y) + (point2.normalized * height / 6f);
+            //print(i.GetComponent<SpriteRenderer>().sprite.rect.height);
+            //print(rect.transform.localScale.y);
+        }
+    }
+
     void Update()
     {
         if (indicators.Count == 0)
             Cursor.visible = true;
         else
             Cursor.visible = true;
-
-        Vector2 mousePosition = PlayerMovement.getCurrentMousePos();
 
         GameObject[] hostileList = GameObject.FindGameObjectsWithTag("Hostile");
 
@@ -108,150 +186,17 @@ public class TargetedAbilityIndicator : MonoBehaviour
             }
             foreach (GameObject i in indicators)
             {
-                if (i.name.Equals("ArrowIndicator") || i.name.Equals("WhirlwindIndicator"))
-                {
-                    Vector2 enemyPos = h.transform.position;
-                    Vector2 ellipsePos = i.transform.position;
-                    float ellipseWidth = 0;
-                    if (i.name.Equals("ArrowIndicator"))
-                    {
-                        ellipseWidth = Tuner.DEFAULT_BLOT_OUT_RADIUS;
-                        i.transform.position = new Vector3(mousePosition.x, mousePosition.y, 0);
-                    }
-                    else if (i.name.Equals("WhirlwindIndicator"))
-                    {
-                        ellipseWidth = Tuner.DEFAULT_WHIRLWIND_RADIUS;
-                        i.transform.position = new Vector3(i.transform.parent.parent.position.x, i.transform.parent.parent.position.y, 0);
-                    }
-                    if (Ellipse.pointInsideEllipse(enemyPos, ellipsePos, ellipseWidth))
-                    {
-                        h.GetComponent<SpriteRenderer>().color = Color.cyan;
-                    }
-                }
-                else if (i.name.Equals("ChargeIndicator"))
-                {
-                    /*
-                                        P3 = (-v.y, v.x) / Sqrt(v.x^2 + v.y^2) * h
-                                        P4 = (-v.y, v.x) / Sqrt(v.x^2 + v.y^2) * -h
-                    */
-                    Vector2 p1 = i.transform.parent.parent.position;
-                    Vector2 p2 = mousePosition;
-                    Vector2 v = p2 - p1;
-
-                    float angle = Mathf.Atan2(p2.y - p1.y, p2.x - p1.x);
-
-                    Vector2 p3;
-                    if (angle > 0)
-                        p3 = new Vector2(-v.y, v.x) / Mathf.Sqrt(v.x * v.x + v.y * v.y) * (25f + (25f * Mathf.Sin(angle)));
-                    else
-                        p3 = new Vector2(-v.y, v.x) / Mathf.Sqrt(v.x * v.x + v.y * v.y) * (25f + (25f * Mathf.Sin(-angle)));
-                    Vector2 p4 = new Vector2(-p3.x, -p3.y);
-
-                    //Vector2 leftEnd = mousePosition;
-                    //Vector2 rightEnd = mousePosition;
-                    Debug.DrawLine(p1, p3 + p1, Color.blue);
-                    Debug.DrawLine(p1, p4 + p1, Color.blue);
-
-                    RectTransform rect = i.GetComponent<RectTransform>();
-                    rect.transform.localEulerAngles = new Vector3(0, 0, angle * Mathf.Rad2Deg);
-
-                    //print(angle);
-
-                    Vector2 point2 = Ellipse.getPointOnEllipsePerimeter(p1, 256f, angle);
-
-                    /*
-                    if (angle > 0)
-                        angle = angle + 0.10f + (0.28f * Mathf.Sin(angle));
-                    else
-                        angle = angle + 0.10f - (0.28f * Mathf.Sin(angle));
-                    */
-
-                    //Vector2 point = Ellipse.getPointOnEllipsePerimeter(p1, 256f, angle);
-                    Debug.DrawLine(p1, point2 + p1, Color.red);
-                    rect.transform.localScale = new Vector3(point2.magnitude / 5f, p3.magnitude / 5f, 1f);
-                    Vector3[] fourCornersArray = new Vector3[4];
-                    rect.GetWorldCorners(fourCornersArray);
-                    float height = Vector3.Distance(fourCornersArray[0], fourCornersArray[2]);
-                    //float width = Vector3.Distance(fourCornersArray[0], fourCornersArray[1]);
-                    //print("h: " + height + " w: " + width);
-                    //float spriteHeight = i.GetComponent<SpriteRenderer>().sprite.rect.height;
-                    //float scaleY = rect.transform.localScale.y;
-                    rect.transform.position = new Vector2(p1.x, p1.y) + (point2.normalized * height / 6f);
-                    //print(i.GetComponent<SpriteRenderer>().sprite.rect.height);
-                    //print(rect.transform.localScale.y);
-                }
+                drawIndicator(i, h);
             }
         }
-        /*
-        if (Input.GetKeyDown("0"))
+        if (hostileList.Length == 0)
         {
-            if (index == false)
+            print("toimiiko");
+            foreach (GameObject i in indicators)
             {
-
-                index = true;
-                myNewInstance =
-                    Instantiate(circle, new Vector3(newPosition.x, newPosition.y, 0), Quaternion.identity) as GameObject;
-                //myNewInstance.transform.parent = transform;
-                Cursor.visible = false;
-            }
-            else
-            {
-                index = false;
-                Destroy(myNewInstance);
-                Cursor.visible = true;
+                drawIndicator(i, null);
             }
         }
-        else if (Input.GetKeyDown("9"))
-        {
-            if (index == false)
-            {
-
-                index = true;
-                myNewInstance =
-                    Instantiate(rect, new Vector3(newPosition.x, newPosition.y, 0), Quaternion.identity) as GameObject;
-                //wqrdsafdmyNewInstance.transform.parent = transform;
-                Cursor.visible = false;
-
-            }
-            else
-            {
-                index = false;
-                Destroy(myNewInstance);
-                Cursor.visible = true;
-            }
-
-        }
-
-        if (index == true)
-        {
-
-            myNewInstance.transform.localPosition = new Vector3(newPosition.x, newPosition.y, 0);
-
-
-
-            GameObject[] hostileList = GameObject.FindGameObjectsWithTag("Hostile");
-
-            foreach (GameObject o in hostileList)
-            {
-                Vector2 enemyPos = o.transform.position;
-                Vector2 ellipsePos = myNewInstance.transform.position;
-                Vector2 ellipseRadius = new Vector2(100.0f, 50.0f);
-
-                float a = Mathf.Pow((enemyPos.x - ellipsePos.x), 2);
-                float b = Mathf.Pow((enemyPos.y - ellipsePos.y), 2);
-                float rX = Mathf.Pow(ellipseRadius.x, 2);
-                float rY = Mathf.Pow(ellipseRadius.y, 2);
-
-                if (((a / rX) + (b / rY)) <= 1)
-                {
-                    print("Osuma");
-                }
-            }
-        }
-        */
 
     }
-
-
-
 }
