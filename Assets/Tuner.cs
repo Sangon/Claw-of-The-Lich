@@ -4,9 +4,11 @@ using System.Collections;
 
 public class Tuner : MonoBehaviour
 {
-    //GAME LOGIC DEFAULT VALEUS
+    //GAME SETTINGS DEFAULT VALEUS
     public static readonly int FPS_TARGET_FRAME_RATE = 120;
     public static readonly bool SHOW_HEALTHBARS = true;
+    public static readonly int LEVEL_HEIGHT_IN_TILES = 25;
+    public static readonly int LEVEL_WIDTH_IN_TILES = 25;
 
     //PLAYER DEFAULT VALUES
     public static readonly float UNIT_BASE_SPEED = 500f;

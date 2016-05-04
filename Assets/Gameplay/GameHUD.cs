@@ -10,7 +10,7 @@ public class GameHUD : MonoBehaviour
     private bool[] targeting = new bool[8];
     private bool[] wasTargeting = new bool[8];
 
-    private int times;
+    bool shift;
 
     public bool isTargeting()
     {
@@ -60,9 +60,10 @@ public class GameHUD : MonoBehaviour
 
         GameObject character = null;
 
-        if (Input.GetKeyDown(KeyCode.Q) && partySystem.getCharacter(1).GetComponent<UnitCombat>().isAlive())
+        if (Input.GetKeyDown(KeyCode.Q) && !Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(1).GetComponent<UnitCombat>().isAlive())
         {
             targeting[0] = true;
+            shift = false;
         }
         if (targeting[0] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.Q)))
         {
@@ -73,11 +74,13 @@ public class GameHUD : MonoBehaviour
                 character.GetComponent<UnitMovement>().stop();
             }
             targeting[0] = false;
+            shift = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.W) && partySystem.getCharacter(1).GetComponent<UnitCombat>().isAlive())
+        if (Input.GetKeyDown(KeyCode.W) && !Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(1).GetComponent<UnitCombat>().isAlive())
         {
             targeting[1] = true;
+            shift = false;
         }
         if (targeting[1] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.W)))
         {
@@ -88,11 +91,13 @@ public class GameHUD : MonoBehaviour
                 character.GetComponent<UnitMovement>().stop();
             }
             targeting[1] = false;
+            shift = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && partySystem.getCharacter(2).GetComponent<UnitCombat>().isAlive())
+        if (Input.GetKeyDown(KeyCode.E) && !Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(2).GetComponent<UnitCombat>().isAlive())
         {
             targeting[2] = true;
+            shift = false;
         }
         if (targeting[2] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.E)))
         {
@@ -103,12 +108,13 @@ public class GameHUD : MonoBehaviour
                 character.GetComponent<UnitMovement>().stop();
             }
             targeting[2] = false;
+            shift = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && partySystem.getCharacter(2).GetComponent<UnitCombat>().isAlive())
+        if (Input.GetKeyDown(KeyCode.R) && !Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(2).GetComponent<UnitCombat>().isAlive())
         {
             targeting[3] = true;
-            print("R");
+            shift = false;
         }
         if (targeting[3] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.R)))
         {
@@ -119,66 +125,95 @@ public class GameHUD : MonoBehaviour
                 character.GetComponent<UnitMovement>().stop();
             }
             targeting[3] = false;
+            shift = false;
         }
 
         if (Input.GetKeyDown(KeyCode.A) && partySystem.getCharacter(3).GetComponent<UnitCombat>().isAlive())
         {
             targeting[4] = true;
+            shift = false;
         }
-        if (targeting[4] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.A)))
+        if (Input.GetKeyDown(KeyCode.Q) && Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(3).GetComponent<UnitCombat>().isAlive())
         {
-            if (!Input.GetKey(KeyCode.A))
+            targeting[4] = true;
+            shift = true;
+        }
+        if (targeting[4] && (Input.GetMouseButtonDown(1) || (!shift && !Input.GetKey(KeyCode.A)) || (shift && !Input.GetKey(KeyCode.Q))))
+        {
+            if (!Input.GetKey(KeyCode.A) || (shift && !Input.GetKey(KeyCode.Q)))
             {
                 character = partySystem.getCharacter(3);
                 character.GetComponent<UnitCombat>().castSpellInSlot(0);
                 character.GetComponent<UnitMovement>().stop();
             }
             targeting[4] = false;
+            shift = false;
         }
 
         if (Input.GetKeyDown(KeyCode.S) && partySystem.getCharacter(3).GetComponent<UnitCombat>().isAlive())
         {
             targeting[5] = true;
+            shift = false;
         }
-        if (targeting[5] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.S)))
+        if (Input.GetKeyDown(KeyCode.W) && Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(3).GetComponent<UnitCombat>().isAlive())
         {
-            if (!Input.GetKey(KeyCode.S))
+            targeting[5] = true;
+            shift = true;
+        }
+        if (targeting[5] && (Input.GetMouseButtonDown(1) || (!shift && !Input.GetKey(KeyCode.S)) || (shift && !Input.GetKey(KeyCode.W))))
+        {
+            if (!Input.GetKey(KeyCode.S) || (shift && !Input.GetKey(KeyCode.W)))
             {
                 character = partySystem.getCharacter(3);
                 character.GetComponent<UnitCombat>().castSpellInSlot(1);
                 character.GetComponent<UnitMovement>().stop();
             }
             targeting[5] = false;
+            shift = false;
         }
 
         if (Input.GetKeyDown(KeyCode.D) && partySystem.getCharacter(4).GetComponent<UnitCombat>().isAlive())
         {
             targeting[6] = true;
+            shift = false;
         }
-        if (targeting[6] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.D)))
+        if (Input.GetKeyDown(KeyCode.E) && Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(4).GetComponent<UnitCombat>().isAlive())
         {
-            if (!Input.GetKey(KeyCode.D))
+            targeting[6] = true;
+            shift = true;
+        }
+        if (targeting[6] && (Input.GetMouseButtonDown(1) || (!shift && !Input.GetKey(KeyCode.D)) || (shift && !Input.GetKey(KeyCode.E))))
+        {
+            if (!Input.GetKey(KeyCode.D) || (shift && !Input.GetKey(KeyCode.E)))
             {
                 character = partySystem.getCharacter(4);
                 character.GetComponent<UnitCombat>().castSpellInSlot(0);
                 character.GetComponent<UnitMovement>().stop();
             }
             targeting[6] = false;
+            shift = false;
         }
 
         if (Input.GetKeyDown(KeyCode.F) && partySystem.getCharacter(4).GetComponent<UnitCombat>().isAlive())
         {
             targeting[7] = true;
+            shift = false;
         }
-        if (targeting[7] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.F)))
+        if (Input.GetKeyDown(KeyCode.R) && Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(4).GetComponent<UnitCombat>().isAlive())
         {
-            if (!Input.GetKey(KeyCode.F))
+            targeting[7] = true;
+            shift = true;
+        }
+        if (targeting[7] && (Input.GetMouseButtonDown(1) || (!shift && !Input.GetKey(KeyCode.F)) || (shift && !Input.GetKey(KeyCode.R))))
+        {
+            if (!Input.GetKey(KeyCode.F) || (shift && !Input.GetKey(KeyCode.R)))
             {
                 character = partySystem.getCharacter(4);
                 character.GetComponent<UnitCombat>().castSpellInSlot(1);
                 character.GetComponent<UnitMovement>().stop();
             }
             targeting[7] = false;
+            shift = false;
         }
 
         for (int i = 0; i < 8; i++)

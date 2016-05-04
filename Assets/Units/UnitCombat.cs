@@ -97,6 +97,10 @@ public class UnitCombat : MonoBehaviour
             }
 
             gameObject.tag = "Dead";
+
+            //Hide minimap icon
+            GameObject minimapIcon = GameObject.Find("Icon_" + gameObject.name);
+            minimapIcon.SetActive(false);
         }
     }
 

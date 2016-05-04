@@ -131,8 +131,6 @@ public class UnitMovement : MonoBehaviour
             footStepsAudio.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
 
-        checkTriggerCollisions();
-
         if (unitCombat.isAttacking())
         {
             switch (direction)
@@ -212,7 +210,6 @@ public class UnitMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-
         if (astar != null && astar.path != null)
         {
             //newPosition = astar.getNextPathPoint();
@@ -223,6 +220,7 @@ public class UnitMovement : MonoBehaviour
             moving = false;
 
         calculateDirection();
+        checkTriggerCollisions();
     }
 
     public Direction getDirection()

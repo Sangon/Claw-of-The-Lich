@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 public class Traps : MonoBehaviour
 {
-
-
     public List<Trap> traps;
 
     //private PartySystem partySystem = null;

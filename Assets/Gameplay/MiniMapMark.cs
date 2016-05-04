@@ -19,6 +19,7 @@ public class MiniMapMark : MonoBehaviour
         panel = GameObject.Find("MinimapPanel");
         miniMap = panel.GetComponent<MiniMap>();
         minimapIcon = transform.Find("Canvas").Find("MinimapIcon").gameObject;
+        minimapIcon.name = "Icon_" + transform.name;
         myRectTransform = minimapIcon.GetComponent<RectTransform>();
         minimapIcon.transform.SetParent(panel.transform);
         myRectTransform.localScale = new Vector3(1f, 1f, 1f);

@@ -213,7 +213,10 @@ public class PartySystem : MonoBehaviour
         // The key below esc selects all characters
         if (Input.GetKeyDown(KeyCode.Backslash))
         {
-            selectAll();
+            if (Input.GetKey(KeyCode.LeftShift))
+                deSelectAll();
+            else
+                selectAll();
         }
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {

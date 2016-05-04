@@ -17,16 +17,18 @@ public class Trap : MonoBehaviour
             if (UnityEngine.Random.Range(-1f, 1f) >= 0)
             {
                 GameObject unit = Instantiate(Resources.Load("Melee"), transform.position, Quaternion.identity) as GameObject;
-                unit.name = "Melee";
+                int units = GameObject.FindGameObjectsWithTag("Hostile").Length + GameObject.FindGameObjectsWithTag("Dead").Length + GameObject.FindGameObjectsWithTag("Player").Length;
+                unit.name = "Melee (" + units + ")";
             } else
             {
                 GameObject unit = Instantiate(Resources.Load("Ranged"), transform.position, Quaternion.identity) as GameObject;
-                unit.name = "Ranged";
+                int units = GameObject.FindGameObjectsWithTag("Hostile").Length + GameObject.FindGameObjectsWithTag("Dead").Length + GameObject.FindGameObjectsWithTag("Player").Length;
+                unit.name = "Ranged (" + units + ")";
             }
             cooldownNow = cooldownMax;
         }
         else if (tag.Equals(triggererTag))
-            retriggerCooldown = Time.fixedDeltaTime * 2;
+            retriggerCooldown = Time.fixedDeltaTime * 2f;
     }
 
     public float getTriggerDistance()
