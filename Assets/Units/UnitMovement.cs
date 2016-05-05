@@ -114,7 +114,7 @@ public class UnitMovement : MonoBehaviour
         footStepsAudio.getPlaybackState(out state);
         if (isMoving())
         {
-            //FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/walk", Camera.main.transform.position);
+            //FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/walk", AudioScript.get3DAudioPositionVector3(transform.position));
             //FMOD.ATTRIBUTES_3D attributes = FMODUnity.RuntimeUtils.To3DAttributes(Camera.main.transform.position);
             footStepsAudio.set3DAttributes(AudioScript.get3DAudioPosition(transform.position));
             footStepsAudio.setParameterValue("Surface", 1f); // 0 = grass, 1f = sand road
