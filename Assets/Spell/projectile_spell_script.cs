@@ -16,7 +16,7 @@ public class projectile_spell_script : Spell
     private Vector2 lastPosition;
     public int direction = 0;
 
-    protected string spriteName = "arrow_sprite_";
+    protected string spriteName = "arrow_sprite";
 
 
     void Awake()
@@ -26,6 +26,8 @@ public class projectile_spell_script : Spell
         damage = Tuner.DEFAULT_PROJECTILE_DAMAGE;
         Destroy(gameObject, Tuner.DEFAULT_PROJECTILE_RANGE / Tuner.DEFAULT_PROJECTILE_VELOCITY);
         transform.position = new Vector3(transform.position.x, transform.position.y + Tuner.DEFAULT_PROJECTILE_OFFSET, transform.position.y / 100.0f + 800.0f);
+
+        transform.localScale = new Vector3(50f, 50f, 0); //TODO: Fix this
     }
 
     public void initAttack(Vector3 enemy, GameObject parent, bool handleOffset)
@@ -35,7 +37,15 @@ public class projectile_spell_script : Spell
         ownerTag = parent.tag;
         if (handleOffset)
             castLocation.y += Tuner.DEFAULT_PROJECTILE_OFFSET;
-        dir = new Vector2(castLocation.x - transform.position.x, castLocation.y - transform.position.y);
+        //dir = new Vector2(castLocation.x - transform.position.x, castLocation.y - transform.position.y).normalized;
+
+        //print("Dir1: " + dir);
+
+        dir = Ellipse.isometricDirection(castLocation, transform.position);
+
+        //print("Dir2: " + dir2);
+
+        transform.Rotate(new Vector3(0, 0, Mathf.Atan2(transform.position.y - castLocation.y, transform.position.x - castLocation.x) * 180f / Mathf.PI));
         transform.position = new Vector3(transform.position.x, transform.position.y, (transform.position.y - Tuner.DEFAULT_PROJECTILE_OFFSET) / 100.0f + 800.0f);
     }
 
@@ -62,23 +72,15 @@ public class projectile_spell_script : Spell
 
     void FixedUpdate()
     {
-
-        for (int i = 0; i < 8; i++)
-        {
-
-            if (getDirection() == i)
-            {
-                GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(spriteName + i);
-                //Debug.Log("asdasd : " + GetComponent<SpriteRenderer>().sprite);
-            }
-
-        }
+        //Sprite sprite = Resources.LoadAll<Sprite>("Spell Sprites/" + spriteName)[getDirection()-1];
+        Sprite sprite = Resources.Load<Sprite>("Spell Sprites/" + spriteName);
+        GetComponent<SpriteRenderer>().sprite = sprite;
 
         //Liikuttaa projektiiliä kohteen suuntaan
         if (dir != Vector2.zero)
         {
             Vector2 pos2D = new Vector2(transform.position.x, transform.position.y);
-            transform.Translate(dir.normalized * velocity);
+            transform.position += new Vector3(dir.x, dir.y, 0) * velocity;
             transform.position = new Vector3(transform.position.x, transform.position.y, (transform.position.y - Tuner.DEFAULT_PROJECTILE_OFFSET) / 100.0f + 800.0f);
             Vector2 pos2DNew = new Vector2(transform.position.x, transform.position.y);
 
@@ -87,7 +89,7 @@ public class projectile_spell_script : Spell
 
             if (checkCollision(start, end, false))
             {
-                Vector2 offset = Quaternion.Euler(0, 0, 90) * dir.normalized * Tuner.DEFAULT_PROJECTILE_HITBOX_RADIUS * 0.5f;
+                Vector2 offset = Quaternion.Euler(0, 0, 90) * new Vector2(dir.x, dir.y * 2f) * Tuner.DEFAULT_PROJECTILE_HITBOX_RADIUS * 0.5f;
                 start = pos2D - new Vector2(0, Tuner.DEFAULT_PROJECTILE_OFFSET) + offset;
                 end = pos2DNew - new Vector2(0, Tuner.DEFAULT_PROJECTILE_OFFSET) + offset;
                 if (checkCollision(start, end, true))

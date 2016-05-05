@@ -321,9 +321,22 @@ public class AstarAI : MonoBehaviour
         oldPos = transform.position;
 
         //Direction to the next waypoint
-        Vector2 dir = (new Vector3(path.vectorPath[currentWaypoint].x, path.vectorPath[currentWaypoint].y, 0) - new Vector3(transform.position.x, transform.position.y, 0)).normalized;
+        Vector2 pos1 = new Vector2(path.vectorPath[currentWaypoint].x, path.vectorPath[currentWaypoint].y);
+        Vector2 pos2 = new Vector2(transform.position.x, transform.position.y);
+        //Vector2 dir = (pos1 - pos2).normalized;
+
+        //float angle = Vector2.Angle(Vector3.left, new Vector3(path.vectorPath[currentWaypoint].x, path.vectorPath[currentWaypoint].y) - new Vector3(transform.position.x, transform.position.y)) * Mathf.Deg2Rad;
+
+        Vector2 dir = Ellipse.isometricDirection(pos1, pos2);
         dir *= gameObject.GetComponent<UnitMovement>().getMovementSpeed() * Time.fixedDeltaTime;
         transform.Translate(dir);
+        /*
+        if (transform.name.Equals("Character#1"))
+            print("angle: " + angle);
+        
+        if (transform.name.Equals("Character#1"))
+            print("ellipse: " + ellipse);
+        */
     }
 
     bool moveToNextTile()

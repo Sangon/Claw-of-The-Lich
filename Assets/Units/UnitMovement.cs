@@ -23,6 +23,16 @@ public class UnitMovement : MonoBehaviour
         NW
     };
 
+    private enum Animations
+    {
+        none,
+        attack,
+        idle,
+        move
+    }
+
+    private Animations lastAnimation;
+
     private Vector3 relativePosition = Vector3.zero;
     private Direction direction = Direction.NE;
 
@@ -131,27 +141,37 @@ public class UnitMovement : MonoBehaviour
             footStepsAudio.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
 
+        AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
+        float playbackTime = currentState.normalizedTime % 1;
+
         if (unitCombat.isAttacking())
         {
+            String animation = "";
             switch (direction)
             {
                 case Direction.NE:
                 case Direction.N:
-                    animator.Play("Attack_NE");
+                    animation = "Attack_NE";
                     break;
                 case Direction.SE:
                 case Direction.E:
-                    animator.Play("Attack_SE");
+                    animation = "Attack_SE";
                     break;
                 case Direction.NW:
                 case Direction.W:
-                    animator.Play("Attack_NW");
+                    animation = "Attack_NW";
                     break;
                 case Direction.S:
                 case Direction.SW:
-                    animator.Play("Attack_SW");
+                    animation = "Attack_SW";
                     break;
             }
+            //Continue playing the last attack animation from the same time for smoother animation changes
+            if (lastAnimation == Animations.attack && !currentState.IsName(animation))
+                animator.Play(animation, 0, playbackTime);
+            else
+                animator.Play(animation, 0);
+            lastAnimation = Animations.attack;
             canTurn = true; //????
         }
         else {
@@ -180,6 +200,7 @@ public class UnitMovement : MonoBehaviour
                             break;
                     }
                     animator.speed = getMovementSpeed() / 500f;
+                    lastAnimation = Animations.move;
                 }
                 else
                 {
@@ -202,6 +223,7 @@ public class UnitMovement : MonoBehaviour
                             animator.Play("Idle_NW");
                             break;
                     }
+                    lastAnimation = Animations.idle;
                 }
             }
         }

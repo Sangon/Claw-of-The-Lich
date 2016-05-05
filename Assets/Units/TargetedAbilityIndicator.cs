@@ -141,7 +141,7 @@ public class TargetedAbilityIndicator : MonoBehaviour
 
             //print(angle);
 
-            Vector2 point2 = Ellipse.getPointOnEllipsePerimeter(p1, 256f, angle);
+            Vector2 point2 = Ellipse.getPointOnEllipsePerimeter(256f, angle);
 
             /*
             if (angle > 0)
