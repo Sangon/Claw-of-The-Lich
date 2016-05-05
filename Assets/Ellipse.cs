@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Ellipse : MonoBehaviour
 {
-
     public static bool pointInsideEllipse(Vector2 point, Vector2 ellipsePosition, float ellipseWidth)
     {
         Vector2 ellipseRadius = new Vector2(ellipseWidth, (ellipseWidth * 0.5f));

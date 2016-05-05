@@ -25,9 +25,11 @@ public class AtmoMusic : MonoBehaviour
 
     bool audioType;
     bool block = true;
+    bool play = true;
+    float volume;
 
     float rainlvl;
-    
+
     void Start()
     {
         atmoEv = FMODUnity.RuntimeManager.CreateInstance(atmoAll);
@@ -37,7 +39,8 @@ public class AtmoMusic : MonoBehaviour
         musicEv = FMODUnity.RuntimeManager.CreateInstance(music);
         musicEv.getParameter("music_style", out musicType);
 
-        atmoEv.start();
+        musicEv.getVolume(out volume);
+
         audioType = true;
 
         rainlvl = 0;
@@ -49,6 +52,7 @@ public class AtmoMusic : MonoBehaviour
         FMOD.ATTRIBUTES_3D attributes = FMODUnity.RuntimeUtils.To3DAttributes(Camera.main.transform.position);
         atmoEv.set3DAttributes(attributes);
         musicEv.set3DAttributes(attributes);
+
 
         if (audioType == true)
         {
@@ -67,6 +71,22 @@ public class AtmoMusic : MonoBehaviour
                 musicEv.start();
                 block = true;
             }
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            play = !play;
+            if (!play)
+            {
+                atmoEv.setVolume(0);
+                musicEv.setVolume(0);
+            } else
+            {
+                atmoEv.setVolume(volume);
+                musicEv.setVolume(volume);
+            }
+
         }
 
         if (Input.GetKeyDown("space"))

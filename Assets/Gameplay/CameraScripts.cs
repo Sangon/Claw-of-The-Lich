@@ -17,6 +17,7 @@ public class CameraScripts : MonoBehaviour
     {
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
         Camera.main.transparencySortMode = TransparencySortMode.Orthographic;
+        //FMODUnity.RuntimeManager.LowlevelSystem.set3DSettings(100000f, 100000f, 100000f);
     }
 
     // Update is called once per frame
@@ -24,7 +25,7 @@ public class CameraScripts : MonoBehaviour
     {
         height = Screen.height;
         width = Screen.width;
-	
+
         //Rullaa kameraa kauemmas.
         if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
@@ -77,6 +78,15 @@ public class CameraScripts : MonoBehaviour
         {
             Camera.main.transform.position = Camera.main.gameObject.transform.position + new Vector3(0, -scrollSpeed, 0);
         }
+        /*
+        FMOD.VECTOR a, b, c, d;
+        FMODUnity.RuntimeManager.LowlevelSystem.get3DListenerAttributes(0, out a, out b, out c, out d);
+        a.x = Camera.main.gameObject.transform.position.x / 1000f;
+        a.y = Camera.main.gameObject.transform.position.y / 1000f;
+        a.z = 0;
+        FMODUnity.RuntimeManager.LowlevelSystem.set3DListenerAttributes(0, ref a, ref b, ref c, ref d);
+        print("Came: " + a.x + " " + a.y + " " + a.z);
+        */
     }
 
     public void toggleLock()

@@ -256,6 +256,7 @@ public class GameHUD : MonoBehaviour
         GUI.Label(new Rect(10, 240, 300, 20), "Press § to Select All Characters");
         GUI.Label(new Rect(10, 260, 300, 20), "Press H to Heal Player Characters");
         GUI.Label(new Rect(10, 280, 300, 20), "Press Z to Stop Moving");
+        GUI.Label(new Rect(10, 300, 400, 20), "Press X to Mute/Unmute Music and Atmosphere Sounds");
         float msec = Time.deltaTime * 1000.0f;
         float fps = 1.0f / Time.deltaTime;
         string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);

@@ -191,7 +191,6 @@ public class TargetedAbilityIndicator : MonoBehaviour
         }
         if (hostileList.Length == 0)
         {
-            print("toimiiko");
             foreach (GameObject i in indicators)
             {
                 drawIndicator(i, null);

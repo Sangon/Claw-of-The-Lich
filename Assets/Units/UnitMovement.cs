@@ -115,8 +115,8 @@ public class UnitMovement : MonoBehaviour
         if (isMoving())
         {
             //FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/walk", Camera.main.transform.position);
-            FMOD.ATTRIBUTES_3D attributes = FMODUnity.RuntimeUtils.To3DAttributes(Camera.main.transform.position);
-            footStepsAudio.set3DAttributes(attributes);
+            //FMOD.ATTRIBUTES_3D attributes = FMODUnity.RuntimeUtils.To3DAttributes(Camera.main.transform.position);
+            footStepsAudio.set3DAttributes(AudioScript.get3DAudioPosition(transform.position));
             footStepsAudio.setParameterValue("Surface", 1f); // 0 = grass, 1f = sand road
 
             if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING)
@@ -149,8 +149,6 @@ public class UnitMovement : MonoBehaviour
                     break;
                 case Direction.S:
                 case Direction.SW:
-
-                    //Käyttäkää SX SW sijaan. Älkää kysykö miks ja älkää yrittäkö vaihtaa takas.
                     animator.Play("Attack_SW");
                     break;
             }
@@ -181,6 +179,7 @@ public class UnitMovement : MonoBehaviour
                             animator.Play("Walk_NW");
                             break;
                     }
+                    animator.speed = getMovementSpeed() / 500f;
                 }
                 else
                 {
@@ -212,7 +211,6 @@ public class UnitMovement : MonoBehaviour
     {
         if (astar != null && astar.path != null)
         {
-            //newPosition = astar.getNextPathPoint();
             relativePosition = astar.getMovementDirection();
             moving = true;
         }

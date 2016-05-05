@@ -60,7 +60,7 @@ namespace FMODUnity
             }
             else
             {
-                FMODPlatform platform = EditorUtils.GetFMODPlatform(EditorUserBuildSettings.activeBuildTarget);
+                FMODPlatform platform = EditorUtils.GetFMODPlatform();
                 if (platform == FMODPlatform.None)
                 {
                     platform = FMODPlatform.PlayInEditor;
@@ -349,7 +349,7 @@ namespace FMODUnity
 
         public static void CopyToStreamingAssets()
         {
-            FMODPlatform platform = EditorUtils.GetFMODPlatform(EditorUserBuildSettings.activeBuildTarget);
+            FMODPlatform platform = EditorUtils.GetFMODPlatform();
             if (platform == FMODPlatform.None)
             {
                 UnityEngine.Debug.LogWarning(String.Format("FMOD Studio: copy banks for platform {0} : Unsupported platform", EditorUserBuildSettings.activeBuildTarget.ToString()));
