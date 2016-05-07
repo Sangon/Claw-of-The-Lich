@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class charge_skill : Skill {
-
+public class charge_skill : Skill
+{
     float chargeTimer = 0;
     float maxChargeTimer = 20;
     Vector2 chargeVector;
@@ -14,45 +14,46 @@ public class charge_skill : Skill {
         skillIcon = null;
     }
 
-    public override void cast(GameObject owner){
-
-        if (currentCooldown == maxCooldown){
+    public override void cast(GameObject owner)
+    {
+        if (currentCooldown == maxCooldown)
+        {
             parent = owner;
 
             chargeVector = new Vector2(parent.transform.position.x, parent.transform.position.y) - getCurrentMousePos();
             chargeTimer = maxChargeTimer;
 
-            parent.GetComponent<UnitMovement>().setMovementSpeed(Tuner.UNIT_BASE_SPEED * 5);
+            parent.GetComponent<UnitMovement>().setMovementSpeed(parent.GetComponent<UnitCombat>().getBaseMovementSpeed() * 5);
             currentCooldown = 0;
         }
     }
-    public override void FixedUpdate(){
-
-        if (currentCooldown < maxCooldown){
+    public override void FixedUpdate()
+    {
+        if (currentCooldown < maxCooldown)
+        {
             currentCooldown++;
-
-            if (currentCooldown == maxCooldown){
+            /*
+            if (currentCooldown == maxCooldown)
+            {
                 Debug.Log("Ready: " + spellName);
             }
-
+            */
         }
 
-        if (chargeTimer > 0) {
-
+        if (chargeTimer > 0)
+        {
             //TODO: Pistä pelaajan mahdollisuus kävellä johonkin suuntaan lukkoon.
             chargeTimer--;
             Vector2 moveVector = (new Vector2(parent.transform.position.x, parent.transform.position.y) - chargeVector);
             parent.GetComponent<UnitMovement>().moveTo(moveVector);
 
-              Debug.Log("VECTOR: " + chargeVector + "Charge: " + moveVector);
+            //Debug.Log("VECTOR: " + chargeVector + "Charge: " + moveVector);
 
-            if (chargeTimer == 0){
-                parent.GetComponent<UnitMovement>().setMovementSpeed(Tuner.UNIT_BASE_SPEED);
+            if (chargeTimer == 0)
+            {
+                parent.GetComponent<UnitMovement>().setMovementSpeed(parent.GetComponent<UnitCombat>().getBaseMovementSpeed());
                 parent.GetComponent<UnitMovement>().stop();
             }
-
         }
-
-
     }
 }

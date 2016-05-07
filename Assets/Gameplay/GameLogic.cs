@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameLogic : MonoBehaviour {
-
+public class GameLogic : MonoBehaviour
+{
     void Awake()
     {
         Application.targetFrameRate = Tuner.FPS_TARGET_FRAME_RATE;

@@ -4,7 +4,6 @@ using System;
 
 public class whirlwind_skill : Skill
 {
-    //Use this for initialization
     public whirlwind_skill()
     {
         spellName = "whirlwind";
@@ -20,7 +19,7 @@ public class whirlwind_skill : Skill
             {
                 //Check for line of sight before dealing damage
                 if (g.GetComponent<UnitMovement>().lineOfSight(owner.transform.position, g.transform.position))
-                    g.GetComponent<UnitCombat>().takeDamage(Tuner.BASE_WHIRLWIND_DAMAGE, owner);
+                    g.GetComponent<UnitCombat>().takeDamage(Tuner.BASE_WHIRLWIND_DAMAGE, owner, Tuner.DamageType.melee);
             }
         }
     }

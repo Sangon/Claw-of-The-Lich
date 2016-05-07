@@ -172,6 +172,7 @@ public class UnitMovement : MonoBehaviour
             else
                 animator.Play(animation, 0);
             lastAnimation = Animations.attack;
+            animator.speed = 60f / unitCombat.getMaxAttackTimer();
             canTurn = true; //????
         }
         else {
@@ -184,23 +185,23 @@ public class UnitMovement : MonoBehaviour
                     {
                         case Direction.NE:
                         case Direction.N:
-                            animator.Play("Walk_NE");
+                            animator.Play("Walk_NE", 0);
                             break;
                         case Direction.SE:
                         case Direction.E:
-                            animator.Play("Walk_SE");
+                            animator.Play("Walk_SE", 0);
                             break;
                         case Direction.SW:
                         case Direction.S:
-                            animator.Play("Walk_SW");
+                            animator.Play("Walk_SW", 0);
                             break;
                         case Direction.NW:
                         case Direction.W:
-                            animator.Play("Walk_NW");
+                            animator.Play("Walk_NW", 0);
                             break;
                     }
-                    animator.speed = getMovementSpeed() / 500f;
                     lastAnimation = Animations.move;
+                    animator.speed = getMovementSpeed() / Tuner.UNIT_BASE_SPEED;
                 }
                 else
                 {
@@ -208,19 +209,19 @@ public class UnitMovement : MonoBehaviour
                     {
                         case Direction.NE:
                         case Direction.N:
-                            animator.Play("Idle_NE");
+                            animator.Play("Idle_NE", 0);
                             break;
                         case Direction.SE:
                         case Direction.E:
-                            animator.Play("Idle_SE");
+                            animator.Play("Idle_SE", 0);
                             break;
                         case Direction.SW:
                         case Direction.S:
-                            animator.Play("Idle_SW");
+                            animator.Play("Idle_SW", 0);
                             break;
                         case Direction.NW:
                         case Direction.W:
-                            animator.Play("Idle_NW");
+                            animator.Play("Idle_NW", 0);
                             break;
                     }
                     lastAnimation = Animations.idle;

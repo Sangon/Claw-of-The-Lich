@@ -17,6 +17,10 @@ public class AudioScript : MonoBehaviour
     {
         Vector3 camPos = Camera.main.transform.position;
         pos.z = camPos.z;
+
+        //pos.z = 0;
+        //camPos.z = 0;
+
         Vector3 norm = (camPos - pos).normalized * (Vector2.Distance(camPos, pos) / 200f);
         camPos -= norm;
         return camPos;

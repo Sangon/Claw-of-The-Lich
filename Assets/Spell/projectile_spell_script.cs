@@ -5,19 +5,16 @@ using UnityEditor;
 
 public class projectile_spell_script : Spell
 {
-
     public float velocity;
     public float damage;
     public Vector2 dir;
     private GameObject parent;
     private string ownerTag;
 
-
     private Vector2 lastPosition;
     public int direction = 0;
 
     protected string spriteName = "arrow_sprite";
-
 
     void Awake()
     {
@@ -26,12 +23,12 @@ public class projectile_spell_script : Spell
         damage = Tuner.DEFAULT_PROJECTILE_DAMAGE;
         Destroy(gameObject, Tuner.DEFAULT_PROJECTILE_RANGE / Tuner.DEFAULT_PROJECTILE_VELOCITY);
         transform.position = new Vector3(transform.position.x, transform.position.y + Tuner.DEFAULT_PROJECTILE_OFFSET, transform.position.y / 100.0f + 800.0f);
-
         transform.localScale = new Vector3(50f, 50f, 0); //TODO: Fix this
     }
 
     public void initAttack(Vector3 enemy, GameObject parent, bool handleOffset)
     {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/attack_bow", AudioScript.get3DAudioPositionVector3(transform.position));
         castLocation = enemy;
         this.parent = parent;
         ownerTag = parent.tag;

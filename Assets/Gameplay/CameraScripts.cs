@@ -87,6 +87,21 @@ public class CameraScripts : MonoBehaviour
         FMODUnity.RuntimeManager.LowlevelSystem.set3DListenerAttributes(0, ref a, ref b, ref c, ref d);
         print("Came: " + a.x + " " + a.y + " " + a.z);
         */
+        /*
+        FMOD.VECTOR pos, vel, forward, up;
+        FMOD.ChannelGroup group;
+        FMODUnity.RuntimeManager.LowlevelSystem.getMasterChannelGroup(out group);
+        //group.set3DMinMaxDistance(2000000f, 2000000f);
+        FMODUnity.RuntimeManager.LowlevelSystem.get3DListenerAttributes(0, out pos, out vel, out forward, out up);
+        print("1: " + pos.x + " " + pos.y + " " + pos.z);
+        pos.x = Camera.main.transform.position.x;
+        pos.y = Camera.main.transform.position.y;
+        pos.z = Camera.main.transform.position.z;
+        print("2: " + pos.x + " " + pos.y + " " + pos.z);
+        FMODUnity.RuntimeManager.LowlevelSystem.set3DListenerAttributes(0, ref pos, ref vel, ref forward, ref up);
+        print("3: " + pos.x + " " + pos.y + " " + pos.z);
+        FMODUnity.RuntimeManager.LowlevelSystem.get3DListenerAttributes(0, out pos, out vel, out forward, out up);
+        */
     }
 
     public void toggleLock()

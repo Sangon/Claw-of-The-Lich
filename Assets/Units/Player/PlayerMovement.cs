@@ -68,11 +68,8 @@ public class PlayerMovement : MonoBehaviour
             lastAction = Action.nothing;
             ignoreRightClick = false;
         }
-        if (gameHUD.isTargeting() || playerHUD.isMouseOverHUD())
-        {
+        if (gameHUD.isTargeting() || gameHUD.isTargetingFromHUD() || playerHUD.isMouseOverHUD())
             ignoreRightClick = true;
-
-        }
 
         //Hiiren oikea nappi.
         if (Input.GetMouseButton(1) && !unitCombat.isAttacking() && !ignoreRightClick)
@@ -96,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
             ignoreLeftClick = false;
 
-        if ((partySystem.isMouseOverCharacter() || playerHUD.isMouseOverHUD()) && Input.GetMouseButtonDown(0))
+        if ((partySystem.isMouseOverCharacter() || playerHUD.isMouseOverHUD() || gameHUD.isTargetingFromHUD()) && Input.GetMouseButtonDown(0))
             ignoreLeftClick = true;
 
         if (Input.GetMouseButton(0) && !Input.GetMouseButton(1) && !Input.GetKey(KeyCode.LeftShift) && !ignoreLeftClick && pathfindingTimer <= 0)

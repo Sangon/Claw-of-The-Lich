@@ -18,9 +18,12 @@ public class Tuner : MonoBehaviour
 	public static readonly float UNIT_BASE_RANGED_RANGE = 750f;
 	public static readonly float UNIT_BASE_MELEE_RANGE = 22*5f;
     public static readonly float UNIT_BASE_MELEE_DAMAGE = 0.75f;
+    public static readonly float UNIT_BASE_RANGED_DAMAGE = 1.5f;
+    public static readonly int UNIT_BASE_MELEE_ATTACK_FRAMES = 30;
+    public static readonly int UNIT_BASE_RANGED_ATTACK_FRAMES = 30;
 
     //SPELL DEFAULT VALUES
-	public static readonly float DEFAULT_SPELL_RANGE = 150f;
+    public static readonly float DEFAULT_SPELL_RANGE = 150f;
 	public static readonly float DEFAULT_SKILL_CAST_TIME = 1f;
 	public static readonly int DEFAULT_SKILL_COOLDOWN = 2 * 10;
 
@@ -70,4 +73,13 @@ public class Tuner : MonoBehaviour
     public static readonly int LAYER_SELECTION = 1 << 10;
     public static readonly int LAYER_GROUND = 1 << 11;
     public static readonly int LAYER_FLOOR = 1 << 12;
+
+    //DIFFERENT DAMAGE TYPES (used for sounds)
+    public enum DamageType
+    {
+        none,
+        melee,
+        ranged,
+        spell
+    }
 }

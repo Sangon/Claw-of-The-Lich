@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <attribute>
-	<health>10</health>
-	<skillslot1>charge_skill</skillslot1>
-	<skillslot2>whirlwind_skill</skillslot2>
+	<health>10.0</health>
+	<meleedamage>1.0</meleedamage>
+	<rangeddamage>2.0</rangeddamage>
+	<meleeattackframes>30</meleeattackframes>
+	<rangedattackframes>45</rangedattackframes>
+	<skillslot1>whirlwind_skill</skillslot1>
+	<skillslot2>charge_skill</skillslot2>
 	<ismelee>true</ismelee>
 	<movementspeed>500</movementspeed>
 </attribute>

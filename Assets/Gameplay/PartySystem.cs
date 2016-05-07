@@ -50,6 +50,18 @@ public class PartySystem : MonoBehaviour
         return null;
     }
 
+    public int getCharacterID(GameObject character)
+    {
+        int i = 0;
+        foreach (GameObject c in characters)
+        {
+            if (character == c)
+                return i;
+            i++;
+        }
+        return -1;
+    }
+
     public GameObject getFirstSelectedCharacter()
     {
         foreach (GameObject c in selectedCharacters)

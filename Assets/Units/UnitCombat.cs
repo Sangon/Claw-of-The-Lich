@@ -7,6 +7,14 @@ public class UnitCombat : MonoBehaviour
     private float health;
     private float maxHealth;
 
+    //Unit's melee/ranged attack damage
+    private float damage;
+    private float meleeDamage;
+    private float rangedDamage;
+
+    private float movementSpeed;
+    private float baseMovementSpeed;
+
     //Unit type
     private bool melee = false;
 
@@ -19,7 +27,9 @@ public class UnitCombat : MonoBehaviour
     private bool lockedAttack = false;
     private int attackTimer = 30;
     private int maxAttackTimer = 30;
-    private int attackPoint = 15;
+    private int maxMeleeAttackTimer = 30;
+    private int maxRangedAttackTimer = 30;
+    private int attackPoint = 15; //Should be around half of maxAttackTimer
 
     //TODO: Parempi spellilista
     private Skill[] spellList = new Skill[2];
@@ -43,14 +53,52 @@ public class UnitCombat : MonoBehaviour
 
         melee = attributes.isMelee;
 
-        attackRange = (isMelee()) ? Tuner.UNIT_BASE_MELEE_RANGE : Tuner.UNIT_BASE_RANGED_RANGE;
+        meleeDamage = attributes.meleedamage;
+        maxMeleeAttackTimer = attributes.meleeattackframes;
+        rangedDamage = attributes.rangeddamage;
+        maxRangedAttackTimer = attributes.rangedattackframes;
 
-        spellList[1] = attributes.skill1;
-        spellList[0] = attributes.skill2;
+        if (isMelee())
+        {
+            attackRange = Tuner.UNIT_BASE_MELEE_RANGE;
+            maxAttackTimer = maxMeleeAttackTimer;
+            damage = meleeDamage;
+        }
+        else
+        {
+            attackRange = Tuner.UNIT_BASE_RANGED_RANGE;
+            maxAttackTimer = maxRangedAttackTimer;
+            damage = rangedDamage;
+        }
+
+        attackPoint = maxAttackTimer / 2;
+
+        spellList[0] = attributes.skill1;
+        spellList[1] = attributes.skill2;
+
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
         unitMovement = GetComponent<UnitMovement>();
 
+        movementSpeed = attributes.movementspeed;
+        baseMovementSpeed = movementSpeed;
+        unitMovement.setMovementSpeed(movementSpeed);
+
         cameraScripts = Camera.main.GetComponent<CameraScripts>();
+    }
+
+    public float getMovementSpeed()
+    {
+        return movementSpeed;
+    }
+
+    public float getBaseMovementSpeed()
+    {
+        return baseMovementSpeed;
+    }
+
+    public int getMaxAttackTimer()
+    {
+        return maxAttackTimer;
     }
 
     public Skill[] getSpellList()
@@ -61,7 +109,17 @@ public class UnitCombat : MonoBehaviour
     public void changeWeapon()
     {
         melee = !melee;
-        attackRange = (isMelee()) ? Tuner.UNIT_BASE_MELEE_RANGE : Tuner.UNIT_BASE_RANGED_RANGE;
+        if (isMelee())
+        {
+            attackRange = Tuner.UNIT_BASE_MELEE_RANGE;
+            maxAttackTimer = maxMeleeAttackTimer;
+        }
+        else
+        {
+            attackRange = Tuner.UNIT_BASE_RANGED_RANGE;
+            maxAttackTimer = maxRangedAttackTimer;
+        }
+        attackPoint = maxAttackTimer / 2;
     }
     public void changeWeaponTo(bool melee)
     {
@@ -87,7 +145,7 @@ public class UnitCombat : MonoBehaviour
         {
             if (Camera.main.transform.parent == transform)
                 Camera.main.transform.parent = null;
-
+            FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/enemy_down", AudioScript.get3DAudioPositionVector3(transform.position));
             gameObject.SetActive(false);
 
             if (gameObject.tag.Equals("Player"))
@@ -140,12 +198,20 @@ public class UnitCombat : MonoBehaviour
                 attacked = true;
                 if (isMelee())
                 {
+                    if (gameObject.name.Contains("Melee"))
+                    {
+                        FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/attack__dagger", AudioScript.get3DAudioPositionVector3(transform.position));
+                    }
+                    else
+                    {
+                        FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/attack_sword", AudioScript.get3DAudioPositionVector3(transform.position));
+                    }
                     if (hits != null)
                     {
                         foreach (GameObject hit in hits)
                         {
                             if (hit != null && hit.activeSelf && hit.GetComponent<UnitCombat>() != null && hit.transform.tag != this.transform.tag)
-                                dealDamage(hit, Tuner.UNIT_BASE_MELEE_DAMAGE);
+                                dealDamage(hit, damage);
                         }
                         hits = null;
                     }
@@ -309,8 +375,17 @@ public class UnitCombat : MonoBehaviour
         }
     }
     //Can also be used to heal with negative argument
-    public void takeDamage(float damage, GameObject source)
+    public void takeDamage(float damage, GameObject source, Tuner.DamageType damageType = Tuner.DamageType.none)
     {
+        if (damageType == Tuner.DamageType.ranged)
+        {
+            FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/hit_flesh", AudioScript.get3DAudioPositionVector3(transform.position));
+        }
+        else if (damageType == Tuner.DamageType.melee)
+        {
+            FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/hit_metal", AudioScript.get3DAudioPositionVector3(transform.position));
+        }
+
         if ((health - damage) > maxHealth)
             health = maxHealth;
         else

@@ -8,12 +8,15 @@ public class PlayerHUD : MonoBehaviour
 {
     private Sprite meleeSprite;
     private Sprite rangedSprite;
+    private Sprite chargeSprite;
+    private Sprite arrowRainSprite;
+    private Sprite spinningBladeSprite;
     private float healthBarWidth = 0;
     private float staminaBarWidth = 0;
-
     private GameObject mouseOverTarget;
     private bool mouseOverHUD = false;
-
+    private bool b = false;
+    private bool a = false;
     private PartySystem partySystem;
     private GameHUD gameHUD;
 
@@ -39,6 +42,12 @@ public class PlayerHUD : MonoBehaviour
     {
         yield return new WaitForSeconds(waitTime);
 
+        meleeSprite = Resources.Load<Sprite>("HUD_Weapon_Melee");
+        rangedSprite = Resources.Load<Sprite>("HUD_Weapon_Ranged");
+        chargeSprite = Resources.Load<Sprite>("HUD_Skill_Charge");
+        arrowRainSprite = Resources.Load<Sprite>("HUD_Skill_Arrow_Rain");
+        spinningBladeSprite = Resources.Load<Sprite>("HUD_Skill_Spinning_Blade");
+
         GameObject bar = null;
         for (int i = 1; i <= 4; i++)
         {
@@ -47,10 +56,20 @@ public class PlayerHUD : MonoBehaviour
             {
                 child.transform.position += new Vector3((i - 1) * 300f, 0, 0);
             }
+            GameObject character = getOwner(bar);
+            UnitCombat unitCombat = character.GetComponent<UnitCombat>();
+            for (int j = 0; j < 2; j++)
+            {
+                GameObject abilityIndicator = bar.transform.Find("Ability" + (j + 1)).gameObject;
+                string spell = unitCombat.getSpellList()[j].getSpellName();
+                if (spell.Equals("whirlwind"))
+                    abilityIndicator.GetComponent<Image>().sprite = spinningBladeSprite;
+                else if (spell.Equals("charge"))
+                    abilityIndicator.GetComponent<Image>().sprite = chargeSprite;
+                else if (spell.Equals("blot_out"))
+                    abilityIndicator.GetComponent<Image>().sprite = arrowRainSprite;
+            }
         }
-
-        meleeSprite = Resources.Load<Sprite>("HUD_Weapon_Melee");
-        rangedSprite = Resources.Load<Sprite>("HUD_Weapon_Ranged");
     }
 
     public void LateUpdate()
@@ -65,7 +84,8 @@ public class PlayerHUD : MonoBehaviour
         if (mouseOverTarget != null && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) && !gameHUD.isTargeting() && !partySystem.isMouseOverCharacter())
         {
             GameObject character = getOwner(mouseOverTarget);
-            if (character != null)
+            int characterID = partySystem.getCharacterID(character);
+            if (character != null && characterID != -1)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -76,6 +96,28 @@ public class PlayerHUD : MonoBehaviour
                     else if (mouseOverTarget.name.Equals("Portrait"))
                     {
                         partySystem.selectCharacter(character, Input.GetKey(KeyCode.LeftShift));
+                    }
+                    else if (mouseOverTarget.name.Equals("Ability1"))
+                    {
+                        if (characterID == 1)
+                            gameHUD.setHUDCast(0, true);
+                        else if (characterID == 2)
+                            gameHUD.setHUDCast(2, true);
+                        else if (characterID == 3)
+                            gameHUD.setHUDCast(4, true);
+                        else if (characterID == 4)
+                            gameHUD.setHUDCast(6, true);
+                    }
+                    else if (mouseOverTarget.name.Equals("Ability2"))
+                    {
+                        if (characterID == 1)
+                            gameHUD.setHUDCast(1, true);
+                        else if (characterID == 2)
+                            gameHUD.setHUDCast(3, true);
+                        else if (characterID == 3)
+                            gameHUD.setHUDCast(5, true);
+                        else if (characterID == 4)
+                            gameHUD.setHUDCast(7, true);
                     }
                 }
                 else if (Input.GetMouseButtonDown(1))
@@ -153,14 +195,22 @@ public class PlayerHUD : MonoBehaviour
     {
         if (HUDElement == null)
             return null;
-        if (HUDElement.transform.parent.name.Equals("Bar1"))
+        if (HUDElement.name.Equals("Bar1") || HUDElement.transform.parent.name.Equals("Bar1"))
+        {
             return partySystem.getCharacter(1);
-        else if (HUDElement.transform.parent.name.Equals("Bar2"))
+        }
+        else if (HUDElement.name.Equals("Bar2") || HUDElement.transform.parent.name.Equals("Bar2"))
+        {
             return partySystem.getCharacter(2);
-        else if (HUDElement.transform.parent.name.Equals("Bar3"))
+        }
+        else if (HUDElement.name.Equals("Bar3") || HUDElement.transform.parent.name.Equals("Bar3"))
+        {
             return partySystem.getCharacter(3);
-        else if (HUDElement.transform.parent.name.Equals("Bar4"))
+        }
+        else if (HUDElement.name.Equals("Bar4") || HUDElement.transform.parent.name.Equals("Bar4"))
+        {
             return partySystem.getCharacter(4);
+        }
         return null;
     }
 
