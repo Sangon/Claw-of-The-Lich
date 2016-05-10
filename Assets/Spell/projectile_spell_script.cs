@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 
 public class projectile_spell_script : Spell
 {
@@ -21,13 +20,17 @@ public class projectile_spell_script : Spell
         spellID = 0;
         velocity = Tuner.DEFAULT_PROJECTILE_VELOCITY;
         damage = Tuner.DEFAULT_PROJECTILE_DAMAGE;
-        Destroy(gameObject, Tuner.DEFAULT_PROJECTILE_RANGE / Tuner.DEFAULT_PROJECTILE_VELOCITY);
-        transform.position = new Vector3(transform.position.x, transform.position.y + Tuner.DEFAULT_PROJECTILE_OFFSET, transform.position.y / 100.0f + 800.0f);
-        transform.localScale = new Vector3(50f, 50f, 0); //TODO: Fix this
     }
 
     public void initAttack(Vector3 enemy, GameObject parent, bool handleOffset)
     {
+        /////////// Could/should be in Awake() instead
+        transform.position = new Vector3(transform.position.x, transform.position.y + Tuner.DEFAULT_PROJECTILE_OFFSET, transform.position.y / 100.0f + 800.0f);
+        transform.localScale = new Vector3(50f, 50f, 0); //TODO: Fix this
+        Destroy(gameObject, Tuner.DEFAULT_PROJECTILE_RANGE / Tuner.DEFAULT_PROJECTILE_VELOCITY);
+        AutoLayerSort sorter = gameObject.AddComponent<AutoLayerSort>();
+        sorter.autoUpdate = true;
+        ///////////
         FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/attack_bow", AudioScript.get3DAudioPositionVector3(transform.position));
         castLocation = enemy;
         this.parent = parent;
@@ -42,7 +45,7 @@ public class projectile_spell_script : Spell
 
         //print("Dir2: " + dir2);
 
-        transform.Rotate(new Vector3(0, 0, Mathf.Atan2(transform.position.y - castLocation.y, transform.position.x - castLocation.x) * 180f / Mathf.PI));
+        transform.Rotate(new Vector3(0, 0, Mathf.Atan2(castLocation.y - transform.position.y, castLocation.x - transform.position.x) * 180f / Mathf.PI));
         transform.position = new Vector3(transform.position.x, transform.position.y, (transform.position.y - Tuner.DEFAULT_PROJECTILE_OFFSET) / 100.0f + 800.0f);
     }
 
@@ -52,14 +55,14 @@ public class projectile_spell_script : Spell
         Debug.DrawLine(start, end, Color.cyan, Time.fixedDeltaTime);
         if (hit.collider != null)
         {
-            if (!ignoreObstacles && hit.collider.name.Equals("Collision"))
+            if (!ignoreObstacles && hit.collider.name.Contains("Collision"))
             {
                 Destroy(gameObject);
                 return false;
             }
-            else if (!hit.collider.name.Equals("Collision") && !hit.collider.gameObject.tag.Equals(ownerTag))
+            else if (!hit.collider.name.Contains("Collision") && !hit.collider.gameObject.tag.Equals(ownerTag))
             {
-                hit.collider.gameObject.GetComponent<UnitCombat>().takeDamage(damage, parent);
+                hit.collider.gameObject.GetComponent<UnitCombat>().takeDamage(damage, parent, Tuner.DamageType.ranged);
                 Destroy(gameObject);
                 return false;
             }

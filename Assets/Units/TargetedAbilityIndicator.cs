@@ -173,9 +173,7 @@ public class TargetedAbilityIndicator : MonoBehaviour
         else
             Cursor.visible = true;
 
-        GameObject[] hostileList = GameObject.FindGameObjectsWithTag("Hostile");
-
-        foreach (GameObject h in hostileList)
+        foreach (GameObject h in UnitList.getHostiles())
         {
             if (h.GetComponent<SpriteRenderer>().color == Color.cyan)
             {
@@ -189,7 +187,7 @@ public class TargetedAbilityIndicator : MonoBehaviour
                 drawIndicator(i, h);
             }
         }
-        if (hostileList.Length == 0)
+        if (UnitList.getHostiles().Length == 0)
         {
             foreach (GameObject i in indicators)
             {

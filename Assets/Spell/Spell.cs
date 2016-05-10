@@ -34,30 +34,13 @@ public class Spell : MonoBehaviour
     public List<GameObject> getUnitsAtPoint(Vector2 point, float radius)
     {
         List<GameObject> mobs = new List<GameObject>();
-        GameObject[] hostileList = GameObject.FindGameObjectsWithTag("Hostile");
 
-        foreach (GameObject g in hostileList)
+        foreach (GameObject g in UnitList.getHostiles())
         {
-
-            Vector2 enemyPos = g.transform.position;
-            Vector2 ellipsePos = point;
-            Vector2 ellipseRadius = new Vector2(radius, (radius * 0.5f));
-
-            float a = Mathf.Pow((enemyPos.x - ellipsePos.x), 2);
-            float b = Mathf.Pow((enemyPos.y - ellipsePos.y), 2);
-            float rX = Mathf.Pow(ellipseRadius.x, 2);
-            float rY = Mathf.Pow(ellipseRadius.y, 2);
-
-            if (((a / rX) + (b / rY)) <= 1)
+            if (Ellipse.isometricDistance(point, g.transform.position) < radius)
             {
                 mobs.Add(g);
             }
-            /*
-            if (Vector2.Distance(point, g.transform.position) < radius)
-            {
-                mobs.Add(g);
-            }
-            */
         }
 
         return mobs;

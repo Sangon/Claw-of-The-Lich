@@ -11,12 +11,11 @@ class MyCustomImporter : Tiled2Unity.ICustomTiledImporter
     {
         if (customProperties.ContainsKey("CanGetBehind"))
         {
-            AutoLayerSort sorter = gameObject.AddComponent<AutoLayerSort>();
+            AutoLayerSort sorter = gameObject.GetComponent<AutoLayerSort>();
             if (customProperties["CanGetBehind"].Equals("0"))
                 sorter.offset = -512.0f / 100.0f;
             else
                 sorter.offset = 128.0f / 100.0f;
-
         }
     }
 

@@ -15,8 +15,6 @@ public class PlayerHUD : MonoBehaviour
     private float staminaBarWidth = 0;
     private GameObject mouseOverTarget;
     private bool mouseOverHUD = false;
-    private bool b = false;
-    private bool a = false;
     private PartySystem partySystem;
     private GameHUD gameHUD;
 
@@ -99,25 +97,11 @@ public class PlayerHUD : MonoBehaviour
                     }
                     else if (mouseOverTarget.name.Equals("Ability1"))
                     {
-                        if (characterID == 1)
-                            gameHUD.setHUDCast(0, true);
-                        else if (characterID == 2)
-                            gameHUD.setHUDCast(2, true);
-                        else if (characterID == 3)
-                            gameHUD.setHUDCast(4, true);
-                        else if (characterID == 4)
-                            gameHUD.setHUDCast(6, true);
+                        gameHUD.setHUDCast((characterID * 2) - 2, true);
                     }
                     else if (mouseOverTarget.name.Equals("Ability2"))
                     {
-                        if (characterID == 1)
-                            gameHUD.setHUDCast(1, true);
-                        else if (characterID == 2)
-                            gameHUD.setHUDCast(3, true);
-                        else if (characterID == 3)
-                            gameHUD.setHUDCast(5, true);
-                        else if (characterID == 4)
-                            gameHUD.setHUDCast(7, true);
+                        gameHUD.setHUDCast((characterID * 2) - 1, true);
                     }
                 }
                 else if (Input.GetMouseButtonDown(1))
@@ -225,7 +209,7 @@ public class PlayerHUD : MonoBehaviour
         if (hits.Count > 0) //if no object was found there is no minimum
         {
             float min = hits[0].distance; //lets assume that the minimum is at the 0th place
-            int minIndex = 0; //store the index of the minimum because thats hoow we can find our object
+            int minIndex = 0; //store the index of the minimum because thats how we can find our object
 
             for (int i = 1; i < hits.Count; ++i)// iterate from the 1st element to the last.(Note that we ignore the 0th element)
             {

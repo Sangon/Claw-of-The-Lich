@@ -21,8 +21,6 @@ public class blot_out_spell_script : Spell
 
         //System.Random rand = new System.Random();
 
-
-
         //Vector2 randomVector = new Vector2(transform.position.x - Tuner.DEFAULT_BLOT_OUT_RADIUS + 2 * rand.Next(0, (int)(Tuner.DEFAULT_BLOT_OUT_RADIUS)), transform.position.y - Tuner.DEFAULT_BLOT_OUT_RADIUS / 2 + rand.Next(0, (int)(Tuner.DEFAULT_BLOT_OUT_RADIUS)) + 800);
         if (timer % 2 == 0)
         {

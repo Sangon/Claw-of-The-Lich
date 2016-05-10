@@ -108,7 +108,12 @@ namespace Tiled2Unity
                     }
 
                     // Set the sorting order
-                    renderer.sortingOrder = ImportUtils.GetAttributeAsInt(goXml, "sortingOrder", 0);
+                    //renderer.sortingOrder = ImportUtils.GetAttributeAsInt(goXml, "sortingOrder", 0);
+                    if (parent.transform.parent.transform.parent.name.Equals("Ground"))
+                        renderer.sortingOrder = 0;
+                    else
+                        renderer.sortingOrder = 1;
+
                 }
                 else
                 {
@@ -136,8 +141,25 @@ namespace Tiled2Unity
                 bool isTrigger = ImportUtils.GetAttributeAsBoolean(goXml, "isTrigger", isParentTrigger);
                 AddCollidersTo(child, isTrigger, goXml);
 
-                if (child.name.Equals("Collision"))
+                if (child.name.Contains("Collision"))
                     child.gameObject.layer = 8;
+                else if (child.name.Equals("tile_obj"))
+                {
+                    float offset = -768.0f / 100.0f;
+                    /*
+                    AutoLayerSort sorter = child.gameObject.AddComponent<AutoLayerSort>();
+
+                    //-384 = puu
+                    */
+                    if (parent.transform.parent.transform.parent.name.Equals("Objects"))
+                    {
+                        if (parent.transform.parent.name.Equals("TreeBase"))
+                            offset = -384.0f / 100.0f;
+                        else
+                            offset = -384.0f / 100.0f;
+                    }
+                    child.transform.position = new Vector3(child.transform.position.x, child.transform.position.y, child.transform.position.y / 100.0f + 800.0f + offset);
+                }
 
                 // Do we have any children of our own?
                 AddGameObjectsTo(child, goXml, isTrigger, objPath, customImporters);

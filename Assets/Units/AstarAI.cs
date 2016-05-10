@@ -33,7 +33,7 @@ public class AstarAI : MonoBehaviour
     {
         clickPoint = point;
         /*
-        if (Vector2.Distance(point, new Vector2(transform.position.x, transform.position.y)) < Tuner.PATHFINDING_MINIMUM_DISTANCE)
+        if (Ellipse.isometricDistance(point, new Vector2(transform.position.x, transform.position.y)) < Tuner.PATHFINDING_MINIMUM_DISTANCE)
         {
             //print("old: " + point);
             point += (point - new Vector2(transform.position.x, transform.position.y)).normalized * 10f;
@@ -57,7 +57,7 @@ public class AstarAI : MonoBehaviour
                 partySystem.resetPositions();
             }
         }
-        else if (Vector2.Distance(targetPosition, new Vector2(transform.position.x, transform.position.y)) < Tuner.PATHFINDING_MINIMUM_DISTANCE_FROM_UNIT)
+        else if (Ellipse.isometricDistance(targetPosition, new Vector2(transform.position.x, transform.position.y)) < Tuner.PATHFINDING_MINIMUM_DISTANCE_FROM_UNIT)
         {
             return;
         }
@@ -134,7 +134,7 @@ public class AstarAI : MonoBehaviour
             }
             if (!directPath)
             {
-                if (Vector2.Distance(transform.position, lastPoint) >= Tuner.PATHFINDING_MINIMUM_DISTANCE_FROM_UNIT)
+                if (Ellipse.isometricDistance(transform.position, lastPoint) >= Tuner.PATHFINDING_MINIMUM_DISTANCE_FROM_UNIT)
                 {
                     hit = Physics2D.Linecast(transform.position, lastPoint, Tuner.LAYER_OBSTACLES);
                     if (hit.collider == null)
@@ -185,8 +185,8 @@ public class AstarAI : MonoBehaviour
             {
                 if (moveToNextTile())
                 {
-                    //print(Vector2.Distance(targetPosition, new Vector2(transform.position.x, transform.position.y)));
-                    if (Vector2.Distance(targetPosition, new Vector2(transform.position.x, transform.position.y)) < Tuner.PATHFINDING_MINIMUM_DISTANCE_FROM_UNIT)
+                    //print(Ellipse.isometricDistance(targetPosition, new Vector2(transform.position.x, transform.position.y)));
+                    if (Ellipse.isometricDistance(targetPosition, new Vector2(transform.position.x, transform.position.y)) < Tuner.PATHFINDING_MINIMUM_DISTANCE_FROM_UNIT)
                     {
                         path = null;
                         currentWaypoint = 0;
@@ -217,7 +217,7 @@ public class AstarAI : MonoBehaviour
 
             RaycastHit2D hit = Physics2D.Linecast(startPoint, endPoint, Tuner.LAYER_OBSTACLES);
 
-            //Debug.Log("A: " + Vector2.Distance(hit.point, endPoint) + " -- " + endPoint);
+            //Debug.Log("A: " + Ellipse.isometricDistance(hit.point, endPoint) + " -- " + endPoint);
             //Debug.Log("Checking " + currentWaypoint + " " + j);
 
             if (hit.collider == null)
@@ -243,25 +243,25 @@ public class AstarAI : MonoBehaviour
         }
         return false;
         /*
-        else if (Vector2.Distance(hit.point, endPoint) < 40.0f)
+        else if (Ellipse.isometricDistance(hit.point, endPoint) < 40.0f)
         {
-            Debug.Log("1: " + Vector2.Distance(hit.point, endPoint));
+            Debug.Log("1: " + Ellipse.isometricDistance(hit.point, endPoint));
             path.vectorPath.RemoveRange(currentWaypoint, j - currentWaypoint);
             break;
         }
         else
         {
             hit = Physics2D.Linecast(endPoint, startPoint, Tuner.LAYER_OBSTACLES);
-            //Debug.Log("B: " + Vector2.Distance(hit.point, startPoint) + " -- " + startPoint);
+            //Debug.Log("B: " + Ellipse.isometricDistance(hit.point, startPoint) + " -- " + startPoint);
             if (hit.collider == null)
             {
                 Debug.Log("2");
                 path.vectorPath.RemoveRange(currentWaypoint, j - currentWaypoint);
                 break;
             }
-            else if (Vector2.Distance(hit.point, startPoint) < 40.0f)
+            else if (Ellipse.isometricDistance(hit.point, startPoint) < 40.0f)
             {
-                Debug.Log("3: " + Vector2.Distance(hit.point, startPoint));
+                Debug.Log("3: " + Ellipse.isometricDistance(hit.point, startPoint));
                 path.vectorPath.RemoveRange(currentWaypoint, j - currentWaypoint);
                 break;
             }
@@ -302,7 +302,7 @@ public class AstarAI : MonoBehaviour
 
         //Check if we are close enough to the next waypoint
         //If we are, proceed to follow the next waypoint
-        if (Vector2.Distance(transform.position, path.vectorPath[currentWaypoint]) <= nextWaypointDistance)
+        if (Ellipse.isometricDistance(transform.position, path.vectorPath[currentWaypoint]) <= nextWaypointDistance)
         {
             if (currentWaypoint + 2 < path.vectorPath.Count)
             {
@@ -362,7 +362,7 @@ public class AstarAI : MonoBehaviour
                 targetPosition = partyPoint;
                 return true;
             }
-            else if (Vector2.Distance(hit.point, partyPoint) < 4.0f)
+            else if (Ellipse.isometricDistance(hit.point, partyPoint) < 4.0f)
             {
                 //Debug.Log("Toimii2 " + targetPosition + " " + partyPoint + " " + i);
                 targetPosition = hit.point;
@@ -377,7 +377,7 @@ public class AstarAI : MonoBehaviour
                     targetPosition = partyPoint;
                     return true;
                 }
-                else if (Vector2.Distance(path.vectorPath[path.vectorPath.Count - 1], partyPoint) < 4.0f)
+                else if (Ellipse.isometricDistance(path.vectorPath[path.vectorPath.Count - 1], partyPoint) < 4.0f)
                 {
                     //Debug.Log("Toimii4 " + targetPosition + " " + partyPoint + " " + i);
                     targetPosition = partyPoint;

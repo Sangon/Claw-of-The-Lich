@@ -20,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 movePoint;
     private bool moveAfterAttack = false;
 
+    private Vector2 clickPosition;
+
     private enum Action
     {
         nothing,
@@ -51,6 +53,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public Vector2 getClickPosition()
+    {
+        return clickPosition;
+    }
+
     void LateUpdate()
     {
         groupID = partySystem.getGroupID(this.gameObject);
@@ -66,10 +73,11 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetMouseButtonUp(1))
         {
             lastAction = Action.nothing;
-            ignoreRightClick = false;
         }
         if (gameHUD.isTargeting() || gameHUD.isTargetingFromHUD() || playerHUD.isMouseOverHUD())
             ignoreRightClick = true;
+        else
+            ignoreRightClick = false;
 
         //Hiiren oikea nappi.
         if (Input.GetMouseButton(1) && !unitCombat.isAttacking() && !ignoreRightClick)
@@ -80,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
                 if (partySystem.getGroupID(gameObject) != -1)
                 {
                     lastAction = Action.pointAttack;
+                    clickPosition = getCurrentMousePos();
                     unitCombat.startAttack();
                 }
             }
@@ -90,11 +99,12 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0))
-            ignoreLeftClick = false;
-
-        if ((partySystem.isMouseOverCharacter() || playerHUD.isMouseOverHUD() || gameHUD.isTargetingFromHUD()) && Input.GetMouseButtonDown(0))
+        if (partySystem.isMouseOverCharacter() || playerHUD.isMouseOverHUD() || gameHUD.isTargetingFromHUD())
+        {
             ignoreLeftClick = true;
+        }
+        else
+            ignoreLeftClick = false;
 
         if (Input.GetMouseButton(0) && !Input.GetMouseButton(1) && !Input.GetKey(KeyCode.LeftShift) && !ignoreLeftClick && pathfindingTimer <= 0)
         {

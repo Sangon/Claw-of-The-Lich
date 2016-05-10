@@ -4,10 +4,11 @@ using System;
 
 public class UnitMovement : MonoBehaviour
 {
-    private AstarAI astar = null;
-    private Animator animator = null;
-    private UnitCombat unitCombat = null;
-    private Traps traps = null;
+    private AstarAI astar;
+    private Animator animator;
+    private UnitCombat unitCombat;
+    private Buffs buffs;
+    private Traps traps;
 
     private float movementSpeed = Tuner.UNIT_BASE_SPEED;
 
@@ -48,6 +49,7 @@ public class UnitMovement : MonoBehaviour
         astar = GetComponent<AstarAI>();
         animator = GetComponent<Animator>();
         unitCombat = GetComponent<UnitCombat>();
+        buffs = GetComponent<Buffs>();
         traps = GameObject.Find("Traps").GetComponent<Traps>();
         footStepsAudio = FMODUnity.RuntimeManager.CreateInstance("event:/sfx/walk");
     }
@@ -78,10 +80,14 @@ public class UnitMovement : MonoBehaviour
         return movementSpeed;
     }
 
-    public void stop()
+    public void stop(bool stopAnimation = false)
     {
         if (astar != null)
             astar.stop();
+        if (stopAnimation)
+        {
+            //playAnimation(Animations.idle);
+        }
     }
 
     private void checkTriggerCollisions(bool debug = false)
@@ -118,6 +124,28 @@ public class UnitMovement : MonoBehaviour
         return false;
     }
 
+    private Vector2 getEndOfLine(Vector2 start, Vector2 end, bool debug = false)
+    {
+        RaycastHit2D hit = Physics2D.Linecast(start, end, Tuner.LAYER_OBSTACLES);
+        if (debug)
+            Debug.DrawLine(start, end, Color.yellow, 1.0f);
+        if (hit.collider != null)
+        {
+            return hit.point;
+        }
+        return end;
+    }
+
+    public void knockback(GameObject source, float distance)
+    {
+        Vector2 start = source.transform.position;
+        Vector2 characterPos = gameObject.transform.position;
+        Vector2 end = Ellipse.isometricLine(start, characterPos, distance) + characterPos;
+        Vector2 knockbackPos = getEndOfLine(start, end, true);
+        gameObject.transform.position = knockbackPos;
+        buffs.addBuff(Buffs.BuffType.knockback, Tuner.KNOCKBACK_STUN_DURATION);
+    }
+
     void Update()
     {
         FMOD.Studio.PLAYBACK_STATE state;
@@ -141,92 +169,110 @@ public class UnitMovement : MonoBehaviour
             footStepsAudio.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
 
-        AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
-        float playbackTime = currentState.normalizedTime % 1;
 
-        if (unitCombat.isAttacking())
+        if (buffs.isStunned())
         {
-            String animation = "";
-            switch (direction)
-            {
-                case Direction.NE:
-                case Direction.N:
-                    animation = "Attack_NE";
-                    break;
-                case Direction.SE:
-                case Direction.E:
-                    animation = "Attack_SE";
-                    break;
-                case Direction.NW:
-                case Direction.W:
-                    animation = "Attack_NW";
-                    break;
-                case Direction.S:
-                case Direction.SW:
-                    animation = "Attack_SW";
-                    break;
-            }
-            //Continue playing the last attack animation from the same time for smoother animation changes
-            if (lastAnimation == Animations.attack && !currentState.IsName(animation))
-                animator.Play(animation, 0, playbackTime);
-            else
-                animator.Play(animation, 0);
-            lastAnimation = Animations.attack;
-            animator.speed = 60f / unitCombat.getMaxAttackTimer();
-            canTurn = true; //????
+            canTurn = false;
+            playAnimation(Animations.idle);
+        }
+        else if (unitCombat.isAttacking())
+        {
+            canTurn = true;
+            playAnimation(Animations.attack);
         }
         else {
             canTurn = true;
-            if (animator != null && astar != null)
+            if (isMoving())
             {
-                if (isMoving())
-                {
-                    switch (direction)
-                    {
-                        case Direction.NE:
-                        case Direction.N:
-                            animator.Play("Walk_NE", 0);
-                            break;
-                        case Direction.SE:
-                        case Direction.E:
-                            animator.Play("Walk_SE", 0);
-                            break;
-                        case Direction.SW:
-                        case Direction.S:
-                            animator.Play("Walk_SW", 0);
-                            break;
-                        case Direction.NW:
-                        case Direction.W:
-                            animator.Play("Walk_NW", 0);
-                            break;
-                    }
-                    lastAnimation = Animations.move;
-                    animator.speed = getMovementSpeed() / Tuner.UNIT_BASE_SPEED;
-                }
-                else
-                {
-                    switch (direction)
-                    {
-                        case Direction.NE:
-                        case Direction.N:
-                            animator.Play("Idle_NE", 0);
-                            break;
-                        case Direction.SE:
-                        case Direction.E:
-                            animator.Play("Idle_SE", 0);
-                            break;
-                        case Direction.SW:
-                        case Direction.S:
-                            animator.Play("Idle_SW", 0);
-                            break;
-                        case Direction.NW:
-                        case Direction.W:
-                            animator.Play("Idle_NW", 0);
-                            break;
-                    }
-                    lastAnimation = Animations.idle;
-                }
+                playAnimation(Animations.move);
             }
+            else
+            {
+                playAnimation(Animations.idle);
+            }
+        }
+    }
+
+    private void playAnimation(Animations animation)
+    {
+        switch (animation)
+        {
+            case Animations.attack:
+                AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
+                float playbackTime = currentState.normalizedTime % 1;
+                String animationName = "";
+                switch (direction)
+                {
+                    case Direction.NE:
+                    case Direction.N:
+                        animationName = "Attack_NE";
+                        break;
+                    case Direction.SE:
+                    case Direction.E:
+                        animationName = "Attack_SE";
+                        break;
+                    case Direction.NW:
+                    case Direction.W:
+                        animationName = "Attack_NW";
+                        break;
+                    case Direction.S:
+                    case Direction.SW:
+                        animationName = "Attack_SW";
+                        break;
+                }
+                //Continue playing the last attack animation from the same time for smoother animation changes
+                if (lastAnimation == Animations.attack && !currentState.IsName(animationName))
+                    animator.Play(animationName, 0, playbackTime);
+                else
+                    animator.Play(animationName, 0);
+                lastAnimation = Animations.attack;
+                animator.speed = 60f / unitCombat.getMaxAttackTimer();
+                break;
+            case Animations.move:
+                switch (direction)
+                {
+                    case Direction.NE:
+                    case Direction.N:
+                        animator.Play("Walk_NE", 0);
+                        break;
+                    case Direction.SE:
+                    case Direction.E:
+                        animator.Play("Walk_SE", 0);
+                        break;
+                    case Direction.SW:
+                    case Direction.S:
+                        animator.Play("Walk_SW", 0);
+                        break;
+                    case Direction.NW:
+                    case Direction.W:
+                        animator.Play("Walk_NW", 0);
+                        break;
+                }
+                lastAnimation = Animations.move;
+                animator.speed = getMovementSpeed() / Tuner.UNIT_BASE_SPEED;
+                break;
+            case Animations.idle:
+                switch (direction)
+                {
+                    case Direction.NE:
+                    case Direction.N:
+                        animator.Play("Idle_NE", 0);
+                        break;
+                    case Direction.SE:
+                    case Direction.E:
+                        animator.Play("Idle_SE", 0);
+                        break;
+                    case Direction.SW:
+                    case Direction.S:
+                        animator.Play("Idle_SW", 0);
+                        break;
+                    case Direction.NW:
+                    case Direction.W:
+                        animator.Play("Idle_NW", 0);
+                        break;
+                }
+                lastAnimation = Animations.idle;
+                break;
         }
     }
 
@@ -246,6 +292,7 @@ public class UnitMovement : MonoBehaviour
 
     public Direction getDirection()
     {
+        calculateDirection();
         return direction;
     }
     public void calculateDirection()
@@ -263,15 +310,24 @@ public class UnitMovement : MonoBehaviour
             return;
 
         if (isMoving() || unitCombat == null || !unitCombat.isAttacking() || (unitCombat.isLockedAttack() && !unitCombat.inRange(unitCombat.getLockedTarget())))
-            ; // Do nothing
-        else if (!unitCombat.hasAttacked())
         {
-            Vector3 newPosition;
-            // The unit is attacking; turn the unit towards its target
-            if (!unitCombat.isLockedAttack())
-                newPosition = PlayerMovement.getCurrentMousePos();
-            else
+        }
+        else //if (!unitCombat.hasAttacked())
+        {
+            Vector3 newPosition = Vector3.zero;
+
+
+            if (unitCombat.isLockedAttack())
+            {
+                //The unit is attacking; turn the unit towards its target
                 newPosition = unitCombat.getLockedTarget().transform.position;
+            }
+            else if (tag.Equals("Player"))
+            {
+                //Turn the unit towards mouse click position
+                newPosition = gameObject.GetComponent<PlayerMovement>().getClickPosition();
+            }
+
             relativePosition = transform.InverseTransformPoint(newPosition);
             //print("attacking! " + relative + " facingAngle: " + Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg);
         }

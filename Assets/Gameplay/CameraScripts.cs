@@ -41,7 +41,7 @@ public class CameraScripts : MonoBehaviour
 
         mousePos = Input.mousePosition;
 
-        float scrollSpeed = Tuner.CAMERA_SCROLLING_SPEED + (Tuner.CAMERA_SCROLLING_SPEED * (Camera.main.orthographicSize/500f));
+        float scrollSpeed = 120f * Time.deltaTime * Tuner.CAMERA_SCROLLING_SPEED + (Tuner.CAMERA_SCROLLING_SPEED * (Camera.main.orthographicSize/500f));
 
         if (!followTargets)
         {

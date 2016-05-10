@@ -107,12 +107,11 @@ public class AIStates : MonoBehaviour
         }
         else if (state == State.Chase && currentState != State.Chase)
         {
-            GameObject[] nearbyUnits = GameObject.FindGameObjectsWithTag("Hostile");
-            foreach (GameObject unit in nearbyUnits)
+            foreach (GameObject unit in UnitList.getHostiles())
             {
                 if (unit != gameObject && !unit.GetComponent<UnitCombat>().isAttacking())
                 {
-                    float dis = Vector2.Distance(transform.position, unit.transform.position);
+                    float dis = Ellipse.isometricDistance(transform.position, unit.transform.position);
                     if (dis <= Tuner.UNIT_AGGRO_CALLOUT_RANGE)
                     {
                         if (unitMovement.lineOfSight(transform.position, unit.transform.position))

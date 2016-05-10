@@ -29,12 +29,13 @@ public class UnitCombat : MonoBehaviour
     private int maxAttackTimer = 30;
     private int maxMeleeAttackTimer = 30;
     private int maxRangedAttackTimer = 30;
-    private int attackPoint = 15; //Should be around half of maxAttackTimer
+    private int attackPoint = 30; //Should be a bit less than maxAttackTimer, depending on animation
 
     //TODO: Parempi spellilista
     private Skill[] spellList = new Skill[2];
     private PartySystem partySystem;
     private UnitMovement unitMovement;
+    private Buffs buffs;
     private CameraScripts cameraScripts;
 
     private unit_attributes attributes;
@@ -71,7 +72,7 @@ public class UnitCombat : MonoBehaviour
             damage = rangedDamage;
         }
 
-        attackPoint = maxAttackTimer / 2;
+        attackPoint = (int)(maxAttackTimer * 0.8);
 
         spellList[0] = attributes.skill1;
         spellList[1] = attributes.skill2;
@@ -82,6 +83,8 @@ public class UnitCombat : MonoBehaviour
         movementSpeed = attributes.movementspeed;
         baseMovementSpeed = movementSpeed;
         unitMovement.setMovementSpeed(movementSpeed);
+
+        buffs = GetComponent<Buffs>();
 
         cameraScripts = Camera.main.GetComponent<CameraScripts>();
     }
@@ -119,7 +122,7 @@ public class UnitCombat : MonoBehaviour
             attackRange = Tuner.UNIT_BASE_RANGED_RANGE;
             maxAttackTimer = maxRangedAttackTimer;
         }
-        attackPoint = maxAttackTimer / 2;
+        attackPoint = (int)(maxAttackTimer * 0.8);
     }
     public void changeWeaponTo(bool melee)
     {
@@ -143,6 +146,11 @@ public class UnitCombat : MonoBehaviour
     {
         if (health <= 0)
         {
+            //Hide minimap icon
+            GameObject minimapIcon = GameObject.Find("Icon_" + gameObject.name);
+            if (minimapIcon)
+                minimapIcon.SetActive(false);
+
             if (Camera.main.transform.parent == transform)
                 Camera.main.transform.parent = null;
             FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/enemy_down", AudioScript.get3DAudioPositionVector3(transform.position));
@@ -155,18 +163,21 @@ public class UnitCombat : MonoBehaviour
             }
 
             gameObject.tag = "Dead";
-
-            //Hide minimap icon
-            GameObject minimapIcon = GameObject.Find("Icon_" + gameObject.name);
-            minimapIcon.SetActive(false);
         }
+    }
+
+    private bool canAttack()
+    {
+        if (buffs.isStunned())
+            return false;
+        return true;
     }
 
     void FixedUpdate()
     {
         checkForDeath();
 
-        if (lockedAttack)
+        if (lockedAttack && canAttack())
         {
             if (lockedTarget != null && lockedTarget.activeSelf)
             {
@@ -182,40 +193,29 @@ public class UnitCombat : MonoBehaviour
         if (isAttacking())
         {
             //Nappaa targetit v‰h‰n ennen kuin tekee damage, est‰‰ sit‰ ett‰ targetit kerke‰‰ juosta rangesta pois joka kerta jos ne juoksee karkuun.
-            if (attackTimer == maxAttackTimer)
+            if (attackTimer == maxAttackTimer && isMelee())
             {
-                //Mathf.Floor(maxAttackTimer*0.9f)){
-                if (isMelee())
-                    hits = getUnitsInMelee(unitMovement.getDirection());
+                hits = getUnitsInMelee(unitMovement.getDirection());
             }
 
-            attackTimer--;
-
-            if (attackTimer <= 0)
-                resetAttack();
-            else if (attackTimer == attackPoint)
+            if (attackTimer == attackPoint)
             {
                 attacked = true;
                 if (isMelee())
                 {
-                    if (gameObject.name.Contains("Melee"))
-                    {
+                    if (gameObject.tag.Equals("Hostile"))
                         FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/attack__dagger", AudioScript.get3DAudioPositionVector3(transform.position));
-                    }
                     else
-                    {
                         FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/attack_sword", AudioScript.get3DAudioPositionVector3(transform.position));
-                    }
                     if (hits != null)
                     {
                         foreach (GameObject hit in hits)
                         {
                             if (hit != null && hit.activeSelf && hit.GetComponent<UnitCombat>() != null && hit.transform.tag != this.transform.tag)
-                                dealDamage(hit, damage);
+                                dealDamage(hit, damage, Tuner.DamageType.melee);
                         }
                         hits = null;
                     }
-
                 }
                 else {
                     GameObject projectile = Instantiate(Resources.Load("testSpell"), transform.position, Quaternion.identity) as GameObject;
@@ -224,13 +224,17 @@ public class UnitCombat : MonoBehaviour
                         Vector3 polygonColliderCenter = lockedTarget.GetComponent<PolygonCollider2D>().bounds.center;
                         projectile.GetComponent<projectile_spell_script>().initAttack(polygonColliderCenter, gameObject, true);
                     }
-                    else
+                    else if (tag.Equals("Player"))
                     {
-                        projectile.GetComponent<projectile_spell_script>().initAttack(PlayerMovement.getCurrentMousePos(), gameObject, false);
+                        projectile.GetComponent<projectile_spell_script>().initAttack(gameObject.GetComponent<PlayerMovement>().getClickPosition(), gameObject, false);
                     }
                 }
             }
 
+            attackTimer--;
+
+            if (attackTimer <= 0)
+                resetAttack();
         }
 
         //P‰ivitet‰‰n spellien logiikka.
@@ -238,8 +242,6 @@ public class UnitCombat : MonoBehaviour
         {
             s.FixedUpdate();
         }
-
-
     }
 
     public void attackClosestTargetToPoint(Vector2 hit)
@@ -247,20 +249,15 @@ public class UnitCombat : MonoBehaviour
         if (partySystem.getGroupID(gameObject) != -1)
         {
             GameObject bestTarget = null;
-            List<GameObject> targetList = new List<GameObject>();
 
-            //Hakee kaikki mobit Hostile tagill‰ ja lis‰‰ ne potentiaalisten vihollisten listaan.
-            GameObject[] hostileList = GameObject.FindGameObjectsWithTag("Hostile");
-            if (hostileList.Length == 0)
+            if (UnitList.getHostiles().Length == 0)
                 return;
-
-            targetList.AddRange(hostileList);
 
             //Laskee kuka potentiaalisten vihollisten listasta on l‰himp‰n‰ ja lockinnaa siihen.
             float distance = Mathf.Infinity;
-            foreach (GameObject g in targetList)
+            foreach (GameObject g in UnitList.getHostiles())
             {
-                float currentDistance = Vector2.Distance(g.transform.position, hit);
+                float currentDistance = Ellipse.isometricDistance(g.transform.position, hit);
 
                 if (currentDistance < distance)
                 {
@@ -276,32 +273,33 @@ public class UnitCombat : MonoBehaviour
         }
 
     }
-
-    public GameObject getClosestTargetToPoint(Vector2 hit)
-    {
-        List<GameObject> targetList = new List<GameObject>();
-        GameObject[] hostileList = GameObject.FindGameObjectsWithTag("Hostile");
-        if (hostileList.Length == 0)
-            return null;
-
-        targetList.AddRange(hostileList);
-
-        GameObject target = null;
-
-        float distance = float.MaxValue;
-        foreach (GameObject g in targetList)
+    /*
+        public GameObject getClosestTargetToPoint(Vector2 hit)
         {
-            float currentDistance = Vector3.Distance(g.transform.position, hit);
+            List<GameObject> targetList = new List<GameObject>();
+            GameObject[] hostileList = GameObject.FindGameObjectsWithTag("Hostile");
+            if (hostileList.Length == 0)
+                return null;
 
-            if (currentDistance < distance)
+            targetList.AddRange(hostileList);
+
+            GameObject target = null;
+
+            float distance = float.MaxValue;
+            foreach (GameObject g in targetList)
             {
-                target = g;
-                distance = currentDistance;
-            }
-        }
+                float currentDistance = Ellipse.isometricDistance(g.transform.position, hit);
 
-        return target;
-    }
+                if (currentDistance < distance)
+                {
+                    target = g;
+                    distance = currentDistance;
+                }
+            }
+
+            return target;
+        }
+    */
 
     public void startAttack()
     {
@@ -323,12 +321,6 @@ public class UnitCombat : MonoBehaviour
         lockedAttack = false;
         attacking = false;
         attackTimer = maxAttackTimer;
-    }
-
-    //Hakee et‰isyyden t‰m‰n ja parametrin‰ annetun unitin v‰lill‰.
-    public float getRange(GameObject target)
-    {
-        return Vector2.Distance(transform.position, lockedTarget.transform.position);
     }
 
     public bool isAttacking()
@@ -360,12 +352,11 @@ public class UnitCombat : MonoBehaviour
         return unitMovement.lineOfSight(transform.position, target.transform.position);
     }
 
-    //Tarkastaa nyt vain jos kyseinen kohde on attack rangen sis‰ll‰. Tarkistukset siit‰ jos vihollinen on liian kaukana en‰‰n seuraamiseen pit‰‰ tehd‰ itse.
     public bool inRange(GameObject target)
     {
         if (target != null && target.activeSelf)
         {
-            if (getRange(target) < attackRange && lineOfSight(target))
+            if (Ellipse.isometricDistance(transform.position, target.transform.position) < attackRange && lineOfSight(target))
                 return true;
             else
                 return false;
@@ -384,6 +375,9 @@ public class UnitCombat : MonoBehaviour
         else if (damageType == Tuner.DamageType.melee)
         {
             FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/hit_metal", AudioScript.get3DAudioPositionVector3(transform.position));
+            //Knockback
+            if (!gameObject.tag.Equals("Player"))
+                unitMovement.knockback(source, Tuner.PLAYER_MELEE_ATTACK_KNOCKBACK_DISTANCE);
         }
 
         if ((health - damage) > maxHealth)
@@ -398,15 +392,16 @@ public class UnitCombat : MonoBehaviour
             // AI: Aggro on the attacker
             aggro(source);
         }
-
     }
+
     //Can also be used to heal with negative argument
-    public void dealDamage(GameObject enemy, float amount)
+    public void dealDamage(GameObject enemy, float amount, Tuner.DamageType damageType = Tuner.DamageType.none)
     {
         if (enemy != null && enemy.activeSelf)
         {
-            enemy.GetComponent<UnitCombat>().takeDamage(amount, gameObject);
+            enemy.GetComponent<UnitCombat>().takeDamage(amount, gameObject, damageType);
         }
+        //if (name.Equals("Character#1"))
         //Debug.Log("DEALT DAMAGE." + enemy + " REMAINING HEALTH:" + enemy.GetComponent<UnitCombat>().getHealth());
     }
 
@@ -444,27 +439,28 @@ public class UnitCombat : MonoBehaviour
     public List<GameObject> getUnitsInMelee(UnitMovement.Direction dir)
     {
         //int mod = 3;
-        GameObject[] hostiles = null;
-        List<GameObject> hostilesInRange = new List<GameObject>();
+        GameObject[] targets = null;
+        List<GameObject> targetsInRange = new List<GameObject>();
 
         if (transform.tag != "Hostile")
-            hostiles = GameObject.FindGameObjectsWithTag("Hostile");
+            targets = UnitList.getHostiles();
         else
-            hostiles = GameObject.FindGameObjectsWithTag("Player");
+            targets = UnitList.getPlayers();
 
-        foreach (GameObject hostile in hostiles)
+        foreach (GameObject target in targets)
         {
-            float dis = Vector2.Distance(transform.position, hostile.transform.position);
+            float dis = Ellipse.isometricDistance(transform.position, target.transform.position);
             if (dis <= getAttackRange())
             {
-                Vector2 relative = transform.InverseTransformPoint(hostile.transform.position);
+                Vector2 relative = transform.InverseTransformPoint(target.transform.position);
                 float attackAngle = Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg;
-                if (Mathf.Abs((unitMovement.getFacingAngle()) - attackAngle) < Tuner.DEFAULT_MELEE_ATTACK_CONE_DEGREES)
-                    hostilesInRange.Add(hostile);
+                if (Mathf.Abs((unitMovement.getFacingAngle()) - attackAngle) <= Tuner.DEFAULT_MELEE_ATTACK_CONE_DEGREES)
+                    targetsInRange.Add(target);
+
                 //print(Mathf.Abs((unitMovement.getFacingAngle()) - attackAngle));
                 //print("facingAngle: " + (unitMovement.getFacingAngle()) + " attackAngle: " + attackAngle);
             }
         }
-        return hostilesInRange;
+        return targetsInRange;
     }
 }

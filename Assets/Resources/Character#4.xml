@@ -9,5 +9,5 @@
 	<skillslot1>blot_out_skill</skillslot1>
 	<skillslot2>empty_skill</skillslot2>
 	<ismelee>false</ismelee>
-	<movementspeed>600</movementspeed>
+	<movementspeed>500</movementspeed>
 </attribute>

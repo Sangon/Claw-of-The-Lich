@@ -14,16 +14,15 @@ public class Trap : MonoBehaviour
     {
         if (cooldownNow <= 0f && tag.Equals(triggererTag) && retriggerCooldown <= 0f)
         {
+            int units = UnitList.getHostiles().Length + UnitList.getDead().Length + UnitList.getPlayers().Length;
             if (UnityEngine.Random.Range(-1f, 1f) >= 0)
             {
                 GameObject unit = Instantiate(Resources.Load("Melee"), transform.position, Quaternion.identity) as GameObject;
-                int units = GameObject.FindGameObjectsWithTag("Hostile").Length + GameObject.FindGameObjectsWithTag("Dead").Length + GameObject.FindGameObjectsWithTag("Player").Length;
-                unit.name = "Melee (" + units + ")";
+                unit.name = "Melee [" + UnitList.createUnit() + "]";
             } else
             {
                 GameObject unit = Instantiate(Resources.Load("Ranged"), transform.position, Quaternion.identity) as GameObject;
-                int units = GameObject.FindGameObjectsWithTag("Hostile").Length + GameObject.FindGameObjectsWithTag("Dead").Length + GameObject.FindGameObjectsWithTag("Player").Length;
-                unit.name = "Ranged (" + units + ")";
+                unit.name = "Ranged [" + UnitList.createUnit() + "]";
             }
             cooldownNow = cooldownMax;
         }

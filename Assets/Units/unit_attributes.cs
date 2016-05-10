@@ -11,7 +11,6 @@ using System.Text.RegularExpressions;
 [XmlRoot("attribute")]
 public class unit_attributes
 {
-
     [XmlElement("health")]
     public float health;
 

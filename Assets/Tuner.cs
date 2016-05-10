@@ -10,17 +10,22 @@ public class Tuner : MonoBehaviour
     public static readonly int LEVEL_HEIGHT_IN_TILES = 25;
     public static readonly int LEVEL_WIDTH_IN_TILES = 25;
 
-    //PLAYER DEFAULT VALUES
-    public static readonly float UNIT_BASE_SPEED = 500f;
-
-	//UNIT DEFAULT VALUES
-	public static readonly float UNIT_BASE_HEALTH = 10f;
+    //UNIT DEFAULT VALUES
+    public static readonly float UNIT_BASE_HEALTH = 10f;
 	public static readonly float UNIT_BASE_RANGED_RANGE = 750f;
 	public static readonly float UNIT_BASE_MELEE_RANGE = 22*5f;
     public static readonly float UNIT_BASE_MELEE_DAMAGE = 0.75f;
     public static readonly float UNIT_BASE_RANGED_DAMAGE = 1.5f;
     public static readonly int UNIT_BASE_MELEE_ATTACK_FRAMES = 30;
     public static readonly int UNIT_BASE_RANGED_ATTACK_FRAMES = 30;
+    public static readonly float DEFAULT_MELEE_ATTACK_CONE_DEGREES = 135f;
+    public static readonly float UNIT_BASE_SPEED = 500f;
+
+    //PLAYER DEFAULT VALUES
+    public static readonly float PLAYER_MELEE_ATTACK_KNOCKBACK_DISTANCE = UNIT_BASE_MELEE_RANGE * 0.5f;
+
+    //BUFF DEFAULT VALUES
+    public static readonly float KNOCKBACK_STUN_DURATION = 0.666f;
 
     //SPELL DEFAULT VALUES
     public static readonly float DEFAULT_SPELL_RANGE = 150f;
@@ -31,24 +36,22 @@ public class Tuner : MonoBehaviour
     public static readonly float DEFAULT_PROJECTILE_DAMAGE = 1.0f;
     public static readonly float DEFAULT_PROJECTILE_RANGE = 30f;
 
-    public static readonly float DEFAULT_PROJECTILE_OFFSET = 100f; //Y-axis, from bottom of the sprite
+    public static readonly float DEFAULT_PROJECTILE_OFFSET = 100f; //Y-axis, from the bottom of the sprite
     public static readonly float DEFAULT_PROJECTILE_HITBOX_RADIUS = 50f;
 
-    public static readonly float DEFAULT_WHIRLWIND_RADIUS = UNIT_BASE_MELEE_RANGE * 2;
-    public static readonly float BASE_WHIRLWIND_DAMAGE = UNIT_BASE_MELEE_DAMAGE * 2;
+    public static readonly float DEFAULT_WHIRLWIND_RADIUS = UNIT_BASE_MELEE_RANGE * 2f;
+    public static readonly float BASE_WHIRLWIND_DAMAGE = UNIT_BASE_MELEE_DAMAGE * 2f;
 
-    public static readonly float BASE_CHARGE_DAMAGE = UNIT_BASE_MELEE_DAMAGE * 2;
-    public static readonly float BASE_CHARGE_SPEED = UNIT_BASE_MELEE_DAMAGE * 2;
+    public static readonly float BASE_CHARGE_DAMAGE = UNIT_BASE_MELEE_DAMAGE * 2f;
+    public static readonly float BASE_CHARGE_SPEED = UNIT_BASE_MELEE_DAMAGE * 2f;
 
-    public static readonly float DEAULT_BLOT_OUT_DURATION = 2 + 2;
+    public static readonly float DEAULT_BLOT_OUT_DURATION = 2f + 2f;
     public static readonly float DEFAULT_BLOT_OUT_RADIUS = 440f;
     public static readonly float BASE_BLOT_OUT_DAMAGE = 0.2f;
 
-    public static readonly float DEFAULT_MELEE_ATTACK_CONE_DEGREES = 45f;
-
     //CAMERA DEFAULT VALUES
-    public static readonly float CAMERA_MIN_DISTANCE = 100;
-	public static readonly float CAMERA_MAX_DISTANCE = 6000;
+    public static readonly float CAMERA_MIN_DISTANCE = 100f;
+	public static readonly float CAMERA_MAX_DISTANCE = 6000f;
     public static readonly float CAMERA_SCROLLING_SPEED = 5f;
     public static readonly float CAMERA_ZOOM_SPEED = 15f;
 
@@ -57,7 +60,7 @@ public class Tuner : MonoBehaviour
 
     //PATHFINDING & MOVEMENT DEFAULT VALUES
     public static readonly float PATHFINDING_MINIMUM_DISTANCE_FROM_UNIT = 10f;
-    public static readonly float ATTACKMOVE_MAX_SEARCH_DISTANCE_FROM_CLICK_POINT = 200f;
+    public static readonly float ATTACKMOVE_MAX_SEARCH_DISTANCE_FROM_CLICK_POINT = 300f;
 
     //ENEMY AI DEFAULT VALUES
     public static readonly float UNIT_AGGRO_RANGE = 1000f;
@@ -70,8 +73,8 @@ public class Tuner : MonoBehaviour
     //UNITY EDITOR DEFAULT VALUES
     public static readonly int LAYER_OBSTACLES = 1 << 8;
     public static readonly int LAYER_UNITS = 1 << 9;
-    public static readonly int LAYER_SELECTION = 1 << 10;
-    public static readonly int LAYER_GROUND = 1 << 11;
+    //public static readonly int LAYER_SELECTION = 1 << 10;
+    //public static readonly int LAYER_GROUND = 1 << 11;
     public static readonly int LAYER_FLOOR = 1 << 12;
 
     //DIFFERENT DAMAGE TYPES (used for sounds)

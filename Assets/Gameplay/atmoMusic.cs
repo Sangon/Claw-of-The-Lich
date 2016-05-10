@@ -23,8 +23,8 @@ public class AtmoMusic : MonoBehaviour
     FMOD.Studio.EventInstance musicEv;
     FMOD.Studio.ParameterInstance musicType;
 
-    bool audioType;
-    bool block = true;
+    bool audioType = false;
+    bool block = false;
     bool play = true;
     float volume;
 
@@ -40,8 +40,7 @@ public class AtmoMusic : MonoBehaviour
         musicEv.getParameter("music_style", out musicType);
 
         musicEv.getVolume(out volume);
-
-        audioType = true;
+        musicType.setValue(1);
 
         rainlvl = 0;
     }

@@ -5,17 +5,8 @@ public class Ellipse : MonoBehaviour
 {
     public static bool pointInsideEllipse(Vector2 point, Vector2 ellipsePosition, float ellipseWidth)
     {
-        Vector2 ellipseRadius = new Vector2(ellipseWidth, (ellipseWidth * 0.5f));
-
-        float a = Mathf.Pow((point.x - ellipsePosition.x), 2);
-        float b = Mathf.Pow((point.y - ellipsePosition.y), 2);
-        float rX = Mathf.Pow(ellipseRadius.x, 2);
-        float rY = Mathf.Pow(ellipseRadius.y, 2);
-
-        if (((a / rX) + (b / rY)) <= 1)
-        {
+        if (isometricDistance(point, ellipsePosition) <= ellipseWidth)
             return true;
-        }
         return false;
     }
 
@@ -57,6 +48,35 @@ public class Ellipse : MonoBehaviour
             dir.y = -point.y;
 
         return dir;
+    }
+
+    public static float isometricDistance(Vector2 pos1, Vector2 pos2)
+    {
+        float deltaX = pos1.x - pos2.x;
+        float deltaY = (pos1.y - pos2.y) * 2f;
+
+        float dis = Mathf.Sqrt((deltaX * deltaX) + (deltaY * deltaY));
+
+        return dis;
+    }
+
+    public static float worldDistance(Vector2 pos1, Vector2 pos2)
+    {
+        float deltaX = pos1.x - pos2.x;
+        float deltaY = (pos1.y - pos2.y) * 0.5f;
+
+        float dis = Mathf.Sqrt((deltaX * deltaX) + (deltaY * deltaY));
+
+        return dis;
+    }
+
+    public static Vector2 isometricLine(Vector2 start, Vector2 end, float distance)
+    {
+        Vector2 line;
+        Vector2 dir = (end - start).normalized;
+        float dis = worldDistance(end, end + dir * distance);
+        line = dis * dir;
+        return line;
     }
 
     public static Vector2 getPointOnEllipsePerimeter(float ellipseWidth, float angleInRadians)

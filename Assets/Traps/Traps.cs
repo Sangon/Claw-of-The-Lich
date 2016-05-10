@@ -12,8 +12,7 @@ public class Traps : MonoBehaviour
     void Start()
     {
         //partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
-        List<GameObject> trapObjects = new List<GameObject>(GameObject.FindGameObjectsWithTag("Trap"));
-        foreach (GameObject trapObject in trapObjects)
+        foreach (GameObject trapObject in UnitList.getTraps())
         {
             traps.Add(trapObject.GetComponent<Trap>());
         }
@@ -23,7 +22,7 @@ public class Traps : MonoBehaviour
     {
         foreach (Trap trap in traps)
         {
-            float dis = Vector2.Distance(trap.transform.position, position);
+            float dis = Ellipse.isometricDistance(trap.transform.position, position);
             if (dis <= trap.getTriggerDistance())
             {
                 trap.trigger(tag);

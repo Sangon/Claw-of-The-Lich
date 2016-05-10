@@ -7,7 +7,7 @@ public class AudioScript : MonoBehaviour
     {
         Vector3 camPos = Camera.main.transform.position;
         pos.z = camPos.z;
-        Vector3 norm = (camPos - pos).normalized * (Vector2.Distance(camPos, pos) / 200f);
+        Vector3 norm = (camPos - pos).normalized * (Ellipse.isometricDistance(camPos, pos) / 200f);
         camPos -= norm;
         FMOD.ATTRIBUTES_3D fmodPos = FMODUnity.RuntimeUtils.To3DAttributes(camPos);
         return fmodPos;
@@ -21,7 +21,7 @@ public class AudioScript : MonoBehaviour
         //pos.z = 0;
         //camPos.z = 0;
 
-        Vector3 norm = (camPos - pos).normalized * (Vector2.Distance(camPos, pos) / 200f);
+        Vector3 norm = (camPos - pos).normalized * (Ellipse.isometricDistance(camPos, pos) / 200f);
         camPos -= norm;
         return camPos;
     }

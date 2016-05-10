@@ -26,10 +26,10 @@ public class EnemyAI : MonoBehaviour
 
         foreach (GameObject character in partySystem.aliveCharacters)
         {
-            dis = Vector2.Distance(character.transform.position, transform.position);
+            dis = Ellipse.isometricDistance(character.transform.position, transform.position);
             if (dis < Tuner.UNIT_AGGRO_RANGE)
             {
-                if (target != null && dis < Vector2.Distance(target.transform.position, transform.position))
+                if (target != null && dis < Ellipse.isometricDistance(target.transform.position, transform.position))
                     target = character; //This character is closer than the old target: change target
                 else if (target == null)
                     target = character;
