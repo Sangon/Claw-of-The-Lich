@@ -431,7 +431,7 @@ public class UnitCombat : MonoBehaviour
 
         checkForDeath();
 
-        if (source != null && isAlive() && source.GetComponent<UnitCombat>() != null && source.GetComponent<UnitCombat>().isAlive() && !isAttacking() && !gameObject.tag.Equals("Player") && source != gameObject)
+        if (source != null && isAlive() && source.GetComponent<UnitCombat>() != null && source.GetComponent<UnitCombat>().isAlive() && !gameObject.tag.Equals("Player") && !GetComponent<AIStates>().inCombat() && source != gameObject)
         {
             // AI: Aggro on the attacker
             aggro(source);

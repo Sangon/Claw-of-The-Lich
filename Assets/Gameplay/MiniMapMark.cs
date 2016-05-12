@@ -31,7 +31,7 @@ public class MiniMapMark : MonoBehaviour
     {
         Vector3 newPosition = miniMap.TransformPosition(transform.position);
         myRectTransform.localPosition = newPosition;
-        if (gameObject.tag.Equals("Player"))
+        if (gameObject.name.Contains("Character"))
         {
             if (partySystem.getGroupID(gameObject) == -1 && !image.color.Equals(Color.gray))
             {

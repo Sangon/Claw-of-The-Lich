@@ -34,6 +34,13 @@ public class AIStates : MonoBehaviour
         nextIdleWanderChange = Time.fixedTime + Random.Range(Tuner.IDLING_STATE_TIME_MIN, Tuner.IDLING_STATE_TIME_MAX);
     }
 
+    public bool inCombat()
+    {
+        if (currentState == State.Idle || currentState == State.Wander)
+            return false;
+        return true;
+    }
+
     void FixedUpdate()
     {
         bool hasTarget = false;
@@ -236,7 +243,7 @@ public class AIStates : MonoBehaviour
                 //Call for help
                 foreach (GameObject unit in UnitList.getHostiles())
                 {
-                    if (unit != gameObject && !unit.GetComponent<UnitCombat>().isAttacking())
+                    if (unit != gameObject && !unit.GetComponent<AIStates>().inCombat())
                     {
                         float dis = Ellipse.isometricDistance(transform.position, unit.transform.position);
                         if (dis <= Tuner.UNIT_AGGRO_CALLOUT_RANGE)
