@@ -57,6 +57,7 @@ public class unit_attributes
         }
         else {
             unit_name = uname.Split((char)32)[0];
+            unit_name = unit_name.Replace("(Clone)", "");
         }
 
         TextAsset _xml = Resources.Load<TextAsset>(unit_name);

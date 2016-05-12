@@ -12,7 +12,7 @@ public class Buffs : MonoBehaviour
 
     private List<Buff> buffs = null;
 
-    void Start()
+    void Awake()
     {
         buffs = new List<Buff>();
     }
