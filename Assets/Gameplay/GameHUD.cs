@@ -46,6 +46,7 @@ public class GameHUD : MonoBehaviour
         playerHUD = GameObject.Find("HUD").GetComponent<PlayerHUD>();
         targetedAbilityIndicator = GameObject.Find("HUD").GetComponent<TargetedAbilityIndicator>();
         keyboardHelp = GameObject.Find("KeyboardHelp").gameObject;
+        keyboardHelp.SetActive(false);
     }
 
     // Update is called once per frame
