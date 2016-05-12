@@ -1,0 +1,792 @@
+fileFormatVersion: 2
+guid: aac8a17f802549e4cbfca246c40feac0
+timeCreated: 1463033345
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: skeleton_death_spritesheet_300_0
+    21300002: skeleton_death_spritesheet_300_1
+    21300004: skeleton_death_spritesheet_300_2
+    21300006: skeleton_death_spritesheet_300_3
+    21300008: skeleton_death_spritesheet_300_4
+    21300010: skeleton_death_spritesheet_300_5
+    21300012: skeleton_death_spritesheet_300_6
+    21300014: skeleton_death_spritesheet_300_7
+    21300016: skeleton_death_spritesheet_300_8
+    21300018: skeleton_death_spritesheet_300_9
+    21300020: skeleton_death_spritesheet_300_10
+    21300022: skeleton_death_spritesheet_300_11
+    21300024: skeleton_death_spritesheet_300_12
+    21300026: skeleton_death_spritesheet_300_13
+    21300028: skeleton_death_spritesheet_300_14
+    21300030: skeleton_death_spritesheet_300_15
+    21300032: skeleton_death_spritesheet_300_16
+    21300034: skeleton_death_spritesheet_300_17
+    21300036: skeleton_death_spritesheet_300_18
+    21300038: skeleton_death_spritesheet_300_19
+    21300040: skeleton_death_spritesheet_300_20
+    21300042: skeleton_death_spritesheet_300_21
+    21300044: skeleton_death_spritesheet_300_22
+    21300046: skeleton_death_spritesheet_300_23
+    21300048: skeleton_death_spritesheet_300_24
+    21300050: skeleton_death_spritesheet_300_25
+    21300052: skeleton_death_spritesheet_300_26
+    21300054: skeleton_death_spritesheet_300_27
+    21300056: skeleton_death_spritesheet_300_28
+    21300058: skeleton_death_spritesheet_300_29
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: skeleton_death_spritesheet_300_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2100
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 59}
+        - {x: -29, y: 55}
+        - {x: -29, y: 43}
+        - {x: -16, y: 21}
+        - {x: -13, y: 20}
+        - {x: -5, y: 20}
+        - {x: -4, y: 22}
+        - {x: -4, y: 36}
+        - {x: -18, y: 59}
+      - - {x: -28, y: 134}
+        - {x: -28, y: 67}
+        - {x: -19, y: 60}
+        - {x: 7, y: 60}
+        - {x: 33, y: 85}
+        - {x: 33, y: 110}
+        - {x: 11, y: 134}
+    - name: skeleton_death_spritesheet_300_1
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 2100
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 59}
+        - {x: -29, y: 55}
+        - {x: -29, y: 43}
+        - {x: -16, y: 21}
+        - {x: -13, y: 20}
+        - {x: -5, y: 20}
+        - {x: -4, y: 22}
+        - {x: -4, y: 36}
+        - {x: -18, y: 59}
+      - - {x: -21, y: 134}
+        - {x: -26, y: 133}
+        - {x: -26, y: 64}
+        - {x: -16, y: 59}
+        - {x: 17, y: 59}
+        - {x: 33, y: 82}
+        - {x: 33, y: 108}
+        - {x: 8, y: 134}
+    - name: skeleton_death_spritesheet_300_2
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 2100
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -37, y: 45}
+        - {x: -37, y: 34}
+        - {x: -18, y: 10}
+        - {x: -11, y: 10}
+        - {x: -7, y: 12}
+        - {x: -7, y: 29}
+        - {x: -27, y: 45}
+      - - {x: 8, y: 130}
+        - {x: -26, y: 130}
+        - {x: -29, y: 125}
+        - {x: -29, y: 85}
+        - {x: -27, y: 71}
+        - {x: -17, y: 59}
+        - {x: 14, y: 59}
+        - {x: 38, y: 66}
+        - {x: 40, y: 72}
+        - {x: 40, y: 100}
+        - {x: 37, y: 118}
+    - name: skeleton_death_spritesheet_300_3
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 2100
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -37, y: 45}
+        - {x: -37, y: 34}
+        - {x: -18, y: 10}
+        - {x: -11, y: 10}
+        - {x: -7, y: 12}
+        - {x: -7, y: 29}
+        - {x: -27, y: 45}
+      - - {x: -1, y: 130}
+        - {x: -28, y: 130}
+        - {x: -29, y: 124}
+        - {x: -29, y: 61}
+        - {x: -21, y: 55}
+        - {x: 12, y: 55}
+        - {x: 40, y: 70}
+        - {x: 40, y: 94}
+        - {x: 35, y: 111}
+    - name: skeleton_death_spritesheet_300_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1800
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -39, y: 27}
+        - {x: -40, y: 23}
+        - {x: -40, y: 17}
+        - {x: -16, y: -1}
+        - {x: -6, y: -1}
+        - {x: -3, y: 1}
+        - {x: -3, y: 14}
+        - {x: -28, y: 27}
+      - - {x: -28, y: 86}
+        - {x: -26, y: 65}
+        - {x: -15, y: 53}
+        - {x: 3, y: 55}
+        - {x: 20, y: 50}
+        - {x: 38, y: 50}
+        - {x: 38, y: 113}
+        - {x: 13, y: 125}
+        - {x: -22, y: 125}
+        - {x: -28, y: 123}
+    - name: skeleton_death_spritesheet_300_5
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1800
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -39, y: 27}
+        - {x: -40, y: 23}
+        - {x: -40, y: 17}
+        - {x: -16, y: -1}
+        - {x: -6, y: -1}
+        - {x: -3, y: 1}
+        - {x: -3, y: 14}
+        - {x: -28, y: 27}
+      - - {x: -28, y: 125}
+        - {x: -28, y: 58}
+        - {x: -27, y: 47}
+        - {x: -24, y: 38}
+        - {x: 38, y: 38}
+        - {x: 38, y: 100}
+        - {x: 6, y: 125}
+    - name: skeleton_death_spritesheet_300_6
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 1800
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -42, y: 5}
+        - {x: -36, y: -1}
+        - {x: -14, y: -8}
+        - {x: 0, y: -8}
+        - {x: 0, y: 5}
+        - {x: -11, y: 13}
+        - {x: -41, y: 13}
+        - {x: -42, y: 12}
+      - - {x: -17, y: 114}
+        - {x: -26, y: 110}
+        - {x: -26, y: 61}
+        - {x: -24, y: 47}
+        - {x: 13, y: 30}
+        - {x: 37, y: 30}
+        - {x: 37, y: 92}
+        - {x: 5, y: 114}
+    - name: skeleton_death_spritesheet_300_7
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 1800
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -42, y: 5}
+        - {x: -36, y: -1}
+        - {x: -14, y: -8}
+        - {x: 0, y: -8}
+        - {x: 0, y: 5}
+        - {x: -11, y: 13}
+        - {x: -41, y: 13}
+        - {x: -42, y: 12}
+      - - {x: 33, y: 59}
+        - {x: 14, y: 66}
+        - {x: 7, y: 66}
+        - {x: -13, y: 60}
+        - {x: -23, y: 51}
+        - {x: -23, y: 12}
+        - {x: 32, y: 12}
+        - {x: 43, y: 22}
+        - {x: 43, y: 35}
+        - {x: 38, y: 52}
+      - - {x: -21, y: 114}
+        - {x: -26, y: 109}
+        - {x: -26, y: 82}
+        - {x: -22, y: 71}
+        - {x: -1, y: 71}
+        - {x: 10, y: 76}
+        - {x: 10, y: 109}
+        - {x: 1, y: 114}
+    - name: skeleton_death_spritesheet_300_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1500
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 5}
+        - {x: -9, y: 5}
+        - {x: -34, y: -4}
+        - {x: -39, y: -7}
+        - {x: -39, y: -13}
+        - {x: -37, y: -18}
+        - {x: -27, y: -18}
+        - {x: -1, y: -10}
+        - {x: 1, y: -4}
+        - {x: 1, y: 4}
+      - - {x: -25, y: 41}
+        - {x: -23, y: 21}
+        - {x: -15, y: 12}
+        - {x: 27, y: 12}
+        - {x: 43, y: 18}
+        - {x: 43, y: 44}
+        - {x: 39, y: 52}
+        - {x: 6, y: 102}
+        - {x: -15, y: 102}
+        - {x: -25, y: 97}
+    - name: skeleton_death_spritesheet_300_9
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1500
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -3, y: 54}
+        - {x: -30, y: 43}
+        - {x: -39, y: 9}
+        - {x: -39, y: -18}
+        - {x: -24, y: -18}
+        - {x: 36, y: -5}
+        - {x: 37, y: 2}
+        - {x: 37, y: 39}
+        - {x: 28, y: 54}
+      - - {x: -17, y: 102}
+        - {x: -25, y: 95}
+        - {x: -25, y: 66}
+        - {x: -20, y: 56}
+        - {x: 9, y: 56}
+        - {x: 14, y: 59}
+        - {x: 14, y: 92}
+        - {x: 3, y: 102}
+    - name: skeleton_death_spritesheet_300_10
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 1500
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 21, y: 71}
+        - {x: 9, y: 76}
+        - {x: -15, y: 76}
+        - {x: -20, y: 71}
+        - {x: -40, y: 12}
+        - {x: -40, y: -11}
+        - {x: -34, y: -12}
+        - {x: 26, y: -12}
+        - {x: 33, y: -10}
+        - {x: 37, y: 3}
+        - {x: 37, y: 47}
+    - name: skeleton_death_spritesheet_300_11
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 1500
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 40}
+        - {x: -40, y: 11}
+        - {x: -40, y: -16}
+        - {x: -39, y: -19}
+        - {x: -13, y: -23}
+        - {x: 37, y: -23}
+        - {x: 37, y: 40}
+      - - {x: -14, y: 76}
+        - {x: -21, y: 73}
+        - {x: -21, y: 43}
+        - {x: -14, y: 35}
+        - {x: 5, y: 35}
+        - {x: 16, y: 39}
+        - {x: 16, y: 67}
+        - {x: 11, y: 76}
+    - name: skeleton_death_spritesheet_300_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 14, y: 57}
+        - {x: -13, y: 57}
+        - {x: -41, y: 20}
+        - {x: -41, y: -1}
+        - {x: -19, y: -23}
+        - {x: 37, y: -23}
+        - {x: 37, y: 43}
+        - {x: 23, y: 55}
+    - name: skeleton_death_spritesheet_300_13
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -11, y: 57}
+        - {x: -41, y: 18}
+        - {x: -41, y: 0}
+        - {x: -38, y: -4}
+        - {x: -7, y: -24}
+        - {x: 25, y: -24}
+        - {x: 37, y: -22}
+        - {x: 37, y: 39}
+        - {x: 14, y: 57}
+    - name: skeleton_death_spritesheet_300_14
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 1200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -24, y: 77}
+        - {x: -41, y: 37}
+        - {x: -41, y: -9}
+        - {x: -18, y: -24}
+        - {x: 30, y: -24}
+        - {x: 38, y: -22}
+        - {x: 39, y: -17}
+        - {x: 39, y: 20}
+        - {x: 6, y: 77}
+    - name: skeleton_death_spritesheet_300_15
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 1200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -24, y: 77}
+        - {x: -41, y: 37}
+        - {x: -41, y: -9}
+        - {x: -18, y: -24}
+        - {x: 30, y: -24}
+        - {x: 38, y: -22}
+        - {x: 39, y: -17}
+        - {x: 39, y: 20}
+        - {x: 6, y: 77}
+    - name: skeleton_death_spritesheet_300_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -41, y: -16}
+        - {x: -14, y: -26}
+        - {x: 38, y: -26}
+        - {x: 47, y: -23}
+        - {x: 47, y: 15}
+        - {x: 15, y: 64}
+        - {x: -25, y: 64}
+        - {x: -29, y: 60}
+        - {x: -41, y: 23}
+    - name: skeleton_death_spritesheet_300_17
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 5, y: 64}
+        - {x: -18, y: 64}
+        - {x: -30, y: 60}
+        - {x: -41, y: 16}
+        - {x: -41, y: -11}
+        - {x: -1, y: -26}
+        - {x: 22, y: -26}
+        - {x: 34, y: -22}
+        - {x: 47, y: -18}
+        - {x: 47, y: 7}
+        - {x: 16, y: 58}
+    - name: skeleton_death_spritesheet_300_18
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 38, y: 15}
+        - {x: 11, y: 48}
+        - {x: -24, y: 48}
+        - {x: -37, y: 45}
+        - {x: -40, y: 29}
+        - {x: -40, y: -17}
+        - {x: -25, y: -23}
+        - {x: 6, y: -25}
+        - {x: 47, y: -25}
+        - {x: 48, y: -24}
+        - {x: 48, y: -16}
+        - {x: 45, y: -11}
+    - name: skeleton_death_spritesheet_300_19
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 38, y: 15}
+        - {x: 11, y: 48}
+        - {x: -24, y: 48}
+        - {x: -37, y: 45}
+        - {x: -40, y: 29}
+        - {x: -40, y: -17}
+        - {x: -25, y: -23}
+        - {x: 6, y: -25}
+        - {x: 47, y: -25}
+        - {x: 48, y: -24}
+        - {x: 48, y: -16}
+        - {x: 45, y: -11}
+    - name: skeleton_death_spritesheet_300_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 31}
+        - {x: -43, y: -6}
+        - {x: -43, y: -12}
+        - {x: -24, y: -28}
+        - {x: 20, y: -35}
+        - {x: 46, y: -35}
+        - {x: 47, y: -32}
+        - {x: 47, y: 26}
+        - {x: 30, y: 31}
+    - name: skeleton_death_spritesheet_300_21
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 31}
+        - {x: -43, y: -6}
+        - {x: -43, y: -12}
+        - {x: -24, y: -28}
+        - {x: 20, y: -35}
+        - {x: 46, y: -35}
+        - {x: 47, y: -32}
+        - {x: 47, y: 26}
+        - {x: 30, y: 31}
+    - name: skeleton_death_spritesheet_300_22
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 32, y: 31}
+        - {x: -27, y: 31}
+        - {x: -43, y: 24}
+        - {x: -43, y: -16}
+        - {x: -21, y: -30}
+        - {x: 48, y: -30}
+        - {x: 48, y: 2}
+        - {x: 40, y: 23}
+    - name: skeleton_death_spritesheet_300_23
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 36, y: 31}
+        - {x: -30, y: 31}
+        - {x: -43, y: 26}
+        - {x: -43, y: -21}
+        - {x: -29, y: -35}
+        - {x: 10, y: -35}
+        - {x: 44, y: -31}
+        - {x: 48, y: -30}
+        - {x: 48, y: 2}
+        - {x: 40, y: 22}
+    - name: skeleton_death_spritesheet_300_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 16, y: 31}
+        - {x: -15, y: 31}
+        - {x: -28, y: 23}
+        - {x: -43, y: -7}
+        - {x: -43, y: -24}
+        - {x: -30, y: -37}
+        - {x: 32, y: -37}
+        - {x: 44, y: -26}
+        - {x: 44, y: 9}
+        - {x: 35, y: 25}
+    - name: skeleton_death_spritesheet_300_25
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 31}
+        - {x: -43, y: 22}
+        - {x: -43, y: -20}
+        - {x: -33, y: -39}
+        - {x: 30, y: -39}
+        - {x: 44, y: -30}
+        - {x: 44, y: 14}
+        - {x: 35, y: 31}
+    - name: skeleton_death_spritesheet_300_26
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 18, y: 31}
+        - {x: -30, y: 31}
+        - {x: -43, y: 9}
+        - {x: -43, y: -32}
+        - {x: -31, y: -39}
+        - {x: 27, y: -39}
+        - {x: 45, y: -30}
+        - {x: 45, y: 9}
+        - {x: 41, y: 24}
+    - name: skeleton_death_spritesheet_300_27
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 39, y: 13}
+        - {x: 18, y: 31}
+        - {x: -22, y: 31}
+        - {x: -43, y: 4}
+        - {x: -43, y: -31}
+        - {x: -24, y: -41}
+        - {x: 17, y: -41}
+        - {x: 41, y: -31}
+        - {x: 45, y: -28}
+        - {x: 45, y: -7}
+    - name: skeleton_death_spritesheet_300_28
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 31}
+        - {x: -43, y: -8}
+        - {x: -43, y: -21}
+        - {x: -29, y: -41}
+        - {x: 3, y: -41}
+        - {x: 42, y: -33}
+        - {x: 45, y: -27}
+        - {x: 45, y: 27}
+        - {x: 29, y: 31}
+    - name: skeleton_death_spritesheet_300_29
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 0
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 31}
+        - {x: -43, y: -8}
+        - {x: -43, y: -21}
+        - {x: -29, y: -41}
+        - {x: 3, y: -41}
+        - {x: 42, y: -33}
+        - {x: 45, y: -27}
+        - {x: 45, y: 27}
+        - {x: 29, y: 31}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

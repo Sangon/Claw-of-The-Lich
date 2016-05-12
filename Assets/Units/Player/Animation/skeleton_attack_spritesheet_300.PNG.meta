@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: ee8b2b6f81a835b41a1aa76631e7278a
-timeCreated: 1460717756
-licenseType: Pro
+timeCreated: 1463029701
+licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: skeleton_attack_spritesheet_300_0
@@ -86,7 +86,7 @@ TextureImporter:
   cubemapConvolutionSteps: 7
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
-  textureFormat: -1
+  textureFormat: -3
   maxTextureSize: 4096
   textureSettings:
     filterMode: -1
@@ -912,29 +912,29 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 300
-        y: 2100
+        y: 2101
         width: 300
         height: 300
       alignment: 9
       pivot: {x: 0.495, y: 0.225}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -62.13501, y: -35.42505}
-        - {x: -61.13501, y: -37.42505}
-        - {x: -58.13501, y: -37.42505}
-        - {x: -56.13501, y: -36.42505}
-        - {x: -56.13501, y: -33.42505}
-        - {x: -57.13501, y: -31.425049}
-        - {x: -60.13501, y: -31.425049}
-        - {x: -62.13501, y: -32.42505}
-      - - {x: 25.86499, y: 175.57495}
-        - {x: -8.13501, y: 175.57495}
-        - {x: -126.13501, y: 41.57495}
-        - {x: -126.13501, y: -27.425049}
-        - {x: 18.86499, y: -27.425049}
-        - {x: 43.86499, y: -22.425049}
-        - {x: 43.86499, y: 158.57495}
-        - {x: 36.86499, y: 171.57495}
+      - - {x: -62.13501, y: -35.014893}
+        - {x: -61.13501, y: -37.014893}
+        - {x: -58.13501, y: -37.014893}
+        - {x: -56.13501, y: -36.014893}
+        - {x: -56.13501, y: -33.014893}
+        - {x: -57.13501, y: -31.014893}
+        - {x: -60.13501, y: -31.014893}
+        - {x: -62.13501, y: -32.014893}
+      - - {x: 25.86499, y: 175.9851}
+        - {x: -8.13501, y: 175.9851}
+        - {x: -126.13501, y: 41.985107}
+        - {x: -126.13501, y: -27.014893}
+        - {x: 18.86499, y: -27.014893}
+        - {x: 43.86499, y: -22.014893}
+        - {x: 43.86499, y: 158.9851}
+        - {x: 36.86499, y: 171.9851}
     - name: skeleton_attack_spritesheet_300_30
       rect:
         serializedVersion: 2

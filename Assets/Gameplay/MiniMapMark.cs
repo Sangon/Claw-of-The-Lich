@@ -22,7 +22,7 @@ public class MiniMapMark : MonoBehaviour
         minimapIcon.name = "Icon_" + transform.name;
         myRectTransform = minimapIcon.GetComponent<RectTransform>();
         minimapIcon.transform.SetParent(panel.transform);
-        myRectTransform.localScale = new Vector3(1f, 1f, 1f);
+        myRectTransform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
         image = minimapIcon.GetComponent<Image>();
     }
 
@@ -35,12 +35,12 @@ public class MiniMapMark : MonoBehaviour
         {
             if (partySystem.getGroupID(gameObject) == -1 && !image.color.Equals(Color.gray))
             {
-                myRectTransform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
+                myRectTransform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                 image.color = Color.gray;
             }
             else if (partySystem.getGroupID(gameObject) != -1 && !image.color.Equals(Color.green))
             {
-                myRectTransform.localScale = new Vector3(1f, 1f, 1f);
+                myRectTransform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
                 image.color = Color.green;
             }
         }

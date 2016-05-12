@@ -1,0 +1,2811 @@
+fileFormatVersion: 2
+guid: 19a6e5500f7936f4a922a670a85ce861
+timeCreated: 1463030156
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: bandit_attack_spritesheet_0
+    21300002: bandit_attack_spritesheet_1
+    21300004: bandit_attack_spritesheet_2
+    21300006: bandit_attack_spritesheet_3
+    21300008: bandit_attack_spritesheet_4
+    21300010: bandit_attack_spritesheet_5
+    21300012: bandit_attack_spritesheet_6
+    21300014: bandit_attack_spritesheet_7
+    21300016: bandit_attack_spritesheet_8
+    21300018: bandit_attack_spritesheet_9
+    21300020: bandit_attack_spritesheet_10
+    21300022: bandit_attack_spritesheet_11
+    21300024: bandit_attack_spritesheet_12
+    21300026: bandit_attack_spritesheet_13
+    21300028: bandit_attack_spritesheet_14
+    21300030: bandit_attack_spritesheet_15
+    21300032: bandit_attack_spritesheet_16
+    21300034: bandit_attack_spritesheet_17
+    21300036: bandit_attack_spritesheet_18
+    21300038: bandit_attack_spritesheet_19
+    21300040: bandit_attack_spritesheet_20
+    21300042: bandit_attack_spritesheet_21
+    21300044: bandit_attack_spritesheet_22
+    21300046: bandit_attack_spritesheet_23
+    21300048: bandit_attack_spritesheet_24
+    21300050: bandit_attack_spritesheet_25
+    21300052: bandit_attack_spritesheet_26
+    21300054: bandit_attack_spritesheet_27
+    21300056: bandit_attack_spritesheet_28
+    21300058: bandit_attack_spritesheet_29
+    21300060: bandit_attack_spritesheet_30
+    21300062: bandit_attack_spritesheet_31
+    21300064: bandit_attack_spritesheet_32
+    21300066: bandit_attack_spritesheet_33
+    21300068: bandit_attack_spritesheet_34
+    21300070: bandit_attack_spritesheet_35
+    21300072: bandit_attack_spritesheet_36
+    21300074: bandit_attack_spritesheet_37
+    21300076: bandit_attack_spritesheet_38
+    21300078: bandit_attack_spritesheet_39
+    21300080: bandit_attack_spritesheet_40
+    21300082: bandit_attack_spritesheet_41
+    21300084: bandit_attack_spritesheet_42
+    21300086: bandit_attack_spritesheet_43
+    21300088: bandit_attack_spritesheet_44
+    21300090: bandit_attack_spritesheet_45
+    21300092: bandit_attack_spritesheet_46
+    21300094: bandit_attack_spritesheet_47
+    21300096: bandit_attack_spritesheet_48
+    21300098: bandit_attack_spritesheet_49
+    21300100: bandit_attack_spritesheet_50
+    21300102: bandit_attack_spritesheet_51
+    21300104: bandit_attack_spritesheet_52
+    21300106: bandit_attack_spritesheet_53
+    21300108: bandit_attack_spritesheet_54
+    21300110: bandit_attack_spritesheet_55
+    21300112: bandit_attack_spritesheet_56
+    21300114: bandit_attack_spritesheet_57
+    21300116: bandit_attack_spritesheet_58
+    21300118: bandit_attack_spritesheet_59
+    21300120: bandit_attack_spritesheet_60
+    21300122: bandit_attack_spritesheet_61
+    21300124: bandit_attack_spritesheet_62
+    21300126: bandit_attack_spritesheet_63
+    21300128: bandit_attack_spritesheet_64
+    21300130: bandit_attack_spritesheet_65
+    21300132: bandit_attack_spritesheet_66
+    21300134: bandit_attack_spritesheet_67
+    21300136: bandit_attack_spritesheet_68
+    21300138: bandit_attack_spritesheet_69
+    21300140: bandit_attack_spritesheet_70
+    21300142: bandit_attack_spritesheet_71
+    21300144: bandit_attack_spritesheet_72
+    21300146: bandit_attack_spritesheet_73
+    21300148: bandit_attack_spritesheet_74
+    21300150: bandit_attack_spritesheet_75
+    21300152: bandit_attack_spritesheet_76
+    21300154: bandit_attack_spritesheet_77
+    21300156: bandit_attack_spritesheet_78
+    21300158: bandit_attack_spritesheet_79
+    21300160: bandit_attack_spritesheet_80
+    21300162: bandit_attack_spritesheet_81
+    21300164: bandit_attack_spritesheet_82
+    21300166: bandit_attack_spritesheet_83
+    21300168: bandit_attack_spritesheet_84
+    21300170: bandit_attack_spritesheet_85
+    21300172: bandit_attack_spritesheet_86
+    21300174: bandit_attack_spritesheet_87
+    21300176: bandit_attack_spritesheet_88
+    21300178: bandit_attack_spritesheet_89
+    21300180: bandit_attack_spritesheet_90
+    21300182: bandit_attack_spritesheet_91
+    21300184: bandit_attack_spritesheet_92
+    21300186: bandit_attack_spritesheet_93
+    21300188: bandit_attack_spritesheet_94
+    21300190: bandit_attack_spritesheet_95
+    21300192: bandit_attack_spritesheet_96
+    21300194: bandit_attack_spritesheet_97
+    21300196: bandit_attack_spritesheet_98
+    21300198: bandit_attack_spritesheet_99
+    21300200: bandit_attack_spritesheet_100
+    21300202: bandit_attack_spritesheet_101
+    21300204: bandit_attack_spritesheet_102
+    21300206: bandit_attack_spritesheet_103
+    21300208: bandit_attack_spritesheet_104
+    21300210: bandit_attack_spritesheet_105
+    21300212: bandit_attack_spritesheet_106
+    21300214: bandit_attack_spritesheet_107
+    21300216: bandit_attack_spritesheet_108
+    21300218: bandit_attack_spritesheet_109
+    21300220: bandit_attack_spritesheet_110
+    21300222: bandit_attack_spritesheet_111
+    21300224: bandit_attack_spritesheet_112
+    21300226: bandit_attack_spritesheet_113
+    21300228: bandit_attack_spritesheet_114
+    21300230: bandit_attack_spritesheet_115
+    21300232: bandit_attack_spritesheet_116
+    21300234: bandit_attack_spritesheet_117
+    21300236: bandit_attack_spritesheet_118
+    21300238: bandit_attack_spritesheet_119
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: bandit_attack_spritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32.440002, y: 215.50684}
+        - {x: -35.440002, y: 212.50684}
+        - {x: -101.44, y: 121.506836}
+        - {x: -101.44, y: 92.506836}
+        - {x: -81.44, y: 87.506836}
+        - {x: -54.440002, y: 6.506836}
+        - {x: -36.440002, y: -5.493164}
+        - {x: 2.5599976, y: 2.506836}
+        - {x: 0.55999756, y: -18.493164}
+        - {x: 8.559998, y: -25.493164}
+        - {x: 9.559998, y: -26.493164}
+        - {x: 36.559998, y: -26.493164}
+        - {x: 62.559998, y: 37.506836}
+        - {x: 62.559998, y: 183.50684}
+        - {x: 20.559998, y: 215.50684}
+    - name: bandit_attack_spritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 4200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 34.62668, y: 215.50684}
+        - {x: -24.373322, y: 215.50684}
+        - {x: -158.37332, y: 109.506836}
+        - {x: -158.37332, y: 39.506836}
+        - {x: -63.37332, y: -26.493164}
+        - {x: 27.626678, y: -26.493164}
+        - {x: 34.62668, y: -14.493164}
+        - {x: 62.62668, y: 57.506836}
+        - {x: 62.62668, y: 148.50684}
+    - name: bandit_attack_spritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 4200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -26.30664, y: 215.50684}
+        - {x: -71.30664, y: 191.50684}
+        - {x: -168.30664, y: 97.506836}
+        - {x: -168.30664, y: 49.506836}
+        - {x: -53.30664, y: -26.493164}
+        - {x: 45.69336, y: -26.493164}
+        - {x: 65.69336, y: 7.506836}
+        - {x: 65.69336, y: 131.50684}
+        - {x: 53.69336, y: 154.50684}
+        - {x: 11.693359, y: 215.50684}
+    - name: bandit_attack_spritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 4200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -36.23999, y: 215.50684}
+        - {x: -168.23999, y: 142.50684}
+        - {x: -168.23999, y: 54.506836}
+        - {x: -54.23999, y: -2.493164}
+        - {x: -12.23999, y: -6.493164}
+        - {x: 2.7600098, y: -26.493164}
+        - {x: 33.76001, y: -26.493164}
+        - {x: 65.76001, y: 22.506836}
+        - {x: 65.76001, y: 215.50684}
+    - name: bandit_attack_spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 4200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -137.17334, y: 70.506836}
+        - {x: -60.17334, y: -26.493164}
+        - {x: 70.82666, y: -26.493164}
+        - {x: 70.82666, y: 134.50684}
+        - {x: 21.82666, y: 215.50684}
+        - {x: -19.17334, y: 215.50684}
+        - {x: -27.17334, y: 213.50684}
+        - {x: -137.17334, y: 117.506836}
+    - name: bandit_attack_spritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 4200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -118.10669, y: 84.506836}
+        - {x: -92.10669, y: 69.506836}
+        - {x: -61.10669, y: 60.506836}
+        - {x: -45.10669, y: 61.506836}
+        - {x: -41.10669, y: 1.5068359}
+        - {x: -21.10669, y: -21.493164}
+        - {x: -7.1066895, y: -26.493164}
+        - {x: 51.89331, y: -26.493164}
+        - {x: 51.89331, y: 208.50684}
+        - {x: 49.89331, y: 215.50684}
+        - {x: -46.10669, y: 215.50684}
+        - {x: -70.10669, y: 186.50684}
+        - {x: -118.10669, y: 104.506836}
+    - name: bandit_attack_spritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 4200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -29.04004, y: 215.50684}
+        - {x: -118.04004, y: 124.506836}
+        - {x: -118.04004, y: 44.506836}
+        - {x: -23.04004, y: -26.493164}
+        - {x: 35.95996, y: -26.493164}
+        - {x: 52.95996, y: 114.506836}
+        - {x: 52.95996, y: 168.50684}
+        - {x: 36.95996, y: 215.50684}
+    - name: bandit_attack_spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 2100
+        y: 4200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -95.97327, y: 215.50684}
+        - {x: -103.97327, y: 213.50684}
+        - {x: -103.97327, y: -23.493164}
+        - {x: -102.97327, y: -26.493164}
+        - {x: 45.026733, y: -26.493164}
+        - {x: 53.026733, y: 20.506836}
+        - {x: 53.026733, y: 190.50684}
+        - {x: 36.026733, y: 215.50684}
+    - name: bandit_attack_spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -13.440002, y: 215.44019}
+        - {x: -25.440002, y: 210.44019}
+        - {x: -98.44, y: 102.440186}
+        - {x: -98.44, y: 67.440186}
+        - {x: -35.440002, y: -26.559814}
+        - {x: 35.559998, y: -26.559814}
+        - {x: 50.559998, y: -23.559814}
+        - {x: 50.559998, y: 171.44019}
+        - {x: 12.559998, y: 215.44019}
+    - name: bandit_attack_spritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 3900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 12.626678, y: 215.44019}
+        - {x: -24.373322, y: 215.44019}
+        - {x: -98.37332, y: 153.44019}
+        - {x: -98.37332, y: 29.440186}
+        - {x: -42.37332, y: -26.559814}
+        - {x: 30.626678, y: -26.559814}
+        - {x: 37.62668, y: -14.559814}
+        - {x: 51.62668, y: 93.440186}
+        - {x: 51.62668, y: 175.44019}
+    - name: bandit_attack_spritesheet_10
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 3900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 11.693359, y: 215.44019}
+        - {x: -26.30664, y: 215.44019}
+        - {x: -98.30664, y: 140.44019}
+        - {x: -98.30664, y: 75.440186}
+        - {x: -81.30664, y: 45.440186}
+        - {x: -39.30664, y: -13.559814}
+        - {x: -2.3066406, y: 5.4401855}
+        - {x: 1.6933594, y: 8.440186}
+        - {x: -1.3066406, y: -14.559814}
+        - {x: 9.693359, y: -26.559814}
+        - {x: 33.69336, y: -26.559814}
+        - {x: 51.69336, y: 66.440186}
+        - {x: 51.69336, y: 178.44019}
+        - {x: 28.69336, y: 207.44019}
+    - name: bandit_attack_spritesheet_11
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 3900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 29.76001, y: 214.44019}
+        - {x: 26.76001, y: 215.44019}
+        - {x: -54.23999, y: 215.44019}
+        - {x: -93.23999, y: 149.44019}
+        - {x: -93.23999, y: 56.440186}
+        - {x: -58.23999, y: -26.559814}
+        - {x: 42.76001, y: -26.559814}
+        - {x: 53.76001, y: -20.559814}
+        - {x: 59.76001, y: 26.440186}
+        - {x: 59.76001, y: 178.44019}
+    - name: bandit_attack_spritesheet_12
+      rect:
+        serializedVersion: 2
+        x: 1198
+        y: 3900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -49.993774, y: 215.44019}
+        - {x: -89.993774, y: 161.44019}
+        - {x: -89.993774, y: 53.440186}
+        - {x: -45.993774, y: -7.5598145}
+        - {x: -7.9937744, y: -26.559814}
+        - {x: 47.006226, y: -26.559814}
+        - {x: 62.006226, y: 36.440186}
+        - {x: 62.006226, y: 145.44019}
+        - {x: 21.006226, y: 215.44019}
+    - name: bandit_attack_spritesheet_13
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 3900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -46.10669, y: 215.44019}
+        - {x: -92.10669, y: 138.44019}
+        - {x: -92.10669, y: 94.440186}
+        - {x: -59.10669, y: 71.440186}
+        - {x: -41.10669, y: 1.4401855}
+        - {x: -37.10669, y: -6.5598145}
+        - {x: -1.1066895, y: 3.4401855}
+        - {x: 0.89331055, y: -26.559814}
+        - {x: 37.89331, y: -26.559814}
+        - {x: 60.89331, y: 1.4401855}
+        - {x: 60.89331, y: 150.44019}
+        - {x: 57.89331, y: 155.44019}
+        - {x: 12.893311, y: 215.44019}
+    - name: bandit_attack_spritesheet_14
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 3900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -46.04004, y: 215.44019}
+        - {x: -92.04004, y: 141.44019}
+        - {x: -92.04004, y: 63.440186}
+        - {x: -45.04004, y: -17.559814}
+        - {x: -21.04004, y: -26.559814}
+        - {x: 40.95996, y: -26.559814}
+        - {x: 60.95996, y: 3.4401855}
+        - {x: 60.95996, y: 153.44019}
+        - {x: 32.95996, y: 215.44019}
+    - name: bandit_attack_spritesheet_15
+      rect:
+        serializedVersion: 2
+        x: 2100
+        y: 3900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -40.973267, y: 215.44019}
+        - {x: -99.97327, y: 142.44019}
+        - {x: -99.97327, y: 83.440186}
+        - {x: -46.973267, y: -0.55981445}
+        - {x: -21.973267, y: -26.559814}
+        - {x: 44.026733, y: -26.559814}
+        - {x: 64.02673, y: 3.4401855}
+        - {x: 64.02673, y: 144.44019}
+        - {x: 18.026733, y: 215.44019}
+    - name: bandit_attack_spritesheet_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 47.559998, y: 159.37354}
+        - {x: 18.559998, y: 207.37354}
+        - {x: 11.559998, y: 215.37354}
+        - {x: -11.440002, y: 215.37354}
+        - {x: -29.440002, y: 207.37354}
+        - {x: -50.440002, y: 160.37354}
+        - {x: -159.44, y: 91.373535}
+        - {x: -159.44, y: 85.373535}
+        - {x: -151.44, y: 80.373535}
+        - {x: -111.44, y: 66.373535}
+        - {x: -43.440002, y: -22.626465}
+        - {x: -15.440002, y: 2.3735352}
+        - {x: 0.55999756, y: -4.626465}
+        - {x: -2.4400024, y: 1.3735352}
+        - {x: -0.44000244, y: -18.626465}
+        - {x: 3.5599976, y: -26.626465}
+        - {x: 31.559998, y: -26.626465}
+        - {x: 34.559998, y: -25.626465}
+        - {x: 62.559998, y: 62.373535}
+        - {x: 62.559998, y: 121.373535}
+        - {x: 58.559998, y: 134.37354}
+    - name: bandit_attack_spritesheet_17
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 3600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -89.37332, y: 215.37354}
+        - {x: -168.37332, y: 189.37354}
+        - {x: -168.37332, y: 5.373535}
+        - {x: -143.37332, y: -26.626465}
+        - {x: -49.37332, y: -26.626465}
+        - {x: -36.37332, y: -5.626465}
+        - {x: 0.62667847, y: -2.6264648}
+        - {x: 0.62667847, y: 2.3735352}
+        - {x: -0.37332153, y: -22.626465}
+        - {x: 6.6266785, y: -26.626465}
+        - {x: 63.62668, y: -26.626465}
+        - {x: 65.62668, y: -15.626465}
+        - {x: 65.62668, y: 205.37354}
+        - {x: 53.62668, y: 215.37354}
+    - name: bandit_attack_spritesheet_18
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 3600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 26.69336, y: 212.37354}
+        - {x: 15.693359, y: 215.37354}
+        - {x: -34.30664, y: 215.37354}
+        - {x: -168.30664, y: 97.373535}
+        - {x: -168.30664, y: 59.373535}
+        - {x: -66.30664, y: -26.626465}
+        - {x: 27.69336, y: -26.626465}
+        - {x: 36.69336, y: -14.626465}
+        - {x: 65.69336, y: 62.373535}
+        - {x: 65.69336, y: 126.373535}
+    - name: bandit_attack_spritesheet_19
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 3600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -13.23999, y: 215.37354}
+        - {x: -25.23999, y: 210.37354}
+        - {x: -137.23999, y: 115.373535}
+        - {x: -137.23999, y: 89.373535}
+        - {x: -120.23999, y: 85.373535}
+        - {x: -76.23999, y: 84.373535}
+        - {x: -40.23999, y: -3.6264648}
+        - {x: -24.23999, y: -2.6264648}
+        - {x: -2.2399902, y: 5.373535}
+        - {x: 1.7600098, y: 8.373535}
+        - {x: 0.76000977, y: -15.626465}
+        - {x: 4.76001, y: -26.626465}
+        - {x: 33.76001, y: -26.626465}
+        - {x: 70.76001, y: 82.373535}
+        - {x: 70.76001, y: 138.37354}
+        - {x: 13.76001, y: 215.37354}
+    - name: bandit_attack_spritesheet_20
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 3600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -40.17334, y: 215.37354}
+        - {x: -118.17334, y: 108.373535}
+        - {x: -118.17334, y: 64.373535}
+        - {x: -41.17334, y: -17.626465}
+        - {x: -1.1733398, y: 2.3735352}
+        - {x: 3.8266602, y: 9.373535}
+        - {x: -1.1733398, y: -13.626465}
+        - {x: 5.82666, y: -26.626465}
+        - {x: 51.82666, y: -26.626465}
+        - {x: 51.82666, y: 215.37354}
+    - name: bandit_attack_spritesheet_21
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 3600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -36.10669, y: 215.37354}
+        - {x: -118.10669, y: 160.37354}
+        - {x: -118.10669, y: 17.373535}
+        - {x: -90.10669, y: -26.626465}
+        - {x: 52.89331, y: -26.626465}
+        - {x: 52.89331, y: 177.37354}
+        - {x: 31.89331, y: 215.37354}
+    - name: bandit_attack_spritesheet_22
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 3600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -37.04004, y: 215.37354}
+        - {x: -104.04004, y: 138.37354}
+        - {x: -104.04004, y: 28.373535}
+        - {x: -60.04004, y: -26.626465}
+        - {x: -29.04004, y: -26.626465}
+        - {x: -1.0400391, y: 3.3735352}
+        - {x: 2.959961, y: 8.373535}
+        - {x: 1.9599609, y: -18.626465}
+        - {x: 8.959961, y: -26.626465}
+        - {x: 36.95996, y: -26.626465}
+        - {x: 52.95996, y: 89.373535}
+        - {x: 52.95996, y: 166.37354}
+        - {x: 14.959961, y: 215.37354}
+    - name: bandit_attack_spritesheet_23
+      rect:
+        serializedVersion: 2
+        x: 2100
+        y: 3600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30.973267, y: 215.37354}
+        - {x: -97.97327, y: 122.373535}
+        - {x: -97.97327, y: 59.373535}
+        - {x: -17.973267, y: -26.626465}
+        - {x: 37.026733, y: -26.626465}
+        - {x: 52.026733, y: 117.373535}
+        - {x: 52.026733, y: 157.37354}
+        - {x: 16.026733, y: 215.37354}
+    - name: bandit_attack_spritesheet_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -16.440002, y: 215.30688}
+        - {x: -39.440002, y: 201.30688}
+        - {x: -98.44, y: 107.306885}
+        - {x: -98.44, y: 82.306885}
+        - {x: -42.440002, y: 2.3068848}
+        - {x: -36.440002, y: -4.693115}
+        - {x: -14.440002, y: 0.30688477}
+        - {x: 3.5599976, y: 0.30688477}
+        - {x: 3.5599976, y: 5.306885}
+        - {x: -0.44000244, y: -18.693115}
+        - {x: 3.5599976, y: -26.693115}
+        - {x: 31.559998, y: -26.693115}
+        - {x: 34.559998, y: -25.693115}
+        - {x: 51.559998, y: 104.306885}
+        - {x: 51.559998, y: 162.30688}
+        - {x: 16.559998, y: 215.30688}
+    - name: bandit_attack_spritesheet_25
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 3300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -43.37332, y: 215.30688}
+        - {x: -98.37332, y: 165.30688}
+        - {x: -98.37332, y: 43.306885}
+        - {x: -51.37332, y: -1.6931152}
+        - {x: -1.3733215, y: -26.693115}
+        - {x: 30.626678, y: -26.693115}
+        - {x: 33.62668, y: -25.693115}
+        - {x: 51.62668, y: 108.306885}
+        - {x: 51.62668, y: 197.30688}
+        - {x: 47.62668, y: 215.30688}
+    - name: bandit_attack_spritesheet_26
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 3300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -55.30664, y: 215.30688}
+        - {x: -93.30664, y: 119.306885}
+        - {x: -93.30664, y: 87.306885}
+        - {x: -68.30664, y: -1.6931152}
+        - {x: -38.30664, y: -26.693115}
+        - {x: 38.69336, y: -26.693115}
+        - {x: 59.69336, y: 46.306885}
+        - {x: 59.69336, y: 165.30688}
+        - {x: 40.69336, y: 215.30688}
+    - name: bandit_attack_spritesheet_27
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 3300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -93.23999, y: 52.306885}
+        - {x: -63.23999, y: -26.693115}
+        - {x: 32.76001, y: -26.693115}
+        - {x: 59.76001, y: 9.306885}
+        - {x: 59.76001, y: 174.30688}
+        - {x: 45.76001, y: 215.30688}
+        - {x: -29.23999, y: 215.30688}
+        - {x: -93.23999, y: 110.306885}
+    - name: bandit_attack_spritesheet_28
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 3300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -52.17334, y: 215.30688}
+        - {x: -92.17334, y: 155.30688}
+        - {x: -92.17334, y: 73.306885}
+        - {x: -39.17334, y: -26.693115}
+        - {x: 28.82666, y: -26.693115}
+        - {x: 33.82666, y: -24.693115}
+        - {x: 60.82666, y: 26.306885}
+        - {x: 60.82666, y: 172.30688}
+        - {x: 30.82666, y: 215.30688}
+    - name: bandit_attack_spritesheet_29
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 3300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -92.10669, y: -26.693115}
+        - {x: 37.89331, y: -26.693115}
+        - {x: 60.89331, y: 17.306885}
+        - {x: 60.89331, y: 156.30688}
+        - {x: 36.89331, y: 215.30688}
+        - {x: -32.10669, y: 215.30688}
+        - {x: -92.10669, y: 163.30688}
+    - name: bandit_attack_spritesheet_30
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 3300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 101.839966, y: 84.306885}
+        - {x: 101.839966, y: 130.30688}
+        - {x: 33.839966, y: 215.30688}
+        - {x: -14.160034, y: 215.30688}
+        - {x: -27.160034, y: 211.30688}
+        - {x: -62.160034, y: 147.30688}
+        - {x: -62.160034, y: 47.306885}
+        - {x: -44.160034, y: -26.693115}
+        - {x: 18.839966, y: -26.693115}
+        - {x: 50.839966, y: -0.69311523}
+        - {x: 42.839966, y: 13.306885}
+        - {x: 32.839966, y: 21.306885}
+    - name: bandit_attack_spritesheet_31
+      rect:
+        serializedVersion: 2
+        x: 2100
+        y: 3300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 140.90662, y: 74.306885}
+        - {x: 159.90662, y: 85.306885}
+        - {x: 159.90662, y: 94.306885}
+        - {x: 15.906616, y: 215.30688}
+        - {x: -43.093384, y: 215.30688}
+        - {x: -62.093384, y: 165.30688}
+        - {x: -62.093384, y: 11.306885}
+        - {x: -28.093384, y: -26.693115}
+        - {x: 18.906616, y: -26.693115}
+        - {x: 57.906616, y: -5.693115}
+        - {x: 42.906616, y: 13.306885}
+        - {x: 32.906616, y: 21.306885}
+    - name: bandit_attack_spritesheet_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3000
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 29.440002, y: 21.240234}
+        - {x: 159.44, y: 71.240234}
+        - {x: 168.44, y: 84.240234}
+        - {x: 168.44, y: 96.240234}
+        - {x: 140.44, y: 190.24023}
+        - {x: 55.440002, y: 215.24023}
+        - {x: -66.56, y: 215.24023}
+        - {x: -66.56, y: 70.240234}
+        - {x: -43.559998, y: -17.759766}
+        - {x: -32.559998, y: -26.759766}
+        - {x: 15.440002, y: -26.759766}
+        - {x: 46.440002, y: -10.759766}
+        - {x: 43.440002, y: 10.240234}
+        - {x: 36.440002, y: 18.240234}
+    - name: bandit_attack_spritesheet_33
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 3000
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 168.50668, y: 82.240234}
+        - {x: 168.50668, y: 94.240234}
+        - {x: 105.50668, y: 129.24023}
+        - {x: 22.506683, y: 215.24023}
+        - {x: -15.493317, y: 215.24023}
+        - {x: -23.493317, y: 200.24023}
+        - {x: -65.49332, y: 149.24023}
+        - {x: -65.49332, y: 38.240234}
+        - {x: -49.493317, y: -26.759766}
+        - {x: 16.506683, y: -26.759766}
+        - {x: 44.506683, y: -13.759766}
+        - {x: 44.506683, y: 10.240234}
+        - {x: 34.506683, y: 19.240234}
+    - name: bandit_attack_spritesheet_34
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 3000
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -42.426636, y: 215.24023}
+        - {x: -70.426636, y: 189.24023}
+        - {x: -70.426636, y: 61.240234}
+        - {x: -42.426636, y: -26.759766}
+        - {x: 3.5733643, y: -26.759766}
+        - {x: 55.573364, y: -7.7597656}
+        - {x: 137.57336, y: 65.240234}
+        - {x: 137.57336, y: 118.240234}
+        - {x: 51.573364, y: 215.24023}
+    - name: bandit_attack_spritesheet_35
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 3000
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 22.640015, y: -4.7597656}
+        - {x: 39.640015, y: -2.7597656}
+        - {x: 47.640015, y: 15.240234}
+        - {x: 118.640015, y: 76.240234}
+        - {x: 118.640015, y: 120.240234}
+        - {x: 24.640015, y: 215.24023}
+        - {x: -16.359985, y: 215.24023}
+        - {x: -51.359985, y: 157.24023}
+        - {x: -51.359985, y: 100.240234}
+        - {x: -34.359985, y: -18.759766}
+        - {x: -27.359985, y: -26.759766}
+        - {x: -9.359985, y: -26.759766}
+        - {x: -1.3599854, y: -12.759766}
+        - {x: -9.359985, y: 16.240234}
+        - {x: -5.3599854, y: 7.2402344}
+    - name: bandit_attack_spritesheet_36
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 3000
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14.293335, y: 215.24023}
+        - {x: -51.293335, y: 175.24023}
+        - {x: -51.293335, y: -20.759766}
+        - {x: -38.293335, y: -26.759766}
+        - {x: 47.706665, y: -26.759766}
+        - {x: 118.706665, y: 37.240234}
+        - {x: 118.706665, y: 152.24023}
+        - {x: 23.706665, y: 215.24023}
+    - name: bandit_attack_spritesheet_37
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 3000
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 12.773315, y: 215.24023}
+        - {x: -7.2266846, y: 215.24023}
+        - {x: -51.226685, y: 169.24023}
+        - {x: -51.226685, y: 80.240234}
+        - {x: -33.226685, y: -26.759766}
+        - {x: 74.773315, y: -26.759766}
+        - {x: 105.773315, y: 71.240234}
+        - {x: 105.773315, y: 129.24023}
+        - {x: 16.773315, y: 214.24023}
+    - name: bandit_attack_spritesheet_38
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 3000
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 27.839966, y: 215.24023}
+        - {x: -34.160034, y: 215.24023}
+        - {x: -50.160034, y: 162.24023}
+        - {x: -50.160034, y: 62.240234}
+        - {x: -33.160034, y: -26.759766}
+        - {x: 29.839966, y: -26.759766}
+        - {x: 51.839966, y: -14.759766}
+        - {x: 98.839966, y: 82.240234}
+        - {x: 98.839966, y: 109.240234}
+    - name: bandit_attack_spritesheet_39
+      rect:
+        serializedVersion: 2
+        x: 2100
+        y: 3000
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 97.90662, y: 102.240234}
+        - {x: 27.906616, y: 215.24023}
+        - {x: -18.093384, y: 215.24023}
+        - {x: -27.093384, y: 209.24023}
+        - {x: -51.093384, y: 160.24023}
+        - {x: -51.093384, y: 60.240234}
+        - {x: -32.093384, y: -26.759766}
+        - {x: 5.906616, y: -26.759766}
+        - {x: 14.906616, y: -23.759766}
+        - {x: 58.906616, y: 13.240234}
+        - {x: 98.90662, y: 86.240234}
+        - {x: 98.90662, y: 102.240234}
+    - name: bandit_attack_spritesheet_40
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2700
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 29.440002, y: 215.17358}
+        - {x: -38.559998, y: 215.17358}
+        - {x: -52.559998, y: 174.17358}
+        - {x: -52.559998, y: 102.173584}
+        - {x: -34.559998, y: -18.826416}
+        - {x: -27.559998, y: -26.826416}
+        - {x: 59.440002, y: -26.826416}
+        - {x: 61.440002, y: -25.826416}
+        - {x: 98.44, y: 29.173584}
+        - {x: 98.44, y: 157.17358}
+    - name: bandit_attack_spritesheet_41
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 2700
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 42.506683, y: 17.173584}
+        - {x: 31.506683, y: 21.173584}
+        - {x: 92.50668, y: 93.173584}
+        - {x: 92.50668, y: 129.17358}
+        - {x: 15.506683, y: 215.17358}
+        - {x: -42.493317, y: 215.17358}
+        - {x: -59.493317, y: 198.17358}
+        - {x: -59.493317, y: 8.173584}
+        - {x: -53.493317, y: -26.826416}
+        - {x: -8.493317, y: -26.826416}
+        - {x: -4.4933167, y: -20.826416}
+        - {x: -4.4933167, y: -8.826416}
+        - {x: 43.506683, y: -2.826416}
+    - name: bandit_attack_spritesheet_42
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 2700
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 13.573364, y: 215.17358}
+        - {x: -6.4266357, y: 215.17358}
+        - {x: -22.426636, y: 209.17358}
+        - {x: -59.426636, y: 183.17358}
+        - {x: -59.426636, y: -26.826416}
+        - {x: 53.573364, y: -26.826416}
+        - {x: 92.573364, y: 69.173584}
+        - {x: 92.573364, y: 137.17358}
+        - {x: 18.573364, y: 211.17358}
+    - name: bandit_attack_spritesheet_43
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 2700
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 92.640015, y: 103.173584}
+        - {x: 91.640015, y: 107.173584}
+        - {x: 19.640015, y: 212.17358}
+        - {x: 11.640015, y: 215.17358}
+        - {x: -20.359985, y: 215.17358}
+        - {x: -60.359985, y: 192.17358}
+        - {x: -60.359985, y: -26.826416}
+        - {x: 18.640015, y: -26.826416}
+        - {x: 49.640015, y: -11.826416}
+        - {x: 45.640015, y: 14.173584}
+        - {x: 92.640015, y: 95.173584}
+    - name: bandit_attack_spritesheet_44
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 2700
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 93.706665, y: 140.17358}
+        - {x: 33.706665, y: 215.17358}
+        - {x: -18.293335, y: 215.17358}
+        - {x: -60.293335, y: 180.17358}
+        - {x: -60.293335, y: 37.173584}
+        - {x: -36.293335, y: -25.826416}
+        - {x: -29.293335, y: -26.826416}
+        - {x: -6.293335, y: -26.826416}
+        - {x: -3.293335, y: -18.826416}
+        - {x: 51.706665, y: -24.826416}
+        - {x: 93.706665, y: 55.173584}
+    - name: bandit_attack_spritesheet_45
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 2700
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -45.226685, y: 215.17358}
+        - {x: -62.226685, y: 187.17358}
+        - {x: -62.226685, y: 38.173584}
+        - {x: -36.226685, y: -26.826416}
+        - {x: 59.773315, y: -26.826416}
+        - {x: 101.773315, y: 22.173584}
+        - {x: 101.773315, y: 172.17358}
+        - {x: 47.773315, y: 215.17358}
+    - name: bandit_attack_spritesheet_46
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 2700
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 158.83997, y: 83.173584}
+        - {x: 158.83997, y: 114.173584}
+        - {x: 16.839966, y: 215.17358}
+        - {x: -36.160034, y: 215.17358}
+        - {x: -62.160034, y: 198.17358}
+        - {x: -62.160034, y: -26.826416}
+        - {x: -10.160034, y: -26.826416}
+        - {x: 1.8399658, y: -22.826416}
+        - {x: 39.839966, y: -2.826416}
+        - {x: 44.839966, y: 10.173584}
+        - {x: 139.83997, y: 63.173584}
+    - name: bandit_attack_spritesheet_47
+      rect:
+        serializedVersion: 2
+        x: 2100
+        y: 2700
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 169.90662, y: 102.173584}
+        - {x: 20.906616, y: 213.17358}
+        - {x: 10.906616, y: 215.17358}
+        - {x: -14.093384, y: 215.17358}
+        - {x: -56.093384, y: 161.17358}
+        - {x: -65.09338, y: 116.173584}
+        - {x: -65.09338, y: 70.173584}
+        - {x: -61.093384, y: 64.173584}
+        - {x: -35.093384, y: -26.826416}
+        - {x: -3.0933838, y: -26.826416}
+        - {x: 39.906616, y: -2.826416}
+        - {x: 44.906616, y: 10.173584}
+        - {x: 151.90662, y: 59.173584}
+        - {x: 169.90662, y: 71.173584}
+    - name: bandit_attack_spritesheet_48
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2400
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 44.440002, y: 10.106934}
+        - {x: 160.44, y: 65.10693}
+        - {x: 168.44, y: 84.10693}
+        - {x: 168.44, y: 96.10693}
+        - {x: 33.440002, y: 215.10693}
+        - {x: -30.559998, y: 215.10693}
+        - {x: -66.56, y: 132.10693}
+        - {x: -66.56, y: 67.10693}
+        - {x: -41.559998, y: -22.893066}
+        - {x: -28.559998, y: -26.893066}
+        - {x: -7.5599976, y: -26.893066}
+        - {x: -4.5599976, y: -17.893066}
+        - {x: -4.5599976, y: -9.893066}
+        - {x: 36.440002, y: -3.8930664}
+    - name: bandit_attack_spritesheet_49
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 2400
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 137.50668, y: 73.10693}
+        - {x: 137.50668, y: 114.10693}
+        - {x: 16.506683, y: 215.10693}
+        - {x: -8.493317, y: 215.10693}
+        - {x: -23.493317, y: 208.10693}
+        - {x: -70.49332, y: 136.10693}
+        - {x: -70.49332, y: 102.10693}
+        - {x: -40.493317, y: -21.893066}
+        - {x: -26.493317, y: -26.893066}
+        - {x: -7.4933167, y: -26.893066}
+        - {x: -4.4933167, y: -17.893066}
+        - {x: 23.506683, y: -26.893066}
+        - {x: 48.506683, y: -26.893066}
+    - name: bandit_attack_spritesheet_50
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 2400
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -19.426636, y: 215.10693}
+        - {x: -51.426636, y: 164.10693}
+        - {x: -51.426636, y: 97.10693}
+        - {x: -36.426636, y: -14.893066}
+        - {x: -29.426636, y: -26.893066}
+        - {x: 58.573364, y: -26.893066}
+        - {x: 118.573364, y: 23.106934}
+        - {x: 118.573364, y: 117.10693}
+        - {x: 23.573364, y: 215.10693}
+    - name: bandit_attack_spritesheet_51
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 2400
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 31.640015, y: 215.10693}
+        - {x: -22.359985, y: 215.10693}
+        - {x: -52.359985, y: 175.10693}
+        - {x: -52.359985, y: 68.10693}
+        - {x: -41.359985, y: -21.893066}
+        - {x: -28.359985, y: -26.893066}
+        - {x: 20.640015, y: -26.893066}
+        - {x: 54.640015, y: -19.893066}
+        - {x: 118.640015, y: 72.10693}
+        - {x: 118.640015, y: 105.10693}
+    - name: bandit_attack_spritesheet_52
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 2400
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 21.706665, y: 215.10693}
+        - {x: -21.293335, y: 215.10693}
+        - {x: -51.293335, y: 184.10693}
+        - {x: -51.293335, y: 24.106934}
+        - {x: -43.293335, y: -26.893066}
+        - {x: 44.706665, y: -26.893066}
+        - {x: 104.706665, y: 37.106934}
+        - {x: 104.706665, y: 134.10693}
+        - {x: 31.706665, y: 211.10693}
+    - name: bandit_attack_spritesheet_53
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 2400
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 37.773315, y: 213.10693}
+        - {x: 33.773315, y: 215.10693}
+        - {x: -17.226685, y: 215.10693}
+        - {x: -36.226685, y: 207.10693}
+        - {x: -50.226685, y: 160.10693}
+        - {x: -50.226685, y: 76.10693}
+        - {x: -32.226685, y: -26.893066}
+        - {x: 27.773315, y: -26.893066}
+        - {x: 64.773315, y: -12.893066}
+        - {x: 98.773315, y: 68.10693}
+        - {x: 98.773315, y: 122.10693}
+    - name: bandit_attack_spritesheet_54
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 2400
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 39.839966, y: -2.8930664}
+        - {x: 44.839966, y: 10.106934}
+        - {x: 36.839966, y: 19.106934}
+        - {x: 89.839966, y: 82.10693}
+        - {x: 98.839966, y: 95.10693}
+        - {x: 98.839966, y: 108.10693}
+        - {x: 38.839966, y: 215.10693}
+        - {x: -13.160034, y: 215.10693}
+        - {x: -23.160034, y: 212.10693}
+        - {x: -51.160034, y: 163.10693}
+        - {x: -51.160034, y: 71.10693}
+        - {x: -31.160034, y: -26.893066}
+        - {x: -5.160034, y: -26.893066}
+        - {x: -3.1600342, y: -20.893066}
+        - {x: -3.1600342, y: -7.8930664}
+        - {x: 23.839966, y: -4.8930664}
+    - name: bandit_attack_spritesheet_55
+      rect:
+        serializedVersion: 2
+        x: 2100
+        y: 2400
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 42.906616, y: 215.10693}
+        - {x: -25.093384, y: 215.10693}
+        - {x: -51.093384, y: 163.10693}
+        - {x: -51.093384, y: 98.10693}
+        - {x: -38.093384, y: -26.893066}
+        - {x: -2.0933838, y: -26.893066}
+        - {x: 33.906616, y: -12.893066}
+        - {x: 77.90662, y: 15.106934}
+        - {x: 98.90662, y: 66.10693}
+        - {x: 98.90662, y: 114.10693}
+    - name: bandit_attack_spritesheet_56
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2100
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -31.559998, y: 215.04004}
+        - {x: -59.559998, y: 199.04004}
+        - {x: -59.559998, y: 26.04004}
+        - {x: -47.559998, y: -27.95996}
+        - {x: 50.440002, y: -27.95996}
+        - {x: 92.44, y: 41.04004}
+        - {x: 92.44, y: 111.04004}
+        - {x: 27.440002, y: 215.04004}
+    - name: bandit_attack_spritesheet_57
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 2100
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 92.50668, y: 92.04004}
+        - {x: 92.50668, y: 118.04004}
+        - {x: 26.506683, y: 206.04004}
+        - {x: 18.506683, y: 215.04004}
+        - {x: -31.493317, y: 215.04004}
+        - {x: -59.493317, y: 165.04004}
+        - {x: -59.493317, y: 16.04004}
+        - {x: -46.493317, y: -24.95996}
+        - {x: -28.493317, y: -27.95996}
+        - {x: -11.493317, y: -27.95996}
+        - {x: -3.4933167, y: -18.95996}
+        - {x: 31.506683, y: -27.95996}
+        - {x: 44.506683, y: -27.95996}
+    - name: bandit_attack_spritesheet_58
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 2100
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 22.573364, y: 215.04004}
+        - {x: -27.426636, y: 215.04004}
+        - {x: -59.426636, y: 153.04004}
+        - {x: -60.426636, y: 141.04004}
+        - {x: -60.426636, y: 45.04004}
+        - {x: -30.426636, y: -27.95996}
+        - {x: -12.426636, y: -27.95996}
+        - {x: -4.4266357, y: -25.95996}
+        - {x: 40.573364, y: -2.959961}
+        - {x: 92.573364, y: 41.04004}
+        - {x: 92.573364, y: 161.04004}
+    - name: bandit_attack_spritesheet_59
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 2100
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 35.640015, y: -2.959961}
+        - {x: 42.640015, y: 2.040039}
+        - {x: 42.640015, y: 13.040039}
+        - {x: 31.640015, y: 21.04004}
+        - {x: 92.640015, y: 92.04004}
+        - {x: 92.640015, y: 156.04004}
+        - {x: 28.640015, y: 215.04004}
+        - {x: -37.359985, y: 215.04004}
+        - {x: -58.359985, y: 153.04004}
+        - {x: -60.359985, y: 128.04004}
+        - {x: -60.359985, y: 51.04004}
+        - {x: -31.359985, y: -25.95996}
+        - {x: -25.359985, y: -27.95996}
+        - {x: -13.359985, y: -27.95996}
+        - {x: -5.3599854, y: -24.95996}
+        - {x: -2.3599854, y: -13.959961}
+        - {x: -4.3599854, y: -9.959961}
+    - name: bandit_attack_spritesheet_60
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 2100
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -7.293335, y: 211.04004}
+        - {x: -47.293335, y: 162.04004}
+        - {x: -47.293335, y: 41.04004}
+        - {x: -28.293335, y: -15.959961}
+        - {x: 65.706665, y: -15.959961}
+        - {x: 115.706665, y: 39.04004}
+        - {x: 115.706665, y: 149.04004}
+        - {x: 44.706665, y: 203.04004}
+        - {x: 26.706665, y: 216.04004}
+        - {x: 5.706665, y: 216.04004}
+    - name: bandit_attack_spritesheet_61
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 2100
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 119.773315, y: 208.04004}
+        - {x: 114.773315, y: 216.04004}
+        - {x: -25.226685, y: 216.04004}
+        - {x: -38.226685, y: 175.04004}
+        - {x: -38.226685, y: 63.04004}
+        - {x: -25.226685, y: -4.959961}
+        - {x: -9.226685, y: -15.959961}
+        - {x: 27.773315, y: -15.959961}
+        - {x: 53.773315, y: -1.9599609}
+        - {x: 45.773315, y: 12.040039}
+        - {x: 37.773315, y: 17.04004}
+        - {x: 119.773315, y: 90.04004}
+    - name: bandit_attack_spritesheet_62
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 2100
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 120.839966, y: 188.04004}
+        - {x: 56.839966, y: 216.04004}
+        - {x: -18.160034, y: 216.04004}
+        - {x: -38.160034, y: 177.04004}
+        - {x: -38.160034, y: 96.04004}
+        - {x: -24.160034, y: 3.040039}
+        - {x: -5.160034, y: -15.959961}
+        - {x: 28.839966, y: -15.959961}
+        - {x: 51.839966, y: -3.959961}
+        - {x: 58.839966, y: 11.040039}
+        - {x: 110.839966, y: 84.04004}
+        - {x: 120.839966, y: 100.04004}
+    - name: bandit_attack_spritesheet_63
+      rect:
+        serializedVersion: 2
+        x: 2100
+        y: 2100
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -32.093384, y: 216.04004}
+        - {x: -37.093384, y: 209.04004}
+        - {x: -37.093384, y: 65.04004}
+        - {x: -17.093384, y: -15.959961}
+        - {x: 64.90662, y: -15.959961}
+        - {x: 70.90662, y: -13.959961}
+        - {x: 120.90662, y: 83.04004}
+        - {x: 120.90662, y: 216.04004}
+    - name: bandit_attack_spritesheet_64
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1800
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 122.44, y: 170.97339}
+        - {x: 99.44, y: 203.97339}
+        - {x: 63.440002, y: 215.97339}
+        - {x: -25.559998, y: 215.97339}
+        - {x: -38.559998, y: 181.97339}
+        - {x: -38.559998, y: 76.97339}
+        - {x: -21.559998, y: 4.9733887}
+        - {x: -14.559998, y: -3.0266113}
+        - {x: 4.4400024, y: -16.026611}
+        - {x: 31.440002, y: -16.026611}
+        - {x: 38.440002, y: -12.026611}
+        - {x: 50.440002, y: 6.9733887}
+        - {x: 122.44, y: 69.97339}
+    - name: bandit_attack_spritesheet_65
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1800
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -21.493317, y: 215.97339}
+        - {x: -38.493317, y: 166.97339}
+        - {x: -38.493317, y: 154.97339}
+        - {x: -32.493317, y: 135.97339}
+        - {x: -28.493317, y: 53.97339}
+        - {x: -21.493317, y: 4.9733887}
+        - {x: -18.493317, y: -1.0266113}
+        - {x: 2.5066833, y: -16.026611}
+        - {x: 24.506683, y: -16.026611}
+        - {x: 41.506683, y: -12.026611}
+        - {x: 177.50668, y: 128.97339}
+        - {x: 177.50668, y: 174.97339}
+        - {x: 66.50668, y: 215.97339}
+    - name: bandit_attack_spritesheet_66
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 1800
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 172.57336, y: 172.97339}
+        - {x: 72.573364, y: 215.97339}
+        - {x: -38.426636, y: 215.97339}
+        - {x: -38.426636, y: 7.9733887}
+        - {x: -27.426636, y: -16.026611}
+        - {x: 57.573364, y: -16.026611}
+        - {x: 178.57336, y: 162.97339}
+        - {x: 178.57336, y: 170.97339}
+    - name: bandit_attack_spritesheet_67
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 1800
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 66.640015, y: 215.97339}
+        - {x: -18.359985, y: 215.97339}
+        - {x: -38.359985, y: 176.97339}
+        - {x: -38.359985, y: 29.973389}
+        - {x: -16.359985, y: -16.026611}
+        - {x: 62.640015, y: -16.026611}
+        - {x: 178.64001, y: 149.97339}
+        - {x: 178.64001, y: 171.97339}
+        - {x: 172.64001, y: 172.97339}
+    - name: bandit_attack_spritesheet_68
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 1800
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 68.706665, y: 215.97339}
+        - {x: -25.293335, y: 215.97339}
+        - {x: -38.293335, y: 181.97339}
+        - {x: -38.293335, y: 37.97339}
+        - {x: -13.293335, y: -16.026611}
+        - {x: 41.706665, y: -16.026611}
+        - {x: 64.706665, y: -11.026611}
+        - {x: 155.70667, y: 139.97339}
+        - {x: 155.70667, y: 172.97339}
+    - name: bandit_attack_spritesheet_69
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 1800
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 6.7733154, y: 215.97339}
+        - {x: -4.2266846, y: 206.97339}
+        - {x: -38.226685, y: 165.97339}
+        - {x: -38.226685, y: 112.97339}
+        - {x: -27.226685, y: 16.973389}
+        - {x: -18.226685, y: -2.0266113}
+        - {x: -1.2266846, y: -16.026611}
+        - {x: 67.773315, y: -16.026611}
+        - {x: 143.77332, y: 85.97339}
+        - {x: 143.77332, y: 157.97339}
+        - {x: 69.773315, y: 215.97339}
+    - name: bandit_attack_spritesheet_70
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 1800
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 143.83997, y: 135.97339}
+        - {x: 131.83997, y: 148.97339}
+        - {x: 29.839966, y: 215.97339}
+        - {x: -16.160034, y: 215.97339}
+        - {x: -38.160034, y: 189.97339}
+        - {x: -38.160034, y: 71.97339}
+        - {x: -30.160034, y: -1.0266113}
+        - {x: 5.839966, y: -16.026611}
+        - {x: 27.839966, y: -16.026611}
+        - {x: 37.839966, y: -11.026611}
+        - {x: 61.839966, y: 7.9733887}
+        - {x: 143.83997, y: 117.97339}
+    - name: bandit_attack_spritesheet_71
+      rect:
+        serializedVersion: 2
+        x: 2100
+        y: 1800
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 46.906616, y: 215.97339}
+        - {x: -37.093384, y: 215.97339}
+        - {x: -37.093384, y: -16.026611}
+        - {x: 26.906616, y: -16.026611}
+        - {x: 60.906616, y: -7.0266113}
+        - {x: 119.90662, y: 103.97339}
+        - {x: 119.90662, y: 114.97339}
+        - {x: 117.90662, y: 116.97339}
+    - name: bandit_attack_spritesheet_72
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1500
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -13.559998, y: 215.90674}
+        - {x: -38.559998, y: 184.90674}
+        - {x: -38.559998, y: 92.90674}
+        - {x: -29.559998, y: 0.9067383}
+        - {x: -3.5599976, y: -16.093262}
+        - {x: 20.440002, y: -16.093262}
+        - {x: 50.440002, y: -4.0932617}
+        - {x: 118.44, y: 66.90674}
+        - {x: 118.44, y: 166.90674}
+        - {x: 84.44, y: 215.90674}
+    - name: bandit_attack_spritesheet_73
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1500
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -23.493317, y: 215.90674}
+        - {x: -38.493317, y: 192.90674}
+        - {x: -38.493317, y: 60.90674}
+        - {x: -32.493317, y: -1.0932617}
+        - {x: -5.4933167, y: -16.093262}
+        - {x: 67.50668, y: -16.093262}
+        - {x: 115.50668, y: 74.90674}
+        - {x: 115.50668, y: 158.90674}
+        - {x: 36.506683, y: 215.90674}
+    - name: bandit_attack_spritesheet_74
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 1500
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -21.426636, y: 215.90674}
+        - {x: -38.426636, y: 172.90674}
+        - {x: -38.426636, y: 111.90674}
+        - {x: -27.426636, y: -13.093262}
+        - {x: -16.426636, y: -16.093262}
+        - {x: 71.573364, y: -16.093262}
+        - {x: 115.573364, y: 39.90674}
+        - {x: 115.573364, y: 170.90674}
+        - {x: 42.573364, y: 215.90674}
+    - name: bandit_attack_spritesheet_75
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 1500
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -47.359985, y: 215.90674}
+        - {x: -47.359985, y: -16.093262}
+        - {x: 66.640015, y: -16.093262}
+        - {x: 115.640015, y: 43.90674}
+        - {x: 115.640015, y: 146.90674}
+        - {x: 34.640015, y: 215.90674}
+    - name: bandit_attack_spritesheet_76
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 1500
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 32.706665, y: 215.90674}
+        - {x: -4.293335, y: 215.90674}
+        - {x: -38.293335, y: 179.90674}
+        - {x: -38.293335, y: 86.90674}
+        - {x: -26.293335, y: -9.093262}
+        - {x: -3.293335, y: -16.093262}
+        - {x: 30.706665, y: -16.093262}
+        - {x: 38.706665, y: -11.093262}
+        - {x: 119.706665, y: 69.90674}
+        - {x: 119.706665, y: 193.90674}
+    - name: bandit_attack_spritesheet_77
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 1500
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -5.2266846, y: 215.90674}
+        - {x: -38.226685, y: 166.90674}
+        - {x: -38.226685, y: 90.90674}
+        - {x: -32.226685, y: -3.0932617}
+        - {x: -19.226685, y: -16.093262}
+        - {x: 65.773315, y: -16.093262}
+        - {x: 120.773315, y: 62.90674}
+        - {x: 120.773315, y: 196.90674}
+        - {x: 43.773315, y: 215.90674}
+    - name: bandit_attack_spritesheet_78
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 1500
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 120.839966, y: 213.90674}
+        - {x: 104.839966, y: 215.90674}
+        - {x: -10.160034, y: 215.90674}
+        - {x: -38.160034, y: 168.90674}
+        - {x: -38.160034, y: 67.90674}
+        - {x: -23.160034, y: 2.9067383}
+        - {x: -0.16003418, y: -15.093262}
+        - {x: 3.8399658, y: -16.093262}
+        - {x: 38.839966, y: -16.093262}
+        - {x: 56.839966, y: -9.093262}
+        - {x: 116.839966, y: 60.90674}
+        - {x: 120.839966, y: 80.90674}
+    - name: bandit_attack_spritesheet_79
+      rect:
+        serializedVersion: 2
+        x: 2100
+        y: 1500
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 123.90662, y: 83.90674}
+        - {x: 123.90662, y: 144.90674}
+        - {x: 103.90662, y: 173.90674}
+        - {x: 31.906616, y: 215.90674}
+        - {x: 3.9066162, y: 215.90674}
+        - {x: -3.0933838, y: 212.90674}
+        - {x: -37.093384, y: 164.90674}
+        - {x: -37.093384, y: 106.90674}
+        - {x: -24.093384, y: 16.906738}
+        - {x: -16.093384, y: -4.0932617}
+        - {x: 5.906616, y: -16.093262}
+        - {x: 18.906616, y: -16.093262}
+        - {x: 22.906616, y: -15.093262}
+        - {x: 42.906616, y: -4.0932617}
+        - {x: 45.906616, y: -0.09326172}
+        - {x: 47.906616, y: 6.9067383}
+    - name: bandit_attack_spritesheet_80
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 46.440002, y: 215.84009}
+        - {x: 0.44000244, y: 215.84009}
+        - {x: -3.5599976, y: 210.84009}
+        - {x: -38.559998, y: 166.84009}
+        - {x: -38.559998, y: 112.84009}
+        - {x: -27.559998, y: 0.8400879}
+        - {x: 6.4400024, y: -16.159912}
+        - {x: 53.440002, y: -16.159912}
+        - {x: 177.44, y: 114.84009}
+        - {x: 177.44, y: 192.84009}
+    - name: bandit_attack_spritesheet_81
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 178.50668, y: 158.84009}
+        - {x: 178.50668, y: 175.84009}
+        - {x: 75.50668, y: 215.84009}
+        - {x: -29.493317, y: 215.84009}
+        - {x: -38.493317, y: 204.84009}
+        - {x: -38.493317, y: 52.840088}
+        - {x: -18.493317, y: -16.159912}
+        - {x: 23.506683, y: -16.159912}
+        - {x: 46.506683, y: -2.159912}
+        - {x: 44.506683, y: 11.840088}
+        - {x: 48.506683, y: 71.84009}
+        - {x: 149.50668, y: 130.84009}
+    - name: bandit_attack_spritesheet_82
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 1200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 41.573364, y: 215.84009}
+        - {x: -4.4266357, y: 215.84009}
+        - {x: -32.426636, y: 175.84009}
+        - {x: -38.426636, y: 163.84009}
+        - {x: -38.426636, y: 115.84009}
+        - {x: -22.426636, y: -10.159912}
+        - {x: -6.4266357, y: -16.159912}
+        - {x: 32.573364, y: -16.159912}
+        - {x: 51.573364, y: -4.159912}
+        - {x: 178.57336, y: 149.84009}
+        - {x: 178.57336, y: 184.84009}
+    - name: bandit_attack_spritesheet_83
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 1200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 34.640015, y: 215.84009}
+        - {x: -9.359985, y: 215.84009}
+        - {x: -38.359985, y: 177.84009}
+        - {x: -38.359985, y: 77.84009}
+        - {x: -28.359985, y: 1.8400879}
+        - {x: -3.3599854, y: -16.159912}
+        - {x: 24.640015, y: -16.159912}
+        - {x: 52.640015, y: -5.159912}
+        - {x: 155.64001, y: 96.84009}
+        - {x: 155.64001, y: 160.84009}
+        - {x: 145.64001, y: 169.84009}
+    - name: bandit_attack_spritesheet_84
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 1200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 102.706665, y: 181.84009}
+        - {x: 33.706665, y: 215.84009}
+        - {x: -14.293335, y: 215.84009}
+        - {x: -38.293335, y: 179.84009}
+        - {x: -38.293335, y: 78.84009}
+        - {x: -27.293335, y: -8.159912}
+        - {x: -8.293335, y: -16.159912}
+        - {x: 26.706665, y: -16.159912}
+        - {x: 40.706665, y: -14.159912}
+        - {x: 50.706665, y: 6.840088}
+        - {x: 143.70667, y: 89.84009}
+        - {x: 143.70667, y: 150.84009}
+    - name: bandit_attack_spritesheet_85
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 1200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 142.77332, y: 159.84009}
+        - {x: 36.773315, y: 215.84009}
+        - {x: -15.226685, y: 215.84009}
+        - {x: -38.226685, y: 176.84009}
+        - {x: -38.226685, y: 45.840088}
+        - {x: -34.226685, y: -4.159912}
+        - {x: -5.2266846, y: -16.159912}
+        - {x: 41.773315, y: -16.159912}
+        - {x: 52.773315, y: -7.159912}
+        - {x: 143.77332, y: 91.84009}
+        - {x: 143.77332, y: 148.84009}
+    - name: bandit_attack_spritesheet_86
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 1200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30.160034, y: 215.84009}
+        - {x: -38.160034, y: 186.84009}
+        - {x: -38.160034, y: 0.8400879}
+        - {x: -27.160034, y: -15.159912}
+        - {x: -19.160034, y: -16.159912}
+        - {x: 49.839966, y: -16.159912}
+        - {x: 118.839966, y: 89.84009}
+        - {x: 118.839966, y: 178.84009}
+        - {x: 68.839966, y: 215.84009}
+    - name: bandit_attack_spritesheet_87
+      rect:
+        serializedVersion: 2
+        x: 2100
+        y: 1200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -9.093384, y: 215.84009}
+        - {x: -37.093384, y: 170.84009}
+        - {x: -37.093384, y: 87.84009}
+        - {x: -19.093384, y: -7.159912}
+        - {x: -7.093384, y: -16.159912}
+        - {x: 55.906616, y: -16.159912}
+        - {x: 119.90662, y: 60.840088}
+        - {x: 119.90662, y: 171.84009}
+        - {x: 43.906616, y: 215.84009}
+    - name: bandit_attack_spritesheet_88
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -5.5599976, y: 215.77332}
+        - {x: -38.559998, y: 183.77332}
+        - {x: -38.559998, y: 85.773315}
+        - {x: -29.559998, y: -0.22668457}
+        - {x: -5.5599976, y: -0.22668457}
+        - {x: -2.5599976, y: 0.7733154}
+        - {x: 0.44000244, y: 3.7733154}
+        - {x: 3.4400024, y: -13.226685}
+        - {x: 6.4400024, y: -16.226685}
+        - {x: 17.440002, y: -16.226685}
+        - {x: 21.440002, y: -15.226685}
+        - {x: 30.440002, y: -16.226685}
+        - {x: 115.44, y: -16.226685}
+        - {x: 115.44, y: 215.77332}
+    - name: bandit_attack_spritesheet_89
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.275, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -21.493317, y: 215.77332}
+        - {x: -38.493317, y: 189.77332}
+        - {x: -38.493317, y: 60.773315}
+        - {x: -33.493317, y: -1.2266846}
+        - {x: -10.493317, y: -16.226685}
+        - {x: 85.50668, y: -16.226685}
+        - {x: 115.50668, y: 48.773315}
+        - {x: 115.50668, y: 182.77332}
+        - {x: 53.506683, y: 215.77332}
+    - name: bandit_attack_spritesheet_90
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -38.30664, y: 215.77332}
+        - {x: -116.30664, y: 125.773315}
+        - {x: -116.30664, y: 64.773315}
+        - {x: -71.30664, y: -16.226685}
+        - {x: 31.69336, y: -16.226685}
+        - {x: 37.69336, y: -15.226685}
+        - {x: 47.69336, y: 35.773315}
+        - {x: 47.69336, y: 158.77332}
+        - {x: 17.69336, y: 215.77332}
+    - name: bandit_attack_spritesheet_91
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 14.76001, y: -7.2266846}
+        - {x: 35.76001, y: 32.773315}
+        - {x: 38.76001, y: 69.773315}
+        - {x: 38.76001, y: 181.77332}
+        - {x: 12.76001, y: 215.77332}
+        - {x: -119.23999, y: 215.77332}
+        - {x: -119.23999, y: 7.7733154}
+        - {x: -110.23999, y: -16.226685}
+        - {x: -4.23999, y: -16.226685}
+        - {x: -2.2399902, y: -9.226685}
+        - {x: -3.2399902, y: 5.7733154}
+        - {x: 1.7600098, y: -0.22668457}
+    - name: bandit_attack_spritesheet_92
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 9.82666, y: 215.77332}
+        - {x: -41.17334, y: 215.77332}
+        - {x: -120.17334, y: 187.77332}
+        - {x: -120.17334, y: 168.77332}
+        - {x: -89.17334, y: 140.77332}
+        - {x: -112.17334, y: 106.773315}
+        - {x: -116.17334, y: 96.773315}
+        - {x: -111.17334, y: 20.773315}
+        - {x: -54.17334, y: -16.226685}
+        - {x: 32.82666, y: -16.226685}
+        - {x: 34.82666, y: -4.2266846}
+        - {x: 38.82666, y: 23.773315}
+        - {x: 38.82666, y: 171.77332}
+    - name: bandit_attack_spritesheet_93
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -46.10669, y: 215.77332}
+        - {x: -120.10669, y: 190.77332}
+        - {x: -120.10669, y: 109.773315}
+        - {x: -112.10669, y: 93.773315}
+        - {x: -95.10669, y: 77.773315}
+        - {x: -86.10669, y: 71.773315}
+        - {x: -83.10669, y: 70.773315}
+        - {x: -79.10669, y: 70.773315}
+        - {x: -48.10669, y: -3.2266846}
+        - {x: -29.10669, y: -16.226685}
+        - {x: -4.1066895, y: -16.226685}
+        - {x: 28.89331, y: 0.7733154}
+        - {x: 38.89331, y: 89.773315}
+        - {x: 38.89331, y: 170.77332}
+        - {x: -2.1066895, y: 215.77332}
+    - name: bandit_attack_spritesheet_94
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -78.04004, y: 215.77332}
+        - {x: -117.04004, y: 181.77332}
+        - {x: -122.04004, y: 175.77332}
+        - {x: -122.04004, y: 69.773315}
+        - {x: -61.04004, y: -2.2266846}
+        - {x: -16.04004, y: -16.226685}
+        - {x: -2.040039, y: -16.226685}
+        - {x: 38.95996, y: 13.773315}
+        - {x: 38.95996, y: 190.77332}
+        - {x: 30.95996, y: 215.77332}
+    - name: bandit_attack_spritesheet_95
+      rect:
+        serializedVersion: 2
+        x: 2100
+        y: 900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -176.97327, y: 152.77332}
+        - {x: -134.97327, y: 120.773315}
+        - {x: -57.973267, y: 4.7733154}
+        - {x: -26.973267, y: -16.226685}
+        - {x: -1.9732666, y: -16.226685}
+        - {x: 30.026733, y: 0.7733154}
+        - {x: 39.026733, y: 51.773315}
+        - {x: 39.026733, y: 215.77332}
+        - {x: -158.97327, y: 215.77332}
+        - {x: -176.97327, y: 210.77332}
+    - name: bandit_attack_spritesheet_96
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -179.44, y: 140.70667}
+        - {x: -53.440002, y: -5.293335}
+        - {x: -39.440002, y: -16.293335}
+        - {x: 17.559998, y: -16.293335}
+        - {x: 37.559998, y: 38.706665}
+        - {x: 37.559998, y: 215.70667}
+        - {x: -179.44, y: 215.70667}
+    - name: bandit_attack_spritesheet_97
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -106.37332, y: 215.70667}
+        - {x: -178.37332, y: 178.70667}
+        - {x: -178.37332, y: 117.706665}
+        - {x: -42.37332, y: -5.293335}
+        - {x: -28.373322, y: -16.293335}
+        - {x: -5.3733215, y: -16.293335}
+        - {x: 24.626678, y: 2.706665}
+        - {x: 38.62668, y: 113.706665}
+        - {x: 38.62668, y: 166.70667}
+        - {x: -3.3733215, y: 215.70667}
+    - name: bandit_attack_spritesheet_98
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 28.69336, y: 215.70667}
+        - {x: -88.30664, y: 215.70667}
+        - {x: -156.30664, y: 192.70667}
+        - {x: -156.30664, y: 117.706665}
+        - {x: -151.30664, y: 110.706665}
+        - {x: -42.30664, y: -9.293335}
+        - {x: -26.30664, y: -16.293335}
+        - {x: 7.6933594, y: -16.293335}
+        - {x: 24.69336, y: -5.293335}
+        - {x: 38.69336, y: 129.70667}
+        - {x: 38.69336, y: 173.70667}
+      - - {x: -94.30664, y: 153.70667}
+        - {x: -91.30664, y: 154.70667}
+        - {x: -91.30664, y: 157.70667}
+        - {x: -94.30664, y: 158.70667}
+        - {x: -96.30664, y: 156.70667}
+    - name: bandit_attack_spritesheet_99
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 16.76001, y: -14.293335}
+        - {x: 38.76001, y: 83.706665}
+        - {x: 38.76001, y: 190.70667}
+        - {x: 26.76001, y: 215.70667}
+        - {x: -62.23999, y: 215.70667}
+        - {x: -143.23999, y: 171.70667}
+        - {x: -143.23999, y: 113.706665}
+        - {x: -129.23999, y: 93.706665}
+        - {x: -68.23999, y: 73.706665}
+        - {x: -46.23999, y: -15.293335}
+        - {x: -32.23999, y: -16.293335}
+        - {x: -7.23999, y: -16.293335}
+        - {x: -2.2399902, y: -9.293335}
+        - {x: -3.2399902, y: 5.706665}
+        - {x: 1.7600098, y: -0.29333496}
+    - name: bandit_attack_spritesheet_100
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 14.82666, y: -8.293335}
+        - {x: 38.82666, y: 34.706665}
+        - {x: 38.82666, y: 194.70667}
+        - {x: 28.82666, y: 215.70667}
+        - {x: -83.17334, y: 215.70667}
+        - {x: -143.17334, y: 184.70667}
+        - {x: -143.17334, y: 46.706665}
+        - {x: -105.17334, y: -16.293335}
+        - {x: -5.17334, y: -16.293335}
+        - {x: -2.1733398, y: -9.293335}
+        - {x: -3.1733398, y: 5.706665}
+        - {x: 1.8266602, y: 0.70666504}
+    - name: bandit_attack_spritesheet_101
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 16.89331, y: -13.293335}
+        - {x: 38.89331, y: 59.706665}
+        - {x: 38.89331, y: 215.70667}
+        - {x: -72.10669, y: 215.70667}
+        - {x: -118.10669, y: 175.70667}
+        - {x: -118.10669, y: 38.706665}
+        - {x: -61.10669, y: -16.293335}
+        - {x: -7.1066895, y: -16.293335}
+        - {x: -2.1066895, y: -8.293335}
+        - {x: -3.1066895, y: 5.706665}
+        - {x: 1.8933105, y: -0.29333496}
+    - name: bandit_attack_spritesheet_102
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 2.959961, y: 215.70667}
+        - {x: -42.04004, y: 215.70667}
+        - {x: -118.04004, y: 171.70667}
+        - {x: -118.04004, y: 45.706665}
+        - {x: -85.04004, y: -16.293335}
+        - {x: -1.0400391, y: -16.293335}
+        - {x: 25.95996, y: -6.293335}
+        - {x: 38.95996, y: 83.706665}
+        - {x: 38.95996, y: 175.70667}
+    - name: bandit_attack_spritesheet_103
+      rect:
+        serializedVersion: 2
+        x: 2100
+        y: 600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -114.97327, y: 73.706665}
+        - {x: -52.973267, y: -7.293335}
+        - {x: -32.973267, y: -16.293335}
+        - {x: 18.026733, y: -16.293335}
+        - {x: 39.026733, y: -2.293335}
+        - {x: 39.026733, y: 215.70667}
+        - {x: -74.97327, y: 215.70667}
+        - {x: -114.97327, y: 186.70667}
+    - name: bandit_attack_spritesheet_104
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 26.559998, y: 214.64005}
+        - {x: -55.440002, y: 214.64005}
+        - {x: -116.44, y: 137.64005}
+        - {x: -116.44, y: 94.640045}
+        - {x: -104.44, y: 79.640045}
+        - {x: -49.440002, y: -13.359955}
+        - {x: -37.440002, y: -16.359955}
+        - {x: 7.5599976, y: -16.359955}
+        - {x: 21.559998, y: -7.359955}
+        - {x: 37.559998, y: 27.640045}
+        - {x: 37.559998, y: 190.64005}
+    - name: bandit_attack_spritesheet_105
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -40.37332, y: 214.64005}
+        - {x: -116.37332, y: 144.64005}
+        - {x: -116.37332, y: 55.640045}
+        - {x: -42.37332, y: -5.359955}
+        - {x: -32.37332, y: -16.359955}
+        - {x: 14.626678, y: -16.359955}
+        - {x: 47.62668, y: 58.640045}
+        - {x: 47.62668, y: 176.64005}
+        - {x: 27.626678, y: 214.64005}
+    - name: bandit_attack_spritesheet_106
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -119.30664, y: 214.64005}
+        - {x: -119.30664, y: 76.640045}
+        - {x: -78.30664, y: -16.359955}
+        - {x: 19.69336, y: -16.359955}
+        - {x: 38.69336, y: 4.640045}
+        - {x: 38.69336, y: 186.64005}
+        - {x: 29.69336, y: 214.64005}
+    - name: bandit_attack_spritesheet_107
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 24.76001, y: -16.359955}
+        - {x: 38.76001, y: 32.640045}
+        - {x: 38.76001, y: 199.64005}
+        - {x: 28.76001, y: 214.64005}
+        - {x: -84.23999, y: 214.64005}
+        - {x: -120.23999, y: 202.64005}
+        - {x: -120.23999, y: 161.64005}
+        - {x: -106.23999, y: 148.64005}
+        - {x: -89.23999, y: 145.64005}
+        - {x: -113.23999, y: 106.640045}
+        - {x: -116.23999, y: 99.640045}
+        - {x: -108.23999, y: 81.640045}
+        - {x: -42.23999, y: -9.359955}
+        - {x: -19.23999, y: -16.359955}
+        - {x: -7.23999, y: -16.359955}
+        - {x: -2.2399902, y: -9.359955}
+        - {x: -3.2399902, y: 5.640045}
+        - {x: 11.76001, y: -16.359955}
+    - name: bandit_attack_spritesheet_108
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -93.17334, y: 214.64005}
+        - {x: -120.17334, y: 207.64005}
+        - {x: -120.17334, y: 14.640045}
+        - {x: -109.17334, y: -16.359955}
+        - {x: 20.82666, y: -16.359955}
+        - {x: 38.82666, y: -5.359955}
+        - {x: 38.82666, y: 197.64005}
+        - {x: 21.82666, y: 214.64005}
+    - name: bandit_attack_spritesheet_109
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 13.893311, y: -1.3599548}
+        - {x: 20.89331, y: 4.640045}
+        - {x: 27.89331, y: 66.640045}
+        - {x: 23.89331, y: 81.640045}
+        - {x: 38.89331, y: 128.64005}
+        - {x: 38.89331, y: 179.64005}
+        - {x: 17.89331, y: 214.64005}
+        - {x: -62.10669, y: 214.64005}
+        - {x: -122.10669, y: 188.64005}
+        - {x: -122.10669, y: 106.640045}
+        - {x: -102.10669, y: 78.640045}
+        - {x: -50.10669, y: -6.359955}
+        - {x: -21.10669, y: -16.359955}
+        - {x: -3.1066895, y: -16.359955}
+        - {x: -2.1066895, y: -8.359955}
+        - {x: -3.1066895, y: 5.640045}
+        - {x: 1.8933105, y: -0.35995483}
+    - name: bandit_attack_spritesheet_110
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -166.04004, y: 133.64005}
+        - {x: -101.04004, y: 70.640045}
+        - {x: -50.04004, y: -16.359955}
+        - {x: 18.95996, y: -16.359955}
+        - {x: 38.95996, y: 11.640045}
+        - {x: 38.95996, y: 195.64005}
+        - {x: 31.95996, y: 214.64005}
+        - {x: -144.04004, y: 214.64005}
+        - {x: -177.04004, y: 202.64005}
+        - {x: -177.04004, y: 153.64005}
+    - name: bandit_attack_spritesheet_111
+      rect:
+        serializedVersion: 2
+        x: 2100
+        y: 300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -83.97327, y: 214.64005}
+        - {x: -177.97327, y: 177.64005}
+        - {x: -177.97327, y: 110.640045}
+        - {x: -56.973267, y: -13.359955}
+        - {x: -40.973267, y: -16.359955}
+        - {x: 31.026733, y: -16.359955}
+        - {x: 39.026733, y: 26.640045}
+        - {x: 39.026733, y: 193.64005}
+        - {x: 25.026733, y: 214.64005}
+    - name: bandit_attack_spritesheet_112
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 37.559998, y: 214.57333}
+        - {x: -156.44, y: 214.57333}
+        - {x: -179.44, y: 209.57333}
+        - {x: -179.44, y: 120.57333}
+        - {x: -53.440002, y: -5.4266663}
+        - {x: -23.440002, y: -16.426666}
+        - {x: 0.55999756, y: -16.426666}
+        - {x: 22.559998, y: 3.5733337}
+        - {x: 24.559998, y: 57.573334}
+        - {x: 37.559998, y: 75.57333}
+    - name: bandit_attack_spritesheet_113
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 0
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 33.62668, y: 114.57333}
+        - {x: 37.62668, y: 139.57333}
+        - {x: 38.62668, y: 143.57333}
+        - {x: 38.62668, y: 163.57333}
+        - {x: 0.62667847, y: 214.57333}
+        - {x: -51.37332, y: 214.57333}
+        - {x: -156.37332, y: 192.57333}
+        - {x: -156.37332, y: 99.57333}
+        - {x: -93.37332, y: -16.426666}
+        - {x: 4.6266785, y: -16.426666}
+        - {x: 22.626678, y: 4.5733337}
+        - {x: 24.626678, y: 52.573334}
+        - {x: 22.626678, y: 75.57333}
+    - name: bandit_attack_spritesheet_114
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 0
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -118.30664, y: 91.57333}
+        - {x: -70.30664, y: 81.57333}
+        - {x: -64.30664, y: 88.57333}
+        - {x: -47.30664, y: -14.426666}
+        - {x: -29.30664, y: -16.426666}
+        - {x: 38.69336, y: -16.426666}
+        - {x: 38.69336, y: 202.57333}
+        - {x: 36.69336, y: 214.57333}
+        - {x: -44.30664, y: 214.57333}
+        - {x: -143.30664, y: 144.57333}
+        - {x: -143.30664, y: 101.57333}
+    - name: bandit_attack_spritesheet_115
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 0
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 16.76001, y: -15.426666}
+        - {x: 38.76001, y: 74.57333}
+        - {x: 38.76001, y: 214.57333}
+        - {x: -63.23999, y: 214.57333}
+        - {x: -143.23999, y: 182.57333}
+        - {x: -143.23999, y: 49.573334}
+        - {x: -81.23999, y: -16.426666}
+        - {x: -6.23999, y: -16.426666}
+        - {x: -2.2399902, y: -9.426666}
+        - {x: -3.2399902, y: 5.5733337}
+        - {x: 1.7600098, y: -0.42666626}
+    - name: bandit_attack_spritesheet_116
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 0
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 25.82666, y: 2.5733337}
+        - {x: 38.82666, y: 71.57333}
+        - {x: 38.82666, y: 181.57333}
+        - {x: 3.8266602, y: 214.57333}
+        - {x: -68.17334, y: 214.57333}
+        - {x: -118.17334, y: 151.57333}
+        - {x: -118.17334, y: 96.57333}
+        - {x: -108.17334, y: 85.57333}
+        - {x: -95.17334, y: 78.57333}
+        - {x: -90.17334, y: 76.57333}
+        - {x: -49.17334, y: -16.426666}
+        - {x: -6.17334, y: -16.426666}
+        - {x: -2.1733398, y: -9.426666}
+        - {x: -3.1733398, y: 5.5733337}
+        - {x: 2.8266602, y: -4.4266663}
+    - name: bandit_attack_spritesheet_117
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 0
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -40.10669, y: 214.57333}
+        - {x: -48.10669, y: 203.57333}
+        - {x: -118.10669, y: 130.57333}
+        - {x: -118.10669, y: 72.57333}
+        - {x: -56.10669, y: -10.426666}
+        - {x: -38.10669, y: -16.426666}
+        - {x: 8.893311, y: -16.426666}
+        - {x: 32.89331, y: -10.426666}
+        - {x: 38.89331, y: 36.573334}
+        - {x: 38.89331, y: 192.57333}
+        - {x: -3.1066895, y: 214.57333}
+    - name: bandit_attack_spritesheet_118
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 0
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 13.959961, y: 214.57333}
+        - {x: -36.04004, y: 214.57333}
+        - {x: -115.04004, y: 117.57333}
+        - {x: -115.04004, y: 90.57333}
+        - {x: -50.04004, y: -6.4266663}
+        - {x: -21.04004, y: -16.426666}
+        - {x: 4.959961, y: -16.426666}
+        - {x: 23.95996, y: -4.4266663}
+        - {x: 38.95996, y: 91.57333}
+        - {x: 38.95996, y: 172.57333}
+    - name: bandit_attack_spritesheet_119
+      rect:
+        serializedVersion: 2
+        x: 2100
+        y: 0
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.725, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 22.026733, y: 16.573334}
+        - {x: 30.026733, y: 58.573334}
+        - {x: 39.026733, y: 116.57333}
+        - {x: 39.026733, y: 168.57333}
+        - {x: -1.9732666, y: 214.57333}
+        - {x: -89.97327, y: 214.57333}
+        - {x: -114.97327, y: 117.57333}
+        - {x: -114.97327, y: 25.573334}
+        - {x: -53.973267, y: -16.426666}
+        - {x: -4.9732666, y: -16.426666}
+        - {x: -2.9732666, y: -11.426666}
+        - {x: 16.026733, y: -3.4266663}
+        - {x: 21.026733, y: 5.5733337}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

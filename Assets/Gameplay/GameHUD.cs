@@ -7,6 +7,7 @@ public class GameHUD : MonoBehaviour
     private PartySystem partySystem;
     private PlayerHUD playerHUD;
     private TargetedAbilityIndicator targetedAbilityIndicator;
+    private GameObject keyboardHelp;
 
     private bool[] targeting = new bool[8];
     private bool[] wasTargeting = new bool[8];
@@ -14,7 +15,7 @@ public class GameHUD : MonoBehaviour
     private bool[] wasHUDCasting = new bool[8];
     bool shift;
     public bool test = false;
-    
+
     public bool isTargeting()
     {
         for (int i = 0; i < 8; i++)
@@ -44,6 +45,7 @@ public class GameHUD : MonoBehaviour
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
         playerHUD = GameObject.Find("HUD").GetComponent<PlayerHUD>();
         targetedAbilityIndicator = GameObject.Find("HUD").GetComponent<TargetedAbilityIndicator>();
+        keyboardHelp = GameObject.Find("KeyboardHelp").gameObject;
     }
 
     // Update is called once per frame
@@ -69,6 +71,10 @@ public class GameHUD : MonoBehaviour
                     c.GetComponent<UnitCombat>().takeDamage(-c.GetComponent<UnitCombat>().getMaxHealth(), null);
             }
         }
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            keyboardHelp.SetActive(!keyboardHelp.activeSelf);
+        }
 
         //////////////////////////////////////
         /// SPELLIT
@@ -80,8 +86,12 @@ public class GameHUD : MonoBehaviour
 
         if ((Input.GetKeyDown(KeyCode.Q) || HUDCast[0] == true) && !Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(1).GetComponent<UnitCombat>().isAlive())
         {
-            targeting[0] = true;
-            shift = false;
+            UnitCombat unitCombat = partySystem.getCharacter(1).GetComponent<UnitCombat>();
+            if (unitCombat.canCastSpell(0))
+            {
+                targeting[0] = true;
+                shift = false;
+            }
         }
         if (targeting[0] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.Q)) && HUDCast[0] == false)
         {
@@ -89,9 +99,6 @@ public class GameHUD : MonoBehaviour
             {
                 character = partySystem.getCharacter(1);
                 character.GetComponent<UnitCombat>().castSpellInSlot(0);
-                character.GetComponent<UnitCombat>().stopAttack();
-                character.GetComponent<UnitMovement>().stop();
-                print("TODO: Fix whirlwind");
             }
             targeting[0] = false;
             shift = false;
@@ -99,8 +106,12 @@ public class GameHUD : MonoBehaviour
 
         if ((Input.GetKeyDown(KeyCode.W) || HUDCast[1] == true) && !Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(1).GetComponent<UnitCombat>().isAlive())
         {
-            targeting[1] = true;
-            shift = false;
+            UnitCombat unitCombat = partySystem.getCharacter(1).GetComponent<UnitCombat>();
+            if (unitCombat.canCastSpell(1))
+            {
+                targeting[1] = true;
+                shift = false;
+            }
         }
         if (targeting[1] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.W)) && HUDCast[1] == false)
         {
@@ -108,8 +119,6 @@ public class GameHUD : MonoBehaviour
             {
                 character = partySystem.getCharacter(1);
                 character.GetComponent<UnitCombat>().castSpellInSlot(1);
-                character.GetComponent<UnitCombat>().stopAttack();
-                character.GetComponent<UnitMovement>().stop();
             }
             targeting[1] = false;
             shift = false;
@@ -117,8 +126,12 @@ public class GameHUD : MonoBehaviour
 
         if ((Input.GetKeyDown(KeyCode.E) || HUDCast[2] == true) && !Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(2).GetComponent<UnitCombat>().isAlive())
         {
-            targeting[2] = true;
-            shift = false;
+            UnitCombat unitCombat = partySystem.getCharacter(2).GetComponent<UnitCombat>();
+            if (unitCombat.canCastSpell(0))
+            {
+                targeting[2] = true;
+                shift = false;
+            }
         }
         if (targeting[2] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.E)) && HUDCast[2] == false)
         {
@@ -126,9 +139,6 @@ public class GameHUD : MonoBehaviour
             {
                 character = partySystem.getCharacter(2);
                 character.GetComponent<UnitCombat>().castSpellInSlot(0);
-                character.GetComponent<UnitCombat>().stopAttack();
-                character.GetComponent<UnitMovement>().stop();
-                print("TODO: Fix whirlwind");
             }
             targeting[2] = false;
             shift = false;
@@ -136,8 +146,12 @@ public class GameHUD : MonoBehaviour
 
         if ((Input.GetKeyDown(KeyCode.R) || HUDCast[3] == true) && !Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(2).GetComponent<UnitCombat>().isAlive())
         {
-            targeting[3] = true;
-            shift = false;
+            UnitCombat unitCombat = partySystem.getCharacter(2).GetComponent<UnitCombat>();
+            if (unitCombat.canCastSpell(1))
+            {
+                targeting[3] = true;
+                shift = false;
+            }
         }
         if (targeting[3] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.R)) && HUDCast[3] == false)
         {
@@ -145,8 +159,6 @@ public class GameHUD : MonoBehaviour
             {
                 character = partySystem.getCharacter(2);
                 character.GetComponent<UnitCombat>().castSpellInSlot(1);
-                character.GetComponent<UnitCombat>().stopAttack();
-                character.GetComponent<UnitMovement>().stop();
             }
             targeting[3] = false;
             shift = false;
@@ -154,13 +166,21 @@ public class GameHUD : MonoBehaviour
 
         if ((Input.GetKeyDown(KeyCode.A) || HUDCast[4] == true) && partySystem.getCharacter(3).GetComponent<UnitCombat>().isAlive())
         {
-            targeting[4] = true;
-            shift = false;
+            UnitCombat unitCombat = partySystem.getCharacter(3).GetComponent<UnitCombat>();
+            if (unitCombat.canCastSpell(0))
+            {
+                targeting[4] = true;
+                shift = false;
+            }
         }
         if (Input.GetKeyDown(KeyCode.Q) && Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(3).GetComponent<UnitCombat>().isAlive())
         {
-            targeting[4] = true;
-            shift = true;
+            UnitCombat unitCombat = partySystem.getCharacter(3).GetComponent<UnitCombat>();
+            if (unitCombat.canCastSpell(0))
+            {
+                targeting[4] = true;
+                shift = true;
+            }
         }
         if (targeting[4] && (Input.GetMouseButtonDown(1) || (!shift && !Input.GetKey(KeyCode.A)) || (shift && !Input.GetKey(KeyCode.Q))) && HUDCast[4] == false)
         {
@@ -168,8 +188,6 @@ public class GameHUD : MonoBehaviour
             {
                 character = partySystem.getCharacter(3);
                 character.GetComponent<UnitCombat>().castSpellInSlot(0);
-                character.GetComponent<UnitCombat>().stopAttack();
-                character.GetComponent<UnitMovement>().stop();
             }
             targeting[4] = false;
             shift = false;
@@ -177,13 +195,21 @@ public class GameHUD : MonoBehaviour
 
         if ((Input.GetKeyDown(KeyCode.S) || HUDCast[5] == true) && partySystem.getCharacter(3).GetComponent<UnitCombat>().isAlive())
         {
-            targeting[5] = true;
-            shift = false;
+            UnitCombat unitCombat = partySystem.getCharacter(3).GetComponent<UnitCombat>();
+            if (unitCombat.canCastSpell(1))
+            {
+                targeting[5] = true;
+                shift = false;
+            }
         }
         if (Input.GetKeyDown(KeyCode.W) && Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(3).GetComponent<UnitCombat>().isAlive())
         {
-            targeting[5] = true;
-            shift = true;
+            UnitCombat unitCombat = partySystem.getCharacter(3).GetComponent<UnitCombat>();
+            if (unitCombat.canCastSpell(1))
+            {
+                targeting[5] = true;
+                shift = true;
+            }
         }
         if (targeting[5] && (Input.GetMouseButtonDown(1) || (!shift && !Input.GetKey(KeyCode.S)) || (shift && !Input.GetKey(KeyCode.W))) && HUDCast[5] == false)
         {
@@ -191,8 +217,6 @@ public class GameHUD : MonoBehaviour
             {
                 character = partySystem.getCharacter(3);
                 character.GetComponent<UnitCombat>().castSpellInSlot(1);
-                character.GetComponent<UnitCombat>().stopAttack();
-                character.GetComponent<UnitMovement>().stop();
             }
             targeting[5] = false;
             shift = false;
@@ -200,13 +224,21 @@ public class GameHUD : MonoBehaviour
 
         if ((Input.GetKeyDown(KeyCode.D) || HUDCast[6] == true) && partySystem.getCharacter(4).GetComponent<UnitCombat>().isAlive())
         {
-            targeting[6] = true;
-            shift = false;
+            UnitCombat unitCombat = partySystem.getCharacter(4).GetComponent<UnitCombat>();
+            if (unitCombat.canCastSpell(0))
+            {
+                targeting[6] = true;
+                shift = false;
+            }
         }
         if (Input.GetKeyDown(KeyCode.E) && Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(4).GetComponent<UnitCombat>().isAlive())
         {
-            targeting[6] = true;
-            shift = true;
+            UnitCombat unitCombat = partySystem.getCharacter(4).GetComponent<UnitCombat>();
+            if (unitCombat.canCastSpell(0))
+            {
+                targeting[6] = true;
+                shift = true;
+            }
         }
         if (targeting[6] && (Input.GetMouseButtonDown(1) || (!shift && !Input.GetKey(KeyCode.D)) || (shift && !Input.GetKey(KeyCode.E))) && HUDCast[6] == false)
         {
@@ -214,8 +246,6 @@ public class GameHUD : MonoBehaviour
             {
                 character = partySystem.getCharacter(4);
                 character.GetComponent<UnitCombat>().castSpellInSlot(0);
-                character.GetComponent<UnitCombat>().stopAttack();
-                character.GetComponent<UnitMovement>().stop();
             }
             targeting[6] = false;
             shift = false;
@@ -223,13 +253,21 @@ public class GameHUD : MonoBehaviour
 
         if ((Input.GetKeyDown(KeyCode.F) || HUDCast[7] == true) && partySystem.getCharacter(4).GetComponent<UnitCombat>().isAlive())
         {
-            targeting[7] = true;
-            shift = false;
+            UnitCombat unitCombat = partySystem.getCharacter(4).GetComponent<UnitCombat>();
+            if (unitCombat.canCastSpell(1))
+            {
+                targeting[7] = true;
+                shift = false;
+            }
         }
         if (Input.GetKeyDown(KeyCode.R) && Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(4).GetComponent<UnitCombat>().isAlive())
         {
-            targeting[7] = true;
-            shift = true;
+            UnitCombat unitCombat = partySystem.getCharacter(4).GetComponent<UnitCombat>();
+            if (unitCombat.canCastSpell(1))
+            {
+                targeting[7] = true;
+                shift = true;
+            }
         }
         if (targeting[7] && (Input.GetMouseButtonDown(1) || (!shift && !Input.GetKey(KeyCode.F)) || (shift && !Input.GetKey(KeyCode.R))) && HUDCast[7] == false)
         {
@@ -237,8 +275,6 @@ public class GameHUD : MonoBehaviour
             {
                 character = partySystem.getCharacter(4);
                 character.GetComponent<UnitCombat>().castSpellInSlot(1);
-                character.GetComponent<UnitCombat>().stopAttack();
-                character.GetComponent<UnitMovement>().stop();
             }
             targeting[7] = false;
             shift = false;
@@ -286,6 +322,7 @@ public class GameHUD : MonoBehaviour
     {
         int width = Screen.width;
         //int height = Screen.height;
+        /*
         for (int i = 0; i < 4; i++)
             GUI.Label(new Rect(10, 100 + (i * 20), 100, 20), "Targeting: " + (targeting[i * 2] || targeting[(i * 2) + 1]));
         GUI.Label(new Rect(10, 180, 300, 20), "Press G to Toggle Camera Lock to Selection");
@@ -295,6 +332,8 @@ public class GameHUD : MonoBehaviour
         GUI.Label(new Rect(10, 260, 300, 20), "Press H to Heal Player Characters");
         GUI.Label(new Rect(10, 280, 300, 20), "Press Z to Stop Moving");
         GUI.Label(new Rect(10, 300, 400, 20), "Press X to Mute/Unmute Music and Atmosphere Sounds");
+        */
+        GUI.Label(new Rect(10, 120, 300, 20), "Press F1 to Show/Hide Control Scheme");
         float msec = Time.deltaTime * 1000.0f;
         float fps = 1.0f / Time.deltaTime;
         string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);

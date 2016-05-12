@@ -1,0 +1,1430 @@
+fileFormatVersion: 2
+guid: 300a2bd78d425eb48b75d48c156ada3e
+timeCreated: 1463065560
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: bandit_death_spritesheet_0
+    21300002: bandit_death_spritesheet_1
+    21300004: bandit_death_spritesheet_2
+    21300006: bandit_death_spritesheet_3
+    21300008: bandit_death_spritesheet_4
+    21300010: bandit_death_spritesheet_5
+    21300012: bandit_death_spritesheet_6
+    21300014: bandit_death_spritesheet_7
+    21300016: bandit_death_spritesheet_8
+    21300018: bandit_death_spritesheet_9
+    21300020: bandit_death_spritesheet_10
+    21300022: bandit_death_spritesheet_11
+    21300024: bandit_death_spritesheet_12
+    21300026: bandit_death_spritesheet_13
+    21300028: bandit_death_spritesheet_14
+    21300030: bandit_death_spritesheet_15
+    21300032: bandit_death_spritesheet_16
+    21300034: bandit_death_spritesheet_17
+    21300036: bandit_death_spritesheet_18
+    21300038: bandit_death_spritesheet_19
+    21300040: bandit_death_spritesheet_20
+    21300042: bandit_death_spritesheet_21
+    21300044: bandit_death_spritesheet_22
+    21300046: bandit_death_spritesheet_23
+    21300048: bandit_death_spritesheet_24
+    21300050: bandit_death_spritesheet_25
+    21300052: bandit_death_spritesheet_26
+    21300054: bandit_death_spritesheet_27
+    21300056: bandit_death_spritesheet_28
+    21300058: bandit_death_spritesheet_29
+    21300060: bandit_death_spritesheet_30
+    21300062: bandit_death_spritesheet_31
+    21300064: bandit_death_spritesheet_32
+    21300066: bandit_death_spritesheet_33
+    21300068: bandit_death_spritesheet_34
+    21300070: bandit_death_spritesheet_35
+    21300072: bandit_death_spritesheet_36
+    21300074: bandit_death_spritesheet_37
+    21300076: bandit_death_spritesheet_38
+    21300078: bandit_death_spritesheet_39
+    21300080: bandit_death_spritesheet_40
+    21300082: bandit_death_spritesheet_41
+    21300084: bandit_death_spritesheet_42
+    21300086: bandit_death_spritesheet_43
+    21300088: bandit_death_spritesheet_44
+    21300090: bandit_death_spritesheet_45
+    21300092: bandit_death_spritesheet_46
+    21300094: bandit_death_spritesheet_47
+    21300096: bandit_death_spritesheet_48
+    21300098: bandit_death_spritesheet_49
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: bandit_death_spritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1800
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -43, y: 192.59998}
+        - {x: -60, y: 144.59998}
+        - {x: -60, y: 16.599976}
+        - {x: -48, y: -6.4000244}
+        - {x: -28, y: -27.400024}
+        - {x: 32, y: -27.400024}
+        - {x: 54, y: 58.599976}
+        - {x: 54, y: 121.599976}
+        - {x: 17, y: 192.59998}
+    - name: bandit_death_spritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1800
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -43, y: 192.59998}
+        - {x: -60, y: 144.59998}
+        - {x: -60, y: 16.599976}
+        - {x: -48, y: -6.4000244}
+        - {x: -28, y: -27.400024}
+        - {x: 32, y: -27.400024}
+        - {x: 54, y: 58.599976}
+        - {x: 54, y: 121.599976}
+        - {x: 17, y: 192.59998}
+    - name: bandit_death_spritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 1800
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -43, y: 192.59998}
+        - {x: -60, y: 144.59998}
+        - {x: -60, y: 16.599976}
+        - {x: -48, y: -6.4000244}
+        - {x: -28, y: -27.400024}
+        - {x: 32, y: -27.400024}
+        - {x: 54, y: 58.599976}
+        - {x: 54, y: 121.599976}
+        - {x: 17, y: 192.59998}
+    - name: bandit_death_spritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 1800
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -43, y: 192.59998}
+        - {x: -60, y: 144.59998}
+        - {x: -60, y: 16.599976}
+        - {x: -48, y: -6.4000244}
+        - {x: -28, y: -27.400024}
+        - {x: 32, y: -27.400024}
+        - {x: 54, y: 58.599976}
+        - {x: 54, y: 121.599976}
+        - {x: 17, y: 192.59998}
+    - name: bandit_death_spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 1800
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -43, y: 192.59998}
+        - {x: -60, y: 144.59998}
+        - {x: -60, y: 16.599976}
+        - {x: -48, y: -6.4000244}
+        - {x: -28, y: -27.400024}
+        - {x: 32, y: -27.400024}
+        - {x: 54, y: 58.599976}
+        - {x: 54, y: 121.599976}
+        - {x: 17, y: 192.59998}
+    - name: bandit_death_spritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 1800
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -43, y: 192.59998}
+        - {x: -60, y: 144.59998}
+        - {x: -60, y: 16.599976}
+        - {x: -48, y: -6.4000244}
+        - {x: -28, y: -27.400024}
+        - {x: 32, y: -27.400024}
+        - {x: 54, y: 58.599976}
+        - {x: 54, y: 121.599976}
+        - {x: 17, y: 192.59998}
+    - name: bandit_death_spritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 1800
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -43, y: 192.59998}
+        - {x: -60, y: 144.59998}
+        - {x: -60, y: 16.599976}
+        - {x: -48, y: -6.4000244}
+        - {x: -28, y: -27.400024}
+        - {x: 32, y: -27.400024}
+        - {x: 54, y: 58.599976}
+        - {x: 54, y: 121.599976}
+        - {x: 17, y: 192.59998}
+    - name: bandit_death_spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 2100
+        y: 1800
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -43, y: 192.59998}
+        - {x: -60, y: 144.59998}
+        - {x: -60, y: 16.599976}
+        - {x: -48, y: -6.4000244}
+        - {x: -28, y: -27.400024}
+        - {x: 32, y: -27.400024}
+        - {x: 54, y: 58.599976}
+        - {x: 54, y: 121.599976}
+        - {x: 17, y: 192.59998}
+    - name: bandit_death_spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1500
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -43, y: 192.59998}
+        - {x: -60, y: 144.59998}
+        - {x: -60, y: 16.599976}
+        - {x: -48, y: -6.4000244}
+        - {x: -28, y: -27.400024}
+        - {x: 32, y: -27.400024}
+        - {x: 54, y: 58.599976}
+        - {x: 54, y: 121.599976}
+        - {x: 17, y: 192.59998}
+    - name: bandit_death_spritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1500
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -57, y: 184.59998}
+        - {x: -57, y: -24.400024}
+        - {x: 38, y: -24.400024}
+        - {x: 53, y: 38.599976}
+        - {x: 53, y: 119.599976}
+        - {x: 16, y: 184.59998}
+    - name: bandit_death_spritesheet_10
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 1500
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -57, y: 184.59998}
+        - {x: -57, y: -24.400024}
+        - {x: 38, y: -24.400024}
+        - {x: 53, y: 38.599976}
+        - {x: 53, y: 119.599976}
+        - {x: 16, y: 184.59998}
+    - name: bandit_death_spritesheet_11
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 1500
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 12, y: 177.59998}
+        - {x: -26, y: 177.59998}
+        - {x: -54, y: 141.59998}
+        - {x: -54, y: 49.599976}
+        - {x: -49, y: -13.400024}
+        - {x: -33, y: -22.400024}
+        - {x: 34, y: -22.400024}
+        - {x: 42, y: 11.599976}
+        - {x: 53, y: 58.599976}
+        - {x: 53, y: 114.599976}
+    - name: bandit_death_spritesheet_12
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 1500
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 12, y: 177.59998}
+        - {x: -26, y: 177.59998}
+        - {x: -54, y: 141.59998}
+        - {x: -54, y: 49.599976}
+        - {x: -49, y: -13.400024}
+        - {x: -33, y: -22.400024}
+        - {x: 34, y: -22.400024}
+        - {x: 42, y: 11.599976}
+        - {x: 53, y: 58.599976}
+        - {x: 53, y: 114.599976}
+    - name: bandit_death_spritesheet_13
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 1500
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 12, y: 177.59998}
+        - {x: -26, y: 177.59998}
+        - {x: -54, y: 141.59998}
+        - {x: -54, y: 49.599976}
+        - {x: -49, y: -13.400024}
+        - {x: -33, y: -22.400024}
+        - {x: 34, y: -22.400024}
+        - {x: 42, y: 11.599976}
+        - {x: 53, y: 58.599976}
+        - {x: 53, y: 114.599976}
+    - name: bandit_death_spritesheet_14
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 1500
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -60, y: 54.599976}
+        - {x: -25, y: -16.400024}
+        - {x: 51, y: -16.400024}
+        - {x: 51, y: 140.59998}
+        - {x: 23, y: 167.59998}
+        - {x: -19, y: 167.59998}
+        - {x: -60, y: 108.599976}
+    - name: bandit_death_spritesheet_15
+      rect:
+        serializedVersion: 2
+        x: 2100
+        y: 1500
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -60, y: 54.599976}
+        - {x: -25, y: -16.400024}
+        - {x: 51, y: -16.400024}
+        - {x: 51, y: 140.59998}
+        - {x: 23, y: 167.59998}
+        - {x: -19, y: 167.59998}
+        - {x: -60, y: 108.599976}
+    - name: bandit_death_spritesheet_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -9, y: 161.59998}
+        - {x: -66, y: 132.59998}
+        - {x: -66, y: 69.599976}
+        - {x: -50, y: 5.5999756}
+        - {x: -29, y: -2.4000244}
+        - {x: 60, y: -2.4000244}
+        - {x: 60, y: 133.59998}
+        - {x: 21, y: 161.59998}
+    - name: bandit_death_spritesheet_17
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -9, y: 161.59998}
+        - {x: -66, y: 132.59998}
+        - {x: -66, y: 69.599976}
+        - {x: -50, y: 5.5999756}
+        - {x: -29, y: -2.4000244}
+        - {x: 60, y: -2.4000244}
+        - {x: 60, y: 133.59998}
+        - {x: 21, y: 161.59998}
+    - name: bandit_death_spritesheet_18
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 1200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -70, y: 13.599976}
+        - {x: -46, y: -17.400024}
+        - {x: 55, y: -17.400024}
+        - {x: 67, y: 0.5999756}
+        - {x: 67, y: 101.599976}
+        - {x: 37, y: 153.59998}
+        - {x: -32, y: 153.59998}
+        - {x: -70, y: 121.599976}
+    - name: bandit_death_spritesheet_19
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 1200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -70, y: 13.599976}
+        - {x: -46, y: -17.400024}
+        - {x: 55, y: -17.400024}
+        - {x: 67, y: 0.5999756}
+        - {x: 67, y: 101.599976}
+        - {x: 37, y: 153.59998}
+        - {x: -32, y: 153.59998}
+        - {x: -70, y: 121.599976}
+    - name: bandit_death_spritesheet_20
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 1200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -70, y: 13.599976}
+        - {x: -46, y: -17.400024}
+        - {x: 55, y: -17.400024}
+        - {x: 67, y: 0.5999756}
+        - {x: 67, y: 101.599976}
+        - {x: 37, y: 153.59998}
+        - {x: -32, y: 153.59998}
+        - {x: -70, y: 121.599976}
+    - name: bandit_death_spritesheet_21
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 1200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 32, y: 153.59998}
+        - {x: -34, y: 153.59998}
+        - {x: -68, y: 141.59998}
+        - {x: -70, y: 128.59998}
+        - {x: -70, y: 107.599976}
+        - {x: -64, y: 97.599976}
+        - {x: -59, y: -11.400024}
+        - {x: -44, y: -17.400024}
+        - {x: 37, y: -17.400024}
+        - {x: 42, y: -14.400024}
+        - {x: 67, y: 22.599976}
+        - {x: 67, y: 80.599976}
+        - {x: 51, y: 124.599976}
+    - name: bandit_death_spritesheet_22
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 1200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 32, y: 153.59998}
+        - {x: -34, y: 153.59998}
+        - {x: -68, y: 141.59998}
+        - {x: -70, y: 128.59998}
+        - {x: -70, y: 107.599976}
+        - {x: -64, y: 97.599976}
+        - {x: -59, y: -11.400024}
+        - {x: -44, y: -17.400024}
+        - {x: 37, y: -17.400024}
+        - {x: 42, y: -14.400024}
+        - {x: 67, y: 22.599976}
+        - {x: 67, y: 80.599976}
+        - {x: 51, y: 124.599976}
+    - name: bandit_death_spritesheet_23
+      rect:
+        serializedVersion: 2
+        x: 2100
+        y: 1200
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 32, y: 153.59998}
+        - {x: -34, y: 153.59998}
+        - {x: -68, y: 141.59998}
+        - {x: -70, y: 128.59998}
+        - {x: -70, y: 107.599976}
+        - {x: -64, y: 97.599976}
+        - {x: -59, y: -11.400024}
+        - {x: -44, y: -17.400024}
+        - {x: 37, y: -17.400024}
+        - {x: 42, y: -14.400024}
+        - {x: 67, y: 22.599976}
+        - {x: 67, y: 80.599976}
+        - {x: 51, y: 124.599976}
+    - name: bandit_death_spritesheet_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -70, y: 13.599976}
+        - {x: -46, y: -17.400024}
+        - {x: 55, y: -17.400024}
+        - {x: 67, y: 0.5999756}
+        - {x: 67, y: 101.599976}
+        - {x: 37, y: 153.59998}
+        - {x: -32, y: 153.59998}
+        - {x: -70, y: 121.599976}
+    - name: bandit_death_spritesheet_25
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -70, y: 13.599976}
+        - {x: -46, y: -17.400024}
+        - {x: 55, y: -17.400024}
+        - {x: 67, y: 0.5999756}
+        - {x: 67, y: 101.599976}
+        - {x: 37, y: 153.59998}
+        - {x: -32, y: 153.59998}
+        - {x: -70, y: 121.599976}
+    - name: bandit_death_spritesheet_26
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -70, y: 13.599976}
+        - {x: -46, y: -17.400024}
+        - {x: 55, y: -17.400024}
+        - {x: 67, y: 0.5999756}
+        - {x: 67, y: 101.599976}
+        - {x: 37, y: 153.59998}
+        - {x: -32, y: 153.59998}
+        - {x: -70, y: 121.599976}
+    - name: bandit_death_spritesheet_27
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -56, y: 153.59998}
+        - {x: -69, y: 145.59998}
+        - {x: -69, y: 0.5999756}
+        - {x: -54, y: -17.400024}
+        - {x: 56, y: -17.400024}
+        - {x: 67, y: 7.5999756}
+        - {x: 67, y: 136.59998}
+        - {x: 26, y: 153.59998}
+    - name: bandit_death_spritesheet_28
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -56, y: 153.59998}
+        - {x: -69, y: 145.59998}
+        - {x: -69, y: 0.5999756}
+        - {x: -54, y: -17.400024}
+        - {x: 56, y: -17.400024}
+        - {x: 67, y: 7.5999756}
+        - {x: 67, y: 136.59998}
+        - {x: 26, y: 153.59998}
+    - name: bandit_death_spritesheet_29
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -69, y: 154.59998}
+        - {x: -70, y: 152.59998}
+        - {x: -70, y: 13.599976}
+        - {x: -50, y: -17.400024}
+        - {x: 31, y: -17.400024}
+        - {x: 42, y: -14.400024}
+        - {x: 67, y: 25.599976}
+        - {x: 67, y: 154.59998}
+      - - {x: -50, y: 75.599976}
+        - {x: -48, y: 73.599976}
+        - {x: -45, y: 74.599976}
+        - {x: -45, y: 77.599976}
+        - {x: -47, y: 79.599976}
+        - {x: -50, y: 78.599976}
+    - name: bandit_death_spritesheet_30
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -69, y: 154.59998}
+        - {x: -70, y: 152.59998}
+        - {x: -70, y: 13.599976}
+        - {x: -50, y: -17.400024}
+        - {x: 31, y: -17.400024}
+        - {x: 42, y: -14.400024}
+        - {x: 67, y: 25.599976}
+        - {x: 67, y: 154.59998}
+      - - {x: -50, y: 75.599976}
+        - {x: -48, y: 73.599976}
+        - {x: -45, y: 74.599976}
+        - {x: -45, y: 77.599976}
+        - {x: -47, y: 79.599976}
+        - {x: -50, y: 78.599976}
+    - name: bandit_death_spritesheet_31
+      rect:
+        serializedVersion: 2
+        x: 2100
+        y: 900
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -69, y: 154.59998}
+        - {x: -70, y: 152.59998}
+        - {x: -70, y: 13.599976}
+        - {x: -50, y: -17.400024}
+        - {x: 31, y: -17.400024}
+        - {x: 42, y: -14.400024}
+        - {x: 67, y: 25.599976}
+        - {x: 67, y: 154.59998}
+      - - {x: -50, y: 75.599976}
+        - {x: -48, y: 73.599976}
+        - {x: -45, y: 74.599976}
+        - {x: -45, y: 77.599976}
+        - {x: -47, y: 79.599976}
+        - {x: -50, y: 78.599976}
+    - name: bandit_death_spritesheet_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 70, y: 153.59998}
+        - {x: -61, y: 153.59998}
+        - {x: -73, y: 150.59998}
+        - {x: -73, y: -3.4000244}
+        - {x: -33, y: -17.400024}
+        - {x: 51, y: -17.400024}
+        - {x: 68, y: 28.599976}
+        - {x: 64, y: 41.599976}
+        - {x: 70, y: 44.599976}
+    - name: bandit_death_spritesheet_33
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 70, y: 153.59998}
+        - {x: -61, y: 153.59998}
+        - {x: -73, y: 150.59998}
+        - {x: -73, y: -3.4000244}
+        - {x: -33, y: -17.400024}
+        - {x: 51, y: -17.400024}
+        - {x: 68, y: 28.599976}
+        - {x: 64, y: 41.599976}
+        - {x: 70, y: 44.599976}
+    - name: bandit_death_spritesheet_34
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 83, y: 113.599976}
+        - {x: 69, y: 138.59998}
+        - {x: 43, y: 131.59998}
+        - {x: 41, y: 128.59998}
+        - {x: 39, y: 121.599976}
+        - {x: 39, y: 119.599976}
+        - {x: 28, y: 109.599976}
+        - {x: 40, y: 128.59998}
+        - {x: 34, y: 152.59998}
+        - {x: -79, y: 152.59998}
+        - {x: -79, y: 90.599976}
+        - {x: -76, y: 76.599976}
+        - {x: -44, y: -17.400024}
+        - {x: 36, y: -17.400024}
+        - {x: 75, y: 35.599976}
+        - {x: 60, y: 42.599976}
+        - {x: 83, y: 69.599976}
+      - - {x: 48, y: 144.59998}
+        - {x: 42, y: 144.59998}
+        - {x: 41, y: 143.59998}
+        - {x: 41, y: 135.59998}
+        - {x: 46, y: 131.59998}
+        - {x: 48, y: 131.59998}
+        - {x: 52, y: 135.59998}
+        - {x: 52, y: 141.59998}
+      - - {x: -24, y: 156.59998}
+        - {x: -26, y: 149.59998}
+        - {x: -26, y: 146.59998}
+        - {x: -22, y: 144.59998}
+        - {x: -13, y: 144.59998}
+        - {x: -10, y: 149.59998}
+        - {x: -10, y: 156.59998}
+    - name: bandit_death_spritesheet_35
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 83, y: 113.599976}
+        - {x: 69, y: 138.59998}
+        - {x: 43, y: 131.59998}
+        - {x: 41, y: 128.59998}
+        - {x: 39, y: 121.599976}
+        - {x: 39, y: 119.599976}
+        - {x: 28, y: 109.599976}
+        - {x: 40, y: 128.59998}
+        - {x: 34, y: 152.59998}
+        - {x: -79, y: 152.59998}
+        - {x: -79, y: 90.599976}
+        - {x: -76, y: 76.599976}
+        - {x: -44, y: -17.400024}
+        - {x: 36, y: -17.400024}
+        - {x: 75, y: 35.599976}
+        - {x: 60, y: 42.599976}
+        - {x: 83, y: 69.599976}
+      - - {x: 48, y: 144.59998}
+        - {x: 42, y: 144.59998}
+        - {x: 41, y: 143.59998}
+        - {x: 41, y: 135.59998}
+        - {x: 46, y: 131.59998}
+        - {x: 48, y: 131.59998}
+        - {x: 52, y: 135.59998}
+        - {x: 52, y: 141.59998}
+      - - {x: -24, y: 156.59998}
+        - {x: -26, y: 149.59998}
+        - {x: -26, y: 146.59998}
+        - {x: -22, y: 144.59998}
+        - {x: -13, y: 144.59998}
+        - {x: -10, y: 149.59998}
+        - {x: -10, y: 156.59998}
+    - name: bandit_death_spritesheet_36
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 83, y: 113.599976}
+        - {x: 69, y: 138.59998}
+        - {x: 43, y: 131.59998}
+        - {x: 41, y: 128.59998}
+        - {x: 39, y: 121.599976}
+        - {x: 39, y: 119.599976}
+        - {x: 28, y: 109.599976}
+        - {x: 40, y: 128.59998}
+        - {x: 34, y: 152.59998}
+        - {x: -79, y: 152.59998}
+        - {x: -79, y: 90.599976}
+        - {x: -76, y: 76.599976}
+        - {x: -44, y: -17.400024}
+        - {x: 36, y: -17.400024}
+        - {x: 75, y: 35.599976}
+        - {x: 60, y: 42.599976}
+        - {x: 83, y: 69.599976}
+      - - {x: 48, y: 144.59998}
+        - {x: 42, y: 144.59998}
+        - {x: 41, y: 143.59998}
+        - {x: 41, y: 135.59998}
+        - {x: 46, y: 131.59998}
+        - {x: 48, y: 131.59998}
+        - {x: 52, y: 135.59998}
+        - {x: 52, y: 141.59998}
+      - - {x: -24, y: 156.59998}
+        - {x: -26, y: 149.59998}
+        - {x: -26, y: 146.59998}
+        - {x: -22, y: 144.59998}
+        - {x: -13, y: 144.59998}
+        - {x: -10, y: 149.59998}
+        - {x: -10, y: 156.59998}
+    - name: bandit_death_spritesheet_37
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 48, y: 112.599976}
+        - {x: 45, y: 109.599976}
+        - {x: 45, y: 105.599976}
+        - {x: 41, y: 106.599976}
+        - {x: 47, y: 112.599976}
+        - {x: 47, y: 118.599976}
+        - {x: 46, y: 119.599976}
+        - {x: 46, y: 123.599976}
+        - {x: 46, y: 121.599976}
+        - {x: 51, y: 114.599976}
+        - {x: 60, y: 118.599976}
+        - {x: 68, y: 128.59998}
+        - {x: 49, y: 136.59998}
+        - {x: -28, y: 136.59998}
+        - {x: -79, y: 117.599976}
+        - {x: -79, y: 37.599976}
+        - {x: -69, y: 10.599976}
+        - {x: -39, y: -17.400024}
+        - {x: 36, y: -17.400024}
+        - {x: 93, y: 59.599976}
+        - {x: 93, y: 92.599976}
+        - {x: 67, y: 121.599976}
+      - - {x: 73, y: 119.599976}
+        - {x: 71, y: 117.599976}
+        - {x: 71, y: 112.599976}
+        - {x: 74, y: 109.599976}
+        - {x: 76, y: 109.599976}
+        - {x: 79, y: 112.599976}
+        - {x: 79, y: 116.599976}
+        - {x: 76, y: 119.599976}
+      - - {x: -27, y: 134.59998}
+        - {x: -34, y: 127.599976}
+        - {x: -34, y: 120.599976}
+        - {x: -33, y: 116.599976}
+        - {x: -23, y: 116.599976}
+        - {x: -17, y: 126.599976}
+        - {x: -17, y: 131.59998}
+        - {x: -23, y: 134.59998}
+    - name: bandit_death_spritesheet_38
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 48, y: 112.599976}
+        - {x: 45, y: 109.599976}
+        - {x: 45, y: 105.599976}
+        - {x: 41, y: 106.599976}
+        - {x: 47, y: 112.599976}
+        - {x: 47, y: 118.599976}
+        - {x: 46, y: 119.599976}
+        - {x: 46, y: 123.599976}
+        - {x: 46, y: 121.599976}
+        - {x: 51, y: 114.599976}
+        - {x: 60, y: 118.599976}
+        - {x: 68, y: 128.59998}
+        - {x: 49, y: 136.59998}
+        - {x: -28, y: 136.59998}
+        - {x: -79, y: 117.599976}
+        - {x: -79, y: 37.599976}
+        - {x: -69, y: 10.599976}
+        - {x: -39, y: -17.400024}
+        - {x: 36, y: -17.400024}
+        - {x: 93, y: 59.599976}
+        - {x: 93, y: 92.599976}
+        - {x: 67, y: 121.599976}
+      - - {x: 73, y: 119.599976}
+        - {x: 71, y: 117.599976}
+        - {x: 71, y: 112.599976}
+        - {x: 74, y: 109.599976}
+        - {x: 76, y: 109.599976}
+        - {x: 79, y: 112.599976}
+        - {x: 79, y: 116.599976}
+        - {x: 76, y: 119.599976}
+      - - {x: -27, y: 134.59998}
+        - {x: -34, y: 127.599976}
+        - {x: -34, y: 120.599976}
+        - {x: -33, y: 116.599976}
+        - {x: -23, y: 116.599976}
+        - {x: -17, y: 126.599976}
+        - {x: -17, y: 131.59998}
+        - {x: -23, y: 134.59998}
+    - name: bandit_death_spritesheet_39
+      rect:
+        serializedVersion: 2
+        x: 2100
+        y: 600
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 109, y: 37.599976}
+        - {x: 109, y: 87.599976}
+        - {x: 82, y: 122.599976}
+        - {x: -34, y: 122.599976}
+        - {x: -78, y: 93.599976}
+        - {x: -78, y: 85.599976}
+        - {x: -73, y: 67.599976}
+        - {x: -49, y: -14.400024}
+        - {x: -25, y: -17.400024}
+        - {x: 41, y: -17.400024}
+        - {x: 65, y: 17.599976}
+        - {x: 63, y: 31.599976}
+        - {x: 60, y: 32.599976}
+      - - {x: 86, y: 95.599976}
+        - {x: 84, y: 93.599976}
+        - {x: 84, y: 89.599976}
+        - {x: 87, y: 85.599976}
+        - {x: 90, y: 85.599976}
+        - {x: 92, y: 87.599976}
+        - {x: 92, y: 91.599976}
+        - {x: 89, y: 95.599976}
+      - - {x: 68, y: 108.599976}
+        - {x: 68, y: 95.599976}
+        - {x: 69, y: 91.599976}
+        - {x: 77, y: 91.599976}
+        - {x: 80, y: 93.599976}
+        - {x: 80, y: 99.599976}
+        - {x: 78, y: 108.599976}
+      - - {x: -20, y: 105.599976}
+        - {x: -24, y: 101.599976}
+        - {x: -24, y: 92.599976}
+        - {x: -15, y: 92.599976}
+        - {x: -9, y: 94.599976}
+        - {x: -9, y: 104.599976}
+        - {x: -12, y: 105.599976}
+      - - {x: -35, y: 111.599976}
+        - {x: -41, y: 101.599976}
+        - {x: -41, y: 97.599976}
+        - {x: -37, y: 95.599976}
+        - {x: -33, y: 95.599976}
+        - {x: -22, y: 103.599976}
+        - {x: -22, y: 108.599976}
+        - {x: -24, y: 111.599976}
+      - - {x: 54, y: 116.599976}
+        - {x: 52, y: 114.599976}
+        - {x: 52, y: 108.599976}
+        - {x: 57, y: 100.599976}
+        - {x: 62, y: 100.599976}
+        - {x: 66, y: 101.599976}
+        - {x: 66, y: 109.599976}
+        - {x: 60, y: 116.599976}
+    - name: bandit_death_spritesheet_40
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 109, y: 37.600006}
+        - {x: 109, y: 87.600006}
+        - {x: 82, y: 122.600006}
+        - {x: -34, y: 122.600006}
+        - {x: -78, y: 93.600006}
+        - {x: -78, y: 85.600006}
+        - {x: -73, y: 67.600006}
+        - {x: -49, y: -14.399994}
+        - {x: -25, y: -17.399994}
+        - {x: 41, y: -17.399994}
+        - {x: 65, y: 17.600006}
+        - {x: 63, y: 31.600006}
+        - {x: 60, y: 32.600006}
+      - - {x: 86, y: 95.600006}
+        - {x: 84, y: 93.600006}
+        - {x: 84, y: 89.600006}
+        - {x: 87, y: 85.600006}
+        - {x: 90, y: 85.600006}
+        - {x: 92, y: 87.600006}
+        - {x: 92, y: 91.600006}
+        - {x: 89, y: 95.600006}
+      - - {x: 68, y: 108.600006}
+        - {x: 68, y: 95.600006}
+        - {x: 69, y: 91.600006}
+        - {x: 77, y: 91.600006}
+        - {x: 80, y: 93.600006}
+        - {x: 80, y: 99.600006}
+        - {x: 78, y: 108.600006}
+      - - {x: -20, y: 105.600006}
+        - {x: -24, y: 101.600006}
+        - {x: -24, y: 92.600006}
+        - {x: -15, y: 92.600006}
+        - {x: -9, y: 94.600006}
+        - {x: -9, y: 104.600006}
+        - {x: -12, y: 105.600006}
+      - - {x: -35, y: 111.600006}
+        - {x: -41, y: 101.600006}
+        - {x: -41, y: 97.600006}
+        - {x: -37, y: 95.600006}
+        - {x: -33, y: 95.600006}
+        - {x: -22, y: 103.600006}
+        - {x: -22, y: 108.600006}
+        - {x: -24, y: 111.600006}
+      - - {x: 54, y: 116.600006}
+        - {x: 52, y: 114.600006}
+        - {x: 52, y: 108.600006}
+        - {x: 57, y: 100.600006}
+        - {x: 62, y: 100.600006}
+        - {x: 66, y: 101.600006}
+        - {x: 66, y: 109.600006}
+        - {x: 60, y: 116.600006}
+    - name: bandit_death_spritesheet_41
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 109, y: 37.600006}
+        - {x: 109, y: 87.600006}
+        - {x: 82, y: 122.600006}
+        - {x: -34, y: 122.600006}
+        - {x: -78, y: 93.600006}
+        - {x: -78, y: 85.600006}
+        - {x: -73, y: 67.600006}
+        - {x: -49, y: -14.399994}
+        - {x: -25, y: -17.399994}
+        - {x: 41, y: -17.399994}
+        - {x: 65, y: 17.600006}
+        - {x: 63, y: 31.600006}
+        - {x: 60, y: 32.600006}
+      - - {x: 86, y: 95.600006}
+        - {x: 84, y: 93.600006}
+        - {x: 84, y: 89.600006}
+        - {x: 87, y: 85.600006}
+        - {x: 90, y: 85.600006}
+        - {x: 92, y: 87.600006}
+        - {x: 92, y: 91.600006}
+        - {x: 89, y: 95.600006}
+      - - {x: 68, y: 108.600006}
+        - {x: 68, y: 95.600006}
+        - {x: 69, y: 91.600006}
+        - {x: 77, y: 91.600006}
+        - {x: 80, y: 93.600006}
+        - {x: 80, y: 99.600006}
+        - {x: 78, y: 108.600006}
+      - - {x: -20, y: 105.600006}
+        - {x: -24, y: 101.600006}
+        - {x: -24, y: 92.600006}
+        - {x: -15, y: 92.600006}
+        - {x: -9, y: 94.600006}
+        - {x: -9, y: 104.600006}
+        - {x: -12, y: 105.600006}
+      - - {x: -35, y: 111.600006}
+        - {x: -41, y: 101.600006}
+        - {x: -41, y: 97.600006}
+        - {x: -37, y: 95.600006}
+        - {x: -33, y: 95.600006}
+        - {x: -22, y: 103.600006}
+        - {x: -22, y: 108.600006}
+        - {x: -24, y: 111.600006}
+      - - {x: 54, y: 116.600006}
+        - {x: 52, y: 114.600006}
+        - {x: 52, y: 108.600006}
+        - {x: 57, y: 100.600006}
+        - {x: 62, y: 100.600006}
+        - {x: 66, y: 101.600006}
+        - {x: 66, y: 109.600006}
+        - {x: 60, y: 116.600006}
+    - name: bandit_death_spritesheet_42
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 78, y: 81.600006}
+        - {x: 76, y: 77.600006}
+        - {x: 76, y: 73.600006}
+        - {x: 71, y: 76.600006}
+        - {x: 72, y: 79.600006}
+        - {x: 73, y: 84.600006}
+        - {x: 68, y: 92.600006}
+        - {x: 50, y: 120.600006}
+        - {x: 15, y: 120.600006}
+        - {x: -66, y: 77.600006}
+        - {x: -69, y: 72.600006}
+        - {x: -69, y: 39.600006}
+        - {x: -48, y: -15.399994}
+        - {x: -38, y: -17.399994}
+        - {x: 51, y: -17.399994}
+        - {x: 99, y: 31.600006}
+        - {x: 99, y: 59.600006}
+        - {x: 91, y: 79.600006}
+      - - {x: -38, y: 89.600006}
+        - {x: -44, y: 86.600006}
+        - {x: -46, y: 80.600006}
+        - {x: -46, y: 70.600006}
+        - {x: -35, y: 70.600006}
+        - {x: -29, y: 79.600006}
+        - {x: -29, y: 89.600006}
+      - - {x: -25, y: 83.600006}
+        - {x: -22, y: 84.600006}
+        - {x: -22, y: 87.600006}
+        - {x: -25, y: 88.600006}
+        - {x: -27, y: 86.600006}
+    - name: bandit_death_spritesheet_43
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 78, y: 81.600006}
+        - {x: 76, y: 77.600006}
+        - {x: 76, y: 73.600006}
+        - {x: 71, y: 76.600006}
+        - {x: 72, y: 79.600006}
+        - {x: 73, y: 84.600006}
+        - {x: 68, y: 92.600006}
+        - {x: 50, y: 120.600006}
+        - {x: 15, y: 120.600006}
+        - {x: -66, y: 77.600006}
+        - {x: -69, y: 72.600006}
+        - {x: -69, y: 39.600006}
+        - {x: -48, y: -15.399994}
+        - {x: -38, y: -17.399994}
+        - {x: 51, y: -17.399994}
+        - {x: 99, y: 31.600006}
+        - {x: 99, y: 59.600006}
+        - {x: 91, y: 79.600006}
+      - - {x: -38, y: 89.600006}
+        - {x: -44, y: 86.600006}
+        - {x: -46, y: 80.600006}
+        - {x: -46, y: 70.600006}
+        - {x: -35, y: 70.600006}
+        - {x: -29, y: 79.600006}
+        - {x: -29, y: 89.600006}
+      - - {x: -25, y: 83.600006}
+        - {x: -22, y: 84.600006}
+        - {x: -22, y: 87.600006}
+        - {x: -25, y: 88.600006}
+        - {x: -27, y: 86.600006}
+    - name: bandit_death_spritesheet_44
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 8, y: 117.600006}
+        - {x: -72, y: 65.600006}
+        - {x: -72, y: -17.399994}
+        - {x: 102, y: -17.399994}
+        - {x: 102, y: 44.600006}
+        - {x: 48, y: 117.600006}
+    - name: bandit_death_spritesheet_45
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 8, y: 117.600006}
+        - {x: -72, y: 65.600006}
+        - {x: -72, y: -17.399994}
+        - {x: 102, y: -17.399994}
+        - {x: 102, y: 44.600006}
+        - {x: 48, y: 117.600006}
+    - name: bandit_death_spritesheet_46
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 99, y: 66.600006}
+        - {x: 47, y: 108.600006}
+        - {x: -18, y: 108.600006}
+        - {x: -71, y: 46.600006}
+        - {x: -71, y: -3.399994}
+        - {x: -25, y: -16.399994}
+        - {x: 78, y: -16.399994}
+        - {x: 101, y: 10.600006}
+        - {x: 101, y: 26.600006}
+    - name: bandit_death_spritesheet_47
+      rect:
+        serializedVersion: 2
+        x: 2100
+        y: 300
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 99, y: 66.600006}
+        - {x: 47, y: 108.600006}
+        - {x: -18, y: 108.600006}
+        - {x: -71, y: 46.600006}
+        - {x: -71, y: -3.399994}
+        - {x: -25, y: -16.399994}
+        - {x: 78, y: -16.399994}
+        - {x: 101, y: 10.600006}
+        - {x: 101, y: 26.600006}
+    - name: bandit_death_spritesheet_48
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 99, y: 66.6}
+        - {x: 47, y: 108.6}
+        - {x: -18, y: 108.6}
+        - {x: -71, y: 46.6}
+        - {x: -71, y: -3.4000015}
+        - {x: -25, y: -16.400002}
+        - {x: 78, y: -16.400002}
+        - {x: 101, y: 10.599998}
+        - {x: 101, y: 26.599998}
+    - name: bandit_death_spritesheet_49
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 0
+        width: 300
+        height: 300
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 108, y: 15.599998}
+        - {x: 103, y: 17.599998}
+        - {x: 96, y: 17.599998}
+        - {x: 87, y: 15.599998}
+        - {x: 90, y: 16.599998}
+        - {x: 95, y: 20.599998}
+        - {x: 95, y: 24.599998}
+        - {x: 90, y: 38.6}
+        - {x: 48, y: 101.6}
+        - {x: 6, y: 101.6}
+        - {x: -61, y: 57.6}
+        - {x: -61, y: -8.400002}
+        - {x: -28, y: -15.400002}
+        - {x: 77, y: -15.400002}
+        - {x: 110, y: -0.40000153}
+        - {x: 112, y: 4.5999985}
+        - {x: 112, y: 11.599998}
+      - - {x: -76, y: 7.5999985}
+        - {x: -75, y: 5.5999985}
+        - {x: -64, y: 5.5999985}
+        - {x: -57, y: 8.599998}
+        - {x: -57, y: 15.599998}
+        - {x: -59, y: 19.599998}
+        - {x: -69, y: 19.599998}
+        - {x: -76, y: 16.599998}
+      - - {x: -78, y: 36.6}
+        - {x: -83, y: 35.6}
+        - {x: -83, y: 26.599998}
+        - {x: -79, y: 23.599998}
+        - {x: -61, y: 23.599998}
+        - {x: -59, y: 27.599998}
+        - {x: -59, y: 33.6}
+        - {x: -62, y: 36.6}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

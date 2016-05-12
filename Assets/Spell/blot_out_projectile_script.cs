@@ -6,7 +6,7 @@ public class blot_out_projectile_script : MonoBehaviour
     float speed = 120f;
     float height = 800;
     Vector3 startPos;
-    public Sprite sprite;
+    public Sprite spriteGround;
 
     void Start()
     {
@@ -18,7 +18,7 @@ public class blot_out_projectile_script : MonoBehaviour
     {
         if (Vector2.Distance(gameObject.transform.position, startPos) >= height)
         {
-            GetComponent<SpriteRenderer>().sprite = sprite;
+            GetComponent<SpriteRenderer>().sprite = spriteGround;
             Destroy(gameObject, (1f));
         }
         else {

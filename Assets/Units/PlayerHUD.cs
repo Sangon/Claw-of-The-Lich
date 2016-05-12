@@ -133,14 +133,10 @@ public class PlayerHUD : MonoBehaviour
             GameObject weaponSecondaryIndicator = bar.transform.Find("Weapon_Secondary").gameObject;
 
             float healthScale = (unitCombat.getHealth() / unitCombat.getMaxHealth());
-            float staminaScale = (unitCombat.getHealth() / unitCombat.getMaxHealth());
+            float staminaScale = (unitCombat.getStamina() / unitCombat.getMaxStamina());
 
             Mathf.Clamp(healthScale, 0, 1f);
             Mathf.Clamp(staminaScale, 0, 1f);
-
-            // Set Stamina Bar width to 0 if the character is dead
-            if (!unitCombat.isAlive())
-                staminaScale = 0f;
 
             healthBarIndicator.localScale = new Vector3(healthBarWidth * healthScale, healthBarIndicator.localScale.y, healthBarIndicator.localScale.z);
             staminaBarIndicator.localScale = new Vector3(staminaBarWidth * staminaScale, staminaBarIndicator.localScale.y, staminaBarIndicator.localScale.z);
@@ -163,6 +159,15 @@ public class PlayerHUD : MonoBehaviour
                 weaponSecondaryIndicator.GetComponent<Image>().sprite = rangedSprite;
             else if (!unitCombat.isMelee() && weaponSecondaryIndicator.GetComponent<Image>().sprite == rangedSprite)
                 weaponSecondaryIndicator.GetComponent<Image>().sprite = meleeSprite;
+
+            for (int j = 0; j < 2; j++)
+            {
+                GameObject abilityIndicator = bar.transform.Find("Ability" + (j + 1)).gameObject;
+                if (unitCombat.canCastSpell(j))
+                    abilityIndicator.GetComponent<Image>().color = Color.white;
+                else
+                    abilityIndicator.GetComponent<Image>().color = Color.gray;
+            }
         }
     }
 

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 public abstract class Skill : ScriptableObject, ISkill
 {
-    protected int maxCooldown = Tuner.DEFAULT_SKILL_COOLDOWN;
+    protected float maxCooldown = Tuner.DEFAULT_SKILL_COOLDOWN;
     protected float maxRange = Tuner.DEFAULT_SPELL_RANGE;
-    protected float currentCooldown = Tuner.DEFAULT_SKILL_COOLDOWN;
+    protected float currentCooldown = 0;
     protected float castTime = Tuner.DEFAULT_SKILL_CAST_TIME;
     protected string spellName = "";
     protected Texture2D skillIcon = null;
@@ -28,15 +28,20 @@ public abstract class Skill : ScriptableObject, ISkill
         }
     }
 
-    //Cooldowni toimii niin että lasketaan ylöspäin niin pitkään kunnes tulee max cooldown vastaan.
-    //Jos halutaan nähdä montako sekuntia on jäljellä niin käytetään tätä functiota.
     public float getCurrentCooldown()
     {
-        return (maxCooldown - currentCooldown);
+        return currentCooldown;
+    }
+
+    public bool isOnCooldown()
+    {
+        if (currentCooldown > 0)
+            return true;
+        return false;
     }
 
     //Getterit muille muuttujille.
-    public int getMaxCooldown()
+    public float getMaxCooldown()
     {
         return maxCooldown;
     }

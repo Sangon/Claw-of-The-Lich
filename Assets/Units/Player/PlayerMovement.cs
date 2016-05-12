@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
         pointAttack
     };
 
-    void Start()
+    void Awake()
     {
         unitMovement = GetComponent<UnitMovement>();
         unitCombat = GetComponent<UnitCombat>();
@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
             //{
             //Character is no longer attacking and the player issued a move order
             unitCombat.stopAttack();
-            unitMovement.moveTo(movePoint, lastGroupID);
+            unitMovement.moveTo(movePoint, false, lastGroupID);
             //}
             moveAfterAttack = false;
         }
@@ -122,7 +122,7 @@ public class PlayerMovement : MonoBehaviour
                     }
                     else {
                         unitCombat.stopAttack();
-                        unitMovement.moveTo(movePoint, groupID);
+                        unitMovement.moveTo(movePoint, false, groupID);
                     }
                 }
                 pathfindingTimer = Time.fixedDeltaTime * 2.0f;

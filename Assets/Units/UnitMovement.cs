@@ -29,7 +29,8 @@ public class UnitMovement : MonoBehaviour
         none,
         attack,
         idle,
-        move
+        move,
+        death
     }
 
     private Animations lastAnimation;
@@ -44,7 +45,7 @@ public class UnitMovement : MonoBehaviour
 
     private FMOD.Studio.EventInstance footStepsAudio;
 
-    public void Start()
+    public void Awake()
     {
         astar = GetComponent<AstarAI>();
         animator = GetComponent<Animator>();
@@ -59,9 +60,9 @@ public class UnitMovement : MonoBehaviour
         return moving;
     }
 
-    public void moveTo(Vector2 point, int groupID = 0)
+    public void moveTo(Vector2 point, bool force = false, int groupID = 0)
     {
-        if (astar != null)
+        if (astar != null && unitCombat.isAlive() && (force || !buffs.isUncontrollable()))
             astar.move(point, groupID);
     }
 
@@ -111,12 +112,16 @@ public class UnitMovement : MonoBehaviour
         }
     }
 
-    public bool lineOfSight(Vector2 start, Vector2 end, bool debug = false)
+    public static bool lineOfSight(Vector2 start, Vector2 end, bool collideOnWater = true, bool debug = false)
     {
         Vector2 dir = (start - end).normalized;
         start -= dir;
         end += dir;
-        RaycastHit2D hit = Physics2D.Linecast(start, end, Tuner.LAYER_OBSTACLES);
+        RaycastHit2D hit;
+        if (collideOnWater)
+            hit = Physics2D.Linecast(start, end, Tuner.LAYER_OBSTACLES | Tuner.LAYER_WATER);
+        else
+            hit = Physics2D.Linecast(start, end, Tuner.LAYER_OBSTACLES);
         if (debug)
             Debug.DrawLine(start, end, Color.yellow, 1.0f);
         if (hit.collider == null)
@@ -124,11 +129,11 @@ public class UnitMovement : MonoBehaviour
         return false;
     }
 
-    private Vector2 getEndOfLine(Vector2 start, Vector2 end, bool debug = false)
+    public static Vector2 getEndOfLine(Vector2 start, Vector2 end, bool debug = false)
     {
-        RaycastHit2D hit = Physics2D.Linecast(start, end, Tuner.LAYER_OBSTACLES);
+        RaycastHit2D hit = Physics2D.Linecast(start, end, Tuner.LAYER_OBSTACLES | Tuner.LAYER_WATER);
         if (debug)
-            Debug.DrawLine(start, end, Color.yellow, 1.0f);
+            Debug.DrawLine(start, end, Color.yellow, 0.5f);
         if (hit.collider != null)
         {
             return hit.point;
@@ -159,18 +164,22 @@ public class UnitMovement : MonoBehaviour
 
             if (state != FMOD.Studio.PLAYBACK_STATE.PLAYING)
             {
-                // Start looping sound if play condition is met and sound not already playing
+                //Start looping sound if play condition is met and sound not already playing
                 footStepsAudio.start();
             }
         }
         else if (state == FMOD.Studio.PLAYBACK_STATE.PLAYING)
         {
-            // Stop looping sound if already playing and play condition is no longer true
+            //Stop looping sound if already playing and play condition is no longer true
             footStepsAudio.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
 
-
-        if (buffs.isStunned())
+        if (!unitCombat.isAlive())
+        {
+            canTurn = false;
+            playAnimation(Animations.death);
+        }
+        else if (buffs.isStunned())
         {
             canTurn = false;
             playAnimation(Animations.idle);
@@ -195,11 +204,11 @@ public class UnitMovement : MonoBehaviour
 
     private void playAnimation(Animations animation)
     {
+        AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
+        float playbackTime = currentState.normalizedTime % 1;
         switch (animation)
         {
             case Animations.attack:
-                AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
-                float playbackTime = currentState.normalizedTime % 1;
                 String animationName = "";
                 switch (direction)
                 {
@@ -273,11 +282,21 @@ public class UnitMovement : MonoBehaviour
                 }
                 lastAnimation = Animations.idle;
                 break;
+            case Animations.death:
+                if (lastAnimation != Animations.death)
+                    animator.Play("Death", 0);
+
+                animator.speed = 2.0f;
+
+                lastAnimation = Animations.death;
+                break;
         }
     }
 
     void FixedUpdate()
     {
+        if (!unitCombat.isAlive())
+            return;
         if (astar != null && astar.path != null)
         {
             relativePosition = astar.getMovementDirection();
@@ -315,7 +334,6 @@ public class UnitMovement : MonoBehaviour
         else //if (!unitCombat.hasAttacked())
         {
             Vector3 newPosition = Vector3.zero;
-
 
             if (unitCombat.isLockedAttack())
             {

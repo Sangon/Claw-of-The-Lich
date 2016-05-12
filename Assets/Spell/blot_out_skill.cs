@@ -8,28 +8,24 @@ public class blot_out_skill : Skill
     {
         spellName = "blot_out";
         skillIcon = null;
-        maxCooldown = 1 * 50;
+        maxCooldown = Tuner.BASE_BLOT_OUT_COOLDOWN;
     }
 
     public override void cast(GameObject owner)
     {
-        if (currentCooldown == maxCooldown)
+        if (currentCooldown <= 0)
         {
             GameObject g = Instantiate(Resources.Load(spellName), getCurrentMousePos(), Quaternion.identity) as GameObject;
             g.GetComponent<blot_out_spell_script>().setParent(owner);
 
-            currentCooldown = 0;
+            currentCooldown = maxCooldown;
         }
     }
     public override void FixedUpdate()
     {
-        if (currentCooldown < maxCooldown)
+        if (currentCooldown > 0)
         {
-            currentCooldown++;
-            if (currentCooldown == maxCooldown)
-            {
-                //Debug.Log("Ready: " + spellName);
-            }
+            currentCooldown -= Time.fixedDeltaTime;
         }
     }
 }

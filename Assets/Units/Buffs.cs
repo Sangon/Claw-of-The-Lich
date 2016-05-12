@@ -6,7 +6,8 @@ public class Buffs : MonoBehaviour
 {
     public enum BuffType
     {
-        knockback
+        knockback,
+        charge
     }
 
     private List<Buff> buffs = null;
@@ -26,13 +27,27 @@ public class Buffs : MonoBehaviour
         return false;
     }
 
+    public bool isUncontrollable()
+    {
+        foreach (Buff b in buffs)
+        {
+            if (b.hasEffect(Buff.Effect.uncontrollable))
+                return true;
+        }
+        return false;
+    }
+
     public void addBuff(BuffType buffType, float duration)
     {
-        switch(buffType)
+        List<Buff.Effect> effects = new List<Buff.Effect>();
+        switch (buffType)
         {
             case BuffType.knockback:
-                List<Buff.Effect> effects = new List<Buff.Effect>();
                 effects.Add(Buff.Effect.stun);
+                buffs.Add(new Buff(effects, duration));
+                break;
+            case BuffType.charge:
+                effects.Add(Buff.Effect.uncontrollable);
                 buffs.Add(new Buff(effects, duration));
                 break;
         }
@@ -43,7 +58,7 @@ public class Buffs : MonoBehaviour
         if (isStunned())
         {
             gameObject.GetComponent<UnitCombat>().stopAttack();
-            gameObject.GetComponent<UnitMovement>().stop(true);
+            gameObject.GetComponent<UnitMovement>().stop();
             //print("Stunned: " + transform.name);
         }
         buffs.RemoveAll(b => b.tick() == true);

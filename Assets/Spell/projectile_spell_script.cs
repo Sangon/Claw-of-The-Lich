@@ -7,7 +7,6 @@ public class projectile_spell_script : Spell
     public float velocity;
     public float damage;
     public Vector2 dir;
-    private GameObject parent;
     private string ownerTag;
 
     private Vector2 lastPosition;
@@ -24,7 +23,7 @@ public class projectile_spell_script : Spell
 
     public void initAttack(Vector3 enemy, GameObject parent, bool handleOffset)
     {
-        /////////// Could/should be in Awake() instead
+        /////////// TODO: These could/should be in Awake() instead
         transform.position = new Vector3(transform.position.x, transform.position.y + Tuner.DEFAULT_PROJECTILE_OFFSET, transform.position.y / 100.0f + 800.0f);
         transform.localScale = new Vector3(50f, 50f, 0); //TODO: Fix this
         Destroy(gameObject, Tuner.DEFAULT_PROJECTILE_RANGE / Tuner.DEFAULT_PROJECTILE_VELOCITY);
@@ -33,7 +32,7 @@ public class projectile_spell_script : Spell
         ///////////
         FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/attack_bow", AudioScript.get3DAudioPositionVector3(transform.position));
         castLocation = enemy;
-        this.parent = parent;
+        setParent(parent);
         ownerTag = parent.tag;
         if (handleOffset)
             castLocation.y += Tuner.DEFAULT_PROJECTILE_OFFSET;
@@ -53,7 +52,7 @@ public class projectile_spell_script : Spell
     {
         RaycastHit2D hit = Physics2D.Linecast(start, end, Tuner.LAYER_UNITS | Tuner.LAYER_OBSTACLES);
         Debug.DrawLine(start, end, Color.cyan, Time.fixedDeltaTime);
-        if (hit.collider != null)
+        if (hit.collider != null && !hit.collider.tag.Equals("Dead"))
         {
             if (!ignoreObstacles && hit.collider.name.Contains("Collision"))
             {
@@ -62,7 +61,8 @@ public class projectile_spell_script : Spell
             }
             else if (!hit.collider.name.Contains("Collision") && !hit.collider.gameObject.tag.Equals(ownerTag))
             {
-                hit.collider.gameObject.GetComponent<UnitCombat>().takeDamage(damage, parent, Tuner.DamageType.ranged);
+                if (hit.collider.gameObject.GetComponent<UnitCombat>() != null)
+                    hit.collider.gameObject.GetComponent<UnitCombat>().takeDamage(damage, getParent(), Tuner.DamageType.ranged);
                 Destroy(gameObject);
                 return false;
             }

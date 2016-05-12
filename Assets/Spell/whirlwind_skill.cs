@@ -8,33 +8,28 @@ public class whirlwind_skill : Skill
     {
         spellName = "whirlwind";
         skillIcon = null;
+        maxCooldown = Tuner.BASE_WHIRLWIND_COOLDOWN;
     }
 
     public override void cast(GameObject owner)
     {
-        if (currentCooldown == maxCooldown)
+        if (currentCooldown <= 0)
         {
-            currentCooldown = 0;
             foreach (GameObject g in getUnitsAtPoint(owner.transform.position, Tuner.DEFAULT_WHIRLWIND_RADIUS))
             {
                 //Check for line of sight before dealing damage
-                if (g.GetComponent<UnitMovement>().lineOfSight(owner.transform.position, g.transform.position))
+                if (UnitMovement.lineOfSight(owner.transform.position, g.transform.position, false))
                     g.GetComponent<UnitCombat>().takeDamage(Tuner.BASE_WHIRLWIND_DAMAGE, owner, Tuner.DamageType.melee);
             }
+            currentCooldown = maxCooldown;
         }
     }
 
     public override void FixedUpdate()
     {
-        if (currentCooldown < maxCooldown)
+        if (currentCooldown > 0)
         {
-            currentCooldown++;
-            /*
-            if (currentCooldown == maxCooldown)
-            {
-                Debug.Log("Ready: " + spellName);
-            }
-            */
+            currentCooldown -= Time.fixedDeltaTime;
         }
     }
 }

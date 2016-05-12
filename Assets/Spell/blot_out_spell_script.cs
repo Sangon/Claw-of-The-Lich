@@ -5,18 +5,26 @@ using System.Collections;
 public class blot_out_spell_script : Spell
 {
     private float timer = 0;
+    private int damageTimes;
+    private float timeAlive;
+    private float damage = (Tuner.BASE_BLOT_OUT_DAMAGE * 0.5f) / Tuner.DEFAULT_BLOT_OUT_DURATION;
 
     void Start()
     {
-        Destroy(gameObject, Tuner.DEAULT_BLOT_OUT_DURATION);
+        //Destroy(gameObject, Tuner.DEFAULT_BLOT_OUT_DURATION);
     }
 
     void FixedUpdate()
     {
         timer++;
-        foreach (GameObject g in getUnitsAtPoint(transform.position, Tuner.DEFAULT_BLOT_OUT_RADIUS))
+        timeAlive += Time.fixedDeltaTime;
+        if (timeAlive >= ((damageTimes + 1) * 0.5f))
         {
-            g.GetComponent<UnitCombat>().takeDamage(Tuner.BASE_BLOT_OUT_DAMAGE, getParent());
+            foreach (GameObject g in getUnitsAtPoint(transform.position, Tuner.DEFAULT_BLOT_OUT_RADIUS))
+            {
+                g.GetComponent<UnitCombat>().takeDamage(damage, getParent());
+            }
+            damageTimes++;
         }
 
         //System.Random rand = new System.Random();
@@ -28,5 +36,8 @@ public class blot_out_spell_script : Spell
             randomVector.y += 800f;
             Instantiate(Resources.Load("blot_out_projectile"), randomVector, Quaternion.identity);
         }
+
+        if (timeAlive >= Tuner.DEFAULT_BLOT_OUT_DURATION)
+            Destroy(gameObject);
     }
 }

@@ -66,7 +66,7 @@ public class PartySystem : MonoBehaviour
     {
         foreach (GameObject c in selectedCharacters)
         {
-            if (c.activeSelf)
+            if (c.GetComponent<UnitCombat>() != null && c.GetComponent<UnitCombat>().isAlive())
                 return c;
         }
         return null;
@@ -115,7 +115,7 @@ public class PartySystem : MonoBehaviour
     {
         for (int i = aliveCharacters.Count - 1; i >= 0; i--)
         {
-            if (!aliveCharacters[i].activeSelf)
+            if (aliveCharacters[i].GetComponent<UnitCombat>() != null && !aliveCharacters[i].GetComponent<UnitCombat>().isAlive())
             {
                 // Deselect selected dead character
                 deselectCharacter(aliveCharacters[i]);
@@ -170,40 +170,38 @@ public class PartySystem : MonoBehaviour
         deselectCharacter(character4);
     }
 
-    private void deselectCharacter(GameObject character)
+    public void deselectCharacter(GameObject character)
     {
-        if (character != null && getGroupID(character) != -1)
+        if (character != null && character.tag.Equals("Player"))
         {
             selectedCharacters.Remove(character);
-            character.GetComponent<SpriteRenderer>().color = Color.black;
-            //print("Character#" + characterNumber + " deselected.");
+            if (character.GetComponent<UnitCombat>() != null)
+                if (character.GetComponent<UnitCombat>().isAlive())
+                    character.GetComponent<SpriteRenderer>().color = Color.gray;
+                else
+                    character.GetComponent<SpriteRenderer>().color = Color.white;
         }
     }
 
     public void selectCharacter(GameObject character, bool add = false)
     {
-        if (character != null && character.activeSelf)
+        if (!character.tag.Equals("Player"))
+            return;
+
+        if (character != null && character.GetComponent<UnitCombat>() != null && character.GetComponent<UnitCombat>().isAlive())
         {
             if (!add)
-            {
-                foreach (GameObject c in selectedCharacters)
-                {
-                    if (c.activeSelf)
-                        c.GetComponent<SpriteRenderer>().color = Color.black;
-                }
-                selectedCharacters.Clear();
-            }
+                deSelectAll();
             if (add && getGroupID(character) != -1)
                 deselectCharacter(character);
             else {
                 selectedCharacters.Add(character);
                 character.GetComponent<SpriteRenderer>().color = Color.white;
-                //print("Character#" + characterNumber + " selected.");
             }
         }
         else
         {
-            selectedCharacters.Remove(character);
+            deselectCharacter(character);
         }
 
         cameraScripts.updateTarget();
@@ -273,7 +271,7 @@ public class PartySystem : MonoBehaviour
         if (mouseOverTarget != null)
         {
             if (getGroupID(mouseOverTarget) == -1)
-                mouseOverTarget.GetComponent<SpriteRenderer>().color = Color.black;
+                mouseOverTarget.GetComponent<SpriteRenderer>().color = Color.gray;
             else
                 mouseOverTarget.GetComponent<SpriteRenderer>().color = Color.white;
             mouseOverTarget = null;
@@ -302,9 +300,11 @@ public class PartySystem : MonoBehaviour
                     minIndex = i; //refresh the distance
                 }
             }
-            if (hits[minIndex].gameObject.tag.Equals("PlayerHitbox"))
+            GameObject bestTarget = hits[minIndex].gameObject;
+            GameObject bestTargetOwner = bestTarget.transform.parent.gameObject.transform.parent.gameObject;
+            if (bestTarget.tag.Equals("PlayerHitbox") && bestTargetOwner.GetComponent<UnitCombat>() != null && bestTargetOwner.GetComponent<UnitCombat>().isAlive())
             {
-                mouseOverTarget = hits[minIndex].gameObject.transform.parent.gameObject.transform.parent.gameObject;
+                mouseOverTarget = bestTargetOwner;
                 mouseOverTarget.GetComponent<SpriteRenderer>().color = Color.green;
             }
         }

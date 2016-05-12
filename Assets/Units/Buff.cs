@@ -6,7 +6,8 @@ public class Buff
 {
     public enum Effect
     {
-        stun
+        stun,
+        uncontrollable
     }
 
     private float duration;
@@ -28,7 +29,9 @@ public class Buff
         foreach (Effect e in effects)
         {
             if (e == effect)
+            {
                 return true;
+            }
         }
         return false;
     }

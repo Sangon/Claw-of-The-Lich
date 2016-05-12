@@ -3,9 +3,11 @@ using System.Collections.Generic;
 
 public class UnitCombat : MonoBehaviour
 {
-    //Unitin health
+    //Unit's health & stamina
     private float health;
     private float maxHealth;
+    private float stamina;
+    private float maxStamina;
 
     //Unit's melee/ranged attack damage
     private float damage;
@@ -29,7 +31,9 @@ public class UnitCombat : MonoBehaviour
     private int maxAttackTimer = 30;
     private int maxMeleeAttackTimer = 30;
     private int maxRangedAttackTimer = 30;
-    private int attackPoint = 30; //Should be a bit less than maxAttackTimer, depending on animation
+    private int attackPoint = 24; //Should be a bit less than maxAttackTimer, depending on animation
+
+    private bool stopAttackAfter = false;
 
     //TODO: Parempi spellilista
     private Skill[] spellList = new Skill[2];
@@ -43,14 +47,13 @@ public class UnitCombat : MonoBehaviour
     //Targets hit
     List<GameObject> hits = null;
 
-    void Start()
+    void Awake()
     {
         attributes = new unit_attributes(gameObject.name);
         health = attributes.health;
         maxHealth = attributes.health;
-
-        if (gameObject.name.Contains("Melee"))
-            melee = true;
+        stamina = Tuner.UNIT_BASE_STAMINA;
+        maxStamina = Tuner.UNIT_BASE_STAMINA;
 
         melee = attributes.isMelee;
 
@@ -73,6 +76,7 @@ public class UnitCombat : MonoBehaviour
         }
 
         attackPoint = (int)(maxAttackTimer * 0.8);
+        attackTimer = maxAttackTimer;
 
         spellList[0] = attributes.skill1;
         spellList[1] = attributes.skill2;
@@ -123,6 +127,7 @@ public class UnitCombat : MonoBehaviour
             maxAttackTimer = maxRangedAttackTimer;
         }
         attackPoint = (int)(maxAttackTimer * 0.8);
+        attackTimer = maxAttackTimer;
     }
     public void changeWeaponTo(bool melee)
     {
@@ -144,19 +149,48 @@ public class UnitCombat : MonoBehaviour
 
     void checkForDeath()
     {
-        if (health <= 0)
+        if (health <= 0 && !gameObject.tag.Equals("Dead"))
         {
-            //Hide minimap icon
-            GameObject minimapIcon = GameObject.Find("Icon_" + gameObject.name);
-            if (minimapIcon)
-                minimapIcon.SetActive(false);
+            setStamina(0);
+
+            //Disable most of the scripts on the gameobject (UnitMovement is needed for death animations)
+            if (GetComponent<AstarAI>())
+                GetComponent<AstarAI>().enabled = false;
+            if (GetComponent<Seeker>())
+                GetComponent<Seeker>().enabled = false;
+            if (GetComponent<Buffs>())
+                GetComponent<Buffs>().enabled = false;
+            if (GetComponent<ArrowIndicator>())
+                GetComponent<ArrowIndicator>().enabled = false;
+            if (GetComponent<EnemyAI>())
+                GetComponent<EnemyAI>().enabled = false;
+            if (GetComponent<AIStates>())
+                GetComponent<AIStates>().enabled = false;
+            if (GetComponent<HealthBar>())
+                GetComponent<HealthBar>().enabled = false;
+            stopAttack();
+            unitMovement.stop();
+
+            if (tag.Equals("Hostile"))
+            {
+                //Hide minimap icon for enemies
+                GameObject minimapIcon = GameObject.Find("Icon_" + gameObject.name);
+                if (minimapIcon != null)
+                    minimapIcon.SetActive(false);
+                if (GetComponent<MiniMapMark>())
+                    GetComponent<MiniMapMark>().enabled = false;
+            }
+
+            GameObject canvas = transform.Find("Canvas").gameObject;
+            if (canvas != null)
+                canvas.SetActive(false);
 
             if (Camera.main.transform.parent == transform)
                 Camera.main.transform.parent = null;
             FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/enemy_down", AudioScript.get3DAudioPositionVector3(transform.position));
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
 
-            if (gameObject.tag.Equals("Player"))
+            if (tag.Equals("Player"))
             {
                 partySystem.updateCharacterList();
                 cameraScripts.updateTarget();
@@ -168,7 +202,7 @@ public class UnitCombat : MonoBehaviour
 
     private bool canAttack()
     {
-        if (buffs.isStunned())
+        if (!isAlive() || buffs.isStunned())
             return false;
         return true;
     }
@@ -176,28 +210,31 @@ public class UnitCombat : MonoBehaviour
     void FixedUpdate()
     {
         checkForDeath();
-
-        if (lockedAttack && canAttack())
+        if (!canAttack())
+            stopAttack();
+        else if (lockedAttack)
         {
-            if (lockedTarget != null && lockedTarget.activeSelf)
+            if (lockedTarget != null && lockedTarget.GetComponent<UnitCombat>().isAlive())
             {
-                if (!inRange(lockedTarget) && !isAttacking())
-                    unitMovement.moveTo(lockedTarget.transform.position);
-                else if (inRange(lockedTarget))
-                    startAttack();
+                if (!buffs.isUncontrollable())
+                {
+                    if (!inRange(lockedTarget) && !isAttacking())
+                        unitMovement.moveTo(lockedTarget.transform.position);
+                    else if (inRange(lockedTarget))
+                        startAttack();
+                }
             }
-            else // Target is dead!
+            else //Target is dead!
                 stopAttack();
         }
 
-        if (isAttacking())
+        if (isAttacking() && !buffs.isUncontrollable())
         {
             //Nappaa targetit v‰h‰n ennen kuin tekee damage, est‰‰ sit‰ ett‰ targetit kerke‰‰ juosta rangesta pois joka kerta jos ne juoksee karkuun.
             if (attackTimer == maxAttackTimer && isMelee())
             {
                 hits = getUnitsInMelee(unitMovement.getDirection());
             }
-
             if (attackTimer == attackPoint)
             {
                 attacked = true;
@@ -211,7 +248,7 @@ public class UnitCombat : MonoBehaviour
                     {
                         foreach (GameObject hit in hits)
                         {
-                            if (hit != null && hit.activeSelf && hit.GetComponent<UnitCombat>() != null && hit.transform.tag != this.transform.tag)
+                            if (hit != null && hit.GetComponent<UnitCombat>() != null && hit.GetComponent<UnitCombat>().isAlive() && hit.transform.tag != this.transform.tag)
                                 dealDamage(hit, damage, Tuner.DamageType.melee);
                         }
                         hits = null;
@@ -234,7 +271,10 @@ public class UnitCombat : MonoBehaviour
             attackTimer--;
 
             if (attackTimer <= 0)
-                resetAttack();
+                if (stopAttackAfter)
+                    stopAttack();
+                else
+                    resetAttack();
         }
 
         //P‰ivitet‰‰n spellien logiikka.
@@ -306,13 +346,13 @@ public class UnitCombat : MonoBehaviour
         unitMovement.stop();
         attacking = true;
         attacked = false;
-        //GetComponent<Animator>().Play("Attacking_SW");
     }
 
     public void resetAttack()
     {
         attacking = false;
         attackTimer = maxAttackTimer;
+        stopAttackAfter = false;
     }
 
     public void stopAttack()
@@ -321,6 +361,12 @@ public class UnitCombat : MonoBehaviour
         lockedAttack = false;
         attacking = false;
         attackTimer = maxAttackTimer;
+        stopAttackAfter = false;
+    }
+
+    public void stopAttackAfterAttacked()
+    {
+        stopAttackAfter = true;
     }
 
     public bool isAttacking()
@@ -347,16 +393,12 @@ public class UnitCombat : MonoBehaviour
     {
         return lockedTarget;
     }
-    public bool lineOfSight(GameObject target)
-    {
-        return unitMovement.lineOfSight(transform.position, target.transform.position);
-    }
 
     public bool inRange(GameObject target)
     {
-        if (target != null && target.activeSelf)
+        if (target != null && target.GetComponent<UnitCombat>().isAlive())
         {
-            if (Ellipse.isometricDistance(transform.position, target.transform.position) < attackRange && lineOfSight(target))
+            if (Ellipse.isometricDistance(transform.position, target.transform.position) < attackRange && UnitMovement.lineOfSight(transform.position, target.transform.position, false))
                 return true;
             else
                 return false;
@@ -368,6 +410,8 @@ public class UnitCombat : MonoBehaviour
     //Can also be used to heal with negative argument
     public void takeDamage(float damage, GameObject source, Tuner.DamageType damageType = Tuner.DamageType.none)
     {
+        if (!isAlive())
+            return;
         if (damageType == Tuner.DamageType.ranged)
         {
             FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/hit_flesh", AudioScript.get3DAudioPositionVector3(transform.position));
@@ -387,7 +431,7 @@ public class UnitCombat : MonoBehaviour
 
         checkForDeath();
 
-        if (source != null && gameObject.activeSelf && source.activeSelf && !gameObject.tag.Equals("Player") && source != gameObject)
+        if (source != null && isAlive() && source.GetComponent<UnitCombat>() != null && source.GetComponent<UnitCombat>().isAlive() && !isAttacking() && !gameObject.tag.Equals("Player") && source != gameObject)
         {
             // AI: Aggro on the attacker
             aggro(source);
@@ -397,7 +441,7 @@ public class UnitCombat : MonoBehaviour
     //Can also be used to heal with negative argument
     public void dealDamage(GameObject enemy, float amount, Tuner.DamageType damageType = Tuner.DamageType.none)
     {
-        if (enemy != null && enemy.activeSelf)
+        if (enemy != null && enemy.GetComponent<UnitCombat>() != null && enemy.GetComponent<UnitCombat>().isAlive())
         {
             enemy.GetComponent<UnitCombat>().takeDamage(amount, gameObject, damageType);
         }
@@ -405,6 +449,14 @@ public class UnitCombat : MonoBehaviour
         //Debug.Log("DEALT DAMAGE." + enemy + " REMAINING HEALTH:" + enemy.GetComponent<UnitCombat>().getHealth());
     }
 
+    public bool canCastSpell(int spellID)
+    {
+        if (getSpellList()[spellID].isOnCooldown() || buffs.isStunned() || buffs.isUncontrollable())
+            return false;
+        return true;
+    }
+
+    //Used by AI
     public void aggro(GameObject target)
     {
         setLockedTarget(target);
@@ -413,9 +465,9 @@ public class UnitCombat : MonoBehaviour
     {
         return health;
     }
-    public void setHealth(float hp)
+    public void setHealth(float value)
     {
-        health = hp;
+        health = value;
     }
     public void resetHealth()
     {
@@ -424,6 +476,18 @@ public class UnitCombat : MonoBehaviour
     public float getMaxHealth()
     {
         return maxHealth;
+    }
+    public void setStamina(float value)
+    {
+        stamina = value;
+    }
+    public float getStamina()
+    {
+        return stamina;
+    }
+    public float getMaxStamina()
+    {
+        return maxStamina;
     }
     public float getAttackRange()
     {

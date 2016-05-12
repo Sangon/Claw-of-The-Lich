@@ -13,23 +13,17 @@ public class projectile_skill : Skill
 
     public override void cast(GameObject owner)
     {
-        if (currentCooldown == maxCooldown)
+        if (currentCooldown <= 0)
         {
             Instantiate(Resources.Load(spellName), owner.transform.position + new Vector3(0, spellOffSet, 0), Quaternion.identity);
-            currentCooldown = 0;
+            currentCooldown = maxCooldown;
         }
     }
     public override void FixedUpdate()
     {
-        if (currentCooldown < maxCooldown)
+        if (currentCooldown > 0)
         {
-            currentCooldown++;
-            /*
-            if (currentCooldown == maxCooldown)
-            {
-                Debug.Log("Ready: " + spellName);
-            }
-            */
+            currentCooldown -= Time.fixedDeltaTime;
         }
     }
 }

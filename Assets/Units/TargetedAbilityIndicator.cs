@@ -129,12 +129,12 @@ public class TargetedAbilityIndicator : MonoBehaviour
                 p3 = new Vector2(-v.y, v.x) / Mathf.Sqrt(v.x * v.x + v.y * v.y) * (25f + (25f * Mathf.Sin(angle)));
             else
                 p3 = new Vector2(-v.y, v.x) / Mathf.Sqrt(v.x * v.x + v.y * v.y) * (25f + (25f * Mathf.Sin(-angle)));
-            Vector2 p4 = new Vector2(-p3.x, -p3.y);
+            //Vector2 p4 = new Vector2(-p3.x, -p3.y);
 
             //Vector2 leftEnd = mousePosition;
             //Vector2 rightEnd = mousePosition;
-            Debug.DrawLine(p1, p3 + p1, Color.blue);
-            Debug.DrawLine(p1, p4 + p1, Color.blue);
+            //Debug.DrawLine(p1, p3 + p1, Color.blue);
+            //Debug.DrawLine(p1, p4 + p1, Color.blue);
 
             RectTransform rect = indicator.GetComponent<RectTransform>();
             rect.transform.localEulerAngles = new Vector3(0, 0, angle * Mathf.Rad2Deg);
@@ -151,7 +151,7 @@ public class TargetedAbilityIndicator : MonoBehaviour
             */
 
             //Vector2 point = Ellipse.getPointOnEllipsePerimeter(p1, 256f, angle);
-            Debug.DrawLine(p1, point2 + p1, Color.red);
+            //Debug.DrawLine(p1, point2 + p1, Color.red);
             rect.transform.localScale = new Vector3(point2.magnitude / 5f, p3.magnitude / 5f, 1f);
             Vector3[] fourCornersArray = new Vector3[4];
             rect.GetWorldCorners(fourCornersArray);
@@ -178,9 +178,9 @@ public class TargetedAbilityIndicator : MonoBehaviour
             if (h.GetComponent<SpriteRenderer>().color == Color.cyan)
             {
                 if (h.name.Contains("Melee"))
-                    h.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0);
+                    h.GetComponent<SpriteRenderer>().color = Tuner.ENEMY_MELEE_COLOR;
                 else if (h.name.Contains("Ranged"))
-                    h.GetComponent<SpriteRenderer>().color = new Color(199, 255, 0);
+                    h.GetComponent<SpriteRenderer>().color = Tuner.ENEMY_RANGED_COLOR;
             }
             foreach (GameObject i in indicators)
             {
