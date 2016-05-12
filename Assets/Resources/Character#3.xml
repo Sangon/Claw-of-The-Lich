@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <attribute>
-	<health>5.0</health>
+	<health>15.0</health>
 	<meleedamage>1.0</meleedamage>
 	<rangeddamage>2.0</rangeddamage>
 	<meleeattackframes>30</meleeattackframes>

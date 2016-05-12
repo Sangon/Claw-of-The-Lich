@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <attribute>
-	<health>10.0</health>
-	<meleedamage>1.0</meleedamage>
-	<rangeddamage>2.0</rangeddamage>
+	<health>6.0</health>
+	<meleedamage>0.5</meleedamage>
+	<rangeddamage>1.0</rangeddamage>
 	<meleeattackframes>30</meleeattackframes>
 	<rangedattackframes>45</rangedattackframes>
 	<skillslot1>whirlwind_skill</skillslot1>

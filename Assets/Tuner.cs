@@ -46,19 +46,19 @@ public class Tuner : MonoBehaviour
 
     public static readonly float DEFAULT_WHIRLWIND_RADIUS = UNIT_BASE_MELEE_RANGE * 2f;
     public static readonly float BASE_WHIRLWIND_DAMAGE = UNIT_BASE_MELEE_DAMAGE * 2f;
-    public static readonly float BASE_WHIRLWIND_COOLDOWN = 1.0f;
+    public static readonly float BASE_WHIRLWIND_COOLDOWN = 5.0f;
 
     public static readonly float BASE_CHARGE_DAMAGE = UNIT_BASE_MELEE_DAMAGE * 2f;
     public static readonly float BASE_CHARGE_SPEED_MULTIPLIER = 3f;
-    public static readonly float BASE_CHARGE_COOLDOWN = 1.0f;
+    public static readonly float BASE_CHARGE_COOLDOWN = 5.0f;
     public static readonly float BASE_CHARGE_DURATION = 0.5f;
     public static readonly float BASE_CHARGE_RADIUS = 150f; //Units that are inside this range are damaged by the charger
     public static readonly float CHARGE_MAX_ANGLE = 90f; //If the charging unit would be turning more than this (in degrees), stop charging
 
-    public static readonly int DEFAULT_BLOT_OUT_DURATION = 4;
+    public static readonly int DEFAULT_BLOT_OUT_DURATION = 3;
     public static readonly float DEFAULT_BLOT_OUT_RADIUS = 440f;
-    public static readonly float BASE_BLOT_OUT_DAMAGE = 2f;
-    public static readonly float BASE_BLOT_OUT_COOLDOWN = 1.0f;
+    public static readonly float BASE_BLOT_OUT_DAMAGE = 1.5f;
+    public static readonly float BASE_BLOT_OUT_COOLDOWN = 10.0f;
 
     //CAMERA DEFAULT VALUES
     public static readonly float CAMERA_MIN_DISTANCE = 100f;
