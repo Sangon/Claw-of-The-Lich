@@ -86,12 +86,9 @@ public class TargetedAbilityIndicator : MonoBehaviour
         }
     }
 
-    private void drawIndicator(GameObject indicator, GameObject unit)
+    private void drawIndicator(GameObject indicator)
     {
         Vector2 mousePosition = PlayerMovement.getCurrentMousePos();
-        Vector2 unitPos = Vector2.zero;
-        if (unit != null)
-            unitPos = unit.transform.position;
 
         if (indicator.name.Equals("ArrowIndicator") || indicator.name.Equals("WhirlwindIndicator"))
         {
@@ -107,9 +104,12 @@ public class TargetedAbilityIndicator : MonoBehaviour
                 ellipseWidth = Tuner.DEFAULT_WHIRLWIND_RADIUS;
                 indicator.transform.position = new Vector3(indicator.transform.parent.parent.position.x, indicator.transform.parent.parent.position.y, 0);
             }
-            if (unit != null && Ellipse.pointInsideEllipse(unitPos, ellipsePos, ellipseWidth))
+            foreach (GameObject u in UnitList.getHostiles())
             {
-                unit.GetComponent<SpriteRenderer>().color = Color.cyan;
+                if (Ellipse.pointInsideEllipse(u.transform.position, ellipsePos, ellipseWidth))
+                {
+                    u.GetComponent<SpriteRenderer>().color = Color.cyan;
+                }
             }
         }
         else if (indicator.name.Equals("ChargeIndicator"))
@@ -173,27 +173,22 @@ public class TargetedAbilityIndicator : MonoBehaviour
         else
             Cursor.visible = true;
 
-        foreach (GameObject h in UnitList.getHostiles())
+        foreach (GameObject u in UnitList.getAllUnits())
         {
-            if (h.GetComponent<SpriteRenderer>().color == Color.cyan)
+            if (u.GetComponent<SpriteRenderer>().color == Color.cyan)
             {
-                if (h.name.Contains("Melee"))
-                    h.GetComponent<SpriteRenderer>().color = Tuner.ENEMY_MELEE_COLOR;
-                else if (h.name.Contains("Ranged"))
-                    h.GetComponent<SpriteRenderer>().color = Tuner.ENEMY_RANGED_COLOR;
-            }
-            foreach (GameObject i in indicators)
-            {
-                drawIndicator(i, h);
-            }
-        }
-        if (UnitList.getHostiles().Length == 0)
-        {
-            foreach (GameObject i in indicators)
-            {
-                drawIndicator(i, null);
+                if (u.name.Contains("Melee"))
+                    u.GetComponent<SpriteRenderer>().color = Tuner.ENEMY_MELEE_COLOR;
+                else if (u.name.Contains("Ranged"))
+                    u.GetComponent<SpriteRenderer>().color = Tuner.ENEMY_RANGED_COLOR;
+                else
+                    u.GetComponent<SpriteRenderer>().color = Color.white;
             }
         }
 
+        foreach (GameObject i in indicators)
+        {
+            drawIndicator(i);
+        }
     }
 }

@@ -7,6 +7,7 @@ public class UnitList : MonoBehaviour
     private static GameObject[] players;
     private static GameObject[] dead;
     private static GameObject[] traps;
+    private static GameObject[] allUnits;
 
     private static int unitsCreated;
 
@@ -26,6 +27,10 @@ public class UnitList : MonoBehaviour
     {
         return traps;
     }
+    public static GameObject[] getAllUnits()
+    {
+        return allUnits;
+    }
     public static int getUnitsCreated()
     {
         return unitsCreated;
@@ -38,17 +43,21 @@ public class UnitList : MonoBehaviour
 
     void Awake()
     {
-        hostiles = GameObject.FindGameObjectsWithTag("Hostile");
-        players = GameObject.FindGameObjectsWithTag("Player");
-        dead = GameObject.FindGameObjectsWithTag("Dead");
-        traps = GameObject.FindGameObjectsWithTag("Trap");
+        createArrays();
     }
 
-    void FixedUpdate()
+    private void createArrays()
     {
         hostiles = GameObject.FindGameObjectsWithTag("Hostile");
         players = GameObject.FindGameObjectsWithTag("Player");
         dead = GameObject.FindGameObjectsWithTag("Dead");
         traps = GameObject.FindGameObjectsWithTag("Trap");
+        allUnits = CombineExtension.CreateCombinedArrayFrom(hostiles, players);
+        CombineExtension.AppendSecondArrayToFirst(ref allUnits, dead);
+    }
+
+    void FixedUpdate()
+    {
+        createArrays();
     }
 }

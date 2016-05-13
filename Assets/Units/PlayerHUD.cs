@@ -135,8 +135,8 @@ public class PlayerHUD : MonoBehaviour
             float healthScale = (unitCombat.getHealth() / unitCombat.getMaxHealth());
             float staminaScale = (unitCombat.getStamina() / unitCombat.getMaxStamina());
 
-            Mathf.Clamp(healthScale, 0, 1f);
-            Mathf.Clamp(staminaScale, 0, 1f);
+            healthScale = Mathf.Clamp(healthScale, 0, 1f);
+            staminaScale = Mathf.Clamp(staminaScale, 0, 1f);
 
             healthBarIndicator.localScale = new Vector3(healthBarWidth * healthScale, healthBarIndicator.localScale.y, healthBarIndicator.localScale.z);
             staminaBarIndicator.localScale = new Vector3(staminaBarWidth * staminaScale, staminaBarIndicator.localScale.y, staminaBarIndicator.localScale.z);

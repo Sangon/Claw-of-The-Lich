@@ -44,7 +44,7 @@ public class GameHUD : MonoBehaviour
     public void addMana(float value)
     {
         lichMana += value;
-        Mathf.Clamp(lichMana, 0, 100f);
+        lichMana = Mathf.Clamp(lichMana, 0, 100f);
     }
 
     // Use this for initialization
@@ -111,7 +111,7 @@ public class GameHUD : MonoBehaviour
         /// LICHIN SPELLIT
         /////////////////////////////////////
         float manaScale = lichMana / 100f;
-        Mathf.Clamp(manaScale, 0, 1f);
+        manaScale = Mathf.Clamp(manaScale, 0, 1f);
         lichManaBar.localScale = new Vector3(lichManaBarScaleX * manaScale, lichManaBar.localScale.y, lichManaBar.localScale.z);
         /////////////////////////////////////
         /// SPELLIT
