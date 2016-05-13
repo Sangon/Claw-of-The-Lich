@@ -45,20 +45,20 @@ public class Tuner : MonoBehaviour
     public static readonly float DEFAULT_PROJECTILE_HITBOX_RADIUS = 50f;
 
     public static readonly float DEFAULT_WHIRLWIND_RADIUS = UNIT_BASE_MELEE_RANGE * 2f;
-    public static readonly float BASE_WHIRLWIND_DAMAGE = UNIT_BASE_MELEE_DAMAGE * 2f;
+    public static readonly float BASE_WHIRLWIND_DAMAGE = 10f;
     public static readonly float BASE_WHIRLWIND_COOLDOWN = 5.0f;
 
-    public static readonly float BASE_CHARGE_DAMAGE = UNIT_BASE_MELEE_DAMAGE * 2f;
+    public static readonly float BASE_CHARGE_DAMAGE = 15f;
     public static readonly float BASE_CHARGE_SPEED_MULTIPLIER = 3f;
-    public static readonly float BASE_CHARGE_COOLDOWN = 5.0f;
+    public static readonly float BASE_CHARGE_COOLDOWN = 10.0f;
     public static readonly float BASE_CHARGE_DURATION = 0.5f;
     public static readonly float BASE_CHARGE_RADIUS = 150f; //Units that are inside this range are damaged by the charger
     public static readonly float CHARGE_MAX_ANGLE = 90f; //If the charging unit would be turning more than this (in degrees), stop charging
 
     public static readonly int DEFAULT_BLOT_OUT_DURATION = 3;
     public static readonly float DEFAULT_BLOT_OUT_RADIUS = 440f;
-    public static readonly float BASE_BLOT_OUT_DAMAGE = 1.5f;
-    public static readonly float BASE_BLOT_OUT_COOLDOWN = 10.0f;
+    public static readonly float BASE_BLOT_OUT_DAMAGE = 15f;
+    public static readonly float BASE_BLOT_OUT_COOLDOWN = 20.0f;
 
     //CAMERA DEFAULT VALUES
     public static readonly float CAMERA_MIN_DISTANCE = 100f;
@@ -74,11 +74,11 @@ public class Tuner : MonoBehaviour
     public static readonly float ATTACKMOVE_MAX_SEARCH_DISTANCE_FROM_CLICK_POINT = 300f;
 
     //ENEMY AI DEFAULT VALUES
-    public static readonly float UNIT_AGGRO_RANGE = 1000f;
+    public static readonly float UNIT_AGGRO_RANGE = 1500f;
     public static readonly float UNIT_AGGRO_CALLOUT_RANGE = 1000f; //Enemy units within this range (of the aggroing unit) get aggroed too
     public static readonly float IDLING_STATE_TIME_MIN = 3f; //The minimum time in seconds the enemy spends in idle mode before it wanders
     public static readonly float IDLING_STATE_TIME_MAX = 10f; //The maximum time in seconds the enemy spends in idle mode before it wanders
-    public static readonly float WANDERING_DISTANCE_MAX = 200f; //The maximum distance the enemy can wander from its starting position
+    public static readonly float WANDERING_DISTANCE_MAX = 1000f; //The maximum distance the enemy can wander from its starting position
     public static readonly float CHASING_TIME_MAX = 3f; //The maximum time in seconds the enemy spends chasing the player without seeing him before giving up and returning to its starting position
 
     //UNITY EDITOR DEFAULT VALUES

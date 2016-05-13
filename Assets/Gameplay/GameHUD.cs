@@ -14,7 +14,10 @@ public class GameHUD : MonoBehaviour
     private bool[] HUDCast = new bool[8];
     private bool[] wasHUDCasting = new bool[8];
     bool shift;
-    public bool test = false;
+
+    private float lichMana = 100f;
+    private RectTransform lichManaBar;
+    private float lichManaBarScaleX;
 
     public bool isTargeting()
     {
@@ -38,6 +41,12 @@ public class GameHUD : MonoBehaviour
         HUDCast[index] = value;
     }
 
+    public void addMana(float value)
+    {
+        lichMana += value;
+        Mathf.Clamp(lichMana, 0, 100f);
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -47,6 +56,8 @@ public class GameHUD : MonoBehaviour
         targetedAbilityIndicator = GameObject.Find("HUD").GetComponent<TargetedAbilityIndicator>();
         keyboardHelp = GameObject.Find("KeyboardHelp").gameObject;
         keyboardHelp.SetActive(false);
+        lichManaBar = GameObject.Find("Bar_Mana").gameObject.GetComponent<RectTransform>();
+        lichManaBarScaleX = lichManaBar.localScale.x;
     }
 
     // Update is called once per frame
@@ -66,10 +77,29 @@ public class GameHUD : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.H))
         {
-            foreach (GameObject c in partySystem.aliveCharacters)
+            if (lichMana >= 25f)
             {
-                if (c != null && c.GetComponent<UnitCombat>() != null)
-                    c.GetComponent<UnitCombat>().takeDamage(-c.GetComponent<UnitCombat>().getMaxHealth(), null);
+                bool healed = false;
+                foreach (GameObject c in partySystem.aliveCharacters)
+                {
+                    if (c != null && c.GetComponent<UnitCombat>() != null)
+                    {
+                        if (c.GetComponent<UnitCombat>().getHealth() != c.GetComponent<UnitCombat>().getMaxHealth())
+                        {
+                            foreach (GameObject b in partySystem.aliveCharacters)
+                            {
+                                if (b != null && b.GetComponent<UnitCombat>() != null)
+                                {
+                                    b.GetComponent<UnitCombat>().takeDamage(-(b.GetComponent<UnitCombat>().getMaxHealth() * 0.25f), null);
+                                }
+                            }
+                            healed = true;
+                            break;
+                        }
+                    }
+                }
+                if (healed)
+                    lichMana -= 25f;
             }
         }
         if (Input.GetKeyDown(KeyCode.F1))
@@ -77,7 +107,13 @@ public class GameHUD : MonoBehaviour
             keyboardHelp.SetActive(!keyboardHelp.activeSelf);
         }
 
-        //////////////////////////////////////
+        /////////////////////////////////////
+        /// LICHIN SPELLIT
+        /////////////////////////////////////
+        float manaScale = lichMana / 100f;
+        Mathf.Clamp(manaScale, 0, 1f);
+        lichManaBar.localScale = new Vector3(lichManaBarScaleX * manaScale, lichManaBar.localScale.y, lichManaBar.localScale.z);
+        /////////////////////////////////////
         /// SPELLIT
         /////////////////////////////////////
         for (int i = 0; i < 8; i++)

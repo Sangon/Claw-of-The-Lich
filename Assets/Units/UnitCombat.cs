@@ -194,6 +194,9 @@ public class UnitCombat : MonoBehaviour
             {
                 partySystem.updateCharacterList();
                 cameraScripts.updateTarget();
+            } else
+            {
+                GameObject.Find("HUD").GetComponent<GameHUD>().addMana(3);
             }
 
             gameObject.tag = "Dead";

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <attribute>
-	<health>6.0</health>
-	<meleedamage>0.5</meleedamage>
+	<health>20.0</health>
+	<meleedamage>5</meleedamage>
 	<rangeddamage>1.0</rangeddamage>
-	<meleeattackframes>30</meleeattackframes>
+	<meleeattackframes>20</meleeattackframes>
 	<rangedattackframes>45</rangedattackframes>
 	<skillslot1>whirlwind_skill</skillslot1>
 	<skillslot2>charge_skill</skillslot2>
