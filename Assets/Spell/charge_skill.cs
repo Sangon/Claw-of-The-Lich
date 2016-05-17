@@ -10,6 +10,8 @@ public class charge_skill : Skill
     Vector2 oldDir;
     List<GameObject> hits = new List<GameObject>();
 
+    uint buffID;
+
     int pathNumber;
 
     public charge_skill()
@@ -28,9 +30,7 @@ public class charge_skill : Skill
             chargeVector = (new Vector2(parent.transform.position.x, parent.transform.position.y) - getCurrentMousePos()).normalized * 200f; //TODO: Make isometric
             chargeTimer = maxChargeTimer;
 
-            parent.GetComponent<UnitMovement>().setMovementSpeed(parent.GetComponent<UnitCombat>().getBaseMovementSpeed() * Tuner.BASE_CHARGE_SPEED_MULTIPLIER);
-
-            parent.GetComponent<Buffs>().addBuff(Buffs.BuffType.charge, Tuner.BASE_CHARGE_DURATION);
+            buffID = parent.GetComponent<Buffs>().addBuff(Buffs.BuffType.charge, Tuner.BASE_CHARGE_DURATION);
 
             parent.GetComponent<UnitCombat>().resetAttack();
 
@@ -79,8 +79,8 @@ public class charge_skill : Skill
                 chargeTimer -= Time.fixedDeltaTime;
                 if (chargeTimer <= 0)
                 {
-                    parent.GetComponent<UnitMovement>().setMovementSpeed(parent.GetComponent<UnitCombat>().getBaseMovementSpeed());
                     parent.GetComponent<UnitMovement>().stop();
+                    parent.GetComponent<Buffs>().removeBuff(buffID);
                     hits.Clear();
                 }
             }

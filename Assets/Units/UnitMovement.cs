@@ -10,8 +10,6 @@ public class UnitMovement : MonoBehaviour
     private Buffs buffs;
     private Traps traps;
 
-    private float movementSpeed = Tuner.UNIT_BASE_SPEED;
-
     public enum Direction
     {
         N,
@@ -69,16 +67,6 @@ public class UnitMovement : MonoBehaviour
     public float getFacingAngle()
     {
         return facingAngle;
-    }
-
-    internal void setMovementSpeed(float value)
-    {
-        movementSpeed = value;
-    }
-
-    internal float getMovementSpeed()
-    {
-        return movementSpeed;
     }
 
     public void stop(bool stopAnimation = false)
@@ -146,7 +134,7 @@ public class UnitMovement : MonoBehaviour
         Vector2 start = source.transform.position;
         Vector2 characterPos = gameObject.transform.position;
         Vector2 end = Ellipse.isometricLine(start, characterPos, distance) + characterPos;
-        Vector2 knockbackPos = getEndOfLine(start, end, true);
+        Vector2 knockbackPos = getEndOfLine(start, end);
         gameObject.transform.position = knockbackPos;
         buffs.addBuff(Buffs.BuffType.knockback, Tuner.KNOCKBACK_STUN_DURATION);
     }
@@ -235,7 +223,7 @@ public class UnitMovement : MonoBehaviour
                 else
                     animator.Play(animationName, 0);
                 lastAnimation = Animations.attack;
-                animator.speed = 60f / unitCombat.getMaxAttackTimer();
+                animator.speed = 1.0f / unitCombat.getMaxAttackTimer();
                 break;
             case Animations.move:
                 switch (direction)
@@ -258,7 +246,7 @@ public class UnitMovement : MonoBehaviour
                         break;
                 }
                 lastAnimation = Animations.move;
-                animator.speed = getMovementSpeed() / Tuner.UNIT_BASE_SPEED;
+                animator.speed = 1.5f * (unitCombat.getMovementSpeed() / Tuner.UNIT_BASE_SPEED);
                 break;
             case Animations.idle:
                 switch (direction)

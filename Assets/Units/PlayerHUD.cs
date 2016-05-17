@@ -56,6 +56,10 @@ public class PlayerHUD : MonoBehaviour
             }
             GameObject character = getOwner(bar);
             UnitCombat unitCombat = character.GetComponent<UnitCombat>();
+
+            GameObject weaponSecondaryIndicator = bar.transform.Find("Weapon_Secondary").gameObject;
+            weaponSecondaryIndicator.GetComponent<Image>().color = Color.gray;
+
             for (int j = 0; j < 2; j++)
             {
                 GameObject abilityIndicator = bar.transform.Find("Ability" + (j + 1)).gameObject;
@@ -85,7 +89,7 @@ public class PlayerHUD : MonoBehaviour
             int characterID = partySystem.getCharacterID(character);
             if (character != null && characterID != -1)
             {
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0) && mouseOverTarget.GetComponent<Image>().color == Color.green)
                 {
                     if (mouseOverTarget.name.Equals("Weapon_Primary"))
                     {
@@ -104,7 +108,7 @@ public class PlayerHUD : MonoBehaviour
                         gameHUD.setHUDCast((characterID * 2) - 1, true);
                     }
                 }
-                else if (Input.GetMouseButtonDown(1))
+                else if (Input.GetMouseButtonDown(1) && mouseOverTarget.GetComponent<Image>().color == Color.green)
                 {
                     if (mouseOverTarget.name.Equals("Weapon_Primary"))
                     {
@@ -125,6 +129,8 @@ public class PlayerHUD : MonoBehaviour
             GameObject character = partySystem.getCharacter(i);
             UnitCombat unitCombat = character.GetComponent<UnitCombat>();
             GameObject bar = transform.Find("HUDBars").Find("Bar" + i).gameObject;
+
+            GameObject groupIDIndicator = bar.transform.Find("GroupID").gameObject;
 
             Transform healthBarIndicator = bar.transform.Find("Bar_HP");
             Transform staminaBarIndicator = bar.transform.Find("Bar_Stamina");
@@ -147,9 +153,32 @@ public class PlayerHUD : MonoBehaviour
                     selectionIndicator.GetComponent<Image>().color = Color.green;
                 else
                     selectionIndicator.GetComponent<Image>().color = Color.red;
+
+                if (mouseOverTarget != weaponPrimaryIndicator)
+                {
+                    if (unitCombat.isAttacking())
+                        weaponPrimaryIndicator.GetComponent<Image>().color = Color.gray;
+                    else
+                        weaponPrimaryIndicator.GetComponent<Image>().color = Color.white;
+                }
             }
-            else
+            else {
+                groupIDIndicator.GetComponent<Image>().color = Color.gray;
+                weaponPrimaryIndicator.GetComponent<Image>().color = Color.gray;
                 selectionIndicator.GetComponent<Image>().color = Color.black;
+            }
+
+            for (int j = 0; j < 2; j++)
+            {
+                GameObject abilityIndicator = bar.transform.Find("Ability" + (j + 1)).gameObject;
+                if (mouseOverTarget != abilityIndicator)
+                {
+                    if (unitCombat.canCastSpell(j))
+                        abilityIndicator.GetComponent<Image>().color = Color.white;
+                    else
+                        abilityIndicator.GetComponent<Image>().color = Color.gray;
+                }
+            }
 
             if (unitCombat.isMelee() && weaponPrimaryIndicator.GetComponent<Image>().sprite == rangedSprite)
                 weaponPrimaryIndicator.GetComponent<Image>().sprite = meleeSprite;
@@ -159,15 +188,6 @@ public class PlayerHUD : MonoBehaviour
                 weaponSecondaryIndicator.GetComponent<Image>().sprite = rangedSprite;
             else if (!unitCombat.isMelee() && weaponSecondaryIndicator.GetComponent<Image>().sprite == rangedSprite)
                 weaponSecondaryIndicator.GetComponent<Image>().sprite = meleeSprite;
-
-            for (int j = 0; j < 2; j++)
-            {
-                GameObject abilityIndicator = bar.transform.Find("Ability" + (j + 1)).gameObject;
-                if (unitCombat.canCastSpell(j))
-                    abilityIndicator.GetComponent<Image>().color = Color.white;
-                else
-                    abilityIndicator.GetComponent<Image>().color = Color.gray;
-            }
         }
     }
 
@@ -205,7 +225,7 @@ public class PlayerHUD : MonoBehaviour
 
     public void mouseOver(Vector2 ray)
     {
-        UnityEngine.EventSystems.PointerEventData pe = new PointerEventData(EventSystem.current);
+        PointerEventData pe = new PointerEventData(EventSystem.current);
         pe.position = Input.mousePosition;
 
         List<RaycastResult> hits = new List<RaycastResult>();
@@ -227,14 +247,29 @@ public class PlayerHUD : MonoBehaviour
             if (hits[minIndex].gameObject.tag.Equals("UI"))
             {
                 mouseOverTarget = hits[minIndex].gameObject;
-                GameObject character = getOwner(mouseOverTarget);
+                UnitCombat unitCombat = getOwner(mouseOverTarget).GetComponent<UnitCombat>();
 
-                if (character != null && character.GetComponent<UnitCombat>().isAlive())
+                if (unitCombat != null && unitCombat.isAlive() && mouseOverTarget.GetComponent<Image>().color != Color.gray)
                 {
                     // Highlight the icon
-                    mouseOverTarget.GetComponent<Image>().color = Color.green;
+                    if (mouseOverTarget.name.Equals("Weapon_Primary"))
+                    {
+                        if (!unitCombat.isAttacking())
+                            mouseOverTarget.GetComponent<Image>().color = Color.green;
+                    }
+                    else if (mouseOverTarget.name.Equals("Ability1") && !unitCombat.canCastSpell(0))
+                    {
+                        mouseOverTarget.GetComponent<Image>().color = Color.gray;
+                    }
+                    else if (mouseOverTarget.name.Equals("Ability2") && !unitCombat.canCastSpell(1))
+                    {
+                        mouseOverTarget.GetComponent<Image>().color = Color.gray;
+                    }
+                    else
+                        mouseOverTarget.GetComponent<Image>().color = Color.green;
                 }
-                else
+
+                if (mouseOverTarget.GetComponent<Image>().color != Color.green)
                 {
                     mouseOverTarget = null;
                 }

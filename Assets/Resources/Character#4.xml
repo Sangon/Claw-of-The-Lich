@@ -4,8 +4,8 @@
 	<health>100.0</health>
 	<meleedamage>3.0</meleedamage>
 	<rangeddamage>7.0</rangeddamage>
-	<meleeattackframes>30</meleeattackframes>
-	<rangedattackframes>45</rangedattackframes>
+	<meleeattackspeed>1.0</meleeattackspeed>
+	<rangedattackspeed>2.0</rangedattackspeed>
 	<skillslot1>blot_out_skill</skillslot1>
 	<skillslot2>charge_skill</skillslot2>
 	<ismelee>false</ismelee>

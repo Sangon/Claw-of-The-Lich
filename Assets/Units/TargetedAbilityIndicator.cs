@@ -152,7 +152,7 @@ public class TargetedAbilityIndicator : MonoBehaviour
 
             //Vector2 point = Ellipse.getPointOnEllipsePerimeter(p1, 256f, angle);
             //Debug.DrawLine(p1, point2 + p1, Color.red);
-            rect.transform.localScale = new Vector3(point2.magnitude / 5f, p3.magnitude / 5f, 1f);
+            rect.transform.localScale = new Vector3(point2.magnitude / 6f, p3.magnitude / 6f, 1f);
             Vector3[] fourCornersArray = new Vector3[4];
             rect.GetWorldCorners(fourCornersArray);
             float height = Vector3.Distance(fourCornersArray[0], fourCornersArray[2]);

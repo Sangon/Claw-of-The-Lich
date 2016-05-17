@@ -18,10 +18,7 @@ public class EnemyAI : MonoBehaviour
 
     public bool lookForOpponents()
     {
-        if (partySystem.noneAlive())
-            return false;
-
-        float dis = 0;
+        float dis, bestDis = float.MaxValue;
         GameObject target = null;
 
         foreach (GameObject character in partySystem.aliveCharacters)
@@ -29,8 +26,11 @@ public class EnemyAI : MonoBehaviour
             dis = Ellipse.isometricDistance(character.transform.position, transform.position);
             if (dis < Tuner.UNIT_AGGRO_RANGE)
             {
-                if (target != null && dis < Ellipse.isometricDistance(target.transform.position, transform.position))
+                if (target != null && dis < bestDis)
+                {
                     target = character; //This character is closer than the old target: change target
+                    bestDis = dis;
+                }
                 else if (target == null)
                     target = character;
             }

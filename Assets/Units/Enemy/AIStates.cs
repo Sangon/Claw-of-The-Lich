@@ -12,9 +12,10 @@ public class AIStates : MonoBehaviour
     };
 
     private State currentState = State.Idle;
-    private UnitMovement unitMovement = null;
-    private UnitCombat unitCombat = null;
-    private EnemyAI enemyAI = null;
+    private UnitMovement unitMovement;
+    private UnitCombat unitCombat;
+    private EnemyAI enemyAI;
+    private Buffs buffs;
 
     Vector2 startingPoint = Vector2.zero;
     float nextIdleWanderChange;
@@ -25,6 +26,8 @@ public class AIStates : MonoBehaviour
     float fleeingTime;
     bool startedFleeing = false;
 
+    uint wanderBuffID;
+
     void Start()
     {
         unitMovement = GetComponent<UnitMovement>();
@@ -32,6 +35,7 @@ public class AIStates : MonoBehaviour
         enemyAI = GetComponent<EnemyAI>();
         startingPoint = transform.position;
         nextIdleWanderChange = Time.fixedTime + Random.Range(Tuner.IDLING_STATE_TIME_MIN, Tuner.IDLING_STATE_TIME_MAX);
+        buffs = GetComponent<Buffs>();
     }
 
     public bool inCombat()
@@ -107,15 +111,10 @@ public class AIStates : MonoBehaviour
             case State.Wander:
                 if (!unitMovement.isMoving())
                 {
-                    for (int i = 0; i < 10; i++)
-                    {
-                        Vector2 point = startingPoint + (Random.insideUnitCircle * Tuner.WANDERING_DISTANCE_MAX);
-                        if (UnitMovement.lineOfSight(startingPoint, point))
-                        {
-                            unitMovement.moveTo(point);
-                            break;
-                        }
-                    }
+                    Vector2 point = Ellipse.getRandomPointInsideEllipse(startingPoint, Tuner.WANDERING_DISTANCE_MAX);
+                    point += Ellipse.isometricLine(startingPoint, point, Tuner.WANDERING_DISTANCE_MAX);
+                    point = UnitMovement.getEndOfLine(startingPoint, point);
+                    unitMovement.moveTo(point);
                     changeState(State.Idle);
                 }
                 break;
@@ -141,7 +140,7 @@ public class AIStates : MonoBehaviour
                             if (i == 0)
                             {
                                 end = Ellipse.isometricLine(targetPos, myPos, fleeDistance) + myPos;
-                                altFleePos = UnitMovement.getEndOfLine(targetPos, end, true);
+                                altFleePos = UnitMovement.getEndOfLine(targetPos, end);
                                 realFleeDistance = Ellipse.isometricDistance(myPos, altFleePos);
                                 if (realFleeDistance >= Ellipse.worldDistance(myPos, end))
                                 {
@@ -166,7 +165,7 @@ public class AIStates : MonoBehaviour
                                     dir = dir.Rotate(-90f) * fleeDistance;
                                 }
                                 end = Ellipse.isometricLine(targetPos, myPos - dir, fleeDistance) + myPos;
-                                altFleePos = UnitMovement.getEndOfLine(targetPos, end, true);
+                                altFleePos = UnitMovement.getEndOfLine(targetPos, end);
                                 realFleeDistance = Ellipse.isometricDistance(myPos, altFleePos);
                                 if (realFleeDistance >= Ellipse.worldDistance(myPos, end))
                                 {
@@ -188,10 +187,11 @@ public class AIStates : MonoBehaviour
                             //Move away from the target
                             fleePos = bestFleePos;
 
-                            fleeingTime = realFleeDistance / unitMovement.getMovementSpeed();
+                            fleeingTime = realFleeDistance / unitCombat.getMovementSpeed();
                             unitMovement.moveTo(fleePos);
                             startedFleeing = true;
-                        } else
+                        }
+                        else
                         {
                             //Too close. No point moving. Just attack
                             changeState(State.Chase);
@@ -209,6 +209,10 @@ public class AIStates : MonoBehaviour
                 }
                 break;
         }
+
+        if (inCombat())
+            if (wanderBuffID > 0)
+                buffs.removeBuff(wanderBuffID);
     }
 
     void changeState(State state)
@@ -221,6 +225,9 @@ public class AIStates : MonoBehaviour
         if ((state == State.Wander && currentState == State.Idle) || (state == State.Idle && currentState == State.Wander))
         {
             nextIdleWanderChange = Time.fixedTime + Random.Range(Tuner.IDLING_STATE_TIME_MIN, Tuner.IDLING_STATE_TIME_MAX);
+            if (wanderBuffID > 0)
+                buffs.removeBuff(wanderBuffID);
+            wanderBuffID = buffs.addBuff(Buffs.BuffType.wander, 10000f);
         }
         else if (state == State.Idle && currentState == State.Chase)
         {

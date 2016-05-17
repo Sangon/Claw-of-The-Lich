@@ -321,7 +321,7 @@ public class AstarAI : MonoBehaviour
         */
 
         //The max distance from the AI to a waypoint for it to continue to the next waypoint
-        float nextWaypointDistance = gameObject.GetComponent<UnitMovement>().getMovementSpeed() * Time.fixedDeltaTime;
+        float nextWaypointDistance = gameObject.GetComponent<UnitCombat>().getMovementSpeed() * Time.fixedDeltaTime;
 
         //Check if we are close enough to the next waypoint
         //If we are, proceed to follow the next waypoint
@@ -351,7 +351,7 @@ public class AstarAI : MonoBehaviour
         //float angle = Vector2.Angle(Vector3.left, new Vector3(path.vectorPath[currentWaypoint].x, path.vectorPath[currentWaypoint].y) - new Vector3(transform.position.x, transform.position.y)) * Mathf.Deg2Rad;
 
         Vector2 dir = Ellipse.isometricDirection(pos1, pos2);
-        dir *= gameObject.GetComponent<UnitMovement>().getMovementSpeed() * Time.fixedDeltaTime;
+        dir *= gameObject.GetComponent<UnitCombat>().getMovementSpeed() * Time.fixedDeltaTime;
         transform.Translate(dir);
         /*
         if (transform.name.Equals("Character#1"))
@@ -377,6 +377,7 @@ public class AstarAI : MonoBehaviour
             RaycastHit2D hit;
             partyPoint.x = path.vectorPath[path.vectorPath.Count - 1].x + Tuner.PARTY_SPACING * Mathf.Sin(offset * Mathf.Deg2Rad);
             partyPoint.y = path.vectorPath[path.vectorPath.Count - 1].y + Tuner.PARTY_SPACING * Mathf.Cos(offset * Mathf.Deg2Rad);
+            partyPoint += Ellipse.isometricLine(transform.position, partyPoint, Random.Range(Tuner.PARTY_SPACING * -0.4f, Tuner.PARTY_SPACING * 0.4f));
             hit = Physics2D.Linecast(path.vectorPath[path.vectorPath.Count - 1], partyPoint, Tuner.LAYER_OBSTACLES | Tuner.LAYER_WATER);
 
             if (hit.collider == null)

@@ -13,7 +13,7 @@ public class GameHUD : MonoBehaviour
     private bool[] wasTargeting = new bool[8];
     private bool[] HUDCast = new bool[8];
     private bool[] wasHUDCasting = new bool[8];
-    bool shift;
+    //bool shift;
 
     private float lichMana = 100f;
     private RectTransform lichManaBar;
@@ -121,207 +121,69 @@ public class GameHUD : MonoBehaviour
 
         GameObject character = null;
 
-        if ((Input.GetKeyDown(KeyCode.Q) || HUDCast[0] == true) && !Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(1).GetComponent<UnitCombat>().isAlive())
-        {
-            UnitCombat unitCombat = partySystem.getCharacter(1).GetComponent<UnitCombat>();
-            if (unitCombat.canCastSpell(0))
-            {
-                targeting[0] = true;
-                shift = false;
-            }
-        }
-        if (targeting[0] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.Q)) && HUDCast[0] == false)
-        {
-            if (!Input.GetKey(KeyCode.Q))
-            {
-                character = partySystem.getCharacter(1);
-                character.GetComponent<UnitCombat>().castSpellInSlot(0);
-            }
-            targeting[0] = false;
-            shift = false;
-        }
-
-        if ((Input.GetKeyDown(KeyCode.W) || HUDCast[1] == true) && !Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(1).GetComponent<UnitCombat>().isAlive())
-        {
-            UnitCombat unitCombat = partySystem.getCharacter(1).GetComponent<UnitCombat>();
-            if (unitCombat.canCastSpell(1))
-            {
-                targeting[1] = true;
-                shift = false;
-            }
-        }
-        if (targeting[1] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.W)) && HUDCast[1] == false)
-        {
-            if (!Input.GetKey(KeyCode.W))
-            {
-                character = partySystem.getCharacter(1);
-                character.GetComponent<UnitCombat>().castSpellInSlot(1);
-            }
-            targeting[1] = false;
-            shift = false;
-        }
-
-        if ((Input.GetKeyDown(KeyCode.E) || HUDCast[2] == true) && !Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(2).GetComponent<UnitCombat>().isAlive())
-        {
-            UnitCombat unitCombat = partySystem.getCharacter(2).GetComponent<UnitCombat>();
-            if (unitCombat.canCastSpell(0))
-            {
-                targeting[2] = true;
-                shift = false;
-            }
-        }
-        if (targeting[2] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.E)) && HUDCast[2] == false)
-        {
-            if (!Input.GetKey(KeyCode.E))
-            {
-                character = partySystem.getCharacter(2);
-                character.GetComponent<UnitCombat>().castSpellInSlot(0);
-            }
-            targeting[2] = false;
-            shift = false;
-        }
-
-        if ((Input.GetKeyDown(KeyCode.R) || HUDCast[3] == true) && !Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(2).GetComponent<UnitCombat>().isAlive())
-        {
-            UnitCombat unitCombat = partySystem.getCharacter(2).GetComponent<UnitCombat>();
-            if (unitCombat.canCastSpell(1))
-            {
-                targeting[3] = true;
-                shift = false;
-            }
-        }
-        if (targeting[3] && (Input.GetMouseButtonDown(1) || !Input.GetKey(KeyCode.R)) && HUDCast[3] == false)
-        {
-            if (!Input.GetKey(KeyCode.R))
-            {
-                character = partySystem.getCharacter(2);
-                character.GetComponent<UnitCombat>().castSpellInSlot(1);
-            }
-            targeting[3] = false;
-            shift = false;
-        }
-
-        if ((Input.GetKeyDown(KeyCode.A) || HUDCast[4] == true) && partySystem.getCharacter(3).GetComponent<UnitCombat>().isAlive())
-        {
-            UnitCombat unitCombat = partySystem.getCharacter(3).GetComponent<UnitCombat>();
-            if (unitCombat.canCastSpell(0))
-            {
-                targeting[4] = true;
-                shift = false;
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Q) && Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(3).GetComponent<UnitCombat>().isAlive())
-        {
-            UnitCombat unitCombat = partySystem.getCharacter(3).GetComponent<UnitCombat>();
-            if (unitCombat.canCastSpell(0))
-            {
-                targeting[4] = true;
-                shift = true;
-            }
-        }
-        if (targeting[4] && (Input.GetMouseButtonDown(1) || (!shift && !Input.GetKey(KeyCode.A)) || (shift && !Input.GetKey(KeyCode.Q))) && HUDCast[4] == false)
-        {
-            if (!Input.GetKey(KeyCode.A) || (shift && !Input.GetKey(KeyCode.Q)))
-            {
-                character = partySystem.getCharacter(3);
-                character.GetComponent<UnitCombat>().castSpellInSlot(0);
-            }
-            targeting[4] = false;
-            shift = false;
-        }
-
-        if ((Input.GetKeyDown(KeyCode.S) || HUDCast[5] == true) && partySystem.getCharacter(3).GetComponent<UnitCombat>().isAlive())
-        {
-            UnitCombat unitCombat = partySystem.getCharacter(3).GetComponent<UnitCombat>();
-            if (unitCombat.canCastSpell(1))
-            {
-                targeting[5] = true;
-                shift = false;
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.W) && Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(3).GetComponent<UnitCombat>().isAlive())
-        {
-            UnitCombat unitCombat = partySystem.getCharacter(3).GetComponent<UnitCombat>();
-            if (unitCombat.canCastSpell(1))
-            {
-                targeting[5] = true;
-                shift = true;
-            }
-        }
-        if (targeting[5] && (Input.GetMouseButtonDown(1) || (!shift && !Input.GetKey(KeyCode.S)) || (shift && !Input.GetKey(KeyCode.W))) && HUDCast[5] == false)
-        {
-            if (!Input.GetKey(KeyCode.S) || (shift && !Input.GetKey(KeyCode.W)))
-            {
-                character = partySystem.getCharacter(3);
-                character.GetComponent<UnitCombat>().castSpellInSlot(1);
-            }
-            targeting[5] = false;
-            shift = false;
-        }
-
-        if ((Input.GetKeyDown(KeyCode.D) || HUDCast[6] == true) && partySystem.getCharacter(4).GetComponent<UnitCombat>().isAlive())
-        {
-            UnitCombat unitCombat = partySystem.getCharacter(4).GetComponent<UnitCombat>();
-            if (unitCombat.canCastSpell(0))
-            {
-                targeting[6] = true;
-                shift = false;
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.E) && Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(4).GetComponent<UnitCombat>().isAlive())
-        {
-            UnitCombat unitCombat = partySystem.getCharacter(4).GetComponent<UnitCombat>();
-            if (unitCombat.canCastSpell(0))
-            {
-                targeting[6] = true;
-                shift = true;
-            }
-        }
-        if (targeting[6] && (Input.GetMouseButtonDown(1) || (!shift && !Input.GetKey(KeyCode.D)) || (shift && !Input.GetKey(KeyCode.E))) && HUDCast[6] == false)
-        {
-            if (!Input.GetKey(KeyCode.D) || (shift && !Input.GetKey(KeyCode.E)))
-            {
-                character = partySystem.getCharacter(4);
-                character.GetComponent<UnitCombat>().castSpellInSlot(0);
-            }
-            targeting[6] = false;
-            shift = false;
-        }
-
-        if ((Input.GetKeyDown(KeyCode.F) || HUDCast[7] == true) && partySystem.getCharacter(4).GetComponent<UnitCombat>().isAlive())
-        {
-            UnitCombat unitCombat = partySystem.getCharacter(4).GetComponent<UnitCombat>();
-            if (unitCombat.canCastSpell(1))
-            {
-                targeting[7] = true;
-                shift = false;
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.R) && Input.GetKey(KeyCode.LeftShift) && partySystem.getCharacter(4).GetComponent<UnitCombat>().isAlive())
-        {
-            UnitCombat unitCombat = partySystem.getCharacter(4).GetComponent<UnitCombat>();
-            if (unitCombat.canCastSpell(1))
-            {
-                targeting[7] = true;
-                shift = true;
-            }
-        }
-        if (targeting[7] && (Input.GetMouseButtonDown(1) || (!shift && !Input.GetKey(KeyCode.F)) || (shift && !Input.GetKey(KeyCode.R))) && HUDCast[7] == false)
-        {
-            if (!Input.GetKey(KeyCode.F) || (shift && !Input.GetKey(KeyCode.R)))
-            {
-                character = partySystem.getCharacter(4);
-                character.GetComponent<UnitCombat>().castSpellInSlot(1);
-            }
-            targeting[7] = false;
-            shift = false;
-        }
-
         for (int i = 0; i < 8; i++)
         {
-            int charID = Mathf.FloorToInt((i * 0.5f) + 1);
-            int spellID = i % 2;
-            character = partySystem.getCharacter(charID);
+            int characterID = Mathf.FloorToInt((i * 0.5f) + 1);
+            int spellID = (i % 2);
+            UnitCombat unitCombat = partySystem.getCharacter(characterID).GetComponent<UnitCombat>();
+
+            if ((Input.GetKeyDown(Tuner.KEYS_CHARACTER_ABILITY[i]) || HUDCast[i] == true) && !Input.GetKey(KeyCode.LeftShift) && unitCombat.isAlive())
+            {
+                if (unitCombat.canCastSpell(spellID))
+                {
+                    targeting[i] = true;
+                    //shift = false;
+                }
+            }
+            if (targeting[i] && (Input.GetMouseButtonDown(1) || !Input.GetKey(Tuner.KEYS_CHARACTER_ABILITY[i])) && HUDCast[i] == false)
+            {
+                if (!Input.GetKey(Tuner.KEYS_CHARACTER_ABILITY[i]))
+                {
+                    unitCombat.castSpellInSlot(spellID);
+                }
+                targeting[i] = false;
+                //shift = false;
+            }
+        }
+        /*
+            if (i < 4)
+            {
+                if (targeting[i] && (Input.GetMouseButtonDown(1) || !Input.GetKey(Tuner.KEYS_CHARACTER_ABILITY[i])) && HUDCast[i] == false)
+                {
+                    if (!Input.GetKey(Tuner.KEYS_CHARACTER_ABILITY[i]))
+                    {
+                        unitCombat.castSpellInSlot(spellID);
+                    }
+                    targeting[i] = false;
+                    shift = false;
+                }
+            }
+            else
+            {
+                if (Input.GetKeyDown(Tuner.KEYS_CHARACTER_ABILITY[i - 4]) && Input.GetKey(KeyCode.LeftShift) && unitCombat.isAlive())
+                {
+                    if (unitCombat.canCastSpell(spellID))
+                    {
+                        targeting[i] = true;
+                        shift = true;
+                    }
+                }
+                if (targeting[i] && (Input.GetMouseButtonDown(1) || (!shift && !Input.GetKey(Tuner.KEYS_CHARACTER_ABILITY[i])) || (shift && !Input.GetKey(Tuner.KEYS_CHARACTER_ABILITY[i - 4]))) && HUDCast[i] == false)
+                {
+                    if (!Input.GetKey(Tuner.KEYS_CHARACTER_ABILITY[i]) || (shift && !Input.GetKey(Tuner.KEYS_CHARACTER_ABILITY[i - 4])))
+                    {
+                        unitCombat.castSpellInSlot(spellID);
+                    }
+                    targeting[i] = false;
+                    shift = false;
+                }
+            }
+        */
+        for (int i = 0; i < 8; i++)
+        {
+            int characterID = Mathf.FloorToInt((i * 0.5f) + 1);
+            int spellID = (i % 2);
+            character = partySystem.getCharacter(characterID);
             string spell = character.GetComponent<UnitCombat>().getSpellList()[spellID].getSpellName();
 
             if (targeting[i])

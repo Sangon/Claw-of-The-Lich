@@ -289,14 +289,14 @@ public class PartySystem : MonoBehaviour
 
         if (hits.Count > 0) //if no object was found there is no minimum
         {
-            float min = Ellipse.isometricDistance(hits[0].gameObject.transform.position, ray); //lets assume that the minimum is at the 0th place
-            int minIndex = 0; //store the index of the minimum because thats hoow we can find our object
+            float min = hits[0].distance; //lets assume that the minimum is at the 0th place
+            int minIndex = 0; //store the index of the minimum because thats how we can find our object
 
             for (int i = 1; i < hits.Count; ++i)// iterate from the 1st element to the last.(Note that we ignore the 0th element)
             {
-                if (Ellipse.isometricDistance(hits[i].gameObject.transform.position, ray) < min) //if we found smaller distance and its not the player we got a new minimum
+                if (hits[i].distance < min) //if we found smaller distance and its not the player we got a new minimum
                 {
-                    min = Ellipse.isometricDistance(hits[i].gameObject.transform.position, ray); //refresh the minimum distance value
+                    min = hits[i].distance; //refresh the minimum distance value
                     minIndex = i; //refresh the distance
                 }
             }

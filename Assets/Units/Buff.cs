@@ -7,33 +7,42 @@ public class Buff
     public enum Effect
     {
         stun,
-        uncontrollable
+        uncontrollable,
+        movementspeedlimit,
+        movementspeedmultiplier
     }
 
+    private uint buffID;
     private float duration;
-    private List<Effect> effects = null;
+    private float value;
+    private Effect effect;
 
     public float getDuration()
     {
         return duration;
     }
 
-    public Buff(List<Effect> effects, float duration)
+    public float getValue()
     {
-        this.effects = effects;
-        this.duration = duration;
+        return value;
     }
 
-    public bool hasEffect(Effect effect)
+    public uint getBuffID()
     {
-        foreach (Effect e in effects)
-        {
-            if (e == effect)
-            {
-                return true;
-            }
-        }
-        return false;
+        return buffID;
+    }
+
+    public Buff(uint buffID, Effect effect, float duration, float value = 0f)
+    {
+        this.buffID = buffID;
+        this.effect = effect;
+        this.duration = duration;
+        this.value = value;
+    }
+
+    public Effect getEffect()
+    {
+        return effect;
     }
 
     public bool tick()

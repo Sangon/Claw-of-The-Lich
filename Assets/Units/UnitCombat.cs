@@ -27,11 +27,11 @@ public class UnitCombat : MonoBehaviour
     private bool attacking = false;
     private bool attacked = true;
     private bool lockedAttack = false;
-    private int attackTimer = 30;
-    private int maxAttackTimer = 30;
-    private int maxMeleeAttackTimer = 30;
-    private int maxRangedAttackTimer = 30;
-    private int attackPoint = 24; //Should be a bit less than maxAttackTimer, depending on animation
+    private float attackTimer = 1.33f;
+    private float maxAttackTimer = 1.33f;
+    private float maxMeleeAttackTimer = 1.33f;
+    private float maxRangedAttackTimer = 2.0f;
+    private float attackPoint = 1.0f; //Should be a bit less than maxAttackTimer, depending on animation
 
     private bool stopAttackAfter = false;
 
@@ -58,9 +58,9 @@ public class UnitCombat : MonoBehaviour
         melee = attributes.isMelee;
 
         meleeDamage = attributes.meleedamage;
-        maxMeleeAttackTimer = attributes.meleeattackframes;
+        maxMeleeAttackTimer = attributes.meleeattackspeed;
         rangedDamage = attributes.rangeddamage;
-        maxRangedAttackTimer = attributes.rangedattackframes;
+        maxRangedAttackTimer = attributes.rangedattackspeed;
 
         if (isMelee())
         {
@@ -75,8 +75,7 @@ public class UnitCombat : MonoBehaviour
             damage = rangedDamage;
         }
 
-        attackPoint = (int)(maxAttackTimer * 0.8);
-        attackTimer = maxAttackTimer;
+        resetAttack();
 
         spellList[0] = attributes.skill1;
         spellList[1] = attributes.skill2;
@@ -86,11 +85,15 @@ public class UnitCombat : MonoBehaviour
 
         movementSpeed = attributes.movementspeed;
         baseMovementSpeed = movementSpeed;
-        unitMovement.setMovementSpeed(movementSpeed);
 
         buffs = GetComponent<Buffs>();
 
         cameraScripts = Camera.main.GetComponent<CameraScripts>();
+    }
+
+    public void setMovementSpeed(float value)
+    {
+        movementSpeed = value;
     }
 
     public float getMovementSpeed()
@@ -103,7 +106,7 @@ public class UnitCombat : MonoBehaviour
         return baseMovementSpeed;
     }
 
-    public int getMaxAttackTimer()
+    public float getMaxAttackTimer()
     {
         return maxAttackTimer;
     }
@@ -120,14 +123,16 @@ public class UnitCombat : MonoBehaviour
         {
             attackRange = Tuner.UNIT_BASE_MELEE_RANGE;
             maxAttackTimer = maxMeleeAttackTimer;
+            damage = meleeDamage;
         }
         else
         {
             attackRange = Tuner.UNIT_BASE_RANGED_RANGE;
             maxAttackTimer = maxRangedAttackTimer;
+            damage = rangedDamage;
         }
-        attackPoint = (int)(maxAttackTimer * 0.8);
-        attackTimer = maxAttackTimer;
+
+        resetAttack();
     }
     public void changeWeaponTo(bool melee)
     {
@@ -231,14 +236,15 @@ public class UnitCombat : MonoBehaviour
                 stopAttack();
         }
 
-        if (isAttacking() && !buffs.isUncontrollable())
+        if (isAttacking())
         {
             //Nappaa targetit v‰h‰n ennen kuin tekee damage, est‰‰ sit‰ ett‰ targetit kerke‰‰ juosta rangesta pois joka kerta jos ne juoksee karkuun.
             if (attackTimer == maxAttackTimer && isMelee())
             {
                 hits = getUnitsInMelee(unitMovement.getDirection());
             }
-            if (attackTimer == attackPoint)
+
+            if (!attacked && attackTimer <= attackPoint)
             {
                 attacked = true;
                 if (isMelee())
@@ -262,16 +268,16 @@ public class UnitCombat : MonoBehaviour
                     if (lockedAttack)
                     {
                         Vector3 polygonColliderCenter = lockedTarget.GetComponent<PolygonCollider2D>().bounds.center;
-                        projectile.GetComponent<projectile_spell_script>().initAttack(polygonColliderCenter, gameObject, true);
+                        projectile.GetComponent<projectile_spell_script>().initAttack(polygonColliderCenter, gameObject, damage, true);
                     }
                     else if (tag.Equals("Player"))
                     {
-                        projectile.GetComponent<projectile_spell_script>().initAttack(gameObject.GetComponent<PlayerMovement>().getClickPosition(), gameObject, false);
+                        projectile.GetComponent<projectile_spell_script>().initAttack(gameObject.GetComponent<PlayerMovement>().getClickPosition(), gameObject, damage, false);
                     }
                 }
             }
 
-            attackTimer--;
+            attackTimer -= Time.fixedDeltaTime;
 
             if (attackTimer <= 0)
                 if (stopAttackAfter)
@@ -348,13 +354,15 @@ public class UnitCombat : MonoBehaviour
     {
         unitMovement.stop();
         attacking = true;
-        attacked = false;
+        buffs.addBuff(Buffs.BuffType.attack, maxAttackTimer);
     }
 
     public void resetAttack()
     {
         attacking = false;
         attackTimer = maxAttackTimer;
+        attackPoint = maxAttackTimer * 0.8f;
+        attacked = false;
         stopAttackAfter = false;
     }
 
@@ -362,9 +370,7 @@ public class UnitCombat : MonoBehaviour
     {
         lockedTarget = null;
         lockedAttack = false;
-        attacking = false;
-        attackTimer = maxAttackTimer;
-        stopAttackAfter = false;
+        resetAttack();
     }
 
     public void stopAttackAfterAttacked()
@@ -424,7 +430,7 @@ public class UnitCombat : MonoBehaviour
             FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/hit_metal", AudioScript.get3DAudioPositionVector3(transform.position));
             //Knockback
             if (!gameObject.tag.Equals("Player"))
-                unitMovement.knockback(source, Tuner.PLAYER_MELEE_ATTACK_KNOCKBACK_DISTANCE);
+                unitMovement.knockback(source, Tuner.KNOCKBACK_DISTANCE);
         }
 
         if ((health - damage) > maxHealth)
@@ -454,7 +460,7 @@ public class UnitCombat : MonoBehaviour
 
     public bool canCastSpell(int spellID)
     {
-        if (getSpellList()[spellID].isOnCooldown() || buffs.isStunned() || buffs.isUncontrollable())
+        if (getSpellList()[spellID].isOnCooldown() || buffs.isStunned() || buffs.isUncontrollable() || !isAlive())
             return false;
         return true;
     }

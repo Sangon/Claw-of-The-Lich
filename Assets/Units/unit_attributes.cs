@@ -17,14 +17,14 @@ public class unit_attributes
     [XmlElement("meleedamage")]
     public float meleedamage;
 
-    [XmlElement("meleeattackframes")]
-    public int meleeattackframes;
+    [XmlElement("meleeattackspeed")]
+    public float meleeattackspeed;
 
     [XmlElement("rangeddamage")]
     public float rangeddamage;
 
-    [XmlElement("rangedattackframes")]
-    public int rangedattackframes;
+    [XmlElement("rangedattackspeed")]
+    public float rangedattackspeed;
 
     [XmlElement("movementspeed")]
     public float movementspeed;
@@ -77,9 +77,9 @@ public class unit_attributes
 
         health = items.health;
         meleedamage = items.meleedamage;
-        meleeattackframes = items.meleeattackframes;
+        meleeattackspeed = items.meleeattackspeed;
         rangeddamage = items.rangeddamage;
-        rangedattackframes = items.rangedattackframes;
+        rangedattackspeed = items.rangedattackspeed;
         skill1 = SkillBook.getSkill(items.skillslot1);
         skill2 = SkillBook.getSkill(items.skillslot2);
         isMelee = items.isMelee;
@@ -92,8 +92,8 @@ public class unit_attributes
         health = Tuner.UNIT_BASE_HEALTH;
         meleedamage = Tuner.UNIT_BASE_MELEE_DAMAGE;
         rangeddamage = Tuner.UNIT_BASE_RANGED_DAMAGE;
-        meleeattackframes = Tuner.UNIT_BASE_MELEE_ATTACK_FRAMES;
-        rangedattackframes = Tuner.UNIT_BASE_RANGED_ATTACK_FRAMES;
+        meleeattackspeed = Tuner.UNIT_BASE_MELEE_ATTACK_SPEED;
+        rangedattackspeed = Tuner.UNIT_BASE_RANGED_ATTACK_SPEED;
         isMelee = true;
         skill1 = SkillBook.getSkill("empty_skill");
         skill2 = SkillBook.getSkill("empty_skill");

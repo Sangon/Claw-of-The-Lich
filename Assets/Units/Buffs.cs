@@ -7,9 +7,12 @@ public class Buffs : MonoBehaviour
     public enum BuffType
     {
         knockback,
-        charge
+        charge,
+        attack,
+        wander
     }
 
+    private uint nextBuffID;
     private List<Buff> buffs = null;
 
     void Awake()
@@ -21,7 +24,7 @@ public class Buffs : MonoBehaviour
     {
         foreach (Buff b in buffs)
         {
-            if (b.hasEffect(Buff.Effect.stun))
+            if (b.getEffect() == Buff.Effect.stun)
                 return true;
         }
         return false;
@@ -31,35 +34,88 @@ public class Buffs : MonoBehaviour
     {
         foreach (Buff b in buffs)
         {
-            if (b.hasEffect(Buff.Effect.uncontrollable))
+            if (b.getEffect() == Buff.Effect.uncontrollable)
                 return true;
         }
         return false;
     }
 
-    public void addBuff(BuffType buffType, float duration)
+    public float getMovementSpeedLimit()
     {
-        List<Buff.Effect> effects = new List<Buff.Effect>();
+        float lowest = -1f;
+        foreach (Buff b in buffs)
+        {
+            if (b.getEffect() == Buff.Effect.movementspeedlimit)
+                if (lowest == -1f || (lowest != -1f && b.getValue() < lowest))
+                    lowest = b.getValue();
+        }
+        return lowest;
+    }
+
+    public float getMovementSpeedMultiplier()
+    {
+        float lowest = -1f;
+        foreach (Buff b in buffs)
+        {
+            if (b.getEffect() == Buff.Effect.movementspeedmultiplier)
+                if (lowest == -1f || (lowest != -1f && b.getValue() < lowest))
+                    lowest = b.getValue();
+        }
+        return lowest;
+    }
+
+    public void removeBuff(uint buffID)
+    {
+        buffs.RemoveAll(b => b.getBuffID() == buffID);
+    }
+
+    public uint addBuff(BuffType buffType, float duration)
+    {
+        nextBuffID++;
         switch (buffType)
         {
             case BuffType.knockback:
-                effects.Add(Buff.Effect.stun);
-                buffs.Add(new Buff(effects, duration));
+                buffs.Add(new Buff(nextBuffID, Buff.Effect.stun, duration));
+                break;
+            case BuffType.attack:
                 break;
             case BuffType.charge:
-                effects.Add(Buff.Effect.uncontrollable);
-                buffs.Add(new Buff(effects, duration));
+                buffs.Add(new Buff(nextBuffID, Buff.Effect.uncontrollable, duration));
+                buffs.Add(new Buff(nextBuffID, Buff.Effect.movementspeedmultiplier, duration, Tuner.BASE_CHARGE_SPEED_MULTIPLIER));
+                break;
+            case BuffType.wander:
+                buffs.Add(new Buff(nextBuffID, Buff.Effect.movementspeedlimit, duration, Tuner.WANDERING_MOVEMENT_SPEED));
                 break;
         }
+        return nextBuffID;
     }
 
     void FixedUpdate()
     {
+        UnitCombat unitCombat = gameObject.GetComponent<UnitCombat>();
         if (isStunned())
         {
-            gameObject.GetComponent<UnitCombat>().stopAttack();
+            unitCombat.stopAttack();
             gameObject.GetComponent<UnitMovement>().stop();
             //print("Stunned: " + transform.name);
+        }
+        float movementSpeedLimit = getMovementSpeedLimit();
+        if (movementSpeedLimit != -1f)
+        {
+            if (unitCombat.getMovementSpeed() > movementSpeedLimit)
+            {
+                unitCombat.setMovementSpeed(movementSpeedLimit);
+            }
+        }
+        else
+        {
+            float desiredMovementSpeed = unitCombat.getBaseMovementSpeed();
+            float multiplier = getMovementSpeedMultiplier();
+
+            if (multiplier != -1f)
+                desiredMovementSpeed *= multiplier;
+
+            unitCombat.setMovementSpeed(desiredMovementSpeed);
         }
         buffs.RemoveAll(b => b.tick() == true);
     }

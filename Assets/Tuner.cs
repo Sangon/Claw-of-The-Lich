@@ -10,6 +10,9 @@ public class Tuner : MonoBehaviour
     public static readonly int LEVEL_HEIGHT_IN_TILES = 75;
     public static readonly int LEVEL_WIDTH_IN_TILES = 75;
 
+    //KEYBOARD CONTROLS
+    public static readonly KeyCode[] KEYS_CHARACTER_ABILITY = new KeyCode[8] { KeyCode.Q, KeyCode.A, KeyCode.W, KeyCode.S, KeyCode.E, KeyCode.D, KeyCode.R, KeyCode.F };
+
     //UNIT DEFAULT COLORS
     public static readonly Color ENEMY_RANGED_COLOR = new Color(0.8f, 0.8f, 0.5f);
     public static readonly Color ENEMY_MELEE_COLOR = new Color(1.0f, 0.5f, 0.5f);
@@ -18,24 +21,22 @@ public class Tuner : MonoBehaviour
     public static readonly float UNIT_BASE_HEALTH = 10f;
     public static readonly float UNIT_BASE_STAMINA = 100f;
     public static readonly float UNIT_BASE_RANGED_RANGE = 750f;
-	public static readonly float UNIT_BASE_MELEE_RANGE = 25*5f;
+    public static readonly float UNIT_BASE_MELEE_RANGE = 25 * 5f;
     public static readonly float UNIT_BASE_MELEE_DAMAGE = 0.75f;
     public static readonly float UNIT_BASE_RANGED_DAMAGE = 1.5f;
-    public static readonly int UNIT_BASE_MELEE_ATTACK_FRAMES = 30;
-    public static readonly int UNIT_BASE_RANGED_ATTACK_FRAMES = 30;
+    public static readonly float UNIT_BASE_MELEE_ATTACK_SPEED = 1.33f;
+    public static readonly float UNIT_BASE_RANGED_ATTACK_SPEED = 2.0f;
     public static readonly float DEFAULT_MELEE_ATTACK_CONE_DEGREES = 135f;
     public static readonly float UNIT_BASE_SPEED = 500f;
 
-    //PLAYER DEFAULT VALUES
-    public static readonly float PLAYER_MELEE_ATTACK_KNOCKBACK_DISTANCE = UNIT_BASE_MELEE_RANGE * 0.5f;
-
-    //BUFF DEFAULT VALUES
+    //MELEE ATTACK DEFAULT VALUES
+    public static readonly float KNOCKBACK_DISTANCE = UNIT_BASE_MELEE_RANGE * 0.5f;
     public static readonly float KNOCKBACK_STUN_DURATION = 0.666f;
 
     //SPELL DEFAULT VALUES
-    public static readonly float DEFAULT_SPELL_RANGE = 150f;
-	public static readonly float DEFAULT_SKILL_CAST_TIME = 1f;
-	public static readonly float DEFAULT_SKILL_COOLDOWN = 1f;
+    public static readonly float DEFAULT_SPELL_RANGE = 150f; //?
+    public static readonly float DEFAULT_SKILL_CAST_TIME = 1f; //?
+    public static readonly float DEFAULT_SKILL_COOLDOWN = 1f; //?
 
     public static readonly float DEFAULT_PROJECTILE_VELOCITY = 15f;
     public static readonly float DEFAULT_PROJECTILE_DAMAGE = 1.0f;
@@ -49,9 +50,9 @@ public class Tuner : MonoBehaviour
     public static readonly float BASE_WHIRLWIND_COOLDOWN = 5.0f;
 
     public static readonly float BASE_CHARGE_DAMAGE = 15f;
-    public static readonly float BASE_CHARGE_SPEED_MULTIPLIER = 3f;
+    public static readonly float BASE_CHARGE_SPEED_MULTIPLIER = 4f;
     public static readonly float BASE_CHARGE_COOLDOWN = 10.0f;
-    public static readonly float BASE_CHARGE_DURATION = 0.5f;
+    public static readonly float BASE_CHARGE_DURATION = 0.55f;
     public static readonly float BASE_CHARGE_RADIUS = 150f; //Units that are inside this range are damaged by the charger
     public static readonly float CHARGE_MAX_ANGLE = 90f; //If the charging unit would be turning more than this (in degrees), stop charging
 
@@ -62,16 +63,17 @@ public class Tuner : MonoBehaviour
 
     //CAMERA DEFAULT VALUES
     public static readonly float CAMERA_MIN_DISTANCE = 100f;
-	public static readonly float CAMERA_MAX_DISTANCE = 6000f;
+    public static readonly float CAMERA_MAX_DISTANCE = 6000f;
     public static readonly float CAMERA_SCROLLING_SPEED = 5f;
     public static readonly float CAMERA_ZOOM_SPEED = 15f;
 
     //PARTYSYSTEM DEFAULT VALUES
-    public static readonly float PARTY_SPACING = 100f;
+    public static readonly float PARTY_SPACING = 200f;
 
     //PATHFINDING & MOVEMENT DEFAULT VALUES
     public static readonly float PATHFINDING_MINIMUM_DISTANCE_FROM_UNIT = 10f;
     public static readonly float ATTACKMOVE_MAX_SEARCH_DISTANCE_FROM_CLICK_POINT = 300f;
+    public static readonly float WANDERING_MOVEMENT_SPEED = 250f;
 
     //ENEMY AI DEFAULT VALUES
     public static readonly float UNIT_AGGRO_RANGE = 1500f;

@@ -21,7 +21,7 @@ public class projectile_spell_script : Spell
         damage = Tuner.DEFAULT_PROJECTILE_DAMAGE;
     }
 
-    public void initAttack(Vector3 enemy, GameObject parent, bool handleOffset)
+    public void initAttack(Vector3 enemy, GameObject parent, float damage, bool handleOffset)
     {
         /////////// TODO: These could/should be in Awake() instead
         transform.position = new Vector3(transform.position.x, transform.position.y + Tuner.DEFAULT_PROJECTILE_OFFSET, transform.position.y / 100.0f + 800.0f);
@@ -31,18 +31,16 @@ public class projectile_spell_script : Spell
         sorter.autoUpdate = true;
         ///////////
         FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/attack_bow", AudioScript.get3DAudioPositionVector3(transform.position));
+
         castLocation = enemy;
         setParent(parent);
         ownerTag = parent.tag;
+        this.damage = damage;
+
         if (handleOffset)
             castLocation.y += Tuner.DEFAULT_PROJECTILE_OFFSET;
-        //dir = new Vector2(castLocation.x - transform.position.x, castLocation.y - transform.position.y).normalized;
-
-        //print("Dir1: " + dir);
 
         dir = Ellipse.isometricDirection(castLocation, transform.position);
-
-        //print("Dir2: " + dir2);
 
         transform.Rotate(new Vector3(0, 0, Mathf.Atan2(castLocation.y - transform.position.y, castLocation.x - transform.position.x) * 180f / Mathf.PI));
         transform.position = new Vector3(transform.position.x, transform.position.y, (transform.position.y - Tuner.DEFAULT_PROJECTILE_OFFSET) / 100.0f + 800.0f);
