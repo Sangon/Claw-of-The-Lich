@@ -8,7 +8,6 @@ public class UnitMovement : MonoBehaviour
     private Animator animator;
     private UnitCombat unitCombat;
     private Buffs buffs;
-    private Traps traps;
 
     public enum Direction
     {
@@ -49,7 +48,6 @@ public class UnitMovement : MonoBehaviour
         animator = GetComponent<Animator>();
         unitCombat = GetComponent<UnitCombat>();
         buffs = GetComponent<Buffs>();
-        traps = GameObject.Find("Traps").GetComponent<Traps>();
         footStepsAudio = FMODUnity.RuntimeManager.CreateInstance("event:/sfx/walk");
     }
 
@@ -76,27 +74,6 @@ public class UnitMovement : MonoBehaviour
         if (stopAnimation)
         {
             //playAnimation(Animations.idle);
-        }
-    }
-
-    private void checkTriggerCollisions(bool debug = false)
-    {
-        traps.checkTrigger(transform.position, transform.tag);
-
-        if (gameObject.tag.Equals("Player"))
-        {
-            Vector2 pos = gameObject.transform.position;
-            Vector2 end = pos + new Vector2(0, 1f);
-            if (debug)
-                Debug.DrawLine(pos, end, Color.magenta);
-            RaycastHit2D[] hits = Physics2D.LinecastAll(pos, end, Tuner.LAYER_FLOOR);
-            if (hits.Length > 0)
-            {
-                for (int i = 0; i < hits.Length; i++)
-                {
-                    hits[i].collider.gameObject.GetComponent<HouseTransparency>().trigger();
-                }
-            }
         }
     }
 
@@ -294,7 +271,6 @@ public class UnitMovement : MonoBehaviour
             moving = false;
 
         calculateDirection();
-        checkTriggerCollisions();
     }
 
     public Direction getDirection()

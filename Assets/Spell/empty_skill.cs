@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class empty_skill : Skill{
+public class empty_skill : Skill
+{
 
     public empty_skill()
     {
@@ -9,7 +10,7 @@ public class empty_skill : Skill{
         skillIcon = null;
         maxCooldown = 0;
     }
-    public override void cast(GameObject owner){}
+    public override void cast(GameObject parent) { }
 
-    public override void FixedUpdate(){}
+    public override void FixedUpdate() { }
 }

@@ -11,12 +11,14 @@ public class blot_out_skill : Skill
         maxCooldown = Tuner.BASE_BLOT_OUT_COOLDOWN;
     }
 
-    public override void cast(GameObject owner)
+    public override void cast(GameObject parent)
     {
         if (currentCooldown <= 0)
         {
-            GameObject g = Instantiate(Resources.Load(spellName), getCurrentMousePos(), Quaternion.identity) as GameObject;
-            g.GetComponent<blot_out_spell_script>().setParent(owner);
+            this.parent = parent;
+
+            GameObject go = Instantiate(Resources.Load(spellName), getCurrentMousePos(), Quaternion.identity) as GameObject;
+            go.GetComponent<blot_out_spell_script>().setParent(parent);
 
             currentCooldown = maxCooldown;
         }

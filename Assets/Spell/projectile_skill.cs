@@ -11,11 +11,13 @@ public class projectile_skill : Skill
         skillIcon = null;
     }
 
-    public override void cast(GameObject owner)
+    public override void cast(GameObject parent)
     {
         if (currentCooldown <= 0)
         {
-            Instantiate(Resources.Load(spellName), owner.transform.position + new Vector3(0, spellOffSet, 0), Quaternion.identity);
+            this.parent = parent;
+
+            Instantiate(Resources.Load(spellName), parent.transform.position + new Vector3(0, spellOffSet, 0), Quaternion.identity);
             currentCooldown = maxCooldown;
         }
     }

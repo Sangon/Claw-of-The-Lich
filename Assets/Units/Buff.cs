@@ -9,7 +9,8 @@ public class Buff
         stun,
         uncontrollable,
         movementspeedlimit,
-        movementspeedmultiplier
+        movementspeedmultiplier,
+        layerorder
     }
 
     private uint buffID;

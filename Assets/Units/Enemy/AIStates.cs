@@ -61,6 +61,11 @@ public class AIStates : MonoBehaviour
                 changeState(State.Chase);
                 target = unitCombat.getLockedTarget();
             }
+            else
+            {
+                //There are no hostile targets nearby
+                changeState(State.Idle);
+            }
         }
 
         switch (currentState)
@@ -78,6 +83,7 @@ public class AIStates : MonoBehaviour
                 {
                     if (!UnitMovement.lineOfSight(transform.position, target.transform.position, false))
                     {
+                        //Enemy can't see the target anymore
                         if (chasingTime >= Tuner.CHASING_TIME_MAX)
                             changeState(State.Idle); //Give up chasing after CHASING_TIME_MAX seconds
                         else
@@ -85,7 +91,7 @@ public class AIStates : MonoBehaviour
                     }
                     else
                     {
-                        //Enemy can see the player: keep chasing
+                        //Enemy can see the target: keep chasing
                         chasingTime = 0;
                         if (!unitCombat.isMelee() && target.GetComponent<UnitCombat>().isMelee())
                         {
@@ -111,11 +117,22 @@ public class AIStates : MonoBehaviour
             case State.Wander:
                 if (!unitMovement.isMoving())
                 {
-                    Vector2 point = Ellipse.getRandomPointInsideEllipse(startingPoint, Tuner.WANDERING_DISTANCE_MAX);
-                    point += Ellipse.isometricLine(startingPoint, point, Tuner.WANDERING_DISTANCE_MAX);
-                    point = UnitMovement.getEndOfLine(startingPoint, point);
-                    unitMovement.moveTo(point);
-                    changeState(State.Idle);
+                    //Find a good spot to wander to
+                    Vector2 point = Vector2.zero;
+                    bool foundSpot = false;
+                    if (Ellipse.isometricDistance(transform.position, startingPoint) > Tuner.WANDERING_DISTANCE_MAX)
+                    {
+                        point = Ellipse.getRandomPointInsideEllipse(startingPoint, Tuner.WANDERING_DISTANCE);
+                        foundSpot = true;
+                    }
+                    else
+                        point = Ellipse.getRandomPointInsideEllipse(transform.position, Tuner.WANDERING_DISTANCE);
+
+                    if (foundSpot || Ellipse.pointInsideEllipse(point, startingPoint, Tuner.WANDERING_DISTANCE_MAX) && UnitMovement.lineOfSight(transform.position, point, true))
+                    {
+                        unitMovement.moveTo(point);
+                        changeState(State.Idle);
+                    }
                 }
                 break;
             case State.Chase:
@@ -222,7 +239,7 @@ public class AIStates : MonoBehaviour
             //Started fleeing
             unitCombat.stopAttackAfterAttacked();
         }
-        if ((state == State.Wander && currentState == State.Idle) || (state == State.Idle && currentState == State.Wander))
+        else if ((state == State.Wander && currentState == State.Idle) || (state == State.Idle && currentState == State.Wander))
         {
             nextIdleWanderChange = Time.fixedTime + Random.Range(Tuner.IDLING_STATE_TIME_MIN, Tuner.IDLING_STATE_TIME_MAX);
             if (wanderBuffID > 0)
@@ -246,19 +263,16 @@ public class AIStates : MonoBehaviour
                     startedFleeing = false;
                 }
             }
-            else {
+            else
+            {
                 //Call for help
-                foreach (GameObject unit in UnitList.getHostiles())
+                foreach (GameObject unit in UnitList.getHostileUnitsInArea(transform.position, Tuner.UNIT_AGGRO_CALLOUT_RANGE))
                 {
                     if (unit != gameObject && !unit.GetComponent<AIStates>().inCombat())
                     {
-                        float dis = Ellipse.isometricDistance(transform.position, unit.transform.position);
-                        if (dis <= Tuner.UNIT_AGGRO_CALLOUT_RANGE)
+                        if (UnitMovement.lineOfSight(transform.position, unit.transform.position, false))
                         {
-                            if (UnitMovement.lineOfSight(transform.position, unit.transform.position, false))
-                            {
-                                unit.GetComponent<UnitCombat>().aggro(unitCombat.getLockedTarget());
-                            }
+                            unit.GetComponent<UnitCombat>().aggro(unitCombat.getLockedTarget());
                         }
                     }
                 }

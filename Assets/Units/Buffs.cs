@@ -9,7 +9,8 @@ public class Buffs : MonoBehaviour
         knockback,
         charge,
         attack,
-        wander
+        wander,
+        layerorder
     }
 
     private uint nextBuffID;
@@ -28,6 +29,17 @@ public class Buffs : MonoBehaviour
                 return true;
         }
         return false;
+    }
+
+    public int getLayerOrder()
+    {
+        int order = Tuner.DEFAULT_LAYER_ORDER_UNITS;
+        foreach (Buff b in buffs)
+        {
+            if (b.getEffect() == Buff.Effect.layerorder)
+                    order = (int)b.getValue();
+        }
+        return order;
     }
 
     public bool isUncontrollable()
@@ -86,6 +98,9 @@ public class Buffs : MonoBehaviour
             case BuffType.wander:
                 buffs.Add(new Buff(nextBuffID, Buff.Effect.movementspeedlimit, duration, Tuner.WANDERING_MOVEMENT_SPEED));
                 break;
+            case BuffType.layerorder:
+                buffs.Add(new Buff(nextBuffID, Buff.Effect.layerorder, duration, Tuner.DEFAULT_LAYER_ORDER_UNITS - 1));
+                break;
         }
         return nextBuffID;
     }
@@ -93,6 +108,7 @@ public class Buffs : MonoBehaviour
     void FixedUpdate()
     {
         UnitCombat unitCombat = gameObject.GetComponent<UnitCombat>();
+        gameObject.GetComponent<SpriteRenderer>().sortingOrder = getLayerOrder();
         if (isStunned())
         {
             unitCombat.stopAttack();

@@ -5,10 +5,17 @@ using System.Collections;
 public class Tuner : MonoBehaviour
 {
     //GAME SETTINGS DEFAULT VALEUS
-    public static readonly int FPS_TARGET_FRAME_RATE = 120;
+    public static readonly int FPS_TARGET_FRAME_RATE = 1200;
     public static readonly bool SHOW_HEALTHBARS = true;
-    public static readonly int LEVEL_HEIGHT_IN_TILES = 75;
     public static readonly int LEVEL_WIDTH_IN_TILES = 75;
+    public static readonly int LEVEL_HEIGHT_IN_TILES = 75;
+    public static readonly int LEVEL_WIDTH_IN_WORLD_UNITS = LEVEL_WIDTH_IN_TILES * 512;
+    public static readonly int LEVEL_HEIGHT_IN_WORLD_UNITS = LEVEL_HEIGHT_IN_TILES * 256;
+    public static readonly int LEVEL_AREA_DIVISIONS_WIDTH = 4;
+    public static readonly int LEVEL_AREA_DIVISIONS_HEIGHT = 4;
+    public static readonly int LEVEL_AREA_DIVISIONS = LEVEL_AREA_DIVISIONS_WIDTH * LEVEL_AREA_DIVISIONS_HEIGHT;
+    public static readonly int DEFAULT_LAYER_ORDER_UNITS = 1;
+
 
     //KEYBOARD CONTROLS
     public static readonly KeyCode[] KEYS_CHARACTER_ABILITY = new KeyCode[8] { KeyCode.Q, KeyCode.A, KeyCode.W, KeyCode.S, KeyCode.E, KeyCode.D, KeyCode.R, KeyCode.F };
@@ -81,6 +88,7 @@ public class Tuner : MonoBehaviour
     public static readonly float IDLING_STATE_TIME_MIN = 3f; //The minimum time in seconds the enemy spends in idle mode before it wanders
     public static readonly float IDLING_STATE_TIME_MAX = 10f; //The maximum time in seconds the enemy spends in idle mode before it wanders
     public static readonly float WANDERING_DISTANCE_MAX = 1000f; //The maximum distance the enemy can wander from its starting position
+    public static readonly float WANDERING_DISTANCE = 750f; //The maximum distance the enemy wanders at a time
     public static readonly float CHASING_TIME_MAX = 3f; //The maximum time in seconds the enemy spends chasing the player without seeing him before giving up and returning to its starting position
 
     //UNITY EDITOR DEFAULT VALUES

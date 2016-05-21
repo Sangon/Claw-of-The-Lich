@@ -104,12 +104,9 @@ public class TargetedAbilityIndicator : MonoBehaviour
                 ellipseWidth = Tuner.DEFAULT_WHIRLWIND_RADIUS;
                 indicator.transform.position = new Vector3(indicator.transform.parent.parent.position.x, indicator.transform.parent.parent.position.y, 0);
             }
-            foreach (GameObject u in UnitList.getHostiles())
+            foreach (GameObject u in UnitList.getHostileUnitsInArea(ellipsePos, ellipseWidth))
             {
-                if (Ellipse.pointInsideEllipse(u.transform.position, ellipsePos, ellipseWidth))
-                {
-                    u.GetComponent<SpriteRenderer>().color = Color.cyan;
-                }
+                u.GetComponent<SpriteRenderer>().color = Color.cyan;
             }
         }
         else if (indicator.name.Equals("ChargeIndicator"))

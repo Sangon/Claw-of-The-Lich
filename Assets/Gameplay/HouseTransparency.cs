@@ -23,9 +23,15 @@ public class HouseTransparency : MonoBehaviour
         }
     }
 
-    public void trigger()
+    public void trigger(GameObject triggerer)
     {
-        triggered = Time.fixedDeltaTime * 2;
-        Walls.SetActive(false);
+        float triggerDuration = Time.fixedDeltaTime * 2f;
+        if (triggerer.tag.Equals("Player"))
+        {
+            //Only players can make houses transparent
+            triggered = triggerDuration;
+            Walls.SetActive(false);
+        }
+        triggerer.GetComponent<Buffs>().addBuff(Buffs.BuffType.layerorder, triggerDuration);
     }
 }

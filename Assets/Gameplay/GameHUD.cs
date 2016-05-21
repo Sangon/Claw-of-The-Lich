@@ -19,6 +19,10 @@ public class GameHUD : MonoBehaviour
     private RectTransform lichManaBar;
     private float lichManaBarScaleX;
 
+    private int frames;
+    private float frameTime;
+    private int avgFPS;
+
     public bool isTargeting()
     {
         for (int i = 0; i < 8; i++)
@@ -237,6 +241,16 @@ public class GameHUD : MonoBehaviour
         float fps = 1.0f / Time.deltaTime;
         string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
         GUI.Label(new Rect(width - 110, 10, 110, 20), text);
-        GUI.Label(new Rect(width - 110, 30, 110, 20), "Enemies left: " + UnitList.getHostiles().Length);
+        frames++;
+        frameTime += Time.deltaTime;
+        if (frameTime >= 3.0f)
+        {
+            avgFPS = (int)(frames / frameTime);
+            frameTime -= 3.0f;
+            frames = 0;
+        }
+        text = string.Format("Avg. {0} fps", avgFPS);
+        GUI.Label(new Rect(width - 110, 30, 110, 20), text);
+        GUI.Label(new Rect(width - 110, 50, 110, 20), "Enemies left: " + UnitList.getHostiles().Length);
     }
 }

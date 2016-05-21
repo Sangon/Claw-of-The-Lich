@@ -26,6 +26,16 @@ public class MiniMapMark : MonoBehaviour
         image = minimapIcon.GetComponent<Image>();
     }
 
+    public void hideIcon()
+    {
+        minimapIcon.SetActive(false);
+    }
+
+    public void showIcon()
+    {
+        minimapIcon.SetActive(true);
+    }
+
     // Update is called once per frame
     void LateUpdate()
     {

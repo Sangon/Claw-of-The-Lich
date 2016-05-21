@@ -118,7 +118,7 @@ namespace Tiled2Unity
                     // Set the sorting order
                     //renderer.sortingOrder = ImportUtils.GetAttributeAsInt(goXml, "sortingOrder", 0);
                     if (parent.name.Equals("Ground"))
-                        renderer.sortingOrder = 0;
+                        renderer.sortingOrder = -1;
                     else
                         renderer.sortingOrder = 1;
                 }

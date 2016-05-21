@@ -158,6 +158,9 @@ public class UnitCombat : MonoBehaviour
         {
             setStamina(0);
 
+            stopAttack();
+            unitMovement.stop();
+
             //Disable most of the scripts on the gameobject (UnitMovement is needed for death animations)
             if (GetComponent<AstarAI>())
                 GetComponent<AstarAI>().enabled = false;
@@ -173,17 +176,16 @@ public class UnitCombat : MonoBehaviour
                 GetComponent<AIStates>().enabled = false;
             if (GetComponent<HealthBar>())
                 GetComponent<HealthBar>().enabled = false;
-            stopAttack();
-            unitMovement.stop();
 
             if (tag.Equals("Hostile"))
             {
                 //Hide minimap icon for enemies
-                GameObject minimapIcon = GameObject.Find("Icon_" + gameObject.name);
-                if (minimapIcon != null)
-                    minimapIcon.SetActive(false);
-                if (GetComponent<MiniMapMark>())
-                    GetComponent<MiniMapMark>().enabled = false;
+                MiniMapMark miniMapMark = GetComponent<MiniMapMark>();
+                if (miniMapMark)
+                {
+                    miniMapMark.hideIcon();
+                    miniMapMark.enabled = false;
+                }
             }
 
             GameObject canvas = transform.Find("Canvas").gameObject;
@@ -192,8 +194,8 @@ public class UnitCombat : MonoBehaviour
 
             if (Camera.main.transform.parent == transform)
                 Camera.main.transform.parent = null;
+
             FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/enemy_down", AudioScript.get3DAudioPositionVector3(transform.position));
-            //gameObject.SetActive(false);
 
             if (tag.Equals("Player"))
             {
@@ -205,6 +207,7 @@ public class UnitCombat : MonoBehaviour
             }
 
             gameObject.tag = "Dead";
+            UnitList.updateArrays();
         }
     }
 
@@ -304,17 +307,17 @@ public class UnitCombat : MonoBehaviour
 
             //Laskee kuka potentiaalisten vihollisten listasta on lähimpänä ja lockinnaa siihen.
             float distance = Mathf.Infinity;
-            foreach (GameObject g in UnitList.getHostiles())
+            foreach (GameObject unit in UnitList.getHostileUnitsInArea(hit, Tuner.ATTACKMOVE_MAX_SEARCH_DISTANCE_FROM_CLICK_POINT))
             {
-                float currentDistance = Ellipse.isometricDistance(g.transform.position, hit);
+                float currentDistance = Ellipse.isometricDistance(unit.transform.position, hit);
 
                 if (currentDistance < distance)
                 {
-                    bestTarget = g;
+                    bestTarget = unit;
                     distance = currentDistance;
                 }
             }
-            if (distance <= Tuner.ATTACKMOVE_MAX_SEARCH_DISTANCE_FROM_CLICK_POINT)
+            if (bestTarget != null)
             {
                 lockedAttack = true;
                 lockedTarget = bestTarget;
@@ -511,29 +514,22 @@ public class UnitCombat : MonoBehaviour
     //Haetaan meleerangessa olevat viholliset ja tehdään juttuja.
     public List<GameObject> getUnitsInMelee(UnitMovement.Direction dir)
     {
-        //int mod = 3;
-        GameObject[] targets = null;
+        List<GameObject> potentialTargets = null;
         List<GameObject> targetsInRange = new List<GameObject>();
 
         if (transform.tag != "Hostile")
-            targets = UnitList.getHostiles();
+            potentialTargets = UnitList.getHostileUnitsInArea(transform.position, getAttackRange());
         else
-            targets = UnitList.getPlayers();
+            potentialTargets = UnitList.getPlayerUnitsInArea(transform.position, getAttackRange());
 
-        foreach (GameObject target in targets)
+        foreach (GameObject unit in potentialTargets)
         {
-            float dis = Ellipse.isometricDistance(transform.position, target.transform.position);
-            if (dis <= getAttackRange())
-            {
-                Vector2 relative = transform.InverseTransformPoint(target.transform.position);
-                float attackAngle = Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg;
-                if (Mathf.Abs((unitMovement.getFacingAngle()) - attackAngle) <= Tuner.DEFAULT_MELEE_ATTACK_CONE_DEGREES)
-                    targetsInRange.Add(target);
-
-                //print(Mathf.Abs((unitMovement.getFacingAngle()) - attackAngle));
-                //print("facingAngle: " + (unitMovement.getFacingAngle()) + " attackAngle: " + attackAngle);
-            }
+            Vector2 relative = transform.InverseTransformPoint(unit.transform.position);
+            float attackAngle = Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg;
+            if (Mathf.Abs((unitMovement.getFacingAngle()) - attackAngle) <= Tuner.DEFAULT_MELEE_ATTACK_CONE_DEGREES)
+                targetsInRange.Add(unit);
         }
+
         return targetsInRange;
     }
 }

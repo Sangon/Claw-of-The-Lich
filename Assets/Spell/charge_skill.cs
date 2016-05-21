@@ -3,16 +3,15 @@ using System.Collections.Generic;
 
 public class charge_skill : Skill
 {
-    float chargeTimer = 0;
-    float maxChargeTimer = Tuner.BASE_CHARGE_DURATION;
-    Vector2 chargeVector;
-    GameObject parent;
-    Vector2 oldDir;
-    List<GameObject> hits = new List<GameObject>();
+    private float chargeTimer = 0;
+    private float maxChargeTimer = Tuner.BASE_CHARGE_DURATION;
+    private Vector2 chargeVector;
+    private Vector2 oldDir;
+    private List<GameObject> hits = new List<GameObject>();
 
-    uint buffID;
+    private uint buffID;
 
-    int pathNumber;
+    private int pathNumber;
 
     public charge_skill()
     {
@@ -21,11 +20,11 @@ public class charge_skill : Skill
         maxCooldown = Tuner.BASE_CHARGE_COOLDOWN;
     }
 
-    public override void cast(GameObject owner)
+    public override void cast(GameObject parent)
     {
         if (currentCooldown <= 0)
         {
-            parent = owner;
+            this.parent = parent;
 
             chargeVector = (new Vector2(parent.transform.position.x, parent.transform.position.y) - getCurrentMousePos()).normalized * 200f; //TODO: Make isometric
             chargeTimer = maxChargeTimer;
@@ -48,7 +47,16 @@ public class charge_skill : Skill
 
         if (chargeTimer > 0)
         {
-            List<GameObject> targets = getUnitsAtPoint(parent.transform.position, Tuner.BASE_CHARGE_RADIUS);
+            List<GameObject> targets = null;
+
+            if (parent.tag.Equals("Player"))
+            {
+                targets = UnitList.getHostileUnitsInArea(parent.transform.position, Tuner.BASE_CHARGE_RADIUS);
+            }
+            else
+            {
+                targets = UnitList.getPlayerUnitsInArea(parent.transform.position, Tuner.BASE_CHARGE_RADIUS);
+            }
 
             foreach (GameObject target in targets)
             {

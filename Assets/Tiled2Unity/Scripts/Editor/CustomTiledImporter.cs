@@ -9,13 +9,16 @@ class MyCustomImporter : Tiled2Unity.ICustomTiledImporter
 {
     void ICustomTiledImporter.HandleCustomProperties(GameObject gameObject, IDictionary<string, string> customProperties)
     {
-        if (customProperties.ContainsKey("CanGetBehind"))
+        if (customProperties.ContainsKey("DoubleHeight"))
         {
-            AutoLayerSort sorter = gameObject.GetComponent<AutoLayerSort>();
-            if (customProperties["CanGetBehind"].Equals("0"))
-                sorter.offset = -512.0f / 100.0f;
-            else
-                sorter.offset = 128.0f / 100.0f;
+            //AutoLayerSort sorter = gameObject.GetComponent<AutoLayerSort>();
+            float offset = -512.0f / 100f;
+            if (customProperties["DoubleHeight"].Equals("true"))
+            {
+                Debug.Log("Found: " + gameObject.transform.position);
+                gameObject.transform.position += new Vector3(0, 0, offset);
+                Debug.Log("Fixed: " + gameObject.transform.position);
+            }
         }
     }
 

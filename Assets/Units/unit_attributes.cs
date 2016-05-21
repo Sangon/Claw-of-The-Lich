@@ -55,9 +55,10 @@ public class unit_attributes
             Debug.Log("FOUND CHARACTER: " + uname);
             unit_name = uname;
         }
-        else {
-            unit_name = uname.Split((char)32)[0];
-            unit_name = unit_name.Replace("(Clone)", "");
+        else
+        {
+            regex = new Regex("[^a-zA-Z_]+|(Enemy_)|(Clone)");
+            unit_name = regex.Replace(uname, string.Empty);
         }
 
         TextAsset _xml = Resources.Load<TextAsset>(unit_name);

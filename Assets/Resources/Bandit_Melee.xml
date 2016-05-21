@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<attribute>
+	<health>20.0</health>
+	<meleedamage>5</meleedamage>
+	<rangeddamage>1.0</rangeddamage>
+	<meleeattackspeed>1.0</meleeattackspeed>
+	<rangedattackspeed>2.0</rangedattackspeed>
+	<skillslot1>whirlwind_skill</skillslot1>
+	<skillslot2>charge_skill</skillslot2>
+	<ismelee>true</ismelee>
+	<movementspeed>400</movementspeed>
+</attribute>
