@@ -5,15 +5,11 @@ public class EnemyAI : MonoBehaviour
 {
     private float timeStamp;
 
-    //private UnitMovement unitMovement = null;
-    private UnitCombat unitCombat = null;
-    private PartySystem partySystem = null;
+    private UnitCombat unitCombat;
 
     void Start()
     {
-        //unitMovement = GetComponent<UnitMovement>();
         unitCombat = GetComponent<UnitCombat>();
-        partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
     }
 
     public bool lookForOpponents()
@@ -21,11 +17,11 @@ public class EnemyAI : MonoBehaviour
         float dis, bestDis = float.MaxValue;
         GameObject target = null;
 
-        foreach (GameObject character in partySystem.aliveCharacters)
+        foreach (GameObject character in UnitList.getPlayerUnitsInArea(transform.position, Tuner.UNIT_AGGRO_RANGE))
         {
-            dis = Ellipse.isometricDistance(character.transform.position, transform.position);
-            if (dis < Tuner.UNIT_AGGRO_RANGE)
+            if (UnitMovement.lineOfSight(transform.position, character.transform.position, false))
             {
+                dis = Ellipse.isometricDistance(character.transform.position, transform.position);
                 if (target != null && dis < bestDis)
                 {
                     target = character; //This character is closer than the old target: change target
@@ -37,11 +33,8 @@ public class EnemyAI : MonoBehaviour
         }
         if (target != null)
         {
-            if (UnitMovement.lineOfSight(transform.position, target.transform.position, false))
-            {
-                unitCombat.aggro(target);
-                return true;
-            }
+            unitCombat.aggro(target);
+            return true;
         }
         return false;
     }

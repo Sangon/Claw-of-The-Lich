@@ -51,7 +51,8 @@ public class AIStates : MonoBehaviour
 
         if (currentState != State.Flee || target == null || !target.GetComponent<UnitCombat>().isAlive())
         {
-            hasTarget = enemyAI.lookForOpponents();
+            if (inCombat() || FrameCounter.frameNumber % 25 == 0)
+                hasTarget = enemyAI.lookForOpponents();
 
             if (unitCombat.getLockedTarget() != null)
                 hasTarget = true;

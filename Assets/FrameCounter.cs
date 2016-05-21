@@ -7,8 +7,8 @@ public class FrameCounter : MonoBehaviour
 
     void FixedUpdate()
     {
-        frameNumber = Time.frameCount % 60;
-        if (frameNumber == 59)
+        frameNumber = Time.frameCount % 50;
+        if (frameNumber == 49)
         {
             //System.GC.Collect();
         }

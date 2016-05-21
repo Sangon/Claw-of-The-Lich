@@ -171,6 +171,8 @@ public class UnitMovement : MonoBehaviour
     {
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
         float playbackTime = currentState.normalizedTime % 1;
+        animator.SetFloat("attackSpeed", 1.0f / unitCombat.getMaxAttackTimer());
+        animator.SetFloat("movementSpeed", unitCombat.getMovementSpeed() / Tuner.UNIT_BASE_SPEED);
         switch (animation)
         {
             case Animations.attack:
@@ -200,7 +202,6 @@ public class UnitMovement : MonoBehaviour
                 else
                     animator.Play(animationName, 0);
                 lastAnimation = Animations.attack;
-                animator.speed = 1.0f / unitCombat.getMaxAttackTimer();
                 break;
             case Animations.move:
                 switch (direction)
@@ -223,7 +224,6 @@ public class UnitMovement : MonoBehaviour
                         break;
                 }
                 lastAnimation = Animations.move;
-                animator.speed = 1.5f * (unitCombat.getMovementSpeed() / Tuner.UNIT_BASE_SPEED);
                 break;
             case Animations.idle:
                 switch (direction)
@@ -250,8 +250,6 @@ public class UnitMovement : MonoBehaviour
             case Animations.death:
                 if (lastAnimation != Animations.death)
                     animator.Play("Death", 0);
-
-                animator.speed = 2.0f;
 
                 lastAnimation = Animations.death;
                 break;
