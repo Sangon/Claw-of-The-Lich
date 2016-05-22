@@ -112,10 +112,10 @@ public class PlayerHUD : MonoBehaviour
                 {
                     if (mouseOverTarget.name.Equals("Weapon_Primary"))
                     {
-                        foreach (GameObject c in partySystem.aliveCharacters)
+                        foreach (GameObject unit in partySystem.aliveCharacters)
                         {
-                            if (character.GetComponent<UnitCombat>().isMelee() != c.GetComponent<UnitCombat>().isMelee())
-                                c.GetComponent<UnitCombat>().changeWeapon();
+                            if (character.GetComponent<UnitCombat>().isMelee() != unit.GetComponent<UnitCombat>().isMelee())
+                                unit.GetComponent<UnitCombat>().changeWeapon();
                         }
                     }
                 }

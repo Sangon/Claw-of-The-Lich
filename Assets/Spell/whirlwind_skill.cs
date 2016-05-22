@@ -28,11 +28,11 @@ public class whirlwind_skill : Skill
             {
                 targets = UnitList.getPlayerUnitsInArea(parent.transform.position, Tuner.DEFAULT_WHIRLWIND_RADIUS);
             }
-            foreach (GameObject unit in targets)
+            foreach (GameObject target in targets)
             {
                 //Check for line of sight before dealing damage
-                if (UnitMovement.lineOfSight(parent.transform.position, unit.transform.position, false))
-                    unit.GetComponent<UnitCombat>().takeDamage(Tuner.BASE_WHIRLWIND_DAMAGE, parent, Tuner.DamageType.melee);
+                if (UnitMovement.lineOfSight(parent.transform.position, target.transform.position, false))
+                    target.GetComponent<UnitCombat>().takeDamage(Tuner.BASE_WHIRLWIND_DAMAGE, parent, Tuner.DamageType.melee);
             }
             currentCooldown = maxCooldown;
         }

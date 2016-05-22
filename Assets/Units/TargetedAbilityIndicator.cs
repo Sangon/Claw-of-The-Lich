@@ -104,9 +104,9 @@ public class TargetedAbilityIndicator : MonoBehaviour
                 ellipseWidth = Tuner.DEFAULT_WHIRLWIND_RADIUS;
                 indicator.transform.position = new Vector3(indicator.transform.parent.parent.position.x, indicator.transform.parent.parent.position.y, 0);
             }
-            foreach (GameObject u in UnitList.getHostileUnitsInArea(ellipsePos, ellipseWidth))
+            foreach (GameObject unit in UnitList.getHostileUnitsInArea(ellipsePos, ellipseWidth))
             {
-                u.GetComponent<SpriteRenderer>().color = Color.cyan;
+                unit.GetComponent<SpriteRenderer>().color = Color.cyan;
             }
         }
         else if (indicator.name.Equals("ChargeIndicator"))
@@ -170,22 +170,22 @@ public class TargetedAbilityIndicator : MonoBehaviour
         else
             Cursor.visible = true;
 
-        foreach (GameObject u in UnitList.getAllUnits())
+        foreach (GameObject unit in UnitList.getAllUnits())
         {
-            if (u.GetComponent<SpriteRenderer>().color == Color.cyan)
+            if (unit.GetComponent<SpriteRenderer>().color == Color.cyan)
             {
-                if (u.name.Contains("Melee"))
-                    u.GetComponent<SpriteRenderer>().color = Tuner.ENEMY_MELEE_COLOR;
-                else if (u.name.Contains("Ranged"))
-                    u.GetComponent<SpriteRenderer>().color = Tuner.ENEMY_RANGED_COLOR;
+                if (unit.name.Contains("Melee"))
+                    unit.GetComponent<SpriteRenderer>().color = Tuner.ENEMY_MELEE_COLOR;
+                else if (unit.name.Contains("Ranged"))
+                    unit.GetComponent<SpriteRenderer>().color = Tuner.ENEMY_RANGED_COLOR;
                 else
-                    u.GetComponent<SpriteRenderer>().color = Color.white;
+                    unit.GetComponent<SpriteRenderer>().color = Color.white;
             }
         }
 
-        foreach (GameObject i in indicators)
+        foreach (GameObject indicator in indicators)
         {
-            drawIndicator(i);
+            drawIndicator(indicator);
         }
     }
 }

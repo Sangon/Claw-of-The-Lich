@@ -4,21 +4,28 @@ using System.Collections.Generic;
 
 public class UnitList : MonoBehaviour
 {
+    private static GameObject[] allUnits; //All dead and alive units
+    private static GameObject[] aliveUnits; //All alive units
+    private static GameObject[] deadUnits; //All dead units
     private static GameObject[] hostiles;
     private static GameObject[] players;
-    private static GameObject[] dead;
-    private static GameObject[] traps;
-    private static GameObject[] allUnits; //All alive units
+    //private static GameObject[] traps;
 
     public enum searchType
     {
         all,
+        alive,
+        dead,
         hostiles,
         players
     }
 
+    //All units that are dear or alive and inside the rects
+    private static List<GameObject>[] dividedAllUnits = new List<GameObject>[Tuner.LEVEL_AREA_DIVISIONS];
     //All units that are alive and inside the rects
-    private static List<GameObject>[] dividedUnits = new List<GameObject>[Tuner.LEVEL_AREA_DIVISIONS];
+    private static List<GameObject>[] dividedAliveUnits = new List<GameObject>[Tuner.LEVEL_AREA_DIVISIONS];
+    //All units that are dead and inside the rects
+    private static List<GameObject>[] dividedDeadUnits = new List<GameObject>[Tuner.LEVEL_AREA_DIVISIONS];
     //Hostile units that are alive and inside the rects
     private static List<GameObject>[] dividedHostiles = new List<GameObject>[Tuner.LEVEL_AREA_DIVISIONS];
     //Player units that are alive and inside the rects
@@ -44,16 +51,15 @@ public class UnitList : MonoBehaviour
         return players;
     }
 
-    public static GameObject[] getDead()
+    public static GameObject[] getDeadUnits()
     {
-        return dead;
+        return deadUnits;
     }
 
-    public static GameObject[] getTraps()
+    public static GameObject[] getAliveUnits()
     {
-        return traps;
+        return aliveUnits;
     }
-
     public static GameObject[] getAllUnits()
     {
         return allUnits;
@@ -75,15 +81,26 @@ public class UnitList : MonoBehaviour
         return getUnitsInArea(point, radius, searchType.all);
     }
 
-    public static List<GameObject> getPlayerUnitsInArea(Vector2 point, float radius)
+    public static List<GameObject> getAliveUnitsInArea(Vector2 point, float radius)
     {
-        return getUnitsInArea(point, radius, searchType.players);
+        return getUnitsInArea(point, radius, searchType.alive);
+    }
+
+    public static List<GameObject> getDeadUnitsInArea(Vector2 point, float radius)
+    {
+        return getUnitsInArea(point, radius, searchType.dead);
     }
 
     public static List<GameObject> getHostileUnitsInArea(Vector2 point, float radius)
     {
         return getUnitsInArea(point, radius, searchType.hostiles);
     }
+
+    public static List<GameObject> getPlayerUnitsInArea(Vector2 point, float radius)
+    {
+        return getUnitsInArea(point, radius, searchType.players);
+    }
+
 
     private static List<GameObject> getUnitsInArea(Vector2 point, float radius, searchType types)
     {
@@ -93,7 +110,13 @@ public class UnitList : MonoBehaviour
         switch (types)
         {
             case searchType.all:
-                division = dividedUnits;
+                division = dividedAllUnits;
+                break;
+            case searchType.alive:
+                division = dividedAliveUnits;
+                break;
+            case searchType.dead:
+                division = dividedDeadUnits;
                 break;
             case searchType.hostiles:
                 division = dividedHostiles;
@@ -138,7 +161,9 @@ public class UnitList : MonoBehaviour
         colors[8] = Color.yellow;
         for (int i = 0; i < Tuner.LEVEL_AREA_DIVISIONS; i++)
         {
-            dividedUnits[i] = new List<GameObject>();
+            dividedAllUnits[i] = new List<GameObject>();
+            dividedAliveUnits[i] = new List<GameObject>();
+            dividedDeadUnits[i] = new List<GameObject>();
             dividedHostiles[i] = new List<GameObject>();
             dividedPlayers[i] = new List<GameObject>();
             dividedTriggers[i] = new List<GameObject>();
@@ -149,7 +174,7 @@ public class UnitList : MonoBehaviour
             }
         }
 
-        traps = GameObject.FindGameObjectsWithTag("Trap");
+        GameObject[] traps = GameObject.FindGameObjectsWithTag("Trap");
 
         GameObject[] triggers = GameObject.FindGameObjectsWithTag("Trigger");
 
@@ -207,40 +232,60 @@ public class UnitList : MonoBehaviour
     {
         hostiles = GameObject.FindGameObjectsWithTag("Hostile");
         players = GameObject.FindGameObjectsWithTag("Player");
-        dead = GameObject.FindGameObjectsWithTag("Dead");
-        allUnits = CombineExtension.CreateCombinedArrayFrom(hostiles, players);
-        CombineExtension.AppendSecondArrayToFirst(ref allUnits, dead);
+        aliveUnits = CombineExtension.CreateCombinedArrayFrom(hostiles, players);
+        deadUnits = GameObject.FindGameObjectsWithTag("Dead");
+        allUnits = CombineExtension.CreateCombinedArrayFrom(aliveUnits, deadUnits);
+        /*
+        print("AllUnits: " + allUnits.Length);
+        print("AliveUnits: " + aliveUnits.Length);
+        print("DeadUnits: " + deadUnits.Length);
+        print("Hostiles: " + hostiles.Length);
+        print("Players: " + players.Length);
+        */
     }
 
     private void updateRectLists()
     {
-        List<GameObject> aliveUnits = new List<GameObject>(allUnits);
+        List<GameObject> allUnitsCopy = new List<GameObject>(allUnits);
 
-        //Loop through all units that are alive and put them into divisions
+        //Loop through all units and put them into divisions
         for (int i = 0; i < Tuner.LEVEL_AREA_DIVISIONS; i++)
         {
-            dividedUnits[i].Clear();
+            dividedAllUnits[i].Clear();
+            dividedAliveUnits[i].Clear();
+            dividedDeadUnits[i].Clear();
             dividedHostiles[i].Clear();
             dividedPlayers[i].Clear();
 
-            for (int j = aliveUnits.Count - 1; j >= 0; j--)
+            for (int j = allUnitsCopy.Count - 1; j >= 0; j--)
             {
-                if (rects[i].Contains(new Vector2(aliveUnits[j].transform.position.x, aliveUnits[j].transform.position.y), true))
+                if (rects[i].Contains(new Vector2(allUnitsCopy[j].transform.position.x, allUnitsCopy[j].transform.position.y), true))
                 {
                     //Unit is inside a rect
-                    dividedUnits[i].Add(aliveUnits[j]);
-                    if (aliveUnits[j].tag.Equals("Hostile"))
+                    bool alive = true;
+                    dividedAllUnits[i].Add(allUnitsCopy[j]);
+                    if (allUnitsCopy[j].tag.Equals("Hostile"))
                     {
                         //Unit is a hostile
-                        dividedHostiles[i].Add(aliveUnits[j]);
+                        dividedHostiles[i].Add(allUnitsCopy[j]);
                     }
-                    else
+                    else if (allUnitsCopy[j].tag.Equals("Player"))
                     {
                         //Unit is a player
-                        dividedPlayers[i].Add(aliveUnits[j]);
+                        dividedPlayers[i].Add(allUnitsCopy[j]);
                     }
+                    else if (allUnitsCopy[j].tag.Equals("Dead"))
+                    {
+                        //Unit is dead
+                        dividedDeadUnits[i].Add(allUnitsCopy[j]);
+                        alive = false;
+                    }
+
+                    if (alive) //Unit is alive
+                        dividedAliveUnits[i].Add(allUnitsCopy[j]);
+
                     //A unit can't be in two divisions at once: exclude it from future iterations
-                    aliveUnits.RemoveAt(j);
+                    allUnitsCopy.RemoveAt(j);
                 }
                 /*
                 else if (dividedUnits[i].Contains(aliveUnits[j]))
@@ -270,7 +315,7 @@ public class UnitList : MonoBehaviour
         {
             foreach (GameObject trigger in dividedTriggers[i])
             {
-                foreach (GameObject unit in dividedUnits[i])
+                foreach (GameObject unit in dividedAliveUnits[i])
                 {
                     if (trigger.GetComponent<PolygonCollider2D>().OverlapPoint(unit.transform.position))
                     {
@@ -280,7 +325,7 @@ public class UnitList : MonoBehaviour
             }
             foreach (GameObject trap in dividedTraps[i])
             {
-                foreach (GameObject unit in dividedUnits[i])
+                foreach (GameObject unit in dividedAliveUnits[i])
                 {
                     trap.GetComponent<Trap>().checkTrigger(unit);
                 }

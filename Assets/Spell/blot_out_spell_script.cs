@@ -20,9 +20,9 @@ public class blot_out_spell_script : Spell
         timeAlive += Time.fixedDeltaTime;
         if (timeAlive >= ((damageTimes + 1) * 0.5f))
         {
-            foreach (GameObject g in getUnitsAtPoint(transform.position, Tuner.DEFAULT_BLOT_OUT_RADIUS))
+            foreach (GameObject unit in getUnitsAtPoint(transform.position, Tuner.DEFAULT_BLOT_OUT_RADIUS))
             {
-                g.GetComponent<UnitCombat>().takeDamage(damage, getParent());
+                unit.GetComponent<UnitCombat>().takeDamage(damage, getParent());
             }
             damageTimes++;
         }

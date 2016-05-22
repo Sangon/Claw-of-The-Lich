@@ -338,13 +338,13 @@ public class UnitCombat : MonoBehaviour
             GameObject target = null;
 
             float distance = float.MaxValue;
-            foreach (GameObject g in targetList)
+            foreach (GameObject unit in targetList)
             {
-                float currentDistance = Ellipse.isometricDistance(g.transform.position, hit);
+                float currentDistance = Ellipse.isometricDistance(unit.transform.position, hit);
 
                 if (currentDistance < distance)
                 {
-                    target = g;
+                    target = unit;
                     distance = currentDistance;
                 }
             }
