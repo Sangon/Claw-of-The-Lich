@@ -10,7 +10,8 @@ public class Buffs : MonoBehaviour
         charge,
         attack,
         wander,
-        layerorder
+        layerOrder,
+        casting
     }
 
     private uint nextBuffID;
@@ -36,8 +37,8 @@ public class Buffs : MonoBehaviour
         int order = Tuner.DEFAULT_LAYER_ORDER_UNITS;
         foreach (Buff b in buffs)
         {
-            if (b.getEffect() == Buff.Effect.layerorder)
-                    order = (int)b.getValue();
+            if (b.getEffect() == Buff.Effect.layerOrder)
+                order = (int)b.getValue();
         }
         return order;
     }
@@ -52,24 +53,24 @@ public class Buffs : MonoBehaviour
         return false;
     }
 
-    public float getMovementSpeedLimit()
+    public float getMovementSpeedMultiplier()
     {
         float lowest = -1f;
         foreach (Buff b in buffs)
         {
-            if (b.getEffect() == Buff.Effect.movementspeedlimit)
+            if (b.getEffect() == Buff.Effect.movementSpeedMultiplier)
                 if (lowest == -1f || (lowest != -1f && b.getValue() < lowest))
                     lowest = b.getValue();
         }
         return lowest;
     }
 
-    public float getMovementSpeedMultiplier()
+    public float getMovementSpeedConstant()
     {
         float lowest = -1f;
         foreach (Buff b in buffs)
         {
-            if (b.getEffect() == Buff.Effect.movementspeedmultiplier)
+            if (b.getEffect() == Buff.Effect.movementSpeedConstant)
                 if (lowest == -1f || (lowest != -1f && b.getValue() < lowest))
                     lowest = b.getValue();
         }
@@ -93,16 +94,31 @@ public class Buffs : MonoBehaviour
                 break;
             case BuffType.charge:
                 buffs.Add(new Buff(nextBuffID, Buff.Effect.uncontrollable, duration));
-                buffs.Add(new Buff(nextBuffID, Buff.Effect.movementspeedmultiplier, duration, Tuner.BASE_CHARGE_SPEED_MULTIPLIER));
+                buffs.Add(new Buff(nextBuffID, Buff.Effect.movementSpeedConstant, duration, Tuner.BASE_CHARGE_MOVEMENT_SPEED));
                 break;
             case BuffType.wander:
-                buffs.Add(new Buff(nextBuffID, Buff.Effect.movementspeedlimit, duration, Tuner.WANDERING_MOVEMENT_SPEED));
+                buffs.Add(new Buff(nextBuffID, Buff.Effect.movementSpeedConstant, duration, Tuner.WANDERING_MOVEMENT_SPEED));
                 break;
-            case BuffType.layerorder:
-                buffs.Add(new Buff(nextBuffID, Buff.Effect.layerorder, duration, Tuner.DEFAULT_LAYER_ORDER_UNITS - 1));
+            case BuffType.layerOrder:
+                buffs.Add(new Buff(nextBuffID, Buff.Effect.layerOrder, duration, Tuner.DEFAULT_LAYER_ORDER_UNITS - 1));
+                break;
+            case BuffType.casting:
+                buffs.Add(new Buff(nextBuffID, Buff.Effect.uncontrollable, duration));
                 break;
         }
         return nextBuffID;
+    }
+
+    public void addDuration(uint buffID, float extraDuration)
+    {
+        foreach (Buff b in buffs)
+        {
+            if (b.getBuffID() == buffID)
+            {
+                b.addDuration(extraDuration);
+                break;
+            }
+        }
     }
 
     void FixedUpdate()
@@ -113,15 +129,11 @@ public class Buffs : MonoBehaviour
         {
             unitCombat.stopAttack();
             gameObject.GetComponent<UnitMovement>().stop();
-            //print("Stunned: " + transform.name);
         }
-        float movementSpeedLimit = getMovementSpeedLimit();
-        if (movementSpeedLimit != -1f)
+        float movementSpeedConstant = getMovementSpeedConstant();
+        if (movementSpeedConstant != -1f)
         {
-            if (unitCombat.getMovementSpeed() > movementSpeedLimit)
-            {
-                unitCombat.setMovementSpeed(movementSpeedLimit);
-            }
+            unitCombat.setMovementSpeed(movementSpeedConstant);
         }
         else
         {

@@ -8,9 +8,6 @@ public class PlayerHUD : MonoBehaviour
 {
     private Sprite meleeSprite;
     private Sprite rangedSprite;
-    private Sprite chargeSprite;
-    private Sprite arrowRainSprite;
-    private Sprite spinningBladeSprite;
     private float healthBarWidth = 0;
     private float staminaBarWidth = 0;
     private GameObject mouseOverTarget;
@@ -40,11 +37,8 @@ public class PlayerHUD : MonoBehaviour
     {
         yield return new WaitForSeconds(waitTime);
 
-        meleeSprite = Resources.Load<Sprite>("HUD_Weapon_Melee");
-        rangedSprite = Resources.Load<Sprite>("HUD_Weapon_Ranged");
-        chargeSprite = Resources.Load<Sprite>("HUD_Skill_Charge");
-        arrowRainSprite = Resources.Load<Sprite>("HUD_Skill_Arrow_Rain");
-        spinningBladeSprite = Resources.Load<Sprite>("HUD_Skill_Spinning_Blade");
+        meleeSprite = Resources.Load<Sprite>("HUD/HUD_Weapon_Melee");
+        rangedSprite = Resources.Load<Sprite>("HUD/HUD_Weapon_Ranged");
 
         GameObject bar = null;
         for (int i = 1; i <= 4; i++)
@@ -62,14 +56,11 @@ public class PlayerHUD : MonoBehaviour
 
             for (int j = 0; j < 2; j++)
             {
-                GameObject abilityIndicator = bar.transform.Find("Ability" + (j + 1)).gameObject;
-                string spell = unitCombat.getSpellList()[j].getSpellName();
-                if (spell.Equals("whirlwind"))
-                    abilityIndicator.GetComponent<Image>().sprite = spinningBladeSprite;
-                else if (spell.Equals("charge"))
-                    abilityIndicator.GetComponent<Image>().sprite = chargeSprite;
-                else if (spell.Equals("blot_out"))
-                    abilityIndicator.GetComponent<Image>().sprite = arrowRainSprite;
+                Image abilityIndicatorImage = bar.transform.Find("Ability" + (j + 1)).gameObject.GetComponent<Image>();
+                string abilityIcon = "HUD/HUD_Ability_" + unitCombat.getAbilityList()[j].getAbilityName();
+                abilityIndicatorImage.sprite = Resources.Load<Sprite>(abilityIcon);
+                if (abilityIndicatorImage.sprite == null)
+                    abilityIndicatorImage.sprite = Resources.Load<Sprite>("HUD/HUD_Ability_Placeholder");
             }
         }
     }
@@ -173,7 +164,7 @@ public class PlayerHUD : MonoBehaviour
                 GameObject abilityIndicator = bar.transform.Find("Ability" + (j + 1)).gameObject;
                 if (mouseOverTarget != abilityIndicator)
                 {
-                    if (unitCombat.canCastSpell(j))
+                    if (unitCombat.canCastAbility(j))
                         abilityIndicator.GetComponent<Image>().color = Color.white;
                     else
                         abilityIndicator.GetComponent<Image>().color = Color.gray;
@@ -257,11 +248,11 @@ public class PlayerHUD : MonoBehaviour
                         if (!unitCombat.isAttacking())
                             mouseOverTarget.GetComponent<Image>().color = Color.green;
                     }
-                    else if (mouseOverTarget.name.Equals("Ability1") && !unitCombat.canCastSpell(0))
+                    else if (mouseOverTarget.name.Equals("Ability1") && !unitCombat.canCastAbility(0))
                     {
                         mouseOverTarget.GetComponent<Image>().color = Color.gray;
                     }
-                    else if (mouseOverTarget.name.Equals("Ability2") && !unitCombat.canCastSpell(1))
+                    else if (mouseOverTarget.name.Equals("Ability2") && !unitCombat.canCastAbility(1))
                     {
                         mouseOverTarget.GetComponent<Image>().color = Color.gray;
                     }

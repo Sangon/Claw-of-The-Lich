@@ -88,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
                 if (partySystem.getGroupID(gameObject) != -1)
                 {
                     lastAction = Action.pointAttack;
-                    clickPosition = getCurrentMousePos();
+                    clickPosition = CameraScripts.getCurrentMousePos();
                     unitCombat.startAttack();
                 }
             }
@@ -99,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if (partySystem.isMouseOverCharacter() || playerHUD.isMouseOverHUD() || gameHUD.isTargetingFromHUD())
+        if (Input.GetKey(KeyCode.LeftControl) || partySystem.isMouseOverCharacter() || playerHUD.isMouseOverHUD() || gameHUD.isTargetingFromHUD())
         {
             ignoreLeftClick = true;
         }
@@ -130,12 +130,5 @@ public class PlayerMovement : MonoBehaviour
         }
 
         pathfindingTimer -= Time.fixedDeltaTime;
-    }
-
-    public static Vector2 getCurrentMousePos()
-    {
-        Vector2 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
-        return hit.point;
     }
 }

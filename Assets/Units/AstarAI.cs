@@ -35,6 +35,7 @@ public class AstarAI : MonoBehaviour
     {
         seeker = GetComponent<Seeker>();
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
+        oldPos = transform.position;
     }
 
     public void move(Vector2 point, int groupID = 0)
@@ -95,6 +96,16 @@ public class AstarAI : MonoBehaviour
             return Vector2.zero;
     }
 
+    public Vector2 getLastWaypoint()
+    {
+        if (path != null)
+        {
+            return path.vectorPath[path.vectorPath.Count - 1];
+        }
+        else
+            return Vector2.zero;
+    }
+
     public Vector3 getMovementDirection()
     {
         if (path != null)
@@ -126,14 +137,10 @@ public class AstarAI : MonoBehaviour
             if (hit.collider == null)
             {
                 //Debug.Log("Suora yhteys1!");
-                //path.vectorPath.Clear();
-                //path.vectorPath.Add(transform.position);
                 GraphNode node = AstarPath.active.GetNearest(targetPosition).node;
-                //Vector3 dir = ((Vector3)node.position - targetPosition).normalized;
-                //print("Dir: " + dir);
-                //print("Index1: " + node.NodeIndex);
-                //GraphNode nearNode = AstarPath.active.GetNearest(targetPosition + dir * 128.0f).node;
-                //GameObject.Find("DebugMarker").transform.position = (Vector3)nearNode.position;
+
+                //TODO: Buy pro version and use LineCast!
+
                 bool freeNode = true;
                 for (int i = 0; i < 8; i++)
                 {
@@ -149,11 +156,6 @@ public class AstarAI : MonoBehaviour
                     path.vectorPath.Add(clickPoint);
                     directPath = true;
                 }
-
-                //print("Index2: " + nearNode.NodeIndex);
-                //print(nearNode.Walkable);
-                //path.vectorPath.Add(targetPosition);
-                //directPath = true;
             }
             if (!directPath)
             {
@@ -184,7 +186,8 @@ public class AstarAI : MonoBehaviour
                     //Debug.Log("Dir1: " + dir1);
                     //Debug.Log("Dir2: " + dir2 + " Sum: " + sum);
 
-                    if (sum == Vector2.zero || dir1 == Vector2.zero || (Mathf.Abs(sum.x) <= 0.85f && Mathf.Abs(sum.y) <= 0.85f))
+                    //Remove the first waypoint if it makes the unit turn more than necessary, i.e. 180 degrees (waypoint is behind the player)
+                    if (sum == Vector2.zero || dir1 == Vector2.zero || (Mathf.Abs(sum.x) <= 0.75f && Mathf.Abs(sum.y) <= 0.75f))
                     {
                         removedPath = true;
                         path.vectorPath.RemoveAt(0);

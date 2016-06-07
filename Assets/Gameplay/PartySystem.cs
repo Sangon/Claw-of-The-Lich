@@ -247,7 +247,7 @@ public class PartySystem : MonoBehaviour
 
         resetTarget();
 
-        if (!gameHUD.isTargeting() && !playerHUD.isMouseOverHUD())
+        if (!gameHUD.isTargeting() && !playerHUD.isMouseOverHUD() && Input.GetKey(KeyCode.LeftControl))
             mouseOver(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
         if (mouseOverTarget == null)

@@ -7,18 +7,30 @@ public class TargetedAbilityIndicator : MonoBehaviour
 {
     public List<GameObject> indicators;
 
-    public enum Skills
+    public enum Abilities
     {
+        arrowRain,
         charge,
-        arrow,
         whirlwind
     }
 
-    public void showIndicator(GameObject player, Skills skill, Vector2 mousePoint)
+    public void showIndicator(GameObject player, Abilities ability, Vector2 mousePoint)
     {
-        switch (skill)
+        switch (ability)
         {
-            case Skills.charge:
+            case Abilities.arrowRain:
+                GameObject arrowIndicator = player.transform.Find("Canvas").Find("ArrowRainIndicator").gameObject;
+                if (!arrowIndicator.activeSelf)
+                {
+                    Sprite sprite = arrowIndicator.GetComponent<SpriteRenderer>().sprite;
+                    float spriteWidth = sprite.bounds.size.x * sprite.pixelsPerUnit;
+                    float scale = 2 * (Tuner.BASE_BLOT_OUT_RADIUS / spriteWidth); //TODO: Fix radius
+                    arrowIndicator.GetComponent<RectTransform>().localScale = new Vector2(scale, scale);
+                    arrowIndicator.SetActive(true);
+                    indicators.Add(arrowIndicator);
+                }
+                break;
+            case Abilities.charge:
                 //Vector2 direction = mousePoint - new Vector2(player.transform.position.x, player.transform.position.y);
                 GameObject chargeIndicator = player.transform.Find("Canvas").Find("ChargeIndicator").gameObject;
                 if (!chargeIndicator.activeSelf)
@@ -28,25 +40,13 @@ public class TargetedAbilityIndicator : MonoBehaviour
                     chargeIndicator.transform.LookAt(mousePoint);
                 }
                 break;
-            case Skills.arrow:
-                GameObject arrowIndicator = player.transform.Find("Canvas").Find("ArrowIndicator").gameObject;
-                if (!arrowIndicator.activeSelf)
-                {
-                    Sprite sprite = arrowIndicator.GetComponent<SpriteRenderer>().sprite;
-                    float spriteWidth = sprite.bounds.size.x * sprite.pixelsPerUnit;
-                    float scale = 2 * (Tuner.DEFAULT_BLOT_OUT_RADIUS / spriteWidth);
-                    arrowIndicator.GetComponent<RectTransform>().localScale = new Vector2(scale, scale);
-                    arrowIndicator.SetActive(true);
-                    indicators.Add(arrowIndicator);
-                }
-                break;
-            case Skills.whirlwind:
+            case Abilities.whirlwind:
                 GameObject whirlwindIndicator = player.transform.Find("Canvas").Find("WhirlwindIndicator").gameObject;
                 if (!whirlwindIndicator.activeSelf)
                 {
                     Sprite sprite = whirlwindIndicator.GetComponent<SpriteRenderer>().sprite;
                     float spriteWidth = sprite.bounds.size.x * sprite.pixelsPerUnit;
-                    float scale = 2 * (Tuner.DEFAULT_WHIRLWIND_RADIUS / spriteWidth);
+                    float scale = 2 * (Tuner.BASE_WHIRLWIND_RADIUS / spriteWidth); //TODO: Fix radius
                     whirlwindIndicator.GetComponent<RectTransform>().localScale = new Vector2(scale, scale);
                     whirlwindIndicator.SetActive(true);
                     indicators.Add(whirlwindIndicator);
@@ -55,11 +55,19 @@ public class TargetedAbilityIndicator : MonoBehaviour
         }
     }
 
-    public void hideIndicator(GameObject player, Skills skill)
+    public void hideIndicator(GameObject player, Abilities ability)
     {
-        switch (skill)
+        switch (ability)
         {
-            case Skills.charge:
+            case Abilities.arrowRain:
+                GameObject arrowIndicator = player.transform.Find("Canvas").Find("ArrowRainIndicator").gameObject;
+                if (arrowIndicator.activeSelf)
+                {
+                    arrowIndicator.SetActive(false);
+                    indicators.Remove(arrowIndicator);
+                }
+                break;
+            case Abilities.charge:
                 GameObject chargeIndicator = player.transform.Find("Canvas").Find("ChargeIndicator").gameObject;
                 if (chargeIndicator.activeSelf)
                 {
@@ -67,15 +75,7 @@ public class TargetedAbilityIndicator : MonoBehaviour
                     indicators.Remove(chargeIndicator);
                 }
                 break;
-            case Skills.arrow:
-                GameObject arrowIndicator = player.transform.Find("Canvas").Find("ArrowIndicator").gameObject;
-                if (arrowIndicator.activeSelf)
-                {
-                    arrowIndicator.SetActive(false);
-                    indicators.Remove(arrowIndicator);
-                }
-                break;
-            case Skills.whirlwind:
+            case Abilities.whirlwind:
                 GameObject whirlwindIndicator = player.transform.Find("Canvas").Find("WhirlwindIndicator").gameObject;
                 if (whirlwindIndicator.activeSelf)
                 {
@@ -88,20 +88,20 @@ public class TargetedAbilityIndicator : MonoBehaviour
 
     private void drawIndicator(GameObject indicator)
     {
-        Vector2 mousePosition = PlayerMovement.getCurrentMousePos();
+        Vector2 mousePosition = CameraScripts.getCurrentMousePos();
 
-        if (indicator.name.Equals("ArrowIndicator") || indicator.name.Equals("WhirlwindIndicator"))
+        if (indicator.name.Equals("ArrowRainIndicator") || indicator.name.Equals("WhirlwindIndicator"))
         {
             Vector2 ellipsePos = indicator.transform.position;
             float ellipseWidth = 0;
-            if (indicator.name.Equals("ArrowIndicator"))
+            if (indicator.name.Equals("ArrowRainIndicator"))
             {
-                ellipseWidth = Tuner.DEFAULT_BLOT_OUT_RADIUS;
+                ellipseWidth = Tuner.BASE_BLOT_OUT_RADIUS; //TODO: Fix radius
                 indicator.transform.position = new Vector3(mousePosition.x, mousePosition.y, 0);
             }
             else if (indicator.name.Equals("WhirlwindIndicator"))
             {
-                ellipseWidth = Tuner.DEFAULT_WHIRLWIND_RADIUS;
+                ellipseWidth = Tuner.BASE_WHIRLWIND_RADIUS; //TODO: Fix radius
                 indicator.transform.position = new Vector3(indicator.transform.parent.parent.position.x, indicator.transform.parent.parent.position.y, 0);
             }
             foreach (GameObject unit in UnitList.getHostileUnitsInArea(ellipsePos, ellipseWidth))

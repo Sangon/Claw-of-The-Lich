@@ -32,6 +32,6 @@ public class HouseTransparency : MonoBehaviour
             triggered = triggerDuration;
             Walls.SetActive(false);
         }
-        triggerer.GetComponent<Buffs>().addBuff(Buffs.BuffType.layerorder, triggerDuration);
+        triggerer.GetComponent<Buffs>().addBuff(Buffs.BuffType.layerOrder, triggerDuration);
     }
 }

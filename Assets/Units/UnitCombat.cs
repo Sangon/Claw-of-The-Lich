@@ -10,9 +10,10 @@ public class UnitCombat : MonoBehaviour
     private float maxStamina;
 
     //Unit's melee/ranged attack damage
-    private float damage;
-    private float meleeDamage;
-    private float rangedDamage;
+    private int damageMeleeDices;
+    private int damageMeleeSides;
+    private int damageRangedDices;
+    private int damageRangedSides;
 
     private float movementSpeed;
     private float baseMovementSpeed;
@@ -24,71 +25,97 @@ public class UnitCombat : MonoBehaviour
     private GameObject lockedTarget = null;
 
     private float attackRange;
-    private bool attacking = false;
+    private bool attacking;
     private bool attacked = true;
-    private bool lockedAttack = false;
+    private bool lockedAttack;
     private float attackTimer = 1.33f;
     private float maxAttackTimer = 1.33f;
     private float maxMeleeAttackTimer = 1.33f;
     private float maxRangedAttackTimer = 2.0f;
-    private float attackPoint = 1.0f; //Should be a bit less than maxAttackTimer, depending on animation
+    private float attackPoint = 1.0f; //Point when the damage is dealt. Should be a bit less than maxAttackTimer, depending on animation
 
-    private bool stopAttackAfter = false;
+    private bool stopAttackAfter;
 
-    //TODO: Parempi spellilista
-    private Skill[] spellList = new Skill[2];
+    private Ability[] abilityList = new Ability[2];
+    private bool casting;
+    private int castingSlot = -1;
+    private float castTime;
+    private float castTimeMax;
+    private uint castBuffID;
+
+    private string rangedProjectile;
+
     private PartySystem partySystem;
     private UnitMovement unitMovement;
     private Buffs buffs;
     private CameraScripts cameraScripts;
 
-    private unit_attributes attributes;
+    private UnitAttributes unitAttributes;
 
     //Targets hit
     List<GameObject> hits = null;
 
     void Awake()
     {
-        attributes = new unit_attributes(gameObject.name);
-        health = attributes.health;
-        maxHealth = attributes.health;
+        unitAttributes = new UnitAttributes(gameObject.name);
+        health = unitAttributes.health;
+        maxHealth = unitAttributes.health;
         stamina = Tuner.UNIT_BASE_STAMINA;
         maxStamina = Tuner.UNIT_BASE_STAMINA;
 
-        melee = attributes.isMelee;
+        damageMeleeDices = unitAttributes.damage_melee_dices;
+        damageMeleeSides = unitAttributes.damage_melee_sides;
+        damageRangedDices = unitAttributes.damage_ranged_dices;
+        damageRangedSides = unitAttributes.damage_ranged_sides;
+        maxMeleeAttackTimer = unitAttributes.attackspeed_melee;
+        maxRangedAttackTimer = unitAttributes.attackspeed_ranged;
 
-        meleeDamage = attributes.meleedamage;
-        maxMeleeAttackTimer = attributes.meleeattackspeed;
-        rangedDamage = attributes.rangeddamage;
-        maxRangedAttackTimer = attributes.rangedattackspeed;
+        rangedProjectile = unitAttributes.ranged_projectile;
 
-        if (isMelee())
-        {
-            attackRange = Tuner.UNIT_BASE_MELEE_RANGE;
-            maxAttackTimer = maxMeleeAttackTimer;
-            damage = meleeDamage;
-        }
-        else
-        {
-            attackRange = Tuner.UNIT_BASE_RANGED_RANGE;
-            maxAttackTimer = maxRangedAttackTimer;
-            damage = rangedDamage;
-        }
+        abilityList[0] = unitAttributes.abilitySlot1;
+        abilityList[1] = unitAttributes.abilitySlot2;
+
+        melee = unitAttributes.ismelee;
+
+        movementSpeed = unitAttributes.movementspeed;
+        baseMovementSpeed = movementSpeed;
+
+        updateWeaponStats();
 
         resetAttack();
-
-        spellList[0] = attributes.skill1;
-        spellList[1] = attributes.skill2;
 
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
         unitMovement = GetComponent<UnitMovement>();
 
-        movementSpeed = attributes.movementspeed;
-        baseMovementSpeed = movementSpeed;
-
         buffs = GetComponent<Buffs>();
 
         cameraScripts = Camera.main.GetComponent<CameraScripts>();
+    }
+
+    public float calculateDamage(Tuner.DamageType type = Tuner.DamageType.def, int multiplier = 1)
+    {
+        float damage = 0;
+        int dices = 0;
+        int sides = 0;
+        if ((type == Tuner.DamageType.def && isMelee()) || type == Tuner.DamageType.melee)
+        {
+            dices = damageMeleeDices;
+            sides = damageMeleeSides;
+        }
+        else if ((type == Tuner.DamageType.def && !isMelee()) || type == Tuner.DamageType.ranged)
+        {
+            dices = damageRangedDices;
+            sides = damageRangedSides;
+        }
+
+        dices *= multiplier;
+
+        for (int i = 0; i < dices; i++)
+        {
+            damage += Random.Range(1, sides);
+        }
+
+        return damage;
     }
 
     public void setMovementSpeed(float value)
@@ -111,29 +138,32 @@ public class UnitCombat : MonoBehaviour
         return maxAttackTimer;
     }
 
-    public Skill[] getSpellList()
+    public Ability[] getAbilityList()
     {
-        return spellList;
+        return abilityList;
     }
 
     public void changeWeapon()
     {
         melee = !melee;
+        updateWeaponStats();
+        resetAttack();
+    }
+
+    private void updateWeaponStats()
+    {
         if (isMelee())
         {
             attackRange = Tuner.UNIT_BASE_MELEE_RANGE;
             maxAttackTimer = maxMeleeAttackTimer;
-            damage = meleeDamage;
         }
         else
         {
             attackRange = Tuner.UNIT_BASE_RANGED_RANGE;
             maxAttackTimer = maxRangedAttackTimer;
-            damage = rangedDamage;
         }
-
-        resetAttack();
     }
+
     public void changeWeaponTo(bool melee)
     {
         if ((isMelee() && !melee) || (!isMelee() && melee))
@@ -154,10 +184,12 @@ public class UnitCombat : MonoBehaviour
 
     void checkForDeath()
     {
-        if (health <= 0 && !gameObject.tag.Equals("Dead"))
+        if (health <= 0 && !tag.Equals("Dead"))
         {
+            //Unit has died
             setStamina(0);
 
+            resetCast();
             stopAttack();
             unitMovement.stop();
 
@@ -166,8 +198,8 @@ public class UnitCombat : MonoBehaviour
                 GetComponent<AstarAI>().enabled = false;
             if (GetComponent<Seeker>())
                 GetComponent<Seeker>().enabled = false;
-            if (GetComponent<Buffs>())
-                GetComponent<Buffs>().enabled = false;
+            //if (GetComponent<Buffs>())
+            //GetComponent<Buffs>().enabled = false;
             if (GetComponent<ArrowIndicator>())
                 GetComponent<ArrowIndicator>().enabled = false;
             if (GetComponent<EnemyAI>())
@@ -201,19 +233,21 @@ public class UnitCombat : MonoBehaviour
             {
                 partySystem.updateCharacterList();
                 cameraScripts.updateTarget();
-            } else
+            }
+            else
             {
-                GameObject.Find("HUD").GetComponent<GameHUD>().addMana(3);
+                //Every killed enemy unit grants mana for the Lich
+                GameObject.Find("HUD").GetComponent<GameHUD>().addMana(Tuner.LICH_KILL_MANA_GAIN);
             }
 
-            gameObject.tag = "Dead";
+            tag = "Dead";
             UnitList.updateArrays();
         }
     }
 
     private bool canAttack()
     {
-        if (!isAlive() || buffs.isStunned())
+        if (!isAlive() || buffs.isStunned() || buffs.isUncontrollable() || isCasting())
             return false;
         return true;
     }
@@ -221,13 +255,26 @@ public class UnitCombat : MonoBehaviour
     void FixedUpdate()
     {
         checkForDeath();
+
+        if (isCasting())
+        {
+            if (castTime > 0)
+                castTime -= Time.fixedDeltaTime;
+            else
+            {
+                abilityList[castingSlot].finishCast();
+                resetCast();
+            }
+        }
+
         if (!canAttack())
-            stopAttack();
-        else if (lockedAttack)
+            resetAttack();
+
+        if (lockedAttack)
         {
             if (lockedTarget != null && lockedTarget.GetComponent<UnitCombat>().isAlive())
             {
-                if (!buffs.isUncontrollable())
+                if (canAttack())
                 {
                     if (!inRange(lockedTarget) && !isAttacking())
                         unitMovement.moveTo(lockedTarget.transform.position);
@@ -244,7 +291,7 @@ public class UnitCombat : MonoBehaviour
             //Nappaa targetit v‰h‰n ennen kuin tekee damage, est‰‰ sit‰ ett‰ targetit kerke‰‰ juosta rangesta pois joka kerta jos ne juoksee karkuun.
             if (attackTimer == maxAttackTimer && isMelee())
             {
-                hits = getUnitsInMelee(unitMovement.getDirection());
+                hits = getUnitsInMelee();
             }
 
             if (!attacked && attackTimer <= attackPoint)
@@ -256,26 +303,27 @@ public class UnitCombat : MonoBehaviour
                         FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/attack__dagger", AudioScript.get3DAudioPositionVector3(transform.position));
                     else
                         FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/attack_sword", AudioScript.get3DAudioPositionVector3(transform.position));
-                    if (hits != null)
+                    if (hits.Count > 0)
                     {
                         foreach (GameObject hit in hits)
                         {
                             if (hit != null && hit.GetComponent<UnitCombat>() != null && hit.GetComponent<UnitCombat>().isAlive() && hit.transform.tag != this.transform.tag)
-                                dealDamage(hit, damage, Tuner.DamageType.melee);
+                                dealDamage(hit, calculateDamage(), Tuner.DamageType.melee);
                         }
                         hits = null;
-                    }
+                    } else
+                        print("BUG: Melee attack didn't hit anyone! (KERRO TEEMULLE)");
                 }
                 else {
-                    GameObject projectile = Instantiate(Resources.Load("testSpell"), transform.position, Quaternion.identity) as GameObject;
+                    GameObject projectile = Instantiate(Resources.Load("Ability Prefabs/Projectile_" + rangedProjectile), transform.position, Quaternion.identity) as GameObject;
                     if (lockedAttack)
                     {
                         Vector3 polygonColliderCenter = lockedTarget.GetComponent<PolygonCollider2D>().bounds.center;
-                        projectile.GetComponent<projectile_spell_script>().initAttack(polygonColliderCenter, gameObject, damage, true);
+                        projectile.GetComponent<Attack_Projectile_Updater>().initAttack(polygonColliderCenter, gameObject, calculateDamage(), true);
                     }
                     else if (tag.Equals("Player"))
                     {
-                        projectile.GetComponent<projectile_spell_script>().initAttack(gameObject.GetComponent<PlayerMovement>().getClickPosition(), gameObject, damage, false);
+                        projectile.GetComponent<Attack_Projectile_Updater>().initAttack(gameObject.GetComponent<PlayerMovement>().getClickPosition(), gameObject, calculateDamage(), false);
                     }
                 }
             }
@@ -290,9 +338,9 @@ public class UnitCombat : MonoBehaviour
         }
 
         //P‰ivitet‰‰n spellien logiikka.
-        foreach (Skill s in spellList)
+        foreach (Ability a in abilityList)
         {
-            s.FixedUpdate();
+            a.FixedUpdate();
         }
     }
 
@@ -381,6 +429,11 @@ public class UnitCombat : MonoBehaviour
         stopAttackAfter = true;
     }
 
+    public bool isCasting()
+    {
+        return casting;
+    }
+
     public bool isAttacking()
     {
         return attacking;
@@ -419,21 +472,62 @@ public class UnitCombat : MonoBehaviour
             return false;
         }
     }
+
+    public void addCastTime(Tuner.DamageType type = Tuner.DamageType.def)
+    {
+        if (isCasting())
+        {
+            float extraTime = 0;
+
+            if (Random.Range(0, 1.0f) <= Tuner.CAST_INTERRUPT_CHANCE)
+            {
+                resetCast(true);
+            }
+            else {
+                if (type == Tuner.DamageType.melee)
+                    extraTime = castTimeMax * Tuner.CAST_TIME_EXTRA_ON_MELEE;
+                else if (type == Tuner.DamageType.ranged)
+                    extraTime = castTimeMax * Tuner.CAST_TIME_EXTRA_ON_RANGED;
+
+                castTime += extraTime;
+
+                if (castTime > castTimeMax)
+                    resetCast(true);
+                else
+                    buffs.addDuration(castBuffID, extraTime);
+            }
+        }
+    }
+
+    public void resetCast(bool interrupted = false)
+    {
+        buffs.removeBuff(castBuffID);
+        if (interrupted && castingSlot != -1)
+            abilityList[castingSlot].setCurrentCooldown(Tuner.ABILITY_COOLDOWN_TIME_AFTER_INTERRUPT);
+        casting = false;
+        castingSlot = -1;
+        castBuffID = 0;
+        castTime = 0;
+        castTimeMax = 0;
+    }
+
     //Can also be used to heal with negative argument
-    public void takeDamage(float damage, GameObject source, Tuner.DamageType damageType = Tuner.DamageType.none)
+    public void takeDamage(float damage, GameObject source, Tuner.DamageType damageType = Tuner.DamageType.def)
     {
         if (!isAlive())
             return;
         if (damageType == Tuner.DamageType.ranged)
         {
             FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/hit_flesh", AudioScript.get3DAudioPositionVector3(transform.position));
+            addCastTime(Tuner.DamageType.ranged);
         }
         else if (damageType == Tuner.DamageType.melee)
         {
             FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/hit_metal", AudioScript.get3DAudioPositionVector3(transform.position));
-            //Knockback
+            //Knockback for player's melee attacks
             if (!gameObject.tag.Equals("Player"))
                 unitMovement.knockback(source, Tuner.KNOCKBACK_DISTANCE);
+            addCastTime(Tuner.DamageType.melee);
         }
 
         if ((health - damage) > maxHealth)
@@ -451,7 +545,7 @@ public class UnitCombat : MonoBehaviour
     }
 
     //Can also be used to heal with negative argument
-    public void dealDamage(GameObject enemy, float amount, Tuner.DamageType damageType = Tuner.DamageType.none)
+    public void dealDamage(GameObject enemy, float amount, Tuner.DamageType damageType = Tuner.DamageType.def)
     {
         if (enemy != null && enemy.GetComponent<UnitCombat>() != null && enemy.GetComponent<UnitCombat>().isAlive())
         {
@@ -461,9 +555,9 @@ public class UnitCombat : MonoBehaviour
         //Debug.Log("DEALT DAMAGE." + enemy + " REMAINING HEALTH:" + enemy.GetComponent<UnitCombat>().getHealth());
     }
 
-    public bool canCastSpell(int spellID)
+    public bool canCastAbility(int spellID)
     {
-        if (getSpellList()[spellID].isOnCooldown() || buffs.isStunned() || buffs.isUncontrollable() || !isAlive())
+        if (getAbilityList()[spellID].isOnCooldown() || isCasting() || buffs.isStunned() || buffs.isUncontrollable() || !isAlive())
             return false;
         return true;
     }
@@ -473,46 +567,76 @@ public class UnitCombat : MonoBehaviour
     {
         setLockedTarget(target);
     }
+
     public float getHealth()
     {
         return health;
     }
+
     public void setHealth(float value)
     {
         health = value;
     }
+
     public void resetHealth()
     {
         health = maxHealth;
     }
+
     public float getMaxHealth()
     {
         return maxHealth;
     }
+
     public void setStamina(float value)
     {
         stamina = value;
     }
+
     public float getStamina()
     {
         return stamina;
     }
+
     public float getMaxStamina()
     {
         return maxStamina;
     }
+
+    public float getCastTime()
+    {
+        return castTime;
+    }
+
+    public float getCastTimeMax()
+    {
+        return castTimeMax;
+    }
+
     public float getAttackRange()
     {
         return attackRange;
     }
 
-    public void castSpellInSlot(int slot)
+    public void castAbilityInSlot(int slot)
     {
-        spellList[slot].cast(gameObject);
+        castAbilityInSlot(slot, Vector2.zero);
+    }
+
+    public void castAbilityInSlot(int slot, Vector2 targetPosition)
+    {
+        if (canCastAbility(slot))
+        {
+            castTime = abilityList[slot].startCast(gameObject, targetPosition);
+            castTimeMax = castTime;
+            castBuffID = buffs.addBuff(Buffs.BuffType.casting, castTime);
+            casting = true;
+            castingSlot = slot;
+        }
     }
 
     //Haetaan meleerangessa olevat viholliset ja tehd‰‰n juttuja.
-    public List<GameObject> getUnitsInMelee(UnitMovement.Direction dir)
+    public List<GameObject> getUnitsInMelee()
     {
         List<GameObject> potentialTargets = null;
         List<GameObject> targetsInRange = new List<GameObject>();
@@ -526,7 +650,8 @@ public class UnitCombat : MonoBehaviour
         {
             Vector2 relative = transform.InverseTransformPoint(unit.transform.position);
             float attackAngle = Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg;
-            if (Mathf.Abs((unitMovement.getFacingAngle()) - attackAngle) <= Tuner.DEFAULT_MELEE_ATTACK_CONE_DEGREES)
+            float relativeAngle = Mathf.Abs((unitMovement.getFacingAngle()) - attackAngle);
+            if (relativeAngle <= Tuner.DEFAULT_MELEE_ATTACK_CONE_DEGREES || (360 - relativeAngle) <= Tuner.DEFAULT_MELEE_ATTACK_CONE_DEGREES)
                 targetsInRange.Add(unit);
         }
 

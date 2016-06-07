@@ -15,9 +15,7 @@ class MyCustomImporter : Tiled2Unity.ICustomTiledImporter
             float offset = -512.0f / 100f;
             if (customProperties["DoubleHeight"].Equals("true"))
             {
-                Debug.Log("Found: " + gameObject.transform.position);
                 gameObject.transform.position += new Vector3(0, 0, offset);
-                Debug.Log("Fixed: " + gameObject.transform.position);
             }
         }
     }

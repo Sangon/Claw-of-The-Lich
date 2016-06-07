@@ -315,7 +315,7 @@ public class UnitList : MonoBehaviour
         {
             foreach (GameObject trigger in dividedTriggers[i])
             {
-                foreach (GameObject unit in dividedAliveUnits[i])
+                foreach (GameObject unit in dividedAllUnits[i])
                 {
                     if (trigger.GetComponent<PolygonCollider2D>().OverlapPoint(unit.transform.position))
                     {

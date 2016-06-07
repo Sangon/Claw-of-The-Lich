@@ -2,12 +2,15 @@
 
 <attribute>
 	<health>10.0</health>
-	<meleedamage>1</meleedamage>
-	<rangeddamage>15.0</rangeddamage>
-	<meleeattackspeed>1.0</meleeattackspeed>
-	<rangedattackspeed>3.0</rangedattackspeed>
-	<skillslot1>blot_out_skill</skillslot1>
-	<skillslot2>empty_skill</skillslot2>
+	<damage_melee_dices>1</damage_melee_dices>
+	<damage_melee_sides>1</damage_melee_sides>
+	<damage_ranged_dices>6</damage_ranged_dices>
+	<damage_ranged_sides>3</damage_ranged_sides>
+	<attackspeed_melee>1.0</attackspeed_melee>
+	<attackspeed_ranged>3.0</attackspeed_ranged>
+	<ranged_projectile>Arrow</ranged_projectile>
+	<ability1>ArrowRain</ability1>
+	<ability2>Placeholder</ability2>
 	<ismelee>false</ismelee>
-	<movementspeed>650</movementspeed>
+	<movementspeed>600</movementspeed>
 </attribute>

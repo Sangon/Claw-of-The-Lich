@@ -41,7 +41,7 @@ public class CameraScripts : MonoBehaviour
 
         mousePos = Input.mousePosition;
 
-        float scrollSpeed = 120f * Time.deltaTime * Tuner.CAMERA_SCROLLING_SPEED + (Tuner.CAMERA_SCROLLING_SPEED * (Camera.main.orthographicSize/500f));
+        float scrollSpeed = 120f * Time.deltaTime * Tuner.CAMERA_SCROLLING_SPEED + (Tuner.CAMERA_SCROLLING_SPEED * (Camera.main.orthographicSize / 500f));
 
         if (!followTargets)
         {
@@ -123,5 +123,12 @@ public class CameraScripts : MonoBehaviour
         }
         else
             Camera.main.transform.parent = null;
+    }
+
+    public static Vector2 getCurrentMousePos()
+    {
+        Vector2 ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(ray, Vector2.zero);
+        return hit.point;
     }
 }

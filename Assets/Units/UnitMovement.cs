@@ -38,7 +38,8 @@ public class UnitMovement : MonoBehaviour
     private float facingAngle = 0;
 
     private bool canTurn = true;
-    private bool moving = false;
+    private bool moving;
+    private bool forcedMove;
 
     private FMOD.Studio.EventInstance footStepsAudio;
 
@@ -58,12 +59,23 @@ public class UnitMovement : MonoBehaviour
 
     public void moveTo(Vector2 point, bool force = false, int groupID = 0)
     {
-        if (astar != null && unitCombat.isAlive() && (force || !buffs.isUncontrollable()))
+        if (astar != null && unitCombat.isAlive() && (force || canMove()))
+        {
+            forcedMove = force;
             astar.move(point, groupID);
+        }
+    }
+
+    public bool canMove()
+    {
+        if (buffs.isUncontrollable() || buffs.isStunned())
+            return false;
+        return true;
     }
 
     public float getFacingAngle()
     {
+        calculateDirection();
         return facingAngle;
     }
 
@@ -172,7 +184,7 @@ public class UnitMovement : MonoBehaviour
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
         float playbackTime = currentState.normalizedTime % 1;
         animator.SetFloat("attackSpeed", 1.0f / unitCombat.getMaxAttackTimer());
-        animator.SetFloat("movementSpeed", unitCombat.getMovementSpeed() / Tuner.UNIT_BASE_SPEED);
+        animator.SetFloat("movementSpeed", unitCombat.getMovementSpeed() / Tuner.UNIT_BASE_MOVEMENT_SPEED);
         switch (animation)
         {
             case Animations.attack:
@@ -260,6 +272,10 @@ public class UnitMovement : MonoBehaviour
     {
         if (!unitCombat.isAlive())
             return;
+
+        if (!canMove() && !forcedMove)
+            stop();
+
         if (astar != null && astar.path != null)
         {
             relativePosition = astar.getMovementDirection();
@@ -271,11 +287,6 @@ public class UnitMovement : MonoBehaviour
         calculateDirection();
     }
 
-    public Direction getDirection()
-    {
-        calculateDirection();
-        return direction;
-    }
     public void calculateDirection()
     {
         //Palauttaa suunnan mihin unitti on suuntaamassa.
@@ -290,10 +301,7 @@ public class UnitMovement : MonoBehaviour
         if (!canTurn)
             return;
 
-        if (isMoving() || unitCombat == null || !unitCombat.isAttacking() || (unitCombat.isLockedAttack() && !unitCombat.inRange(unitCombat.getLockedTarget())))
-        {
-        }
-        else //if (!unitCombat.hasAttacked())
+        if (!isMoving() && unitCombat.isAttacking() || (unitCombat.isLockedAttack() && unitCombat.inRange(unitCombat.getLockedTarget())))
         {
             Vector3 newPosition = Vector3.zero;
 
@@ -304,7 +312,7 @@ public class UnitMovement : MonoBehaviour
             }
             else if (tag.Equals("Player"))
             {
-                //Turn the unit towards mouse click position
+                //The player character is attacking with no target: turn the unit towards mouse click position
                 newPosition = gameObject.GetComponent<PlayerMovement>().getClickPosition();
             }
 

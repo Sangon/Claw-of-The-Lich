@@ -81,7 +81,7 @@ public class GameHUD : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.H))
         {
-            if (lichMana >= 25f)
+            if (lichMana >= Tuner.LICH_ABILITY_HEAL_COST)
             {
                 bool healed = false;
                 foreach (GameObject c in partySystem.aliveCharacters)
@@ -94,7 +94,7 @@ public class GameHUD : MonoBehaviour
                             {
                                 if (b != null && b.GetComponent<UnitCombat>() != null)
                                 {
-                                    b.GetComponent<UnitCombat>().takeDamage(-(b.GetComponent<UnitCombat>().getMaxHealth() * 0.25f), null);
+                                    b.GetComponent<UnitCombat>().takeDamage(-(b.GetComponent<UnitCombat>().getMaxHealth() * Tuner.LICH_ABILITY_HEAL_AMOUNT), null);
                                 }
                             }
                             healed = true;
@@ -103,7 +103,7 @@ public class GameHUD : MonoBehaviour
                     }
                 }
                 if (healed)
-                    lichMana -= 25f;
+                    lichMana -= Tuner.LICH_ABILITY_HEAL_COST;
             }
         }
         if (Input.GetKeyDown(KeyCode.F1))
@@ -112,13 +112,13 @@ public class GameHUD : MonoBehaviour
         }
 
         /////////////////////////////////////
-        /// LICHIN SPELLIT
+        /// LICH ABILITIES
         /////////////////////////////////////
         float manaScale = lichMana / 100f;
         manaScale = Mathf.Clamp(manaScale, 0, 1f);
         lichManaBar.localScale = new Vector3(lichManaBarScaleX * manaScale, lichManaBar.localScale.y, lichManaBar.localScale.z);
         /////////////////////////////////////
-        /// SPELLIT
+        /// CHARACTER ABILITIES
         /////////////////////////////////////
         for (int i = 0; i < 8; i++)
             wasTargeting[i] = targeting[i];
@@ -128,12 +128,12 @@ public class GameHUD : MonoBehaviour
         for (int i = 0; i < 8; i++)
         {
             int characterID = Mathf.FloorToInt((i * 0.5f) + 1);
-            int spellID = (i % 2);
+            int abilityID = (i % 2);
             UnitCombat unitCombat = partySystem.getCharacter(characterID).GetComponent<UnitCombat>();
 
             if ((Input.GetKeyDown(Tuner.KEYS_CHARACTER_ABILITY[i]) || HUDCast[i] == true) && !Input.GetKey(KeyCode.LeftShift) && unitCombat.isAlive())
             {
-                if (unitCombat.canCastSpell(spellID))
+                if (unitCombat.canCastAbility(abilityID))
                 {
                     targeting[i] = true;
                     //shift = false;
@@ -143,7 +143,7 @@ public class GameHUD : MonoBehaviour
             {
                 if (!Input.GetKey(Tuner.KEYS_CHARACTER_ABILITY[i]))
                 {
-                    unitCombat.castSpellInSlot(spellID);
+                    unitCombat.castAbilityInSlot(abilityID);
                 }
                 targeting[i] = false;
                 //shift = false;
@@ -186,27 +186,27 @@ public class GameHUD : MonoBehaviour
         for (int i = 0; i < 8; i++)
         {
             int characterID = Mathf.FloorToInt((i * 0.5f) + 1);
-            int spellID = (i % 2);
+            int abilityID = (i % 2);
             character = partySystem.getCharacter(characterID);
-            string spell = character.GetComponent<UnitCombat>().getSpellList()[spellID].getSpellName();
+            string ability = character.GetComponent<UnitCombat>().getAbilityList()[abilityID].getAbilityName();
 
             if (targeting[i])
             {
-                if (spell.Equals("blot_out")) //Arrow rain skill
-                    targetedAbilityIndicator.showIndicator(character, TargetedAbilityIndicator.Skills.arrow, PlayerMovement.getCurrentMousePos());
-                else if (spell.Equals("charge")) //Charge skill
-                    targetedAbilityIndicator.showIndicator(character, TargetedAbilityIndicator.Skills.charge, PlayerMovement.getCurrentMousePos());
-                else if (spell.Equals("whirlwind")) //Whirlwind skill
-                    targetedAbilityIndicator.showIndicator(character, TargetedAbilityIndicator.Skills.whirlwind, PlayerMovement.getCurrentMousePos());
+                if (ability.Equals("ArrowRain"))
+                    targetedAbilityIndicator.showIndicator(character, TargetedAbilityIndicator.Abilities.arrowRain, CameraScripts.getCurrentMousePos());
+                else if (ability.Equals("Charge"))
+                    targetedAbilityIndicator.showIndicator(character, TargetedAbilityIndicator.Abilities.charge, CameraScripts.getCurrentMousePos());
+                else if (ability.Equals("Whirlwind"))
+                    targetedAbilityIndicator.showIndicator(character, TargetedAbilityIndicator.Abilities.whirlwind, CameraScripts.getCurrentMousePos());
             }
             else
             {
-                if (spell.Equals("blot_out")) //Arrow rain skill
-                    targetedAbilityIndicator.hideIndicator(character, TargetedAbilityIndicator.Skills.arrow);
-                else if (spell.Equals("charge")) //Charge skill
-                    targetedAbilityIndicator.hideIndicator(character, TargetedAbilityIndicator.Skills.charge);
-                else if (spell.Equals("whirlwind")) //Whirlwind skill
-                    targetedAbilityIndicator.hideIndicator(character, TargetedAbilityIndicator.Skills.whirlwind);
+                if (ability.Equals("ArrowRain"))
+                    targetedAbilityIndicator.hideIndicator(character, TargetedAbilityIndicator.Abilities.arrowRain);
+                else if (ability.Equals("Charge"))
+                    targetedAbilityIndicator.hideIndicator(character, TargetedAbilityIndicator.Abilities.charge);
+                else if (ability.Equals("Whirlwind"))
+                    targetedAbilityIndicator.hideIndicator(character, TargetedAbilityIndicator.Abilities.whirlwind);
             }
         }
         if (isTargetingFromHUD() && !playerHUD.isMouseOverHUD())

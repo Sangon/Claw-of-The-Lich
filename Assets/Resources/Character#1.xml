@@ -2,12 +2,15 @@
 
 <attribute>
 	<health>200.0</health>
-	<meleedamage>7.0</meleedamage>
-	<rangeddamage>3.0</rangeddamage>
-	<meleeattackspeed>1.0</meleeattackspeed>
-	<rangedattackspeed>2.0</rangedattackspeed>
-	<skillslot1>whirlwind_skill</skillslot1>
-	<skillslot2>charge_skill</skillslot2>
+	<damage_melee_dices>3</damage_melee_dices>
+	<damage_melee_sides>2</damage_melee_sides>
+	<damage_ranged_dices>2</damage_ranged_dices>
+	<damage_ranged_sides>2</damage_ranged_sides>
+	<attackspeed_melee>0.5</attackspeed_melee>
+	<attackspeed_ranged>2.0</attackspeed_ranged>
+	<ranged_projectile>Arrow</ranged_projectile>
+	<ability1>Whirlwind</ability1>
+	<ability2>Charge</ability2>
 	<ismelee>true</ismelee>
 	<movementspeed>500</movementspeed>
 </attribute>

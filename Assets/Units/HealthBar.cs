@@ -27,12 +27,12 @@ public class HealthBar : MonoBehaviour
 
     public void LateUpdate()
     {
-        if (healthBarIndicator == null)
+        if (healthBarIndicator == null || !visible)
             return;
 
         float size = (unitCombat.getHealth() / unitCombat.getMaxHealth());
 
-        if (size < 0)
+        if (size < 0 || float.IsNaN(size))
             size = 0;
         else
             size *= 0.5f;

@@ -8,9 +8,9 @@ public class Buff
     {
         stun,
         uncontrollable,
-        movementspeedlimit,
-        movementspeedmultiplier,
-        layerorder
+        movementSpeedMultiplier,
+        movementSpeedConstant,
+        layerOrder
     }
 
     private uint buffID;
@@ -31,6 +31,11 @@ public class Buff
     public uint getBuffID()
     {
         return buffID;
+    }
+
+    public void addDuration(float extraDuration)
+    {
+        duration += extraDuration;
     }
 
     public Buff(uint buffID, Effect effect, float duration, float value = 0f)
