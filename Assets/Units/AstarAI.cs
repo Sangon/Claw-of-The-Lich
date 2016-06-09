@@ -26,6 +26,10 @@ public class AstarAI : MonoBehaviour
     private bool ignorePath;
     private int pathNumber;
 
+    private Vector3 currentPosition;
+
+    private NNConstraint constraint;
+
     public int getPathNumber()
     {
         return pathNumber;
@@ -35,45 +39,52 @@ public class AstarAI : MonoBehaviour
     {
         seeker = GetComponent<Seeker>();
         partySystem = GameObject.Find("PartySystem").GetComponent<PartySystem>();
+
         oldPos = transform.position;
+        currentPosition = new Vector3(transform.position.x, transform.position.y, 0);
+
+        constraint = new NNConstraint();
+        //Constrain all movement to the current area so that units can't move to "islands" and get stuck
+        constraint.constrainArea = true;
+        constraint.area = -1;
+    }
+
+    void Start()
+    {
+        GraphNode node = AstarPath.active.GetNearest(currentPosition, NNConstraint.Default).node;
+        constraint.area = (int)node.Area;
     }
 
     public void move(Vector2 point, int groupID = 0)
     {
         ignorePath = false;
         clickPoint = point;
-        /*
-        if (Ellipse.isometricDistance(point, new Vector2(transform.position.x, transform.position.y)) < Tuner.PATHFINDING_MINIMUM_DISTANCE)
-        {
-            //print("old: " + point);
-            point += (point - new Vector2(transform.position.x, transform.position.y)).normalized * 10f;
-            //print("new: " + point);
-            //return;
-        }
-        */
 
-        // Find the closest node to the (clicked) position
+        //Find the closest node to the (clicked) position
         targetPosition = AstarPath.active.GetNearest(point, NNConstraint.Default).clampedPosition;
-        //print(targetPosition);
+        currentPosition = new Vector3(transform.position.x, transform.position.y, 0);
 
         this.groupID = groupID;
 
         if (groupID > 0)
         {
-            // The character is in a party (is selected)!
+            //The character is in a party (is selected)!
             if (groupID == 1)
             {
-                // We are moving the second character in the party: clear partypositions
+                //We are moving the second character in the party: clear party positions
                 partySystem.resetPositions();
             }
         }
-        else if (Ellipse.isometricDistance(targetPosition, new Vector2(transform.position.x, transform.position.y)) < Tuner.PATHFINDING_MINIMUM_DISTANCE_FROM_UNIT)
+        else if (Ellipse.isometricDistance(targetPosition, currentPosition) < Tuner.PATHFINDING_MINIMUM_DISTANCE_FROM_UNIT)
         {
+            //Clicked too close to the character's feet, no point moving!
             return;
         }
 
+        ABPath p = ABPath.Construct(currentPosition, targetPosition);
+        p.nnConstraint = constraint;
         //Start a new path to the targetPosition, return the result to the OnPathComplete function
-        seeker.StartPath(new Vector3(transform.position.x, transform.position.y, 0), targetPosition, onPathComplete);
+        seeker.StartPath(p, onPathComplete);
     }
 
     public void stop()
@@ -139,7 +150,7 @@ public class AstarAI : MonoBehaviour
                 //Debug.Log("Suora yhteys1!");
                 GraphNode node = AstarPath.active.GetNearest(targetPosition).node;
 
-                //TODO: Buy pro version and use LineCast!
+                //TODO: Buy pro version and use its LineCast!
 
                 bool freeNode = true;
                 for (int i = 0; i < 8; i++)
@@ -152,6 +163,7 @@ public class AstarAI : MonoBehaviour
                 }
                 if (freeNode)
                 {
+                    //print("Freenode!");
                     path.vectorPath.Clear();
                     path.vectorPath.Add(clickPoint);
                     directPath = true;
@@ -164,20 +176,20 @@ public class AstarAI : MonoBehaviour
                     hit = Physics2D.Linecast(transform.position, lastPoint, Tuner.LAYER_OBSTACLES | Tuner.LAYER_WATER);
                     if (hit.collider == null)
                     {
-                        //Debug.Log("Jo");
+                        //Debug.Log("Yes");
                         path.vectorPath.Clear();
-                        path.vectorPath.Add(new Vector3(transform.position.x, transform.position.y, 0));
+                        path.vectorPath.Add(currentPosition);
                         path.vectorPath.Add(lastPoint);
                         directPath = true;
                     }
                     else {
-                        //Debug.Log("Ei");
                         directPath = parsePath(true);
+                        //Debug.Log("No: " + directPath);
                     }
                 }
                 if (path.vectorPath.Count > 1)
                 {
-                    Vector2 dir1 = (path.vectorPath[0] - new Vector3(transform.position.x, transform.position.y, 0)).normalized;
+                    Vector2 dir1 = (path.vectorPath[0] - currentPosition).normalized;
                     Vector2 dir2 = (path.vectorPath[1] - path.vectorPath[0]).normalized;
                     Vector2 sum = dir1 + dir2;
 
@@ -191,12 +203,13 @@ public class AstarAI : MonoBehaviour
                     {
                         removedPath = true;
                         path.vectorPath.RemoveAt(0);
+                        //Debug.Log("Angle is too steep");
                     }
                     if (!removedPath)
                     {
                         if (path.vectorPath.Count > 1)
                         {
-                            hit = Physics2D.Linecast(new Vector3(transform.position.x, transform.position.y, 0), path.vectorPath[1], Tuner.LAYER_OBSTACLES | Tuner.LAYER_WATER);
+                            hit = Physics2D.Linecast(currentPosition, path.vectorPath[1], Tuner.LAYER_OBSTACLES | Tuner.LAYER_WATER);
                             if (hit.collider == null)
                             {
                                 //Debug.Log("Suora yhteys3!");
@@ -209,10 +222,11 @@ public class AstarAI : MonoBehaviour
 
             if (groupID > 0)
             {
+                //Moving more than one character at a time: adjust positions for the others
                 if (moveToNextTile())
                 {
-                    //print(Ellipse.isometricDistance(targetPosition, new Vector2(transform.position.x, transform.position.y)));
-                    if (Ellipse.isometricDistance(targetPosition, new Vector2(transform.position.x, transform.position.y)) < Tuner.PATHFINDING_MINIMUM_DISTANCE_FROM_UNIT)
+                    //print(Ellipse.isometricDistance(targetPosition, currentPosition));
+                    if (Ellipse.isometricDistance(targetPosition, currentPosition) < Tuner.PATHFINDING_MINIMUM_DISTANCE_FROM_UNIT)
                     {
                         path = null;
                         currentWaypoint = 0;
@@ -317,7 +331,7 @@ public class AstarAI : MonoBehaviour
         {
             //Debug.Log("Suora yhteys11!");
             path.vectorPath.Clear();
-            path.vectorPath.Add(new Vector3(transform.position.x, transform.position.y, 0));
+            path.vectorPath.Add(currentPosition);
             path.vectorPath.Add(targetPosition);
             currentWaypoint = 1;
         }
@@ -330,6 +344,7 @@ public class AstarAI : MonoBehaviour
         //If we are, proceed to follow the next waypoint
         if (Ellipse.isometricDistance(transform.position, path.vectorPath[currentWaypoint]) <= nextWaypointDistance)
         {
+            //realPos = path.vectorPath[currentWaypoint];
             if (currentWaypoint + 2 < path.vectorPath.Count)
             {
                 parsePath(false);
@@ -351,7 +366,7 @@ public class AstarAI : MonoBehaviour
         Vector2 pos2 = new Vector2(transform.position.x, transform.position.y);
         //Vector2 dir = (pos1 - pos2).normalized;
 
-        //float angle = Vector2.Angle(Vector3.left, new Vector3(path.vectorPath[currentWaypoint].x, path.vectorPath[currentWaypoint].y) - new Vector3(transform.position.x, transform.position.y)) * Mathf.Deg2Rad;
+        //float angle = Vector2.Angle(Vector3.left, new Vector3(path.vectorPath[currentWaypoint].x, path.vectorPath[currentWaypoint].y) - currentPosition) * Mathf.Deg2Rad;
 
         Vector2 dir = Ellipse.isometricDirection(pos1, pos2);
         dir *= gameObject.GetComponent<UnitCombat>().getMovementSpeed() * Time.fixedDeltaTime;

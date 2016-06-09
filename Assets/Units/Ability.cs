@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public abstract class Ability : ScriptableObject
 {
@@ -13,15 +14,40 @@ public abstract class Ability : ScriptableObject
     protected Tuner.SpellBaseAI spellBaseAI = Tuner.SpellBaseAI.selfHeal;
     protected string abilityName = "Placeholder";
     protected GameObject parent;
+    protected bool targeted; //Does the ability require targeting: default false
+
+    public Ability init(GameObject parent)
+    {
+        this.parent = parent;
+        return this;
+    }
 
     //Jokanen spelli toteuttaa oman casti ja metodinsa.
-    public abstract float startCast(GameObject parent, Vector2 targetPosition);
+    public abstract float startCast(Vector2 targetPosition);
     public abstract void finishCast();
     public abstract void FixedUpdate();
 
     public Tuner.SpellBaseAI getSpellBaseAI()
     {
         return spellBaseAI;
+    }
+
+    public bool isTargeted()
+    {
+        return targeted;
+    }
+
+    protected void checkForParent()
+    {
+        if (parent == null)
+            throw new Exception(abilityName + ": Parent is null! Did you forget to call init()?");
+    }
+
+    public bool isInRange(Vector2 targetPosition)
+    {
+        if (isTargeted() && Ellipse.isometricDistance(parent.transform.position, targetPosition) > maxCastRange)
+            return false;
+        return true;
     }
 
     public float getCurrentCooldown()

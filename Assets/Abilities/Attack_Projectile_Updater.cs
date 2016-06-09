@@ -54,12 +54,13 @@ public class Attack_Projectile_Updater : AbilitySpawner
         Debug.DrawLine(start, end, Color.cyan, Time.fixedDeltaTime);
         if (hit.collider != null && !hit.collider.tag.Equals("Dead"))
         {
-            if (!ignoreObstacles && hit.collider.name.Contains("Collision"))
+            bool isObject = hit.collider.gameObject.layer.Equals(Tuner.LAYER_OBSTACLES_INT);
+            if (!ignoreObstacles && isObject)
             {
                 Destroy(gameObject);
                 return false;
             }
-            else if (!hit.collider.name.Contains("Collision") && !hit.collider.gameObject.tag.Equals(ownerTag))
+            else if (!isObject && !hit.collider.gameObject.tag.Equals(ownerTag))
             {
                 if (hit.collider.gameObject.GetComponent<UnitCombat>() != null)
                     hit.collider.gameObject.GetComponent<UnitCombat>().takeDamage(damage, getParent(), Tuner.DamageType.ranged);

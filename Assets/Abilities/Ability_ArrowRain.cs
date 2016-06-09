@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
 
 public class Ability_ArrowRain : Ability
 {
@@ -12,17 +11,15 @@ public class Ability_ArrowRain : Ability
         castTime = Tuner.BASE_BLOT_OUT_CAST_TIME;
         areaRadius = Tuner.BASE_BLOT_OUT_RADIUS;
         spellBaseAI = Tuner.SpellBaseAI.arrowRain;
+        targeted = true;
     }
 
-    public override float startCast(GameObject parent, Vector2 targetPosition)
+    public override float startCast(Vector2 targetPosition)
     {
+        checkForParent();
         if (currentCooldown <= 0)
         {
-            this.parent = parent;
-            if (parent.tag.Equals("Player"))
-                castPosition = CameraScripts.getCurrentMousePos();
-            else
-                castPosition = targetPosition;
+            castPosition = targetPosition;
             return castTime;
         }
 

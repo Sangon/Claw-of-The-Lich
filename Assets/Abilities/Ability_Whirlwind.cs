@@ -14,11 +14,11 @@ public class Ability_Whirlwind : Ability
         spellBaseAI = Tuner.SpellBaseAI.whirlwind;
     }
 
-    public override float startCast(GameObject parent, Vector2 targetPosition)
+    public override float startCast(Vector2 targetPosition)
     {
+        checkForParent();
         if (currentCooldown <= 0)
         {
-            this.parent = parent;
             if (!parent.tag.Equals("Player"))
                 castTime += Tuner.CAST_TIME_EXTRA_FOR_ENEMIES;
             return castTime;

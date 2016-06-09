@@ -22,6 +22,7 @@ namespace Tiled2Unity
     // At this point we should have everything we need to build out any prefabs for the tiled map object
     partial class ImportTiled2Unity
     {
+        private List<GameObject> collisions = new List<GameObject>();
         // By the time this is called, our assets should be ready to create the map prefab
         public void MeshImported(string objPath)
         {
@@ -150,26 +151,26 @@ namespace Tiled2Unity
 
                 if (child.name.Contains("Collision"))
                 {
+                    /*
                     if (child.name.Contains("Water"))
                         child.gameObject.layer = Tuner.LAYER_WATER_INT;
                     else
                         child.gameObject.layer = Tuner.LAYER_OBSTACLES_INT;
-                }
-                else if (!child.name.Equals("Ground") && !child.name.Equals("Objects") && !child.name.Equals("Top"))
-                {
-                    float offset = -768.0f / 100.0f;
-                    /*
-                    AutoLayerSort sorter = child.gameObject.AddComponent<AutoLayerSort>();
-
-                    //-384 = puu
                     */
-                    if (parent.transform.name.Equals("Objects"))
+                    PolygonCollider2D polygonCollider = child.GetComponent<PolygonCollider2D>();
+                    if (polygonCollider != null)
+                        polygonCollider.offset = new Vector2(256.0f + (child.transform.position.x - (Tuner.LEVEL_WIDTH_IN_WORLD_UNITS * 0.5f)), -256.0f + child.transform.position.y);
+                    else
                     {
-                        if (child.name.Equals("TreeBase"))
-                            offset = -384.0f / 100.0f;
-                        else
-                            offset = -384.0f / 100.0f;
+                        EdgeCollider2D edgeCollider = child.GetComponent<EdgeCollider2D>();
+                        if (edgeCollider != null)
+                            edgeCollider.offset = new Vector2(256.0f + (child.transform.position.x - (Tuner.LEVEL_WIDTH_IN_WORLD_UNITS * 0.5f)), -256.0f + child.transform.position.y);
                     }
+                    collisions.Add(child);
+                }
+                else
+                {
+                    float offset = -384.0f / 100.0f;
                     child.transform.position = new Vector3(child.transform.position.x, child.transform.position.y, child.transform.position.y / 100.0f + 800.0f + offset);
                 }
 
@@ -465,7 +466,7 @@ namespace Tiled2Unity
                 var dictionary = props.OrderBy(p => p.Name).ToDictionary(p => p.Name, p => p.Value);
                 foreach (ICustomTiledImporter importer in importers)
                 {
-                    importer.HandleCustomProperties(gameObject, dictionary);
+                    importer.HandleCustomProperties(gameObject, dictionary, collisions);
                 }
             }
         }

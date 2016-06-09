@@ -52,8 +52,9 @@ public class UnitAttributes
 
     public UnitAttributes() { }
 
-    public UnitAttributes(String uname)
+    public UnitAttributes(GameObject unit)
     {
+        string uname = unit.name;
         Regex regex = new Regex(@"^(Character)#[1-4]");
         Match match = regex.Match(uname);
 
@@ -61,7 +62,6 @@ public class UnitAttributes
 
         if (match.Success)
         {
-            Debug.Log("FOUND CHARACTER: " + uname);
             unit_name = uname;
         }
         else
@@ -75,7 +75,7 @@ public class UnitAttributes
         if (_xml == null)
         {
             Debug.LogError("COULD NOT FIND UNIT ATTRIBUTES: " + unit_name);
-            loadDefaultValues();
+            loadDefaultValues(unit);
             return;
         }
 
@@ -93,14 +93,14 @@ public class UnitAttributes
         attackspeed_melee = unitAttributes.attackspeed_melee;
         attackspeed_ranged = unitAttributes.attackspeed_ranged;
         ranged_projectile = unitAttributes.ranged_projectile;
-        abilitySlot1 = AbilityBook.getAbility(unitAttributes.ability1);
-        abilitySlot2 = AbilityBook.getAbility(unitAttributes.ability2);
+        abilitySlot1 = AbilityBook.getAbility(unitAttributes.ability1, unit);
+        abilitySlot2 = AbilityBook.getAbility(unitAttributes.ability2, unit);
         ismelee = unitAttributes.ismelee;
         movementspeed = unitAttributes.movementspeed;
         reader.Close();
     }
 
-    public void loadDefaultValues()
+    public void loadDefaultValues(GameObject unit)
     {
         health = Tuner.UNIT_BASE_HEALTH;
         damage_melee_dices = Tuner.UNIT_BASE_DAMAGE_MELEE_DICES;
@@ -111,7 +111,7 @@ public class UnitAttributes
         attackspeed_ranged = Tuner.UNIT_BASE_ATTACK_SPEED_RANGED;
         ranged_projectile = "Arrow";
         ismelee = true;
-        abilitySlot1 = AbilityBook.getAbility("Placeholder");
-        abilitySlot2 = AbilityBook.getAbility("Placeholder");
+        abilitySlot1 = AbilityBook.getAbility("Placeholder", unit);
+        abilitySlot2 = AbilityBook.getAbility("Placeholder", unit);
     }
 }

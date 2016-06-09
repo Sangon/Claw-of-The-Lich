@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Attack_Projectile : Ability
 {
@@ -10,8 +11,9 @@ public class Attack_Projectile : Ability
         abilityName = "Projectile";
     }
 
-    public override float startCast(GameObject parent, Vector2 targetPosition)
+    public override float startCast(Vector2 targetPosition)
     {
+        checkForParent();
         if (currentCooldown <= 0)
         {
             this.parent = parent;

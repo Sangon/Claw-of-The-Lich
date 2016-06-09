@@ -133,7 +133,7 @@ public class GameHUD : MonoBehaviour
 
             if ((Input.GetKeyDown(Tuner.KEYS_CHARACTER_ABILITY[i]) || HUDCast[i] == true) && !Input.GetKey(KeyCode.LeftShift) && unitCombat.isAlive())
             {
-                if (unitCombat.canCastAbility(abilityID))
+                if (unitCombat.canCastAbility(abilityID, Vector2.zero, false))
                 {
                     targeting[i] = true;
                     //shift = false;
@@ -143,7 +143,7 @@ public class GameHUD : MonoBehaviour
             {
                 if (!Input.GetKey(Tuner.KEYS_CHARACTER_ABILITY[i]))
                 {
-                    unitCombat.castAbilityInSlot(abilityID);
+                    unitCombat.castAbilityInSlot(abilityID, CameraScripts.getCurrentMousePos());
                 }
                 targeting[i] = false;
                 //shift = false;
@@ -188,25 +188,15 @@ public class GameHUD : MonoBehaviour
             int characterID = Mathf.FloorToInt((i * 0.5f) + 1);
             int abilityID = (i % 2);
             character = partySystem.getCharacter(characterID);
-            string ability = character.GetComponent<UnitCombat>().getAbilityList()[abilityID].getAbilityName();
+            Ability ability = character.GetComponent<UnitCombat>().getAbilityList()[abilityID];
 
             if (targeting[i])
             {
-                if (ability.Equals("ArrowRain"))
-                    targetedAbilityIndicator.showIndicator(character, TargetedAbilityIndicator.Abilities.arrowRain, CameraScripts.getCurrentMousePos());
-                else if (ability.Equals("Charge"))
-                    targetedAbilityIndicator.showIndicator(character, TargetedAbilityIndicator.Abilities.charge, CameraScripts.getCurrentMousePos());
-                else if (ability.Equals("Whirlwind"))
-                    targetedAbilityIndicator.showIndicator(character, TargetedAbilityIndicator.Abilities.whirlwind, CameraScripts.getCurrentMousePos());
+                targetedAbilityIndicator.showIndicator(character, ability, CameraScripts.getCurrentMousePos());
             }
             else
             {
-                if (ability.Equals("ArrowRain"))
-                    targetedAbilityIndicator.hideIndicator(character, TargetedAbilityIndicator.Abilities.arrowRain);
-                else if (ability.Equals("Charge"))
-                    targetedAbilityIndicator.hideIndicator(character, TargetedAbilityIndicator.Abilities.charge);
-                else if (ability.Equals("Whirlwind"))
-                    targetedAbilityIndicator.hideIndicator(character, TargetedAbilityIndicator.Abilities.whirlwind);
+                targetedAbilityIndicator.hideIndicator(character, ability);
             }
         }
         if (isTargetingFromHUD() && !playerHUD.isMouseOverHUD())
@@ -240,7 +230,7 @@ public class GameHUD : MonoBehaviour
         float msec = Time.deltaTime * 1000.0f;
         float fps = 1.0f / Time.deltaTime;
         string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
-        GUI.Label(new Rect(width - 110, 10, 110, 20), text);
+        GUI.Label(new Rect(width - 120, 10, 120, 20), text);
         frames++;
         frameTime += Time.deltaTime;
         if (frameTime >= 3.0f)
@@ -250,7 +240,8 @@ public class GameHUD : MonoBehaviour
             frames = 0;
         }
         text = string.Format("Avg. {0} fps", avgFPS);
-        GUI.Label(new Rect(width - 110, 30, 110, 20), text);
-        GUI.Label(new Rect(width - 110, 50, 110, 20), "Enemies left: " + UnitList.getHostiles().Length);
+        GUI.Label(new Rect(width - 120, 30, 120, 20), text);
+        GUI.Label(new Rect(width - 120, 50, 120, 20), "Enemies left: " + UnitList.getHostiles().Length);
+        //GUI.Label(new Rect(width - 120, 70, 120, 20), "GameObjects: " + UnityEngine.Object.FindObjectsOfType<GameObject>().Length);
     }
 }

@@ -20,6 +20,8 @@ public class AIStates : MonoBehaviour
     Vector2 startingPoint = Vector2.zero;
     float nextIdleWanderChange;
     float chasingTime;
+    float combatTime;
+    float startUsingAbilitiesTime;
 
     GameObject target;
     Vector2 fleePos;
@@ -47,9 +49,25 @@ public class AIStates : MonoBehaviour
         return true;
     }
 
+    public bool canUseAbilities()
+    {
+        if (combatTime >= startUsingAbilitiesTime)
+            return true;
+        return false;
+    }
+
     void FixedUpdate()
     {
         bool hasTarget = false;
+
+        if (inCombat())
+        {
+            if (combatTime == 0) //Just got into combat
+                startUsingAbilitiesTime = Random.Range(Tuner.ENEMY_ABILITY_START_COOLDOWN_MIN, Tuner.ENEMY_ABILITY_START_COOLDOWN_MAX);
+            combatTime += Time.fixedDeltaTime;
+        }
+        else
+            combatTime = 0;
 
         if (currentState != State.flee || target == null || !target.GetComponent<UnitCombat>().isAlive())
         {
@@ -100,42 +118,45 @@ public class AIStates : MonoBehaviour
                     {
                         //Enemy can see the target and is not casting: keep chasing and reset timer
                         chasingTime = 0;
-                        for (int i = 0; i < 2; i++)
+                        if (canUseAbilities())
                         {
-                            if (unitCombat.canCastAbility(i))
+                            for (int i = 0; i < 2; i++)
                             {
-                                //Try to cast an ability
-                                Ability ability = unitCombat.getAbilityList()[i];
-                                Tuner.SpellBaseAI spellBaseAI = ability.getSpellBaseAI();
-
-                                switch (spellBaseAI)
+                                if (unitCombat.canCastAbility(i, Vector2.zero, false))
                                 {
-                                    case Tuner.SpellBaseAI.arrowRain:
-                                        //Cast under/towards the target if it is close enough
-                                        if (Ellipse.isometricDistance(transform.position, target.transform.position) < ability.getMaxCastRange())
-                                        {
-                                            unitCombat.castAbilityInSlot(i, target.transform.position);
-                                        }
-                                        break;
-                                    case Tuner.SpellBaseAI.charge:
-                                        //Cast under/towards the target if it is close enough but not too close
-                                        float dis = Ellipse.isometricDistance(transform.position, target.transform.position);
-                                        if (dis <= ability.getMaxCastRange() * 0.90f && dis >= ability.getMaxCastRange() * 0.80f)
-                                        {
-                                            unitCombat.castAbilityInSlot(i, target.transform.position);
-                                        }
-                                        break;
-                                    case Tuner.SpellBaseAI.selfHeal:
-                                        //Cast right under/on itself
-                                        unitCombat.castAbilityInSlot(i, transform.position);
-                                        break;
-                                    case Tuner.SpellBaseAI.whirlwind:
-                                        //Cast right under/on itself if the target is close enough to skill's area of effect
-                                        if (Ellipse.isometricDistance(transform.position, target.transform.position) < ability.getAreaRadius())
-                                        {
+                                    //Try to cast an ability
+                                    Ability ability = unitCombat.getAbilityList()[i];
+                                    Tuner.SpellBaseAI spellBaseAI = ability.getSpellBaseAI();
+
+                                    switch (spellBaseAI)
+                                    {
+                                        case Tuner.SpellBaseAI.arrowRain:
+                                            //Cast under/towards the target if it is close enough
+                                            if (Ellipse.isometricDistance(transform.position, target.transform.position) < ability.getMaxCastRange())
+                                            {
+                                                unitCombat.castAbilityInSlot(i, target.transform.position);
+                                            }
+                                            break;
+                                        case Tuner.SpellBaseAI.charge:
+                                            //Cast under/towards the target if it is close enough but not too close
+                                            float dis = Ellipse.isometricDistance(transform.position, target.transform.position);
+                                            if (dis <= ability.getMaxCastRange() * 0.90f && dis >= ability.getMaxCastRange() * 0.80f)
+                                            {
+                                                unitCombat.castAbilityInSlot(i, target.transform.position);
+                                            }
+                                            break;
+                                        case Tuner.SpellBaseAI.selfHeal:
+                                            //Cast right under/on itself
                                             unitCombat.castAbilityInSlot(i, transform.position);
-                                        }
-                                        break;
+                                            break;
+                                        case Tuner.SpellBaseAI.whirlwind:
+                                            //Cast right under/on itself if the target is close enough to skill's area of effect
+                                            if (Ellipse.isometricDistance(transform.position, target.transform.position) < ability.getAreaRadius())
+                                            {
+                                                unitCombat.castAbilityInSlot(i, transform.position);
+                                            }
+                                            break;
+                                    }
                                 }
                             }
                         }
@@ -193,7 +214,7 @@ public class AIStates : MonoBehaviour
                     float distanceToClosestUnit = Ellipse.isometricDistance(closestUnitPos, myPos);
                     if (distanceToClosestUnit >= unitCombat.getAttackRange())
                     {
-                        //Stop fleeing if the enemy is far enough from us
+                        //Stop fleeing if the closest enemy unit is far enough from us
                         changeState(State.chase);
                     }
                     else if (!startedFleeing || (startedFleeing && !unitMovement.isMoving()))
@@ -245,16 +266,21 @@ public class AIStates : MonoBehaviour
                         }
                         Debug.DrawLine(myPos, bestFleePos, Color.red, 3.0f);
 
+                        float realFleeDistanceFromClosestUnit = Ellipse.isometricDistance(closestUnitPos, bestFleePos);
                         realFleeDistance = Ellipse.isometricDistance(myPos, bestFleePos);
-                        float minFleeDistance = Tuner.UNIT_BASE_MELEE_RANGE;
-                        //No point in fleeing if the best position to flee to is too close
-                        if (realFleeDistance >= minFleeDistance)
+                        float minFleeDistance = Tuner.UNIT_BASE_MELEE_RANGE * 2f;
+                        if (realFleeDistance >= minFleeDistance && realFleeDistanceFromClosestUnit >= minFleeDistance)
                         {
-                            //Move away from the closest unit
+                            //Move away from the closest enemy unit
                             fleePos = bestFleePos;
 
                             unitMovement.moveTo(fleePos);
                             startedFleeing = true;
+                        }
+                        else
+                        {
+                            //No point in fleeing if the best position to flee to is too close to the fleeing unit or to the closest enemy unit
+                            changeState(State.chase);
                         }
                     }
                 }

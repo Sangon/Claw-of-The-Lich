@@ -164,7 +164,7 @@ public class PlayerHUD : MonoBehaviour
                 GameObject abilityIndicator = bar.transform.Find("Ability" + (j + 1)).gameObject;
                 if (mouseOverTarget != abilityIndicator)
                 {
-                    if (unitCombat.canCastAbility(j))
+                    if (unitCombat.canCastAbility(j, Vector2.zero, false))
                         abilityIndicator.GetComponent<Image>().color = Color.white;
                     else
                         abilityIndicator.GetComponent<Image>().color = Color.gray;
@@ -248,11 +248,11 @@ public class PlayerHUD : MonoBehaviour
                         if (!unitCombat.isAttacking())
                             mouseOverTarget.GetComponent<Image>().color = Color.green;
                     }
-                    else if (mouseOverTarget.name.Equals("Ability1") && !unitCombat.canCastAbility(0))
+                    else if (mouseOverTarget.name.Equals("Ability1") && !unitCombat.canCastAbility(0, Vector2.zero, false))
                     {
                         mouseOverTarget.GetComponent<Image>().color = Color.gray;
                     }
-                    else if (mouseOverTarget.name.Equals("Ability2") && !unitCombat.canCastAbility(1))
+                    else if (mouseOverTarget.name.Equals("Ability2") && !unitCombat.canCastAbility(1, Vector2.zero, false))
                     {
                         mouseOverTarget.GetComponent<Image>().color = Color.gray;
                     }

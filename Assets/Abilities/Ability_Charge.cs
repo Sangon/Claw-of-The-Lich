@@ -23,11 +23,11 @@ public class Ability_Charge : Ability
         spellBaseAI = Tuner.SpellBaseAI.charge;
     }
 
-    public override float startCast(GameObject parent, Vector2 targetPosition)
+    public override float startCast(Vector2 targetPosition)
     {
+        checkForParent();
         if (currentCooldown <= 0)
         {
-            this.parent = parent;
             if (!parent.tag.Equals("Player"))
             {
                 this.targetPosition = targetPosition;

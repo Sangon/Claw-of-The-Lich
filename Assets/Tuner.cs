@@ -22,9 +22,11 @@ public class Tuner : MonoBehaviour
     //KEYBOARD CONTROLS
     public static readonly KeyCode[] KEYS_CHARACTER_ABILITY = new KeyCode[8] { KeyCode.Q, KeyCode.A, KeyCode.W, KeyCode.S, KeyCode.E, KeyCode.D, KeyCode.R, KeyCode.F };
 
-    //UNIT DEFAULT COLORS
+    //DEFAULT COLORS
     public static readonly Color ENEMY_RANGED_COLOR = new Color(0.8f, 0.8f, 0.5f);
     public static readonly Color ENEMY_MELEE_COLOR = new Color(1.0f, 0.5f, 0.5f);
+    public static readonly Color TARGETED_ABILITY_INDICATOR_COLOR = new Color(0, 0, 1.0f, 0.5f);
+    public static readonly Color TARGETED_ABILITY_INDICATOR_COLOR_FAIL = new Color(1.0f, 0, 0, 0.5f);
 
     //UNIT DEFAULT VALUES
     public static readonly float UNIT_BASE_HEALTH = 10f;
@@ -88,7 +90,7 @@ public class Tuner : MonoBehaviour
     public static readonly int BASE_BLOT_OUT_DAMAGE_MULTIPLIER = 1;
     public static readonly float BASE_BLOT_OUT_COOLDOWN = 20f;
     public static readonly float BASE_BLOT_OUT_CAST_TIME = CAST_TIME_LONG;
-    public static readonly float BASE_BLOT_OUT_CAST_RANGE = 800f;
+    public static readonly float BASE_BLOT_OUT_CAST_RANGE = 1000f;
 
     //CAMERA DEFAULT VALUES
     public static readonly float CAMERA_MIN_DISTANCE = 100f;
@@ -106,12 +108,14 @@ public class Tuner : MonoBehaviour
 
     //ENEMY AI DEFAULT VALUES
     public static readonly float UNIT_AGGRO_RANGE = 1500f;
-    public static readonly float UNIT_AGGRO_CALLOUT_RANGE = 1000f; //Enemy units within this range (of the aggroing unit) get aggroed too
+    public static readonly float UNIT_AGGRO_CALLOUT_RANGE = 1000f; //Enemy units within this range (of the aggroing unit) get aggroed too. This can chain, potentially aggroing all units on map
     public static readonly float IDLING_STATE_TIME_MIN = 3f; //The minimum time in seconds the enemy spends in idle mode before it wanders
     public static readonly float IDLING_STATE_TIME_MAX = 10f; //The maximum time in seconds the enemy spends in idle mode before it wanders
     public static readonly float WANDERING_DISTANCE_MAX = 1000f; //The maximum distance the enemy can wander from its starting position
     public static readonly float WANDERING_DISTANCE = 750f; //The maximum distance the enemy can wander at a time
     public static readonly float CHASING_TIME_MAX = 3f; //The maximum time in seconds the enemy spends chasing the player without seeing him before giving up and returning to its starting position
+    public static readonly float ENEMY_ABILITY_START_COOLDOWN_MIN = 0f; //The minimum time in seconds that the enemy must have been in combat before using its abilities
+    public static readonly float ENEMY_ABILITY_START_COOLDOWN_MAX = 5f; //The maximum time in seconds that the enemy must have been in combat before using its abilities
 
     //UNITY EDITOR DEFAULT VALUES
     public static readonly int LAYER_OBSTACLES_INT = 8;

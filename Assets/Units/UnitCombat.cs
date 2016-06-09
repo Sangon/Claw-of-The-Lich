@@ -57,7 +57,7 @@ public class UnitCombat : MonoBehaviour
 
     void Awake()
     {
-        unitAttributes = new UnitAttributes(gameObject.name);
+        unitAttributes = new UnitAttributes(gameObject);
         health = unitAttributes.health;
         maxHealth = unitAttributes.health;
         stamina = Tuner.UNIT_BASE_STAMINA;
@@ -292,11 +292,14 @@ public class UnitCombat : MonoBehaviour
             if (attackTimer == maxAttackTimer && isMelee())
             {
                 hits = getUnitsInMelee();
+                if (lockedAttack && hits.Count == 0)
+                    print("BUG: Melee attack didn't hit anyone! (KERRO TEEMULLE)");
             }
 
             if (!attacked && attackTimer <= attackPoint)
             {
                 attacked = true;
+                //TODO: What happens if the units in "hits" are all dead at this point? Cancel attack?
                 if (isMelee())
                 {
                     if (gameObject.tag.Equals("Hostile"))
@@ -311,8 +314,7 @@ public class UnitCombat : MonoBehaviour
                                 dealDamage(hit, calculateDamage(), Tuner.DamageType.melee);
                         }
                         hits = null;
-                    } else
-                        print("BUG: Melee attack didn't hit anyone! (KERRO TEEMULLE)");
+                    }
                 }
                 else {
                     GameObject projectile = Instantiate(Resources.Load("Ability Prefabs/Projectile_" + rangedProjectile), transform.position, Quaternion.identity) as GameObject;
@@ -355,6 +357,7 @@ public class UnitCombat : MonoBehaviour
 
             //Laskee kuka potentiaalisten vihollisten listasta on lähimpänä ja lockinnaa siihen.
             float distance = Mathf.Infinity;
+            hit.y -= Tuner.DEFAULT_PROJECTILE_OFFSET; //TODO: Make this half of enemy's height
             foreach (GameObject unit in UnitList.getHostileUnitsInArea(hit, Tuner.ATTACKMOVE_MAX_SEARCH_DISTANCE_FROM_CLICK_POINT))
             {
                 float currentDistance = Ellipse.isometricDistance(unit.transform.position, hit);
@@ -554,10 +557,21 @@ public class UnitCombat : MonoBehaviour
         //if (name.Equals("Character#1"))
         //Debug.Log("DEALT DAMAGE." + enemy + " REMAINING HEALTH:" + enemy.GetComponent<UnitCombat>().getHealth());
     }
+    /*
+    public bool canCastAbility(int spellID, Vector2 targetPosition)
+    {
+        if (canCastAbility(spellID))
+            if (!getAbilityList()[spellID].isTargeted() || getAbilityList()[spellID].getMaxCastRange() >= Ellipse.isometricDistance(transform.position, targetPosition))
+                return true;
+        return false;
+    }
+    */
 
-    public bool canCastAbility(int spellID)
+    public bool canCastAbility(int spellID, Vector2 targetPosition, bool tryingToCast)
     {
         if (getAbilityList()[spellID].isOnCooldown() || isCasting() || buffs.isStunned() || buffs.isUncontrollable() || !isAlive())
+            return false;
+        if (tryingToCast && !getAbilityList()[spellID].isInRange(targetPosition))
             return false;
         return true;
     }
@@ -620,14 +634,20 @@ public class UnitCombat : MonoBehaviour
 
     public void castAbilityInSlot(int slot)
     {
-        castAbilityInSlot(slot, Vector2.zero);
+        if (!tag.Equals("Player"))
+            print("Warning: non-player characters should not use castAbilityInSlot!");
+
+        if (abilityList[slot].isTargeted())
+            castAbilityInSlot(slot, CameraScripts.getCurrentMousePos());
+        else
+            castAbilityInSlot(slot, transform.position);
     }
 
     public void castAbilityInSlot(int slot, Vector2 targetPosition)
     {
-        if (canCastAbility(slot))
+        if (canCastAbility(slot, targetPosition, true))
         {
-            castTime = abilityList[slot].startCast(gameObject, targetPosition);
+            castTime = abilityList[slot].startCast(targetPosition);
             castTimeMax = castTime;
             castBuffID = buffs.addBuff(Buffs.BuffType.casting, castTime);
             casting = true;

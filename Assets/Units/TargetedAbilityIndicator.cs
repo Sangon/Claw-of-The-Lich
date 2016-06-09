@@ -5,20 +5,13 @@ using System.Runtime.Remoting.Channels;
 
 public class TargetedAbilityIndicator : MonoBehaviour
 {
-    public List<GameObject> indicators;
+    public List<KeyValuePair<GameObject, Ability>> indicators = new List<KeyValuePair<GameObject, Ability>>();
 
-    public enum Abilities
+    public void showIndicator(GameObject player, Ability ability, Vector2 mousePoint)
     {
-        arrowRain,
-        charge,
-        whirlwind
-    }
-
-    public void showIndicator(GameObject player, Abilities ability, Vector2 mousePoint)
-    {
-        switch (ability)
+        switch (ability.getAbilityName())
         {
-            case Abilities.arrowRain:
+            case "ArrowRain":
                 GameObject arrowIndicator = player.transform.Find("Canvas").Find("ArrowRainIndicator").gameObject;
                 if (!arrowIndicator.activeSelf)
                 {
@@ -27,20 +20,20 @@ public class TargetedAbilityIndicator : MonoBehaviour
                     float scale = 2 * (Tuner.BASE_BLOT_OUT_RADIUS / spriteWidth); //TODO: Fix radius
                     arrowIndicator.GetComponent<RectTransform>().localScale = new Vector2(scale, scale);
                     arrowIndicator.SetActive(true);
-                    indicators.Add(arrowIndicator);
+                    indicators.Add(new KeyValuePair<GameObject, Ability>(arrowIndicator, ability));
                 }
                 break;
-            case Abilities.charge:
+            case "Charge":
                 //Vector2 direction = mousePoint - new Vector2(player.transform.position.x, player.transform.position.y);
                 GameObject chargeIndicator = player.transform.Find("Canvas").Find("ChargeIndicator").gameObject;
                 if (!chargeIndicator.activeSelf)
                 {
                     chargeIndicator.SetActive(true);
-                    indicators.Add(chargeIndicator);
                     chargeIndicator.transform.LookAt(mousePoint);
+                    indicators.Add(new KeyValuePair<GameObject, Ability>(chargeIndicator, ability));
                 }
                 break;
-            case Abilities.whirlwind:
+            case "Whirlwind":
                 GameObject whirlwindIndicator = player.transform.Find("Canvas").Find("WhirlwindIndicator").gameObject;
                 if (!whirlwindIndicator.activeSelf)
                 {
@@ -49,44 +42,44 @@ public class TargetedAbilityIndicator : MonoBehaviour
                     float scale = 2 * (Tuner.BASE_WHIRLWIND_RADIUS / spriteWidth); //TODO: Fix radius
                     whirlwindIndicator.GetComponent<RectTransform>().localScale = new Vector2(scale, scale);
                     whirlwindIndicator.SetActive(true);
-                    indicators.Add(whirlwindIndicator);
+                    indicators.Add(new KeyValuePair<GameObject, Ability>(whirlwindIndicator, ability));
                 }
                 break;
         }
     }
 
-    public void hideIndicator(GameObject player, Abilities ability)
+    public void hideIndicator(GameObject player, Ability ability)
     {
-        switch (ability)
+        switch (ability.getAbilityName())
         {
-            case Abilities.arrowRain:
+            case "ArrowRain":
                 GameObject arrowIndicator = player.transform.Find("Canvas").Find("ArrowRainIndicator").gameObject;
                 if (arrowIndicator.activeSelf)
                 {
                     arrowIndicator.SetActive(false);
-                    indicators.Remove(arrowIndicator);
+                    indicators.Remove(new KeyValuePair<GameObject, Ability>(arrowIndicator, ability));
                 }
                 break;
-            case Abilities.charge:
+            case "Charge":
                 GameObject chargeIndicator = player.transform.Find("Canvas").Find("ChargeIndicator").gameObject;
                 if (chargeIndicator.activeSelf)
                 {
                     chargeIndicator.SetActive(false);
-                    indicators.Remove(chargeIndicator);
+                    indicators.Remove(new KeyValuePair<GameObject, Ability>(chargeIndicator, ability));
                 }
                 break;
-            case Abilities.whirlwind:
+            case "Whirlwind":
                 GameObject whirlwindIndicator = player.transform.Find("Canvas").Find("WhirlwindIndicator").gameObject;
                 if (whirlwindIndicator.activeSelf)
                 {
                     whirlwindIndicator.SetActive(false);
-                    indicators.Remove(whirlwindIndicator);
+                    indicators.Remove(new KeyValuePair<GameObject, Ability>(whirlwindIndicator, ability));
                 }
                 break;
         }
     }
 
-    private void drawIndicator(GameObject indicator)
+    private void drawIndicator(GameObject indicator, Ability ability)
     {
         Vector2 mousePosition = CameraScripts.getCurrentMousePos();
 
@@ -98,6 +91,10 @@ public class TargetedAbilityIndicator : MonoBehaviour
             {
                 ellipseWidth = Tuner.BASE_BLOT_OUT_RADIUS; //TODO: Fix radius
                 indicator.transform.position = new Vector3(mousePosition.x, mousePosition.y, 0);
+                if (ability.isInRange(mousePosition))
+                    indicator.GetComponent<SpriteRenderer>().color = Tuner.TARGETED_ABILITY_INDICATOR_COLOR;
+                else
+                    indicator.GetComponent<SpriteRenderer>().color = Tuner.TARGETED_ABILITY_INDICATOR_COLOR_FAIL;
             }
             else if (indicator.name.Equals("WhirlwindIndicator"))
             {
@@ -183,9 +180,9 @@ public class TargetedAbilityIndicator : MonoBehaviour
             }
         }
 
-        foreach (GameObject indicator in indicators)
+        foreach (KeyValuePair<GameObject, Ability> indicator in indicators)
         {
-            drawIndicator(indicator);
+            drawIndicator(indicator.Key, indicator.Value);
         }
     }
 }
